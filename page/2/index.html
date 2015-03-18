@@ -1,0 +1,1835 @@
+<!DOCTYPE HTML>
+
+<html lang="en">
+  
+<head>
+  <meta charset="utf-8">
+  
+  <title>第 2 页 | DHDave</title>
+  <meta name="author" content="DHDave">
+  
+  <meta name="description" content="DHDave&#39;s Personal Page.">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+  <meta property="og:site_name" content="DHDave"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  
+    <meta http-equiv="Content-Language" content="en"/>
+  
+
+  <link href="/img/favicon.png" rel="icon">
+  
+    <link rel="apple-touch-icon" href="/img/apple-icon.png">
+    <link rel="apple-touch-icon-precomposed" href="/img/apple-icon.png">
+    
+
+  <link rel="alternate" href="/atom.xml" title="DHDave" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  
+  <style type="text/css">
+  /* Tim Pietrusky advanced checkbox hack (Android <= 4.1.2) */
+body{ -webkit-animation: bugfix infinite 1s; }
+@-webkit-keyframes bugfix { from {padding:0;} to {padding:0;} }
+
+  
+
+  
+    article .post-content-index .entry{max-height: 550px; overflow:hidden;}
+  
+</style>
+
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'null', 'auto');
+  ga('send', 'pageview');
+ 
+</script>
+
+
+
+
+  
+    
+      <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400|Playball' rel='stylesheet' type='text/css'>
+    
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.11.1.min.js"></script>
+
+  
+
+
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="padding">
+	<div class="alignleft logo">
+	  <h1><a href="/">DHDave</a></h1>
+	</div>
+	<nav id="main-nav" class="alignright">
+		<input type="checkbox" id="toggle" />
+		<label for="toggle" class="toggle" data-open="Main Menu" data-close="Close Menu" onclick><i class="fa fa-bars"></i></label>
+	  <ul class="menu">
+	    
+	      <li><a href="/">Home</a></li>
+	    
+	      <li><a href="/archives">Archives</a></li>
+	    
+	    
+	  </ul>
+	</nav>
+	<div class="clearfix"></div>
+</div>
+</header>
+  <div id="page-heading-wrap">
+  	<div class="inner">
+      <div class="padding">
+    		
+          <h2>DHDave&#39;s Personal Page</h2>
+        
+      </div>
+  	</div>
+  </div>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper" class="padding">
+  <article class="post">
+  
+  
+    <div class="post-content-index">
+  
+      
+        <header>
+          <div class="icon"></div>
+            
+    
+      <h1 class="title transition"><a href="/2015/02/16/algorithm/weekday_calc/">星期的计算</a></h1>
+    
+  
+          <ul>
+            <li>
+              <span class="heading-span">Posted on: </span>
+              <time datetime="2015-02-15T16:00:00.000Z">2015-02-16</time>
+            </li>
+            
+              <li>
+                <span class="heading-span">By: </span>
+
+                
+                  <a href="/">DHDave</a>
+                
+
+              </li>
+            
+            <li>
+              <span class="heading-span">With: </span>
+              
+                <a href="/2015/02/16/algorithm/weekday_calc/#disqus_thread">Comments</a>
+
+              
+          </ul>
+        </header>
+      
+      <div class="entry">
+        
+          
+            <p>经常需要通过日期来计算对应的星期，相关的方法主要有蔡勒公式和基姆拉尔森公式。</p>
+<h2 id="蔡勒公式">蔡勒公式</h2><h3 id="蔡勒(Zeller)公式">蔡勒(Zeller)公式</h3><p>$$ w = (y+\lfloor{y/4}\rfloor+\lfloor{c/4}\rfloor-2c+\lfloor{26(m+1)/10}\rfloor+d-1)\ mod\ 7 $$</p>
+<h3 id="参数含义解释">参数含义解释</h3><p>蔡勒公式中个参数的含义如下：</p>
+<ul>
+<li>y: 年份的后两位数；</li>
+<li>c: 年份的后两位数；</li>
+<li>m: 月份；<strong>注意</strong>：月份的值在3-14之间，1月和2月应当作为上一年的13、14月来考虑。</li>
+<li>d: 日。</li>
+</ul>
+<h3 id="使用范围">使用范围</h3><p>蔡勒公式只适用于格里高利历（现在时间通用的公历），即<strong>1582年10月15日</strong>之后的情形。</p>
+<h3 id="代码实现(Python)">代码实现(Python)</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getWeek</span><span class="params">(year, mouth, day)</span>:</span></span><br><span class="line">    <span class="string">''' Zeller Method.</span><br><span class="line">    '''</span></span><br><span class="line">    <span class="keyword">if</span> mouth &lt; <span class="number">3</span>:</span><br><span class="line">        year, mouth = year-<span class="number">1</span>, mouth+<span class="number">12</span></span><br><span class="line">    y, c = int(str(year)[<span class="number">2</span>:<span class="number">4</span>]), int(str(year)[<span class="number">0</span>:<span class="number">2</span>])</span><br><span class="line">    week = (y + y//<span class="number">4</span> + c//<span class="number">4</span> - <span class="number">2</span>*c + <span class="number">26</span>*(mouth+<span class="number">1</span>)//<span class="number">10</span> + day - <span class="number">1</span>) % <span class="number">7</span></span><br><span class="line">    <span class="keyword">return</span> week</span><br></pre></td></tr></table></figure>
+<h2 id="基姆拉尔森公式">基姆拉尔森公式</h2><h3 id="基姆拉尔森公式-1">基姆拉尔森公式</h3><p>$$ w = (y/400-y/100+y/4+y+3<em>(m+1)/5+2</em>m+d+1)\ mod\ 7 $$</p>
+<h3 id="参数含义解释-1">参数含义解释</h3><p>公式中个参数的含义如下：</p>
+<ul>
+<li>y: 年份的后两位数；</li>
+<li>c: 年份的后两位数；</li>
+<li>m: 月份；<strong>注意</strong>：月份的值在3-14之间，1月和2月应当作为上一年的13、14月来考虑。</li>
+<li>d: 日。</li>
+</ul>
+
+          
+        
+      </div>
+      <footer>
+        
+          <div class="alignright">
+            <a href="/2015/02/16/algorithm/weekday_calc/#more" class="more-link">Continue Reading<i class="fa fa-long-arrow-right fa-1"></i></a>
+          </div>
+        
+        <div class="clearfix"></div>
+      </footer>
+    </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  
+    <div class="post-content-index">
+  
+      
+        <header>
+          <div class="icon"></div>
+            
+    
+      <h1 class="title transition"><a href="/2015/02/13/algorithm/computational_geometry/">计算几何算法</a></h1>
+    
+  
+          <ul>
+            <li>
+              <span class="heading-span">Posted on: </span>
+              <time datetime="2015-02-12T16:00:00.000Z">2015-02-13</time>
+            </li>
+            
+              <li>
+                <span class="heading-span">By: </span>
+
+                
+                  <a href="/">DHDave</a>
+                
+
+              </li>
+            
+            <li>
+              <span class="heading-span">With: </span>
+              
+                <a href="/2015/02/13/algorithm/computational_geometry/#disqus_thread">Comments</a>
+
+              
+          </ul>
+        </header>
+      
+      <div class="entry">
+        
+          
+            <h2 id="1-_矢量叉积">1. 矢量叉积</h2><p>设矢量P(x1, y1), Q(x2, y2)，如果：</p>
+<pre><code><span class="bullet">1. </span>P x Q &gt; 0 : 则P在Q的顺时针方向;
+<span class="bullet">2. </span>P x Q <span class="xml"><span class="tag">&lt; <span class="attribute">0</span> <span class="attribute">:</span> 则<span class="attribute">P</span>在<span class="attribute">Q</span>的逆时针方向;
+<span class="attribute">3.</span> <span class="attribute">P</span> <span class="attribute">x</span> <span class="attribute">Q</span> = <span class="attribute">0</span> <span class="attribute">:</span> 则<span class="attribute">P</span>与<span class="attribute">Q</span>共线，但可能同向或也可能反向。</span></span>
+</code></pre><h2 id="2-_向量拐向判断">2. 向量拐向判断</h2><p>已知线段PQ和QR，记 ans = (R-P) x (Q-P)，有如下结论：</p>
+<pre><code><span class="number">1.</span> <span class="built_in">ans</span> &gt; <span class="number">0</span>: PQ在Q点向右侧拐后得到QR；
+<span class="number">2.</span> <span class="built_in">ans</span> &lt; <span class="number">0</span>：PQ在Q点向左侧拐后得到QR；
+<span class="number">3.</span> <span class="built_in">ans</span> = <span class="number">0</span>: P、Q、R 三点共线。
+</code></pre><h2 id="3-_判断点在线段上">3. 判断点在线段上</h2><p>首先判断点是否在线段所在的直线上，然后判断点的坐标是否在线段的坐标范围内。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ON-SEGMENT(P, Q, R)</span><br><span class="line">    <span class="keyword">if</span> (R-P) x (Q-P) == <span class="number">0</span> <span class="function">and <span class="title">min</span><span class="params">(px, qx)</span> &lt;</span>= rx &lt;= max(px, qx)</span><br><span class="line">        <span class="keyword">return</span> True</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">return</span> False</span><br></pre></td></tr></table></figure>
+<h2 id="4-_判断线段相交">4. 判断线段相交</h2><p>如果两线段相交，那么每条线段的两个端点都在另一条线段的两侧（不考虑端点在另一条线段上的情形）。由上文中的判断向量拐向的方法，不难得出判断线段相交的方法如下：</p>
+<ol>
+<li>首先，判断每条线段的端点是否在另一条线段上，如果存在这种情况，则相交，交点为该端点。</li>
+<li><p>然后，分别判断每条线段的两个端点是否在另外一条线段的两侧，如果是，则相交。</p>
+</li>
+<li><p>判断线段和直线相交</p>
+</li>
+</ol>
+<hr>
+<p>线段和直线相交于两条线段类似，只不过要求更加宽松。</p>
+<ol>
+<li>首先判断线段的两个端点是否在直线上，如果是，则相交，该端点为交点。</li>
+<li>然后，判断线段的两个端点是否在直线的两侧（计算时直接从直线上任取一向量即可），如果是，则相交。</li>
+</ol>
+<p>该算法可以总结为如下的公式：</p>
+<p>如果线段PQ和直线MN相交，那么有：</p>
+<pre><code>(P-<span class="keyword">M</span>)x(<span class="keyword">N</span>-<span class="keyword">M</span>) * (<span class="keyword">N</span>-<span class="keyword">M</span>)(Q-<span class="keyword">M</span>) &gt;= 0
+</code></pre><h2 id="6-_点在多边形内">6. 点在多边形内</h2><h3 id="点与多边形的关系">点与多边形的关系</h3><p>点与多边形的关系有三种：</p>
+<ol>
+<li>点在多边形内</li>
+<li>点在多边形外</li>
+<li>点在多边形上</li>
+</ol>
+<p>此处主要总结如何判断点在多边形内/外。判断点与多边形的关系，有如下两种方法：</p>
+<h3 id="射线法">射线法</h3><p>从点出发，取定某一方向（通常取X轴正方向）做射线，如果该射线与多边形相交奇数次，则在多边形内，相交偶数次，则在多边形外。</p>
+<p>为判断相交次数，可以判断多边形的每一条边与线段（P,INF）（INF为一个大正整数）相交的次数。时间复杂度为O(N)。</p>
+<p>同时，还需要考虑如下两种特殊情况：</p>
+<p>射线可能会与多边形的某一条边重合，对于这种情况，如果取定X轴正方向为射线方向，在判断时直接忽略多边形的水平边即可。</p>
+<p>射线还可能与多边形的某一顶点重合，对于这种情况，判断于该定点相连的两条边的另两个端点是否在射线两侧，如果是，则算一次相交，否则忽略。</p>
+<h2 id="7-_判断线段是否在多边形内">7. 判断线段是否在多边形内</h2><p>首先判断线段的两个端点是否在多边形内，然后判断线段是否与多边形的每条边都不相交。</p>
+<h2 id="8-_求点到线段的最近点">8. 求点到线段的最近点</h2><p>首先，从点出发向线段所在的直线做垂线，如果垂足在线段上，则返回垂足，否则返回距离垂足最近的端点。</p>
+
+          
+        
+      </div>
+      <footer>
+        
+          <div class="alignright">
+            <a href="/2015/02/13/algorithm/computational_geometry/#more" class="more-link">Continue Reading<i class="fa fa-long-arrow-right fa-1"></i></a>
+          </div>
+        
+        <div class="clearfix"></div>
+      </footer>
+    </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  
+    <div class="post-content-index">
+  
+      
+        <header>
+          <div class="icon"></div>
+            
+    
+      <h1 class="title transition"><a href="/2015/02/12/math/mathematica_program/">Mathematica 编程</a></h1>
+    
+  
+          <ul>
+            <li>
+              <span class="heading-span">Posted on: </span>
+              <time datetime="2015-02-11T16:00:00.000Z">2015-02-12</time>
+            </li>
+            
+              <li>
+                <span class="heading-span">By: </span>
+
+                
+                  <a href="/">DHDave</a>
+                
+
+              </li>
+            
+            <li>
+              <span class="heading-span">With: </span>
+              
+                <a href="/2015/02/12/math/mathematica_program/#disqus_thread">Comments</a>
+
+              
+          </ul>
+        </header>
+      
+      <div class="entry">
+        
+          
+            <h2 id="赋值方式">赋值方式</h2><p>Mathematica提供了两种类型的赋值方式。</p>
+<h3 id="即时赋值">即时赋值</h3><p>即时赋值是指在赋值时就对值进行计算，即时赋值用<code>=</code>表示。例如：</p>
+<pre><code><span class="keyword">var</span> = <span class="keyword">value</span>
+</code></pre><p>在赋值时就计算出<code>value</code>的值。</p>
+<h3 id="延迟赋值">延迟赋值</h3><p>延迟赋值是指调用赋值语句时（使用被赋值的变量时）才对值进行计算，延迟赋值用<code>:=</code>表示。例如：</p>
+<pre><code><span class="keyword">var</span> := <span class="keyword">value</span>
+</code></pre><p>在调用<code>var</code>是才计算<code>value</code>的值。</p>
+<h3 id="赋值与计算">赋值与计算</h3><p>如果想要计算表达式的值，但又不想给变量赋值，可以使用<code>/.</code>符号。例如：</p>
+<pre><code>x^<span class="number">2</span><span class="subst">+</span><span class="number">2</span><span class="subst">*</span>x<span class="subst">+</span><span class="number">1</span> <span class="subst">/</span><span class="built_in">. </span>x<span class="subst">-&gt;</span><span class="number">2</span>
+<span class="number">9</span>
+<span class="subst">?</span>x
+<span class="built_in">Global</span> <span class="string">`x</span>
+</code></pre><p>表明，表达式<code>x^2+2*x+1</code>的值已经计算出来，但<code>x</code>仍未被赋值。</p>
+<p><code>/.</code>的详细用法：</p>
+<pre><code><span class="type">expr</span>/.rules
+    应用一个规则或规则列表尽可能转换一个表达式 <span class="type">expr</span> 的每个子部分.
+</code></pre><p><code>/.</code>符号也可以被用于表达式的整体替换。</p>
+<h3 id="立即复制与延迟赋值的例子">立即复制与延迟赋值的例子</h3><p>以如下代码为例：</p>
+<figure class="highlight mma"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="keyword">Expand</span>[x^<span class="number">2</span>]</span><br><span class="line">b := <span class="keyword">Expand</span>[x^<span class="number">2</span>]</span><br><span class="line">x = u+v</span><br><span class="line"><span class="keyword">Print</span>[a]</span><br><span class="line"><span class="keyword">Print</span>[b]</span><br></pre></td></tr></table></figure>
+<p>这段程序运行的输出如下所示：</p>
+<pre><code><span class="tag">a</span> = (u+v)^<span class="number">2</span>
+<span class="tag">b</span> = u^<span class="number">2</span>+<span class="number">2</span>uv+v^<span class="number">2</span>
+</code></pre><p>可见，在用<code>u+v</code>替换<code>x</code>之前，<code>a</code>就已经展开了，而<code>b</code>还没有展开。展开<code>b</code>时，已经用<code>(u+v)</code>替换了<code>x</code>，所以实际上是展开<code>(u+v)^2</code>。因此，会看到这样的结果。</p>
+<h2 id="循环语句">循环语句</h2><p>Mathematica中，循环结构有Do命令，For命令，While，Table 命令三种实现方式，此外，Sum 函数和 Product 函数也具有对指定序列循环求值（和或差）的功能。</p>
+<h3 id="Sum_和_Product">Sum 和 Product</h3><p> <code>Sum</code> 和 <code>Product</code> 函数都可以通过一组指定的首尾和步长(可选)求出一个序列的和或积。并且支持符号运算。</p>
+<p>例如：</p>
+<p>求前100个素数的和：</p>
+<pre><code><span class="keyword">Sum</span>[<span class="keyword">Prime</span>[k], <span class="list">{k, 1, 100, 1}</span>]
+</code></pre><p>求从1-n的整数的平方和的一般公式：</p>
+<pre><code>Sum[k^<span class="number">2</span>, <span class="comment">{k, 1, n, 1}</span>]
+<span class="comment">(* 可以得到结果：n*(n+1)*(2*n+1)/6 *)</span>
+</code></pre><p>求无穷和 1+1/2+1/4+1/8+1/16+…</p>
+<pre><code>Sum[<span class="number">1</span>/(<span class="number">2</span>^i), <span class="comment">{i, 0, Infinity, 1}</span>]
+<span class="comment">(* 可以得到结果为 2 *)</span>
+
+<span class="comment">(* Infinity 表示正的无穷大 *)</span>
+</code></pre><h3 id="Do_命令">Do 命令</h3><p>Do命令的用法同Sum和Product函数类似（可以认为Sum和Product是Do命令的特例），给出文档中Do命令的用法：</p>
+<ul>
+<li><p>Do[expr,{Subscript[i, max]}] </p>
+<p>  对 expr 计算 imax 次.</p>
+</li>
+<li><p>Do[expr,{i,Subscript[i, max]}] </p>
+<p>  将变量 i 从 1 递增到 Subscript[i, max]（步长为 1），计算 expr. </p>
+</li>
+<li><p>Do[expr,{i,Subscript[i, min],Subscript[i, max]}] </p>
+<p>  从 i=Subscript[i, min] 开始.</p>
+</li>
+<li><p>Do[expr,{i,Subscript[i, min],Subscript[i, max],di}] </p>
+<p>  使用步长 di. </p>
+</li>
+<li><p>Do[expr,{i,{Subscript[i, 1],Subscript[i, 2],[Ellipsis]}}] </p>
+<p>  使用连续的值 Subscript[i, 1]，Subscript[i, 2]，[Ellipsis].</p>
+</li>
+<li><p>Do[expr,{i,Subscript[i, min],Subscript[i, max]},{j,Subscript[j, min],Subscript[j, max]},[Ellipsis]] </p>
+<p>  对每一个 i 循环地根据不同的 j 等，计算 expr. </p>
+</li>
+</ul>
+<h3 id="While_命令">While 命令</h3><p>While命令的用法如下：</p>
+<ul>
+<li><p>While[test,body] </p>
+<p>  重复计算 test，然后是 body，直到 test 第一次不能给出 True.</p>
+</li>
+</ul>
+<h3 id="For_命令">For 命令</h3><p>For命令的用法如下：</p>
+<ul>
+<li><p>For[start,test,incr,body] </p>
+<p>  执行 start，然后重复计算 body 和 incr，直到 test 不能给出 True. </p>
+</li>
+</ul>
+<h3 id="Table_命令">Table 命令</h3><p>Table 命令用于生产表达式的列表。Table 命令的用法如下：</p>
+<ul>
+<li><p>Table[expr,{Subscript[i, max]}] </p>
+<p>  产生一个 expr 的 Subscript[i, max] 拷贝的列表.</p>
+</li>
+<li><p>Table[expr,{i,Subscript[i, max]}] </p>
+<p>  产生i  从1到 Subscript[i, max] 的一个 expr 的值的列表.</p>
+</li>
+<li><p>Table[expr,{i,Subscript[i, min],Subscript[i, max]}] </p>
+<p>  以 i=Subscript[i, min] 开始.</p>
+</li>
+<li><p>Table[expr,{i,Subscript[i, min],Subscript[i, max],di}] </p>
+<p>  使用步长 di. </p>
+</li>
+<li><p>Table[expr,{i,{Subscript[i, 1],Subscript[i, 2],[Ellipsis]}}] </p>
+<p>  使用连续值 Subscript[i, 1], Subscript[i, 2], [Ellipsis]. </p>
+</li>
+<li><p>Table[expr,{i,Subscript[i, min],Subscript[i, max]},{j,Subscript[j, min],Subscript[j, max]},[Ellipsis]] </p>
+<p>  给出一个嵌套列表. 和 i 相关联的列表是最外的列表. </p>
+</li>
+</ul>
+<h2 id="分支结构">分支结构</h2><p>Mathematica中，分支控制主要有If、Which、Switch 等命令实现。</p>
+<h3 id="If命令的用法如下：">If命令的用法如下：</h3><ul>
+<li><p>If[condition,t,f] </p>
+<p>  如果 condition 计算为 True 给出 t，如果它计算为 False 给出 f.</p>
+</li>
+<li><p>If[condition,t,f,u] </p>
+<p>  如果 condition 计算既不为 True 也不为 False 给出 u.</p>
+</li>
+</ul>
+<h3 id="Which_命令">Which 命令</h3><p>Which命令的用法如下：</p>
+<ul>
+<li><p>Which[test1,value1,test2,value,…]</p>
+<p>  依次计算每个 testi ，返回相应于产生 True 的第一个valuei的值.</p>
+</li>
+</ul>
+<h3 id="Switch_命令">Switch 命令</h3><ul>
+<li><p>Switch[expr, form1, value1, form2, value2, …]</p>
+<p>  计算 expr，然后依次和每个 formi 比较，计算并返回相应于找到的第一个匹配的valuei].</p>
+</li>
+</ul>
+<h2 id="定义数学函数">定义数学函数</h2><h3 id="定义普通单变量函数">定义普通单变量函数</h3><p>定义函数是实现编程的重要基础性功能。在Mathematica中，可以通过以下方式定义函数。</p>
+<p>同样，在函数定义中，也可以使用“即时赋值”和“延迟赋值”这两种赋值方式。</p>
+<p>加入需要定义一个单变量函数<code>f</code>，以<code>x</code>为变量，可以写为如下形式：</p>
+<pre><code>f[x_] = <span class="keyword">...</span>
+</code></pre><p>或者</p>
+<pre><code>f[x_] := <span class="keyword">...</span>
+</code></pre><h3 id="分段函数">分段函数</h3><p>分段函数可以用<code>/;condition</code>来定义。即输入：</p>
+<pre><code>f<span class="attr_selector">[x_]</span> <span class="value">:= expr /;</span> condition
+</code></pre><p>就会使当且仅当条件值为真时，<code>f[x]</code>的值为表达式。</p>
+<p><strong>注意</strong>：在此情形下，必须使用<code>:=</code>赋值符号。</p>
+<h3 id="定义多变量函数">定义多变量函数</h3><p>在Mathematica中，定义多变量函数的方式同定义单变量函数类似：</p>
+<pre><code>f[x_, y_] = <span class="keyword">...</span>
+</code></pre><p>例如：</p>
+<pre><code><span class="xml">f[x_, y_] = x</span><span class="keyword">^2</span><span class="xml"> + y</span><span class="keyword">^2</span><span class="xml"></span>
+</code></pre><h2 id="数学函数的运算">数学函数的运算</h2><p>如果 <code>f</code>,<code>g</code>为具有相同定义域<code>D</code>的函数，那么就可以逐点定义他们的和、差、积、商。</p>
+<h2 id="数学函数的复合">数学函数的复合</h2><p>如果<code>x</code>在<code>g</code>的定义域内，而<code>g(x)</code>在<code>f</code>的定义域内，那么就可以定义复合函数</p>
+<pre><code><span class="function"><span class="title">f</span><span class="params">(g(x)</span></span>)
+</code></pre><p>此外，函数的复合还可以用 <code>Composition</code> 命令实现，用法如下：</p>
+<pre><code>Composition[f, g, h, <span class="keyword">...</span> ] 表示函数 f、g、h、<span class="keyword">...</span> 的复合. 
+</code></pre><p>还有如下两个命令也可以用于函数的复合：</p>
+<ul>
+<li><p><code>Nest</code> 命令</p>
+<pre><code><span class="type">Nest</span>[f,<span class="type">expr</span>,n] 返回一个将 f 作用于 <span class="type">expr</span> 上 n 次后得到的表达式.
+</code></pre></li>
+<li><p><code>NestList</code> 命令</p>
+<pre><code><span class="type">NestList</span>[f,<span class="type">expr</span>,n] 将 f 作用于 <span class="type">expr</span> 上 <span class="number">0</span> 到 n 次，给出结果列表.
+</code></pre></li>
+</ul>
+<p>通过以上几种方式，就可以实现函数的复合。</p>
+<h2 id="Mathematica编程中的范围结构">Mathematica编程中的范围结构</h2><p>Mathematica中，程序的范围结构可以由<code>Module</code>、<code>With</code>、<code>Block</code>这三种方式实现。</p>
+<h3 id="Module">Module</h3><p>在Mathematica中，缺省情况下，所有对象（变量等）都是全局性的。通过模块可以定义局部变量，局部变量只在模块内有定义，在模块外面，同名对象可能就没有定义，或者具有完全不同的值。</p>
+<p>通过以下语法定义模块：</p>
+<ul>
+<li><p>Module[{x,y,…},expr] </p>
+<p>  指定在 expr 中出现的符号 x、y、… 应被当作局部值. </p>
+</li>
+<li><p>Module[{x=x0, y=y0, … expr] </p>
+<p>  用来定义 x, y, … 的初始值. </p>
+</li>
+</ul>
+<h3 id="With">With</h3><p>With命令的用法如下：</p>
+<ul>
+<li><p>With[{x=x0, y=y0, …},expr] </p>
+<p>  指定在 expr 中出现的符号 x、y、… 应当由 x0、y0、… 替换. </p>
+</li>
+</ul>
+<h3 id="Block">Block</h3><ul>
+<li><p>Block[{x,y,…,expr] </p>
+<p>  指定用符号 x、y、… 的局部值计算 expr. </p>
+</li>
+<li><p>Block[{x=x0,…},expr] </p>
+<p>  给 x，… 赋初始局部值. </p>
+</li>
+</ul>
+<h3 id="Block_与_Module的区别">Block 与 Module的区别</h3><p>以下关于<code>Block</code>和<code>Module</code>的区别，引述下面一段Mathematica文档中的陈述和示例：</p>
+<figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">块与模块的比较</span><br><span class="line"></span><br><span class="line">当进行 Mathematica 编程时，应当尽量使它的项相互独立，这样程序就容易理解、维护和扩充. </span><br><span class="line"></span><br><span class="line">保证程序中不同相相互不影响的一个重要途径是给它的变量一定的<span class="string">"范围"</span>. Mathematica 用模块和块这两种机制来限制变量的范围. </span><br><span class="line"></span><br><span class="line">在实际编程时，模块远远比块常用，而在相互作用的计算中需要确定范围时，往往是块比较方便. </span><br><span class="line"></span><br><span class="line">    <span class="keyword">Module</span>[vars,body]	词汇（lexical）定界</span><br><span class="line">    <span class="keyword">Block</span>[vars,body]	动态定界</span><br><span class="line"></span><br><span class="line">Mathematica 变量的定界机理. </span><br><span class="line"></span><br><span class="line">大部分计算机语言使用与 Mathematica 模块类似的词汇定界机理. 一些像LISP等符号计算语言与 Mathematica 块类似的动态定界机理. </span><br><span class="line"></span><br><span class="line">在使用词汇定界时，变量在一个程序中的一个代码段被作为局部变量. 在动态定界时，在程序执行历史的一部分被作为局部值. </span><br><span class="line"></span><br><span class="line">在 <span class="keyword">C</span> 和 Java 等编译语言中， 它们的变量在使用之前就要声明类型，因此在编译前就已经确定了变量的类型；<span class="string">"代码"</span>和<span class="string">"执行历史"</span>之间的区分非常明显. 而 Mathematica 属于动态类型语言，它的符号特性使这个区别不明显，其原因是代码在程序的执行过程中可以动态地生成.</span><br><span class="line"></span><br><span class="line"><span class="keyword">Module</span>[vars,body] 的作用是在模块作为 Mathematica 的代码被执行时处理表达式 body 的形式，当任何 vars 明显地出现在代码中时，就被当作局部变量. </span><br><span class="line"></span><br><span class="line"><span class="keyword">Block</span>[vars,body] 不注意表达式 body 的形式. 而是，在 body 的全局计算过程中使用 vars 的局部值. </span><br><span class="line"></span><br><span class="line">通过 i 来定义 m. </span><br><span class="line"></span><br><span class="line">    <span class="keyword">In</span>[<span class="number">1</span>]:= m = i^<span class="number">2</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">Out</span>[<span class="number">1</span>]=  i^<span class="number">2</span></span><br><span class="line"></span><br><span class="line">在块内 i+m 的计算过程中，i 用了局部值. </span><br><span class="line"></span><br><span class="line">    <span class="keyword">In</span>[<span class="number">2</span>]:= <span class="keyword">Block</span>[<span class="list">&#123;i = a&#125;</span>, i + m]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">Out</span>[<span class="number">2</span>]=  a + a^<span class="number">2</span></span><br><span class="line"></span><br><span class="line">这里仅明显出现在 i+m 中的 i 被当作局部变量处理. </span><br><span class="line"></span><br><span class="line">    <span class="keyword">In</span>[<span class="number">3</span>]:= <span class="keyword">Module</span>[<span class="list">&#123;i = a&#125;</span>, i + m]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">Out</span>[<span class="number">3</span>]=  a + i^<span class="number">2</span></span><br></pre></td></tr></table></figure>
+<p>由上面一段文档，可以看出，<code>Module</code> 比 <code>Block</code> 对局部变量的屏蔽程度更高。</p>
+<h2 id="使用纯函数">使用纯函数</h2><p>如果必须对任何一种无论多小的运算所用的函数显式命名，往往将很不方便. 在 Mathematica 中，可以通过声明内联函数（称作纯函数）来避开这一问题.</p>
+<p>纯函数的定义方法如下：</p>
+<ul>
+<li><p>Function[x,body]    </p>
+<p>  纯函数中的 x 可用任何变量代替</p>
+</li>
+<li><p>Function[x1, x2, … , body]    </p>
+<p>  多变量的纯函数</p>
+</li>
+<li><p>body &amp;    </p>
+<p>  自变量为 # 或 #1、#2、#3 等的纯函数.</p>
+</li>
+</ul>
+<p>对于纯函数，可以不命名就使用：</p>
+<pre><code>Function[<span class="link_label">{x, y}, x+y</span>][<span class="link_reference">3,4</span>]
+7
+</code></pre><p>使用一个<code>&amp;</code>符号标记在末尾为简写符号。参数位置用<code>#1</code>、<code>#2</code>、<code>#3</code>等指定。</p>
+<pre><code>g = (<span class="string">#1</span>^<span class="string">#2</span>) &amp;;
+g[<span class="number">2</span>, <span class="number">3</span>]
+<span class="number">8</span>
+</code></pre><p>纯函数不要求有单独的定义或名称，例如：</p>
+<pre><code>(<span class="id">#1</span> ^ <span class="id">#2</span>) &amp; <span class="attr_selector">[3, 4]</span>
+8
+</code></pre><p>如果纯函数只有一个参数，那么可以直接使用<code>#</code>来指定该参数。</p>
+<h2 id="Mathematica的函数与参数占位符">Mathematica的函数与参数占位符</h2><p>使用参数占位符，可以定义参数个数不定的函数。</p>
+<p>占位符用法表如下：</p>
+<table>
+<thead>
+<tr>
+<th>占位符</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_</td>
+<td>单一表达式</td>
+</tr>
+<tr>
+<td>x_</td>
+<td>名为 x 的表达式</td>
+</tr>
+<tr>
+<td>__</td>
+<td>一个或多个表达式序列</td>
+</tr>
+<tr>
+<td>x__</td>
+<td>名为 x 的表达式列</td>
+</tr>
+<tr>
+<td>x__ h</td>
+<td>头部为 h 的表达式列</td>
+</tr>
+<tr>
+<td>___</td>
+<td>零个或多个表达式序列</td>
+</tr>
+<tr>
+<td>x___</td>
+<td>名为 x 的零个或多个表达式序列</td>
+</tr>
+<tr>
+<td>x___ h</td>
+<td>头部为 h 的零个或多个表达式序列</td>
+</tr>
+</tbody>
+</table>
+<p><strong>注意</strong>: 使用三空位<code>___</code>来表示0个或多个表达式序列时，某些情况下很容易导致<code>___</code>反复与零元素进行匹配，导致死循环。因此，应当尽量避免使用三空位<code>___</code>。</p>
+<h2 id="Mathematica程序的控制流">Mathematica程序的控制流</h2><p>Mathematica中，通过<code>Return</code>、<code>Throw</code>、<code>Catch</code>等命令来实现对程序跳转和返回值等的控制。</p>
+<h3 id="Return_命令">Return 命令</h3><p><code>Return</code> 命令的用法：</p>
+<ul>
+<li><p>Return[expr] </p>
+<p>  从函数中返回 expr 的值.</p>
+</li>
+<li><p>Return[] </p>
+<p>  返回 Null 值. </p>
+</li>
+</ul>
+<p>关于<code>Return</code>命令的用法，需要<strong>注意</strong>: <code>Return</code> 仅退出调用它的最内层结构。</p>
+<h3 id="Throw和Catch">Throw和Catch</h3><p><code>Throw</code>和<code>Catch</code>命令可以比Return 更明确地实现程序的控制流。命令的具体用法：</p>
+<p><code>Throw</code>命令：</p>
+<ul>
+<li><p>Throw[value] </p>
+<p>  停止计算并将 value 作为最接近 Catch 的返回值.</p>
+</li>
+<li><p>Throw[value,tag] </p>
+<p>  仅由 Catch[expr,form] 返回，其中 form 是匹配 tag 的模式.</p>
+</li>
+</ul>
+<p><code>Catch</code>命令：</p>
+<ul>
+<li><p>Catch[expr] </p>
+<p>  返回在运行 expr 时产生的第一个 Throw 的参数.</p>
+</li>
+<li><p>Catch[expr,form] </p>
+<p>  返回 form 匹配 tag 的第一个 Throw[value,tag] 中的 value.</p>
+</li>
+<li><p>Catch[expr,form,f] </p>
+<p>  返回 f[value,tag]. </p>
+</li>
+</ul>
+<h2 id="TimeConstrained_和_Pause_命令">TimeConstrained 和 Pause 命令</h2><p>TimeConstrained 命令用来实现定时停止计算。</p>
+<p>Puase 命令用来实现暂停。</p>
+<p>TimeConstrained 的用法</p>
+<ul>
+<li><p>TimeConstrained[expr,t] </p>
+<p>  计算 expr，在 t 秒后停止计算. </p>
+</li>
+<li><p>TimeConstrained[expr,t,failexpr] </p>
+<p>  如果没有达到时间限制，返回 failexpr.</p>
+</li>
+</ul>
+<p>Puase 的用法：</p>
+<ul>
+<li><p>Pause[n] </p>
+<p>  至少暂停 n 秒.</p>
+</li>
+</ul>
+<p>TimeConstrained的一个显著用途在于限制迭代时间。使得相关的计算能够在限定之间内给出某个不够精确的解。</p>
+<p>关于Puase命令，应当<strong>注意</strong>：</p>
+<ul>
+<li><p>Pause 仅在向下到至少<code>$TimeUnit</code>秒的间隔时是准确的. <code>$TimeUnit</code>的值可以通过在Mathematica的交互式命令行输入<code>$TimeUnit</code>查看。</p>
+<pre><code><span class="label">$TimeUnit:</span> 给出您计算机系统上记录的以秒计的最小时间间隔.
+</code></pre></li>
+<li><p>在执行Pause的过程中，过去的时间在SessionTime 和 AbsoluteTiming中统计，而不在TimeUsed或Timing中统计.</p>
+</li>
+</ul>
+<p>具体举例：</p>
+<pre><code><span class="keyword">$TimeUnit</span>
+<span class="number">1</span>/<span class="number">1000</span>
+
+<span class="keyword">Timing</span>[<span class="keyword">Pause</span>[<span class="number">1</span>]]
+<span class="list">{0., Null}</span>
+<span class="keyword">AbsoluteTiming</span>[Puase[<span class="number">1</span>]]
+<span class="list">{1.000066, Null}</span>
+</code></pre><h2 id="FullForm_命令">FullForm 命令</h2><p>FullForm 命令用来查看变量的具体形式，包括类型、值等等。</p>
+<p>例如：</p>
+<pre><code><span class="keyword">CharacterRange</span>[<span class="string">"a"</span>, <span class="string">"c"</span>]
+<span class="list">{a, b, c}</span>
+<span class="keyword">FullForm</span>[%]
+<span class="keyword">List</span>[<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>]
+</code></pre>
+          
+        
+      </div>
+      <footer>
+        
+          <div class="alignright">
+            <a href="/2015/02/12/math/mathematica_program/#more" class="more-link">Continue Reading<i class="fa fa-long-arrow-right fa-1"></i></a>
+          </div>
+        
+        <div class="clearfix"></div>
+      </footer>
+    </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  
+    <div class="post-content-index">
+  
+      
+        <header>
+          <div class="icon"></div>
+            
+    
+      <h1 class="title transition"><a href="/2015/02/12/math/mathematica_list/">Mathematica中的列表(List)</a></h1>
+    
+  
+          <ul>
+            <li>
+              <span class="heading-span">Posted on: </span>
+              <time datetime="2015-02-11T16:00:00.000Z">2015-02-12</time>
+            </li>
+            
+              <li>
+                <span class="heading-span">By: </span>
+
+                
+                  <a href="/">DHDave</a>
+                
+
+              </li>
+            
+            <li>
+              <span class="heading-span">With: </span>
+              
+                <a href="/2015/02/12/math/mathematica_list/#disqus_thread">Comments</a>
+
+              
+          </ul>
+        </header>
+      
+      <div class="entry">
+        
+          
+            <p>List是Mathematica中的一种重要的数据结构。</p>
+<p><strong> 在Mathematica中使用<code>List</code>时必须注意：Mathematica的<code>List</code>的索引是从<code>1</code>开始的，不是<code>0</code>! </strong></p>
+<h2 id="List的表示">List的表示</h2><p>List用<code>{}</code>来表示。如：</p>
+<pre><code><span class="collection">{<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>}</span>
+</code></pre><h2 id="List的生成">List的生成</h2><p>Mathematica中，有以下三种方式来生成List。</p>
+<ol>
+<li>Range 命令</li>
+</ol>
+<figure class="highlight mma"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Range</span>[<span class="keyword">Subscript</span>[i, max]] </span><br><span class="line">    生成列表 <span class="list">&#123;1,2,\[Ellipsis],Subscript[i, max]&#125;</span>.</span><br><span class="line"><span class="keyword">Range</span>[<span class="keyword">Subscript</span>[i, min],<span class="keyword">Subscript</span>[i, max]] </span><br><span class="line">    生成列表 <span class="list">&#123;Subscript[i, min],\[Ellipsis],Subscript[i, max]&#125;</span>.</span><br><span class="line"><span class="keyword">Range</span>[<span class="keyword">Subscript</span>[i, min],<span class="keyword">Subscript</span>[i, max],di] </span><br><span class="line">    使用步长 di 生成列表.</span><br></pre></td></tr></table></figure>
+<ol>
+<li>Table 命令</li>
+</ol>
+<figure class="highlight mma"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Table</span>[expr,<span class="list">&#123;Subscript[i, max]&#125;</span>] </span><br><span class="line">    产生一个 expr 的 <span class="keyword">Subscript</span>[i, max] 拷贝的列表.</span><br><span class="line"><span class="keyword">Table</span>[expr,<span class="list">&#123;i,Subscript[i, max]&#125;</span>] </span><br><span class="line">    产生i  从<span class="number">1</span>到 <span class="keyword">Subscript</span>[i, max] 的一个 expr 的值的列表.</span><br><span class="line"><span class="keyword">Table</span>[expr,<span class="list">&#123;i,Subscript[i, min],Subscript[i, max]&#125;</span>] </span><br><span class="line">    以 i=<span class="keyword">Subscript</span>[i, min] 开始.</span><br><span class="line"><span class="keyword">Table</span>[expr,<span class="list">&#123;i,Subscript[i, min],Subscript[i, max],di&#125;</span>] </span><br><span class="line">    使用步长 di. </span><br><span class="line"><span class="keyword">Table</span>[expr,<span class="list">&#123;i,&#123;Subscript[i, 1],Subscript[i, 2],\[Ellipsis]&#125;</span>&#125;] </span><br><span class="line">    使用连续值 <span class="keyword">Subscript</span>[i, <span class="number">1</span>], <span class="keyword">Subscript</span>[i, <span class="number">2</span>], \[Ellipsis]. </span><br><span class="line"><span class="keyword">Table</span>[expr,<span class="list">&#123;i,Subscript[i, min],Subscript[i, max]&#125;</span>,<span class="list">&#123;j,Subscript[j, min],Subscript[j, max]&#125;</span>,\[Ellipsis]] </span><br><span class="line">    给出一个嵌套列表. 和 i 相关联的列表是最外的列表.</span><br></pre></td></tr></table></figure>
+<ol>
+<li>Array 命令</li>
+</ol>
+<figure class="highlight mma"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Array</span>[f,n] </span><br><span class="line">    生成长度为 n、元素为 f[i] 的列表. </span><br><span class="line"><span class="keyword">Array</span>[f,n,r] </span><br><span class="line">    生成使用索引原点 r 的列表.</span><br><span class="line"><span class="keyword">Array</span>[f,n,<span class="list">&#123;a,b&#125;</span>] </span><br><span class="line">    生成使用 n 个从 a 到 b 的数值组成的列表.</span><br><span class="line"><span class="keyword">Array</span>[f,<span class="list">&#123;Subscript[n, 1],Subscript[n, 2],\[Ellipsis]&#125;</span>] </span><br><span class="line">    生成嵌套列表的 <span class="keyword">Subscript</span>[n, <span class="number">1</span>]*<span class="keyword">Subscript</span>[n, <span class="number">2</span>]*\[Ellipsis] 数组，元素为 f[<span class="keyword">Subscript</span>[i, <span class="number">1</span>],<span class="keyword">Subscript</span>[i, <span class="number">2</span>],\[Ellipsis]]. </span><br><span class="line"><span class="keyword">Array</span>[f,<span class="list">&#123;Subscript[n, 1],Subscript[n, 2],\[Ellipsis]&#125;</span>,<span class="list">&#123;Subscript[r, 1],Subscript[r, 2],\[Ellipsis]&#125;</span>] </span><br><span class="line">    生成一个列表，该列表使用指标起点 <span class="keyword">Subscript</span>[r, i],(缺省为 <span class="number">1</span>). </span><br><span class="line"><span class="keyword">Array</span>[f,<span class="list">&#123;Subscript[n, 1],Subscript[n, 2],\[Ellipsis]&#125;</span>,<span class="list">&#123;&#123;Subscript[a, 1],Subscript[b, 1]&#125;</span>,<span class="list">&#123;Subscript[a, 2],Subscript[b, 2]&#125;</span>,\[Ellipsis]&#125;] </span><br><span class="line">    生成使用 <span class="keyword">Subscript</span>[n, i] 个从 <span class="keyword">Subscript</span>[a, i] 到 <span class="keyword">Subscript</span>[b, i] 的数值组成的列表.</span><br><span class="line"><span class="keyword">Array</span>[f,dims,origin,h] </span><br><span class="line">    对数组的每一层使用头部 h，而不是 <span class="keyword">List</span>.</span><br></pre></td></tr></table></figure>
+<h2 id="字符型List的生成">字符型List的生成</h2><p>生成字符型的List，有如下两种方式：</p>
+<ol>
+<li>Characters 命令</li>
+</ol>
+<figure class="highlight mma"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Characters</span>[<span class="string">"string"</span>] </span><br><span class="line">    给出了字符串中字符的列表.</span><br></pre></td></tr></table></figure>
+<ol>
+<li>CharacterRange 命令</li>
+</ol>
+<figure class="highlight mma"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CharacterRange</span>[<span class="keyword">Subscript</span>[c, <span class="number">1</span>],<span class="keyword">Subscript</span>[c, <span class="number">2</span>]] </span><br><span class="line">    产生 <span class="string">"Subscript[c, 1]"</span> 到 <span class="string">"Subscript[c, 2]"</span> 范围之内的字符列表.</span><br></pre></td></tr></table></figure>
+<pre><code>具体的字符顺序为起始字符之间 ASCII 码表中的字符顺序。
+
+例如：
+</code></pre><figure class="highlight mma"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CharacterRange</span>[<span class="string">"a"</span>, <span class="string">"c"</span>]</span><br><span class="line"><span class="list">&#123;a, b, c&#125;</span></span><br><span class="line"><span class="keyword">FullForm</span>[%]</span><br><span class="line"><span class="keyword">List</span>[<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>]</span><br></pre></td></tr></table></figure>
+<h2 id="List的运算">List的运算</h2><p>可以对 List 进行加、减、乘、除、阶乘、乘方等运算，具体运算过程为对列表进行逐项计算。</p>
+<p>例如：</p>
+<figure class="highlight mma"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2</span> ^ <span class="keyword">Range</span>[<span class="number">10</span>]</span><br><span class="line"><span class="list">&#123;2, 4, 8, 16, 32, 64, 128, 256, 512, 1024&#125;</span></span><br><span class="line"><span class="keyword">Prime</span>[<span class="keyword">Range</span>[<span class="number">10</span>]]</span><br><span class="line"><span class="list">&#123;2, 3, 5, 7, 11, 13, 17, 19, 23, 29&#125;</span></span><br></pre></td></tr></table></figure>
+<h2 id="List的操作">List的操作</h2><ul>
+<li><p>Length[lst] </p>
+<p>  求出列表lst的长度（lst中的元素个数）。</p>
+</li>
+<li><p>First[lst] </p>
+<p>  得到lst中的第一个位置的元素。</p>
+<p>  如果lst的长度为0（没有元素），会得到如下输出：</p>
+</li>
+</ul>
+<figure class="highlight mma"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">First</span>::first: <span class="string">"&#123;&#125; 长度为零，并且没有第一个元素."</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>Last[lst]</p>
+<p>  得到lst中的最后一个位置的元素。</p>
+<p>  如果lst的长度为0（没有元素），会得到如下输出：</p>
+</li>
+</ul>
+<figure class="highlight mma"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Last</span>::nolast: <span class="string">"&#123;&#125; 的长度为零，并且没有最后一个元素"</span>.</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>Part[lst, k] 或 lst[[k]]</p>
+<p>  返回lst中的第<code>k</code>个元素。如果lst中没有第<code>k</code>个元素，会得到如下输出：</p>
+</li>
+</ul>
+<figure class="highlight mma"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Part</span>::partw: <span class="list">&#123;&#125;</span> 的部分 <span class="number">1</span> 不存在.</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>Part[lst, -k] 或 lst[[-k]]</p>
+<p>  返回lst中的倒数第<code>k</code>个元素。如果lst中没有倒数第<code>k</code>个元素，会得到如下输出：</p>
+</li>
+</ul>
+<figure class="highlight mma"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Part</span>::partw: <span class="string">"&#123;&#125; 的部分 -1 不存在.</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>Rest[lst] </p>
+<p>  返回删除<code>lst</code>中第一个对象后的结果。</p>
+</li>
+<li><p>Take 命令</p>
+<p>  Take 命令用于从 List 中取得一部分元素，返回一个新的列表。</p>
+</li>
+<li><p>Delete 命令</p>
+<p>  Delete 命令用于从列表中删除元素。根据索引的正负来删除整数第<code>k</code>个元素或者第<code>-k</code>个元素。</p>
+</li>
+<li><p>Drop 命令</p>
+<p>  Drop命令和Take命令的格式基本一致，用于从列表中删除多个元素（连续的）。</p>
+</li>
+<li><p>Append 命令</p>
+<p>  Append命令用于在原来的列表末尾追加元素。</p>
+</li>
+<li><p>Prepend 命令</p>
+<p>  Prepend命令用于在原来的列表开头处追加元素。</p>
+</li>
+<li><p>Insert 命令</p>
+<p>  Insert 命令用于将元素插入到列表中，位置索引既可以为正值也可以为负值。</p>
+</li>
+<li><p>ReplacePart 命令</p>
+<p>  ReplacePart 命令用于替换List某个位置的元素。</p>
+</li>
+<li><p>Sort 命令</p>
+<p>  Sort命令用于对列表进行排序，具体标准顺序的定义如下例：</p>
+</li>
+</ul>
+<figure class="highlight mma"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="list">&#123;1, 2, "a", "b", "c", "A", "B", "C"&#125;</span></span><br><span class="line"><span class="list">&#123;1, 2, "a", "b", "c", "A", "B", "C"&#125;</span></span><br><span class="line"><span class="keyword">Sort</span>[a]</span><br><span class="line"><span class="list">&#123;1, 2, "a", "A", "b", "B", "c", "C"&#125;</span></span><br></pre></td></tr></table></figure>
+<pre><code>Mathematica中标准顺序的定义同其他编程语言有所不同，需格外注意。
+</code></pre><ul>
+<li><p>Reverse 命令</p>
+<p>  Reverse命令用于将列表逆序排序。</p>
+<p>  <strong>注意</strong>：<code>Sort</code> 命令和 <code>Reverse</code> 命令并不改变原来的列表，只是返回一个排好序的列表。</p>
+</li>
+<li><p>RotateRight 和 RotateLeft 命令</p>
+<p>  RotateRight 和 RotateLeft 命令用于对列表进行循环旋转操作。可以指定循环旋转的距离。</p>
+</li>
+<li><p>Join 和 Union 命令</p>
+<p>  Join 命令和 Union 命令用于列表的合并。区别在于 Join 命令仅仅合并列表，并不去除重复的元素。而 Union 命令则采取的是集合的并集操作方式，重复的元素仅仅保留一个。</p>
+</li>
+<li><p>Depth 命令</p>
+<p>  Depth命令可以得到多层嵌套列表的嵌套层数。<strong>注意</strong> Depth命令得到的值为列表的嵌套层数加 1。 </p>
+</li>
+<li><p>IntegerDigits 命令</p>
+<p>  IntegerDigits 命令可以得到一个整数各个位上的数字组成的列表。</p>
+<p>  类似，RealDigits 命令可以得到一个实数（有限位近似值）的各个位上的数字组成的列表。并且能够得到小数点左边的数字位数。例如:</p>
+</li>
+</ul>
+<figure class="highlight mma"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">RealDigits</span>[<span class="keyword">N</span>[<span class="keyword">Pi</span>, <span class="number">10</span>]]</span><br><span class="line"><span class="list">&#123;&#123;3, 1, 4, 1, 5, 9, 2, 6, 5, 3&#125;</span>, <span class="number">1</span>&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>上述结果中包含两个子列表，其中，第一个子列表为各个位上的数字组成的列表，第二个子列表的值为小数点左侧的数字的位数。
+</code></pre><h2 id="List与集合">List与集合</h2><p>集合在Mathematica中是用列表表示的。集合的基本操作：</p>
+<ul>
+<li><p>Union[lst1, lst2]</p>
+<p>  求并集</p>
+</li>
+<li><p>Intersection</p>
+<p>  求交集</p>
+</li>
+<li><p>Complement[universe, lst]</p>
+<p>  求全集</p>
+</li>
+<li><p>Subsets[lst]</p>
+<p>  返回一个集合的所有子集构成的列表（幂集）</p>
+</li>
+<li><p>KSubsets[lst]</p>
+<p>  返回lst的所有包含K个元素的子集构成的列表。</p>
+</li>
+</ul>
+<h2 id="List_与矩阵(Matrix)">List 与矩阵(Matrix)</h2><p>Mathematica中，用多层List来表示矩阵。设计矩阵的常用运算有：</p>
+<ul>
+<li><p>MatrixForm</p>
+<p>  以矩阵的形式显示多层List。</p>
+</li>
+<li><p>IdentityMatrix[n]</p>
+<p>  返回一个<code>n</code>阶单位阵。</p>
+</li>
+<li><p>DiagonalMatrix[lst]</p>
+<p>  返回一个主对角线值为<code>lst</code>的元素、其他元素为<code>0</code>的矩阵。</p>
+</li>
+</ul>
+
+          
+        
+      </div>
+      <footer>
+        
+          <div class="alignright">
+            <a href="/2015/02/12/math/mathematica_list/#more" class="more-link">Continue Reading<i class="fa fa-long-arrow-right fa-1"></i></a>
+          </div>
+        
+        <div class="clearfix"></div>
+      </footer>
+    </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  
+    <div class="post-content-index">
+  
+      
+        <header>
+          <div class="icon"></div>
+            
+    
+      <h1 class="title transition"><a href="/2015/02/12/algorithm/rmq_lca_cartesian_tree/">RMQ与LCA之间的转换</a></h1>
+    
+  
+          <ul>
+            <li>
+              <span class="heading-span">Posted on: </span>
+              <time datetime="2015-02-11T16:00:00.000Z">2015-02-12</time>
+            </li>
+            
+              <li>
+                <span class="heading-span">By: </span>
+
+                
+                  <a href="/">DHDave</a>
+                
+
+              </li>
+            
+            <li>
+              <span class="heading-span">With: </span>
+              
+                <a href="/2015/02/12/algorithm/rmq_lca_cartesian_tree/#disqus_thread">Comments</a>
+
+              
+          </ul>
+        </header>
+      
+      <div class="entry">
+        
+          
+            <p>RMQ(Range Maximum/Minimum Query) 和 LCA(Least Common Ancestor) 问题是关联度十分高的两类问题。既可以把LCA问题转化为RMQ问题，也可以把RMQ问题转换为LCA问题。本文主要探讨如何通过笛卡尔树(Cartesian Tree)来建立起这两类问题之间的联系。</p>
+<h2 id="笛卡尔树的特点">笛卡尔树的特点</h2><p>笛卡尔树的特点如下：</p>
+<p>每一个节点的值都是该节点极其子树的最小值。</p>
+<h2 id="笛卡尔树的构造">笛卡尔树的构造</h2><p>有笛卡尔树的特点，不难想到其构造算法如下：</p>
+<ol>
+<li>从左到右遍历数组；</li>
+<li>把第一个值作为最初的根节点；</li>
+<li>随后每一个值都从根节点出发，一直向右走，知道找到第一个比该值小的节点；</li>
+<li>把这个值放在找到的节点处，原来该位置的节点作为这个值的左子节点。</li>
+</ol>
+<p>示例：</p>
+<p>数组：</p>
+<pre><code>[<span class="number">10</span>, <span class="number">25</span>, <span class="number">22</span>, <span class="number">34</span>, <span class="number">7</span>, <span class="number">19</span>, <span class="number">9</span>, <span class="number">12</span>]
+</code></pre><p>加入第一个值:</p>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="list">(<span class="keyword">10</span>)</span></span><br></pre></td></tr></table></figure>
+<p>加入第二个值:</p>
+<figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="comment">(10)</span></span><br><span class="line">    \</span><br><span class="line">     \</span><br><span class="line">    <span class="number">2</span><span class="comment">(25)</span></span><br></pre></td></tr></table></figure>
+<p>加入第三个值:</p>
+<figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="comment">(10)</span></span><br><span class="line">    \</span><br><span class="line">     \</span><br><span class="line">    <span class="number">3</span><span class="comment">(22)</span></span><br><span class="line">    /</span><br><span class="line">   /</span><br><span class="line"><span class="number">2</span><span class="comment">(25)</span></span><br></pre></td></tr></table></figure>
+<p>加入第四个值:</p>
+<figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="comment">(10)</span></span><br><span class="line">    \</span><br><span class="line">     \</span><br><span class="line">    <span class="number">3</span><span class="comment">(22)</span></span><br><span class="line">    /  \</span><br><span class="line">   /    \</span><br><span class="line"><span class="number">2</span><span class="comment">(25)</span>    <span class="number">4</span><span class="comment">(34)</span></span><br></pre></td></tr></table></figure>
+<p>加入第五个值:</p>
+<figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">    <span class="number">5</span><span class="comment">(7)</span>                </span><br><span class="line">    / </span><br><span class="line">   /   </span><br><span class="line"><span class="number">1</span><span class="comment">(10)</span></span><br><span class="line">    \</span><br><span class="line">     \</span><br><span class="line">    <span class="number">3</span><span class="comment">(22)</span></span><br><span class="line">    /  \</span><br><span class="line">   /    \</span><br><span class="line"><span class="number">2</span><span class="comment">(25)</span>   <span class="number">4</span><span class="comment">(34)</span></span><br></pre></td></tr></table></figure>
+<p>加入第六个值:</p>
+<figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">    <span class="number">5</span><span class="comment">(7)</span>                </span><br><span class="line">    / \</span><br><span class="line">   /   \</span><br><span class="line"><span class="number">1</span><span class="comment">(10)</span>   <span class="number">6</span><span class="comment">(19)</span></span><br><span class="line">    \</span><br><span class="line">     \</span><br><span class="line">    <span class="number">3</span><span class="comment">(22)</span></span><br><span class="line">    /  \</span><br><span class="line">   /    \</span><br><span class="line"><span class="number">2</span><span class="comment">(25)</span>   <span class="number">4</span><span class="comment">(34)</span></span><br></pre></td></tr></table></figure>
+<p>加入第七个值:</p>
+<figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">        <span class="number">5</span><span class="comment">(7)</span>                </span><br><span class="line">       /   \</span><br><span class="line">      /     \</span><br><span class="line">  <span class="number">1</span><span class="comment">(10)</span>     <span class="number">7</span><span class="comment">(9)</span></span><br><span class="line">     \     /  </span><br><span class="line">      \   /     </span><br><span class="line">    <span class="number">3</span><span class="comment">(22)</span> <span class="number">6</span><span class="comment">(19)</span> </span><br><span class="line">    /   \</span><br><span class="line">   /     \</span><br><span class="line"><span class="number">2</span><span class="comment">(25)</span>    <span class="number">4</span><span class="comment">(34)</span></span><br></pre></td></tr></table></figure>
+<p>加入第八个值:</p>
+<figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">        <span class="number">5</span><span class="comment">(7)</span>                </span><br><span class="line">       /   \</span><br><span class="line">      /     \</span><br><span class="line">  <span class="number">1</span><span class="comment">(10)</span>     <span class="number">7</span><span class="comment">(9)</span></span><br><span class="line">     \     /  \</span><br><span class="line">      \   /    \ </span><br><span class="line">    <span class="number">3</span><span class="comment">(22)</span> <span class="number">6</span><span class="comment">(19)</span> <span class="number">8</span><span class="comment">(12)</span></span><br><span class="line">    /   \</span><br><span class="line">   /     \</span><br><span class="line"><span class="number">2</span><span class="comment">(25)</span>    <span class="number">4</span><span class="comment">(34)</span></span><br></pre></td></tr></table></figure>
+
+          
+        
+      </div>
+      <footer>
+        
+          <div class="alignright">
+            <a href="/2015/02/12/algorithm/rmq_lca_cartesian_tree/#more" class="more-link">Continue Reading<i class="fa fa-long-arrow-right fa-1"></i></a>
+          </div>
+        
+        <div class="clearfix"></div>
+      </footer>
+    </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  
+    <div class="post-content-index">
+  
+      
+        <header>
+          <div class="icon"></div>
+            
+    
+      <h1 class="title transition"><a href="/2015/02/11/programming language/haskell/dive_into_haskell_2_datatype_typeclasses/">Dive Into Haskell(2) 数据类型和类型类(Typeclasses)</a></h1>
+    
+  
+          <ul>
+            <li>
+              <span class="heading-span">Posted on: </span>
+              <time datetime="2015-02-10T16:00:00.000Z">2015-02-11</time>
+            </li>
+            
+              <li>
+                <span class="heading-span">By: </span>
+
+                
+                  <a href="/">DHDave</a>
+                
+
+              </li>
+            
+            <li>
+              <span class="heading-span">With: </span>
+              
+                <a href="/2015/02/11/programming language/haskell/dive_into_haskell_2_datatype_typeclasses/#disqus_thread">Comments</a>
+
+              
+          </ul>
+        </header>
+      
+      <div class="entry">
+        
+          
+            <h2 id="静态类型">静态类型</h2><p>Haskell是静态类型(Static Type)语言，在编译时期每个表达式的类型都已经确定下来。如果在代码中有类型错误，就不可能通过编译。这极大地提高了代码的安全性。在Haskell中，所有东西都有类型。</p>
+<h2 id="GHCi中查看数据类型">GHCi中查看数据类型</h2><p>在GHCi中，通过 <code>:t &lt;name&gt;</code> 或者 <code>:type &lt;name&gt;</code>来查看变量、常量或表达式的数据类型。例如：</p>
+<pre><code>Prelude&gt; let <span class="tag">a</span> = <span class="number">1</span>
+Prelude&gt; :t <span class="tag">a</span>
+<span class="tag">a</span> :: Num <span class="tag">a</span> =&gt; <span class="tag">a</span>
+Prelude&gt; :type True
+True :: Bool
+Prelude&gt; :t <span class="number">4</span> == <span class="number">5</span>
+<span class="number">4</span> == <span class="number">5</span> :: Bool
+</code></pre><h2 id="基本数据类型">基本数据类型</h2><p>Haskell有以下几种基本数据类型：</p>
+<ul>
+<li>Char<br>  单个Unicode字符。</li>
+<li>Bool<br>  表示一个Bool逻辑值。这个类型只有两个值：<code>True</code>或<code>False</code>。</li>
+<li>Int<br>  表示一个整数。范围为<code>-2147483648 ~ 2147483647</code>。</li>
+<li>Integer<br>  可以认为是无限范围的整数。</li>
+<li>Floating<br>  表示浮点数。注意<code>**</code>运算得到的结果的数据类型是<code>Floating</code>。</li>
+</ul>
+<h2 id="List">List</h2><p>在Haskell中，一个List由一对方括号括起来。其中的元素的数据类型必须相同，相邻元素之间用逗号<code>,</code>隔开。</p>
+<h3 id="Haskell的字符串">Haskell的字符串</h3><p>在Haskell中，字符串实际上是一组字符的List，例如，<code>&quot;Hello&quot;</code>只是<code>[&#39;H&#39;, &#39;e&#39;, &#39;l&#39;, &#39;l&#39;, &#39;o&#39;]</code>的语法糖而已。</p>
+<pre><code><span class="constant">Prelude&gt;</span> <span class="symbol">:t</span> <span class="string">"Hello"</span>
+<span class="string">"Hello"</span> <span class="symbol">:</span><span class="symbol">:</span> [<span class="constant">Char]</span>
+</code></pre><h3 id="List的拼接">List的拼接</h3><p>两个List之间的拼接用<code>++</code>运算符：</p>
+<pre><code><span class="tag">Prelude</span>&gt; <span class="attr_selector">[1, 2]</span> + <span class="attr_selector">[3, 4]</span>
+<span class="attr_selector">[1, 2, 3, 4]</span>
+</code></pre><p><strong>注意</strong>：<code>++</code>符号会遍历整个<code>++</code>符号<strong>左边</strong>的List，因此，当给较长的List追加元素时，会有严重的性能问题。</p>
+<h3 id="向List中追加元素">向List中追加元素</h3><p><code>:</code>运算符的作用是在一个List的前面追加一个元素：</p>
+<pre><code><span class="keyword">Prelude</span>&gt; 1:<span class="sqbracket"> [2, 3, 4]</span><span class="sqbracket">
+[1, 2, 3, 4]</span>
+</code></pre><p><code>:</code>运算符无法在List的后面追加元素，例如，以下用法会出现错误：</p>
+<pre><code>Prelude&gt; [<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>] : <span class="number">1</span>
+
+&lt;interactive&gt;:<span class="number">77</span>:<span class="number">1</span>
+    No instance <span class="keyword">for</span> (Num [[t0]]) arising <span class="built_in">from</span> <span class="operator">a</span> use <span class="operator">of</span> <span class="string">'it'</span>
+    In <span class="operator">a</span> stmt <span class="operator">of</span> <span class="operator">an</span> interactive GHCi <span class="command"><span class="keyword">command</span>: <span class="title">print</span> <span class="title">it</span></span>
+</code></pre><p>如果需要在List的后面追加元素，可以使用如下的语法：</p>
+<pre><code><span class="tag">Prelude</span>&gt; <span class="attr_selector">[2, 3, 4]</span> ++ <span class="attr_selector">[1]</span>
+<span class="attr_selector">[2, 3, 4, 1]</span>
+</code></pre><p>即把要追加的元素写成一个单独的List，再用 <code>++</code>运算符将两个List连接。</p>
+<h3 id="多级List">多级List</h3><p>List中的元素可以是List，其长度可以不同，但其中的元素的数据类型必须是相同的。</p>
+<h3 id="List索引元素">List索引元素</h3><p>使用 <code>!!</code>按照索引取得List中的元素，例如：</p>
+<pre><code><span class="variable">Prelude</span>&gt; [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>] <span class="exclamation_mark">!</span><span class="exclamation_mark">!</span> <span class="number">1</span>
+<span class="number">2</span>
+</code></pre><p>List的索引值是从 <code>0</code> 开始的。如果索引值超过了List的长度，便会出错。</p>
+<p>对于多级列表的索引，只需要逐级索引即可，例如：</p>
+<pre><code>Prelude&gt; let a = <span class="string">[[1, 2, 3], [4, 5], [6]]</span>
+Prelude&gt; a !! <span class="number">1</span> !! <span class="number">1</span>
+<span class="number">5</span>
+</code></pre><h3 id="List大小比较">List大小比较</h3><p>当List中装有课比较的元素时，可以用<code>&gt;</code>运算符和<code>&gt;=</code>运算符以及<code>&lt;</code>运算符和<code>&lt;=</code>运算符比较List的大小。用来比较大小的两个List中的元素的数据类型必须是相同的。它会先比较第一个元素，如果相等，在比较下一个元素。如果直到其中一个List已经到达末尾其对应位置的元素仍相等，而另一个没有到达末尾，则另一个List较大。举例：</p>
+<pre><code><span class="tag">Prelude</span>&gt; <span class="attr_selector">[2, 2]</span> &gt; <span class="attr_selector">[2]</span>
+<span class="tag">True</span>
+<span class="tag">Prelude</span>&gt; <span class="attr_selector">[1, 2]</span> &lt; <span class="attr_selector">[2]</span>
+<span class="tag">True</span>
+</code></pre><h3 id="List相关的常用函数">List相关的常用函数</h3><ul>
+<li><p>head<br>  返回一个List的头部（首个元素）。如果当前List为空，则会产生异常。</p>
+<pre><code>Prelude&gt; head [1, 2, 3]
+1
+Prelude&gt; head []
+<span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span> Exception: Prelude.head: empty list
+</code></pre></li>
+<li><p>tail<br>  返回一个List除去头部元素之后的元素的List。如果当前List为空，则会产生异常。</p>
+<pre><code><span class="tag">Prelude</span>&gt; <span class="tag">tail</span> <span class="attr_selector">[1, 2, 3]</span>
+<span class="attr_selector">[2, 3]</span>
+<span class="tag">Prelude</span>&gt; <span class="tag">tail</span> <span class="attr_selector">[1]</span>
+<span class="attr_selector">[]</span>
+<span class="tag">Prelude</span>&gt; <span class="tag">tail</span> <span class="attr_selector">[]</span>
+*** <span class="tag">Exception</span>: <span class="tag">Prelude</span><span class="class">.tail</span>: <span class="tag">empty</span> <span class="tag">list</span>
+</code></pre></li>
+<li><p>last<br>  返回一个List的最后一个元素。</p>
+</li>
+<li>init<br>  返回一个List的除去最后一个元素的部分(List)。</li>
+<li>length<br>  返回一个List的长度（包含的元素个数）。</li>
+<li>null<br>  检查一个List是否为空，若为空，返回<code>True</code>，否则返回<code>False</code>。</li>
+<li>reverse<br>  将一个List反转。</li>
+<li><p>take<br>  取得一个List的前几个元素。</p>
+<pre><code><span class="keyword">Prelude</span>&gt; take 2<span class="sqbracket"> [1, 2, 3]</span><span class="sqbracket">
+[1, 2]</span>
+<span class="keyword">Prelude</span>&gt; take 1<span class="sqbracket"> [1, 2, 3]</span><span class="sqbracket">
+[1]</span>
+</code></pre><p>  如果要求的元素个数大于List的长度，则返回整个List，不会产生异常。</p>
+<pre><code><span class="keyword">Prelude</span>&gt; take 4<span class="sqbracket"> [1, 2]</span><span class="sqbracket">
+[1, 2]</span>
+</code></pre></li>
+<li><p>maximum<br>  取得一个List中的元素的最大值。</p>
+</li>
+<li>minimum<br>  取得一个List中的元素的最小值。</li>
+<li>sum<br>  求得一个List中所有元素的和。<strong>注意</strong>用于求和的List中的元素必须是可相加的类型。例如，其元素类型不能是<code>Char</code>。对空List的求和结果为<code>0</code>。</li>
+<li><p>elem<br>  判断一个元素是否在List中。如果在，返回<code>True</code>，否则返回<code>False</code>。也可以用中缀函数的方法调用<code>elem</code>函数。</p>
+<pre><code>Prelude&gt; elem <span class="number">1</span> [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]
+<span class="literal">True</span>
+Prelude&gt; <span class="number">4</span> <span class="escape">`e</span>lem<span class="escape">` </span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]
+<span class="literal">False</span>
+</code></pre></li>
+</ul>
+<h3 id="List与Range">List与Range</h3><p>对于可枚举的值，通过区间(Range)的方式可以很方便地生成列表。比如，要生成一个包含<code>1-20</code>的自然数的列表，只需要运行如下命令：</p>
+<pre><code><span class="keyword">Prelude</span>&gt;<span class="sqbracket"> [1..20]</span><span class="sqbracket">
+[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]</span>
+</code></pre><p>对于字符型列表的生成，Haskell会按照字符的ASCII码的顺序来生成。</p>
+<pre><code>Prelude&gt; [<span class="string">'a'</span>..<span class="string">'d'</span>]
+<span class="string">"abcd"</span>
+Prelude&gt; [<span class="string">'a'</span>..<span class="string">'a'</span>]
+<span class="string">"a"</span>
+</code></pre><p>如果给出的上界大于下界，则返回一个空List。</p>
+<pre><code>Prelude&gt; [<span class="string">'b'</span>..<span class="string">'a'</span>]
+<span class="string">""</span>
+Prelude&gt; [<span class="number">1.</span><span class="number">.0</span>]
+[]
+</code></pre><p>通过Range的生成方式可以指定其规律，例如：</p>
+<pre><code><span class="keyword">Prelude</span>&gt;<span class="sqbracket"> [2, 4..10]</span><span class="sqbracket">
+[2,4,6,8,10]</span>
+</code></pre><p>Haskell正是根据前两项推导出生成规则的。</p>
+<p>Range也可以生成无限长的列表，不指定上界即可：</p>
+<pre><code><span class="keyword">Prelude</span>&gt;<span class="sqbracket"> [2, 4..]</span>
+</code></pre><p>在GHCi中执行这条命令，便会不停输出一个无限长的列表<code>[2,4,6,8,10 ...]</code></p>
+<p>由于Haskell是<strong>惰性</strong>的，因此，也可以通过这这种方式来得到List的前几项：</p>
+<pre><code><span class="keyword">Prelude</span>&gt; take 3<span class="sqbracket"> [2, 4..]</span><span class="sqbracket">
+[2, 4, 6]</span>
+</code></pre><h3 id="List与cycle函数">List与<code>cycle</code>函数</h3><p><code>cycle</code>函数的作用是无限重复某一列表的内容：</p>
+<pre><code><span class="tag">Prelude</span>&gt; <span class="tag">take</span> 5 (<span class="tag">cycle</span> <span class="attr_selector">[1, 2, 3]</span>)
+<span class="attr_selector">[1, 2, 3, 1, 1]</span>
+</code></pre><h3 id="List与repeat函数">List与repeat函数</h3><p><code>repeat</code>函数的作用是接受一个值作为参数，并返回一个仅包含该值的无限List。</p>
+<pre><code>Prelude&gt; <span class="keyword">take</span> <span class="number">5</span> (<span class="keyword">repeat</span> <span class="number">2</span>)
+[<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>]
+</code></pre><p><code>replicate</code>函数也具有同样的功能：</p>
+<pre><code><span class="keyword">Prelude</span>&gt; replicate 3 10<span class="sqbracket">
+[10, 10, 10]</span>
+</code></pre><h3 id="List推导式(List_Comprehension)">List推导式(List Comprehension)</h3><p>在Haskell中，List Comprehension的核心思想是通过不断添加谓词(predicate)(限制条件)来从一个集合中不断筛选出符合条件的元素，最终得到想要的集合。</p>
+<pre><code><span class="keyword">Prelude</span>&gt;<span class="sqbracket"> [x | x &lt;- [10 .. 20], odd x]</span><span class="sqbracket">
+[11, 13, 15, 17, 19]</span>
+<span class="keyword">Prelude</span>&gt;<span class="sqbracket"> [x*2 | x &lt;- [10 .. 20], even x, x /= 16]</span><span class="sqbracket">
+[10, 12, 14, 18, 20]</span>
+</code></pre><p><strong>注意</strong>：多个谓词(predicate)之间用”,”连接。</p>
+<h2 id="Tuple">Tuple</h2><h3 id="Tuple的特点">Tuple的特点</h3><p>在Haskell中，元组用”()”来表示，元组中的不同元素之间用”,”分隔开。通常用元组来表示向量等数据结构。使用元组(Tuple)时应该注意以下几点问题：</p>
+<ul>
+<li><p>每一个元组中的元素可以是不同类型的元素，例如：</p>
+<pre><code>Prelude&gt; (<span class="string">'a'</span>, <span class="number">1</span>, <span class="string">"abcd"</span>)
+(<span class="string">'a'</span>,<span class="number">1</span>,<span class="string">"abcd"</span>)
+</code></pre></li>
+<li><p>不同长度的元组是不同的<strong>类型</strong>。</p>
+</li>
+<li>同样长度，对应位置元素类型相同，且元素可比较的Tuple是可以比较大小的。</li>
+<li>元组中元素的最小长度为2，因此不存在只有一个元素的元组，但可以存在只有一个元素的List。</li>
+</ul>
+<h4 id="序对(Pair)">序对(Pair)</h4><p>Haskell中，序对(Pair)是只有两个元素的元组。</p>
+<ul>
+<li><code>fst</code>函数返回一个序对的首项。</li>
+<li><p><code>snd</code>函数返回一个序对的尾项。</p>
+<p>  Prelude&gt; fst (8, 11)<br>  8<br>  Prelude&gt; snd (8, 11)<br>  11</p>
+</li>
+</ul>
+<p><strong>注意</strong>：<code>fst</code>函数和<code>snd</code>函数仅仅对序对(Pair,只有两个元素的元组)有效。</p>
+<h3 id="zip_函数">zip 函数</h3><p><code>zip</code>函数把两个List交叉配对，生成一个Pair的List。如果两个List长度不同，以较短的List的长度为基准，较长List中多余的项舍去。</p>
+<pre><code>Prelude&gt; zip [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>] <span class="string">"abcde"</span>
+[<span class="comment">(1,'a')</span>,<span class="comment">(2,'b')</span>,<span class="comment">(3,'c')</span>]
+</code></pre><h2 id="类型变量与多态">类型变量与多态</h2><p>在GHCi中运行如下命令，会看到：</p>
+<pre><code><span class="label">Prelude&gt; :</span>t head
+<span class="label">head ::</span> [<span class="literal">a</span>] -&gt; <span class="literal">a</span>
+</code></pre><p>此处，<code>a</code>便是一个类型变量(Type variables)，它可以是任何类型。使用了类型变量的函数是多态函数。Haskell中，类似的函数还有：</p>
+<pre><code>head, tail, sum, fst, snd <span class="keyword">...</span> 等等。
+</code></pre><h2 id="类型类(Typeclasses)">类型类(Typeclasses)</h2><p>Haskell中，类型类相当于提供了一系列的接口，属于某一类型类的数据类型具有对应的一类性质。</p>
+<p>主要有以下几种类型类：</p>
+<ul>
+<li><p>Eq类型类</p>
+<p>  Eq类型类用于可以判断相等性的类型。其实例必须实现<code>==</code>和<code>/=</code>这两个函数。</p>
+</li>
+<li><p>Ord类型类</p>
+<p>  Ord类型类用于可以比较大小的类型。Ord类型中包含了所有的比较函数。</p>
+<ul>
+<li><code>&gt;</code>、<code>&lt;</code>、<code>&gt;=</code>、<code>&lt;=</code>。</li>
+<li><p><code>compare</code>函数。<code>compare</code> 函数读取连个Ord中的相同类型的值作为参数，返回一个Ordering类型的值。Ordering类型有 <code>GT</code>、<code>LT</code>、<code>EQ</code>三种值，分别表示大于、小于和等于。</p>
+<p>举例：</p>
+<p>  Prelude&gt; compare 1 2<br>  LT<br>  Prelude&gt; 1 <code>compare</code> 2<br>  LT</p>
+</li>
+</ul>
+</li>
+<li><p>Show 类型类</p>
+<p>  Show类型类的实例为可以表示为字符串的类型。</p>
+<pre><code>Prelude&gt; :t show
+show :: Show <span class="tag">a</span> =&gt; <span class="tag">a</span> -&gt; String
+</code></pre></li>
+<li><p>Read类型类</p>
+<p>  Read类型类与Show类型类相反。<code>read</code>函数可以取一个字符串作为参数并转为Read的某个实例的类型，其具体类型可以在表达式中自动推断。</p>
+<pre><code>Prelude&gt; <span class="keyword">read</span> <span class="string">"True"</span> || <span class="keyword">True</span>
+<span class="keyword">True</span>
+Prelude&gt; <span class="keyword">read</span> <span class="string">"1"</span> + <span class="number">1</span>
+<span class="number">2</span>
+Prelude&gt; <span class="keyword">read</span> <span class="string">"[1, 2, 3]"</span> ++ [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]
+[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]
+</code></pre><p>  <strong>注意</strong>:<code>read</code>函数不能将字符串解析成字符串。</p>
+<pre><code>Prelude&gt; read <span class="string">"123"</span> ++ <span class="string">"456"</span>
+<span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span> Exception: Prelude.read: no parse
+</code></pre><p>  除了自动推断类型以外，还可以通过类型注解(type annotation)的方式显示指出应该将字符串解析成何种类型。类型注解跟在表达式后面，通过<code>::</code>连接。</p>
+<pre><code>Prelude&gt; <span class="keyword">read</span> <span class="string">"123"</span> :: <span class="keyword">Int</span>
+<span class="number">123</span>
+Prelude&gt; <span class="keyword">read</span> <span class="string">"123"</span> :: <span class="keyword">Float</span>
+<span class="number">123.0</span>
+</code></pre><p>  如果将<code>read</code>函数放在列表中，便可以根据这个列表中其他元素的类型来解析得到对应的类型。</p>
+<pre><code><span class="keyword">Prelude</span>&gt;<span class="sqbracket"> [read "123", 4]</span><span class="sqbracket">
+[123, 4]</span>
+<span class="keyword">Prelude</span>&gt;<span class="sqbracket"> [read "123", 4.0]</span><span class="sqbracket">
+[123.0, 4.0]</span>
+</code></pre></li>
+<li><p>Enum 类型类</p>
+<p>  Enum类型类的实例类型都是有连续顺序的，都是可枚举的。对于Enum类型的实例类型，每个值都有相应的后继(successer)和前驱(predecesor)。可以用<code>succ</code>函数和<code>pred</code>函数得到。该类型类包含的主要类型有：</p>
+<pre><code>(), Bool, <span class="keyword">Char</span>, Ordering, <span class="keyword">Int</span>, Integer, <span class="keyword">Float</span> 和 <span class="keyword">Double</span>。
+</code></pre></li>
+<li><p>Bounded类型类</p>
+<p>  Bounded类型类的实例类型都有一个上限和下限，分别可以通过<code>maxBound</code>和<code>minBound</code>函数得到。</p>
+<pre><code>Prelude&gt; minBound :: <span class="keyword">Int</span>
+-<span class="number">2147483648</span>
+Prelude&gt; maxBound :: Bool
+<span class="keyword">True</span>
+Prelude&gt; maxBound :: <span class="keyword">Char</span>
+<span class="string">'\1114111'</span>
+Prelude&gt; maxBound :: (Bool, <span class="keyword">Int</span>, <span class="keyword">Char</span>)
+(<span class="keyword">True</span>, <span class="number">2147483647</span>, <span class="string">'\1114111'</span>)
+</code></pre></li>
+<li><p>Floating类型类</p>
+<p>  Floating类型类用于存储浮点数，仅包含Float和Double两种浮点类型。</p>
+</li>
+<li><p>Integral类型类</p>
+<p>  Integral类型类仅包含整数，其实力类型有Int和Integer。</p>
+</li>
+</ul>
+
+          
+        
+      </div>
+      <footer>
+        
+          <div class="alignright">
+            <a href="/2015/02/11/programming language/haskell/dive_into_haskell_2_datatype_typeclasses/#more" class="more-link">Continue Reading<i class="fa fa-long-arrow-right fa-1"></i></a>
+          </div>
+        
+        <div class="clearfix"></div>
+      </footer>
+    </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  
+    <div class="post-content-index">
+  
+      
+        <header>
+          <div class="icon"></div>
+            
+    
+      <h1 class="title transition"><a href="/2015/02/10/programming language/python/default_parameter/">Python 的默认参数</a></h1>
+    
+  
+          <ul>
+            <li>
+              <span class="heading-span">Posted on: </span>
+              <time datetime="2015-02-09T16:00:00.000Z">2015-02-10</time>
+            </li>
+            
+              <li>
+                <span class="heading-span">By: </span>
+
+                
+                  <a href="/">DHDave</a>
+                
+
+              </li>
+            
+            <li>
+              <span class="heading-span">With: </span>
+              
+                <a href="/2015/02/10/programming language/python/default_parameter/#disqus_thread">Comments</a>
+
+              
+          </ul>
+        </header>
+      
+      <div class="entry">
+        
+          
+            <p>Python的默认参数为编程带来了极大地便利，但同时误用默认参数也产生了不小的陷进。</p>
+<h2 id="默认参数的求值">默认参数的求值</h2><p>在Python(34)的Documentation中，有这样一段叙述：</p>
+<blockquote>
+<p>Default parameter values are evaluated from left to right when the function definition is executed. </p>
+</blockquote>
+<p>Python的默认参数是从左向右求值。看下面这段代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">param = [<span class="number">1</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">4</span>]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(a=param.copy<span class="params">()</span>, b=param.sort<span class="params">()</span>, c=param.copy<span class="params">()</span>)</span>:</span></span><br><span class="line">    print(a, b, c)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    func()</span><br></pre></td></tr></table></figure>
+<p>按照Python默认参数从左到右求值的规则，有如下的输出结果：</p>
+<pre><code><span class="attr_selector">[1, 3, 2, 4]</span> <span class="attribute">None</span> <span class="attr_selector">[1, 2, 3, 4]</span>
+</code></pre><p>再看如下一段代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">param = [<span class="number">1</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">4</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    print(param)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(a=param.copy<span class="params">()</span>, b=param.sort<span class="params">()</span>, c=param.copy<span class="params">()</span>)</span>:</span></span><br><span class="line">    print(a, b, c)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    print(param)</span><br></pre></td></tr></table></figure>
+<p>运行，得到如下输出：</p>
+<pre><code>[<span class="number">1</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">4</span>]
+[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]
+</code></pre><p>出现以上现象的原因在于Python的默认参数是在运行<code>def</code>语句是进行求值的。默认参数只进行一次求值，之后每次调用函数是，都是用已经算出来的值(“pre-computed” value)。</p>
+<h2 id="可变对象作为默认参数">可变对象作为默认参数</h2><p>将可变对象如<code>list</code>, <code>dict</code>等作为默认参数时，可能会改变对象的值，从而引起一些错误。在使用可变对象作为默认参数时，应当注意以下两个问题。</p>
+<h3 id="可变对象的求值">可变对象的求值</h3><p>正如上文所讲到的，默认参数在函数定义时（<code>def</code>语句中）进行求值。同时，其求值顺序为从左至右。因此，要注意对默认参数求值时因可变对象的值改变而可能引起的错误。</p>
+<h3 id="不会创建新对象">不会创建新对象</h3><p>使用可变对象作为默认参数时，参数可以在不创建新对象的情况下对参数对象进行修改。考虑如下一段代码的运行情况：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="prompt">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(param=[])</span>:</span></span><br><span class="line">trueparam.append(<span class="number">1</span>)</span><br><span class="line">true<span class="keyword">return</span> param</span><br><span class="line"></span><br><span class="line"><span class="prompt">&gt;&gt;&gt; </span>func()</span><br><span class="line">[<span class="number">1</span>]</span><br><span class="line"><span class="prompt">&gt;&gt;&gt; </span>func()</span><br><span class="line">[<span class="number">1</span>, <span class="number">1</span>]</span><br><span class="line"><span class="prompt">&gt;&gt;&gt; </span>func()</span><br><span class="line">[<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>]</span><br></pre></td></tr></table></figure>
+<p>可见，每次调用函数时并没有重新将<code>param</code>的值赋为<code>[]</code>，而是直接在原来的对象的基础上修改。这也正是默认参数仅仅在函数定义时求值的原因。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="prompt">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(param=[])</span>:</span></span><br><span class="line">trueparam.append(<span class="number">1</span>)</span><br><span class="line">trueprint(id(param))</span><br><span class="line">true<span class="keyword">return</span> param</span><br><span class="line"></span><br><span class="line"><span class="prompt">&gt;&gt;&gt; </span>func()</span><br><span class="line"><span class="number">29548216</span></span><br><span class="line">[<span class="number">1</span>]</span><br><span class="line"><span class="prompt">&gt;&gt;&gt; </span>func()</span><br><span class="line"><span class="number">29548216</span></span><br><span class="line">[<span class="number">1</span>, <span class="number">1</span>]</span><br><span class="line"><span class="prompt">&gt;&gt;&gt; </span>func()</span><br><span class="line"><span class="number">29548216</span></span><br><span class="line">[<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>]</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+<p>从上面这段代码的运行结果不难看出，<code>param</code>始终是同一对象。</p>
+<h3 id="解决方法">解决方法</h3><p>为了避免程序中出现此类问题，应当用<code>None</code>作为默认参数，并且在函数开始的时候检查参数是否为<code>None</code>即可。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(param=None)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> param == <span class="keyword">None</span>:</span><br><span class="line">        ...</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+<p>有些情形下，直接将对象与<code>None</code>比较是否相等可能会导致一些警告信息(例如<code>Numpy</code>库中的某些对象)。可以用以下方式来解决这一问题：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(param=None)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> param <span class="keyword">is</span> <span class="keyword">None</span>:</span><br><span class="line">        ...</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+<p>在Python(34)的Documentation中，有这样的叙述：</p>
+<blockquote>
+<p>This is generally not what was intended. A way around this is to use None as the default, and explicitly test for it in the body of the function.</p>
+</blockquote>
+<p>并给出了如下的一个示例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">whats_on_the_telly</span><span class="params">(penguin=None)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> penguin <span class="keyword">is</span> <span class="keyword">None</span>:</span><br><span class="line">        penguin = []</span><br><span class="line">    penguin.append(<span class="string">"property of the zoo"</span>)</span><br><span class="line">    <span class="keyword">return</span> penguin</span><br></pre></td></tr></table></figure>
+<h2 id="默认参数的修改">默认参数的修改</h2><p>默认参数也是函数的一个属性(attribute)，可以像修改普通的函数属性那样修改默认参数的值。Python中国，函数的<code>__defaults__</code>属性是一个包含函数所有的默认参数的元组。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="prompt">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(param=<span class="number">10</span>)</span>:</span></span><br><span class="line">trueprint(param)</span><br><span class="line"></span><br><span class="line">true</span><br><span class="line"><span class="prompt">&gt;&gt;&gt; </span>func()</span><br><span class="line"><span class="number">10</span></span><br><span class="line"><span class="prompt">&gt;&gt;&gt; </span>func.__defaults__</span><br><span class="line">(<span class="number">10</span>,)</span><br><span class="line"><span class="prompt">&gt;&gt;&gt; </span>func.__defaults__ = ([<span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>],)</span><br><span class="line"><span class="prompt">&gt;&gt;&gt; </span>func()</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>]</span><br><span class="line"><span class="prompt">&gt;&gt;&gt; </span>func.__defaults__ = ()</span><br><span class="line"><span class="prompt">&gt;&gt;&gt; </span>func.__defaults__</span><br><span class="line">()</span><br><span class="line"><span class="prompt">&gt;&gt;&gt; </span>func()</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;pyshell#25&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    func()</span><br><span class="line">TypeError: func() missing <span class="number">1</span> required positional argument: <span class="string">'param'</span></span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+<p>可见，通过修改默认参数来改变函数的性质的方法也是可行的。</p>
+<h2 id="参考">参考</h2><ol>
+<li><p><a href="http://effbot.org/zone/default-values.htm title=&quot;default-values&quot;" target="_blank" rel="external">http://effbot.org/zone/default-values.htm</a></p>
+</li>
+<li><p><a href="https://docs.python.org/ref/function.html" target="_blank" rel="external">Python Documentation</a></p>
+</li>
+</ol>
+
+          
+        
+      </div>
+      <footer>
+        
+          <div class="alignright">
+            <a href="/2015/02/10/programming language/python/default_parameter/#more" class="more-link">Continue Reading<i class="fa fa-long-arrow-right fa-1"></i></a>
+          </div>
+        
+        <div class="clearfix"></div>
+      </footer>
+    </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  
+    <div class="post-content-index">
+  
+      
+        <header>
+          <div class="icon"></div>
+            
+    
+      <h1 class="title transition"><a href="/2015/02/10/runtime/jvm/jni_helloworld/">Java JNI 初探</a></h1>
+    
+  
+          <ul>
+            <li>
+              <span class="heading-span">Posted on: </span>
+              <time datetime="2015-02-09T16:00:00.000Z">2015-02-10</time>
+            </li>
+            
+              <li>
+                <span class="heading-span">By: </span>
+
+                
+                  <a href="/">DHDave</a>
+                
+
+              </li>
+            
+            <li>
+              <span class="heading-span">With: </span>
+              
+                <a href="/2015/02/10/runtime/jvm/jni_helloworld/#disqus_thread">Comments</a>
+
+              
+          </ul>
+        </header>
+      
+      <div class="entry">
+        
+          
+            <h2 id="什么是_JNI_？">什么是 JNI ？</h2><p>JNI(Java Native Interface)，Java 本地接口，是一个本机编程接口，提供了Java与C，C++语言的通信。JNI的主要实现方式为在Java中通过<code>System.loadLibrary</code>来加载C/C++编写的DLL。以此来调用C/C++实现的函数。</p>
+<h2 id="Java调用C++">Java调用C++</h2><p>Java语言的写法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.dhdave.maker;</span><br><span class="line"></span><br><span class="line"><span class="javadoc">/**</span><br><span class="line"> *<span class="javadoctag"> @author</span> DHDave</span><br><span class="line"> * </span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Maker</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.loadLibrary(<span class="string">"Maker"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@SuppressWarnings</span>(<span class="string">"javadoc"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">native</span> <span class="keyword">int</span> <span class="title">DisplayMakerInfo</span><span class="params">(String info)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@SuppressWarnings</span>(<span class="string">"javadoc"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> length = (<span class="keyword">new</span> Maker()).DisplayMakerInfo(<span class="string">"Hello Maker JNI !"</span>);</span><br><span class="line">        System.out.println(length);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>用<code>native</code>关键字定义的方法用C/C++实现。</p>
+<p>通过JDK中的javah工具来生成C/C++的头文件，在这之前，需要先编译java文件。</p>
+<pre><code>javac <span class="keyword">com</span>/dhdave/maker/Maker.java
+</code></pre><p>然后，用如下命令生成头文件：</p>
+<pre><code>javah com<span class="class">.dhdave</span><span class="class">.maker</span><span class="class">.Maker</span>
+</code></pre><p>得到文件名为<code>com_dhdave_maker_Maker.h</code>的头文件，头文件的内容如下所示：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* DO NOT EDIT THIS FILE - it is machine generated */</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;jni.h&gt;</span></span><br><span class="line"><span class="comment">/* Header for class com_dhdave_maker_Maker */</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#ifndef _Included_com_dhdave_maker_Maker</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> _Included_com_dhdave_maker_Maker</span></span><br><span class="line"><span class="preprocessor">#ifdef __cplusplus</span></span><br><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span> &#123;</span><br><span class="line"><span class="preprocessor">#<span class="keyword">endif</span></span></span><br><span class="line"><span class="comment">/*</span><br><span class="line"> * Class:     com_dhdave_maker_Maker</span><br><span class="line"> * Method:    DisplayMakerInfo</span><br><span class="line"> * Signature: (Ljava/lang/String;)I</span><br><span class="line"> */</span></span><br><span class="line"><span class="function">JNIEXPORT jint JNICALL <span class="title">Java_com_dhdave_maker_Maker_DisplayMakerInfo</span></span><br><span class="line">  <span class="params">(JNIEnv *, jobject, jstring)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#ifdef __cplusplus</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="preprocessor">#<span class="keyword">endif</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+<p>接下来创建一个同名的C++源文件来实现该头文件中定义的函数。</p>
+<p>内容为：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;iostream&gt;</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;cstring&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> "com_dhdave_maker_Maker.h"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> * Author: DHDave (buaahetao@gmai.com)</span><br><span class="line"> */</span></span><br><span class="line"></span><br><span class="line"><span class="function">JNIEXPORT jint JNICALL <span class="title">Java_com_dhdave_maker_Maker_DisplayMakerInfo</span></span><br><span class="line">  <span class="params">(JNIEnv *env, jobject object, jstring info)</span> </span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"JNI method called!"</span> &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *str = env-&gt;GetStringUTFChars(info, <span class="number">0</span>);</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"info: "</span> &lt;&lt; str &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">strlen</span>(str);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* vim: set ts=4, sw = 4 */</span></span><br></pre></td></tr></table></figure>
+<p>使用MinGW编译C++文件，得到动态链接库。编译命令为：</p>
+<pre><code>g++ -shared -<span class="constant">ID</span><span class="symbol">:/Java/jdk1</span>.<span class="number">8.0_25</span>/<span class="keyword">include</span> -<span class="constant">ID</span><span class="symbol">:/Java/jdk1</span>.<span class="number">8.0_25</span>/<span class="keyword">include</span>/win32 -<span class="constant">Wl</span>,--add-stdcall-<span class="keyword">alias</span> com_dhdave_maker_Maker.cpp -o <span class="constant">Maker</span>.dll
+</code></pre><p>编译成功后，会在当前目录得到一个名为”Maker.dll”的动态链接库。然后，使用如下命令运行：</p>
+<pre><code>java com<span class="class">.dhdave</span><span class="class">.maker</span><span class="class">.maker</span>
+</code></pre><p>得到如下输出：</p>
+<pre><code>JNI <span class="function"><span class="keyword">method</span> <span class="title">called</span>!
+<span class="title">info</span>:</span> Hello Maker JNI!
+<span class="number">17</span>
+</code></pre><p>说明Java字节码在运行时成功载入了动态链接库并成功运行了其中的函数。</p>
+<p>在编译时一定要注意加上<code>-Wl,--add-stdcall-alias</code>选项，否则，可能会出现调用dll中的函数时找不到函数的错误。</p>
+<p>运行时如果出现找不到dll的错误，可以通过制定<code>java.library.path</code>来解决。通过如下Java语句可以得到<code>java.library.path</code>的值：</p>
+<pre><code>System.getProperty(<span class="string">"java.library.path"</span>);
+</code></pre><h2 id="JNI的数据类型">JNI的数据类型</h2><p>JNI中定义的数据类型如下表所示：</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>jboolean</td>
+<td>Holds a Java programming language boolean. Unsigned 8 bits.</td>
+</tr>
+<tr>
+<td>jint</td>
+<td>Holds a Java programming language int. Signed 32 bits.</td>
+</tr>
+<tr>
+<td>jlong</td>
+<td>Holds a Java programming language long. Signed 64 bits.</td>
+</tr>
+<tr>
+<td>jfloat</td>
+<td>Holds a Java programming language float. 32 bits.</td>
+</tr>
+<tr>
+<td>jdouble</td>
+<td>Holds a Java programming language double. 64 bits.</td>
+</tr>
+<tr>
+<td>jobject</td>
+<td>Holds a Java programming language object.</td>
+</tr>
+<tr>
+<td>jclass</td>
+<td>Holds a Java programming language class.</td>
+</tr>
+<tr>
+<td>jvalue</td>
+<td>Is a union of all primitive types and jobject. Thus, holds any Java programming language value.</td>
+</tr>
+<tr>
+<td>jfieldID</td>
+<td>Identifies a Java programming language field. jfieldIDs returned by JVM TI functions and events may be safely stored.</td>
+</tr>
+<tr>
+<td>jmethodID</td>
+<td>Identifies a Java programming language method, initializer, or constructor. jmethodIDs returned by JVM TI functions and events may be safely stored. However, if the class is unloaded, they become invalid and must not be used.</td>
+</tr>
+<tr>
+<td>JNIEnv</td>
+<td>Pointer to the JNI function table. Pointer to this (JNIEnv *) is a JNI environment.</td>
+</tr>
+</tbody>
+</table>
+
+          
+        
+      </div>
+      <footer>
+        
+          <div class="alignright">
+            <a href="/2015/02/10/runtime/jvm/jni_helloworld/#more" class="more-link">Continue Reading<i class="fa fa-long-arrow-right fa-1"></i></a>
+          </div>
+        
+        <div class="clearfix"></div>
+      </footer>
+    </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  
+    <div class="post-content-index">
+  
+      
+        <header>
+          <div class="icon"></div>
+            
+    
+      <h1 class="title transition"><a href="/2015/02/09/algorithm/kfind/">寻找第K大的数</a></h1>
+    
+  
+          <ul>
+            <li>
+              <span class="heading-span">Posted on: </span>
+              <time datetime="2015-02-08T16:00:00.000Z">2015-02-09</time>
+            </li>
+            
+              <li>
+                <span class="heading-span">By: </span>
+
+                
+                  <a href="/">DHDave</a>
+                
+
+              </li>
+            
+            <li>
+              <span class="heading-span">With: </span>
+              
+                <a href="/2015/02/09/algorithm/kfind/#disqus_thread">Comments</a>
+
+              
+          </ul>
+        </header>
+      
+      <div class="entry">
+        
+          
+            <h2 id="一、概述">一、概述</h2><p>朴素的寻找第k大元可以排序，再找到第k个，时间复杂度为O(n * log(n))，但由于只需要第k大，因此这样会造成很大的时间上浪费。维护一个k大的堆的时间复杂度为O(n * log(k)),有所改进，但时间复杂度仍不够优，且实现复杂。而基于分治思想的算法可以在O(n)的时间内找到第k大的数。</p>
+<h2 id="二、原理">二、原理</h2><p>利用分治法寻找第k大的数的原理与快速排序类似，每次选取一个基准元素，利用与快速排序相同的操作，找到基准元素在最终的数列中的位置，如果等于k，就直接return，如果大于，在第k大的元素一定在右半部分，否则一定在左半部分。接着递归进行上述过程。由此，便可以有效地避免不必要的比较和排序操作，降低算法的时间复杂度。</p>
+<h2 id="三、具体实现">三、具体实现</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">k_find</span><span class="params">(<span class="keyword">int</span> num[], <span class="keyword">int</span> l, <span class="keyword">int</span> r, <span class="keyword">int</span> k)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (l &lt; r) &#123;</span><br><span class="line">        <span class="keyword">int</span> i = l, j = r, x = num[l];</span><br><span class="line">        <span class="keyword">while</span> (i &lt; j) &#123;</span><br><span class="line">            <span class="keyword">while</span> (i &lt; j &amp;&amp; num[j] &lt;= x) &#123;</span><br><span class="line">                j--;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (i &lt; j) &#123;</span><br><span class="line">                num[i++] = num[j];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">while</span> (i &lt; j &amp;&amp; num[i] &gt; x) &#123;</span><br><span class="line">                i++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (i &lt; j) &#123;</span><br><span class="line">                num[j--] = num[i];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        num[i] = x;</span><br><span class="line">        <span class="keyword">if</span> (i == k) &#123;</span><br><span class="line">            <span class="keyword">return</span> x;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (i &lt; k) &#123;</span><br><span class="line">            <span class="keyword">return</span> k_find(num, i+<span class="number">1</span>, r, k);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> k_find(num, l, i-<span class="number">1</span>, k);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="四、算法复杂度分析">四、算法复杂度分析</h2><p>基于分治的查找第K大的数的算法期望时间度为 O(n), 其中，n 为元素的个数。由于无额外空间占用，因此，空间复杂度为 O(n)。</p>
+<h2 id="五、扩展">五、扩展</h2><p>对于查找序列中的第K大数的问题，如果需要多次查询，那么先排序在查找或者划分树的算法更为合适。</p>
+
+          
+        
+      </div>
+      <footer>
+        
+          <div class="alignright">
+            <a href="/2015/02/09/algorithm/kfind/#more" class="more-link">Continue Reading<i class="fa fa-long-arrow-right fa-1"></i></a>
+          </div>
+        
+        <div class="clearfix"></div>
+      </footer>
+    </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  
+    <div class="post-content-index">
+  
+      
+        <header>
+          <div class="icon"></div>
+            
+    
+      <h1 class="title transition"><a href="/2015/02/09/algorithm/exclusive_or/">巧用异或(XOR)运算</a></h1>
+    
+  
+          <ul>
+            <li>
+              <span class="heading-span">Posted on: </span>
+              <time datetime="2015-02-08T16:00:00.000Z">2015-02-09</time>
+            </li>
+            
+              <li>
+                <span class="heading-span">By: </span>
+
+                
+                  <a href="/">DHDave</a>
+                
+
+              </li>
+            
+            <li>
+              <span class="heading-span">With: </span>
+              
+                <a href="/2015/02/09/algorithm/exclusive_or/#disqus_thread">Comments</a>
+
+              
+          </ul>
+        </header>
+      
+      <div class="entry">
+        
+          
+            <p>异或(Exclusive or, XOR)是一种逻辑运算，在一些情境下，巧用异或运算能够很高效地解决问题。</p>
+<h2 id="异或运算的定义">异或运算的定义</h2><p>异或运算的符号是<code>^</code>，其定义如下：</p>
+<pre><code>a <span class="keyword">xor</span> b = <span class="comment">(a &amp; ^b)</span> | <span class="comment">(^a &amp; b)</span>
+</code></pre><p>真值表：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">a</th>
+<th style="text-align:center">b</th>
+<th style="text-align:center">a xor b</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0</td>
+</tr>
+</tbody>
+</table>
+<h2 id="应用情境">应用情境</h2><h3 id="基础问题">基础问题</h3><p>首先考虑下述问题：</p>
+<p>一组整数，除了一个只出现一次以外，其他每个整数都恰好出现两次，寻找那个特殊的整数。</p>
+<p>最容易想到的方法是排序后再遍历一趟数组，便可以得到这个唯一的只出现一次的整数。算法实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">single_number</span><span class="params">(numbers)</span>:</span></span><br><span class="line">    tmp = numbers.sort()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(tmp.__len__()-<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> tmp[i] != tmp[i+<span class="number">1</span>]:</span><br><span class="line">            <span class="keyword">return</span> tmp[<span class="number">0</span>] <span class="keyword">if</span> i == <span class="number">0</span> <span class="keyword">else</span> tmp[i+<span class="number">1</span>]</span><br></pre></td></tr></table></figure>
+<p>此算法的时间复杂度取决于采用的排序算法的时间复杂度。</p>
+<p>进一步思考不难想到，可以用哈希算法来解决这一问题。具体做法是每遍历到一个数，如果该数在哈希表中存在，就从哈希表中删除该数，否则将该数加入到哈希表中。这一算法实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">single_number</span><span class="params">(numbers)</span>:</span></span><br><span class="line">    m = &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> n <span class="keyword">in</span> numbers:</span><br><span class="line">        <span class="keyword">if</span> n <span class="keyword">in</span> m:</span><br><span class="line">            m.pop(n)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            m[n] = <span class="keyword">True</span></span><br><span class="line">    <span class="keyword">return</span> list(m)[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<p>由于哈希表的时间复杂度可以认为是O(1)的，因此，可以在O(n)的时间内求出整数序列中仅仅出现一次的元素。</p>
+<p>再进一步思考，可以利用异或运算的性质来解决这个问题。相同元素异或的值为0，任意值与0异或都得原值。具体实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">single_number</span><span class="params">(numbers)</span>:</span></span><br><span class="line">    tmp = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> n <span class="keyword">in</span> numbers:</span><br><span class="line">        tmp ^= n</span><br><span class="line">    <span class="keyword">return</span> tmp</span><br></pre></td></tr></table></figure>
+<p>利用异或的性质来解决这一问题，即简便又高效，是一个非常好的算法。</p>
+<h3 id="扩展">扩展</h3><p>接下来，思考这样一个问题：</p>
+<p>一组整数，除了一个只出现一次以外，其他每个整数都恰好出现三次，寻找那个特殊的整数。</p>
+<p>当题目条件变为每个整数都出现三次，排序的解法和哈希表的解法仍然试用，且实现方式和算法的复杂度都不变。此处不再赘述。</p>
+<p>思考，在此条件下，这个问题能否仍然利用异或运算的性质来解决吗？答案是肯定的。</p>
+<p>对于32位的整数，显然有如下结论：所有数每一位的和模3的结果必定为0或1，并且，该值肯定为序列中仅仅出现一次的那个数该位上的值(0或1)。于是，这个问题便可以这样解决：分别求出仅仅出现一次的数的每一位的值，然后通过或运算连在一起即可。</p>
+<p>上述算法也不难实现：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">single_number</span><span class="params">(numbers)</span>:</span></span><br><span class="line">    number = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">32</span>):</span><br><span class="line">        value, mask = <span class="number">0</span>, <span class="number">1</span> &lt;&lt; i</span><br><span class="line">        <span class="keyword">for</span> n <span class="keyword">in</span> numbers:</span><br><span class="line">            value += (<span class="number">0</span> <span class="keyword">if</span> mask &amp; n == <span class="number">0</span> <span class="keyword">else</span> <span class="number">1</span>)</span><br><span class="line">        number |= (value % <span class="number">3</span>) &lt;&lt; i</span><br><span class="line">    <span class="keyword">return</span> number</span><br></pre></td></tr></table></figure>
+<h3 id="推广到一半情形">推广到一半情形</h3><p>推广到更一般的情形：</p>
+<p>一组整数，除了一个只出现一次以外，其他每个整数都恰好出现<strong>n次</strong>，寻找那个特殊的整数。</p>
+<p>不难想到，对序列中每一个数的某一位上的值求和，再模n，得到的余数便是仅仅出现一次的那个数该位上的值。这一方法可以灵活、高效地解决这一类问题。</p>
+<h3 id="算法修正">算法修正</h3><p>然而经过测试，发现上述算法有一个缺陷：如果最终仅仅出现一次的数是一个负数，那么返回的将是该数的补码所对应的无符号整数。这显然不是我们想要的结果，因此，需要进一步根据结果的特点(最高二进制位的值是否为1)来进行补码的转换。也可以增加一个标志变量来记录负数的个数，以此来判断最终得到的是不是负数的二进制补码。</p>
+<h3 id="延伸思考">延伸思考</h3><p>对于Python这一类的语言，这一问题并不便于解决。因此不得不思考更好的解决这一问题的方法。</p>
+<p>对于这一模型中 <code>n=3</code> 的情形，可以这样考虑：</p>
+<p>通过两个变量来保存异或运算过程中得到的信息。如果某个数出现了三次，便直接清除该数每一位上的信息。实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">single_number</span><span class="params">(numbers)</span>:</span></span><br><span class="line">    <span class="comment">## a, b 分别为出现一次的标志位和积累标志位</span></span><br><span class="line">    a, b = <span class="number">0</span>, <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> n <span class="keyword">in</span> numbers:</span><br><span class="line">        b |= a &amp; n <span class="comment">## 是否为第二次出现</span></span><br><span class="line">        a ^= n <span class="comment">## 出现奇数次保留，否则抛弃</span></span><br><span class="line">        t = a &amp; b <span class="comment">## 第三次出现</span></span><br><span class="line">        a, b = a &amp; ~t, b &amp; ~t <span class="comment">## 抛弃出现三次的数的信息</span></span><br><span class="line">    <span class="keyword">return</span> a <span class="comment">## 返回仅仅出现一次的数。</span></span><br></pre></td></tr></table></figure>
+<p>这样的算法便可以从一组数中找到仅仅出现一次的数。</p>
+<p>对于<code>n</code>为其他值得情形，分析起来更复杂，也更容易出错。在绝大多数问题中，哈希表的算法会更加适用。</p>
+<h2 id="总结">总结</h2><p>二进制数字的每一位包含的信息很丰富也很费解，位运算特别是异或运算在特殊模型中能有意想不到的妙用。</p>
+
+          
+        
+      </div>
+      <footer>
+        
+          <div class="alignright">
+            <a href="/2015/02/09/algorithm/exclusive_or/#more" class="more-link">Continue Reading<i class="fa fa-long-arrow-right fa-1"></i></a>
+          </div>
+        
+        <div class="clearfix"></div>
+      </footer>
+    </div>
+</article>
+
+
+
+
+
+<nav id="pagination">
+  
+    <a href="/" class="alignleft prev">上一页</a>
+  
+  
+    <a href="/page/3/" class="alignright next">下一页</a>
+  
+  <div class="clearfix"></div>
+</nav></div></div>
+    <aside id="sidebar" class="alignright"><div class="padding">
+	
+	  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:dhdave.github.io">
+  </form>
+</div>
+	
+	  
+<div class="widget recent-post">
+  <h3 class="title">最新文章</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/2015/03/17/algorithm/backpack/">背包问题总结</a>
+      </li>
+    
+      <li>
+        <a href="/2015/02/28/programming language/haskell/dive_into_haskell_4_higher_order_function/">Dive Into Haskell(4) 高阶函数</a>
+      </li>
+    
+      <li>
+        <a href="/2015/02/26/algorithm/max_flow/">最大流算法</a>
+      </li>
+    
+      <li>
+        <a href="/2015/02/25/algorithm/gcd/">最大公约数算法</a>
+      </li>
+    
+      <li>
+        <a href="/2015/02/24/algorithm/binary_index_trees/">树状数组</a>
+      </li>
+    
+  </ul>
+</div>
+
+	
+	  
+<div class="widget category">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/Algorithm/">Algorithm</a><small>17</small></li>
+  
+    <li><a href="/categories/Linux/">Linux</a><small>2</small></li>
+  
+    <li><a href="/categories/Math/">Math</a><small>4</small></li>
+  
+    <li><a href="/categories/Runtime/">Runtime</a><small>1</small></li>
+  
+    <li><a href="/categories/编程语言/">编程语言</a><small>14</small></li>
+  
+  </ul>
+</div>
+
+	
+	  
+<div class="widget tag">
+  <h3 class="title">标签</h3>
+  
+    <a href="/tags/Algorithm/">Algorithm<small>17</small></a>
+  
+    <a href="/tags/C-C/">C/C++<small>4</small></a>
+  
+    <a href="/tags/CodeStyle/">CodeStyle<small>1</small></a>
+  
+    <a href="/tags/Cygwin/">Cygwin<small>1</small></a>
+  
+    <a href="/tags/Haskell/">Haskell<small>4</small></a>
+  
+    <a href="/tags/JNI/">JNI<small>1</small></a>
+  
+    <a href="/tags/JVM/">JVM<small>1</small></a>
+  
+    <a href="/tags/Javascript/">Javascript<small>1</small></a>
+  
+    <a href="/tags/Linux/">Linux<small>1</small></a>
+  
+    <a href="/tags/Mathematica/">Mathematica<small>4</small></a>
+  
+    <a href="/tags/Python/">Python<small>5</small></a>
+  
+</div>
+
+	
+</div></aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="padding">
+	<div class="alignleft">
+	  
+	  &copy; 2015 DHDave
+	  
+	  Powerd by <a href="http://hexo.io/" target="_blank">hexo</a>
+	  and Theme by <a href="https://github.com/halfer53/metro-light" target="_blank">metro-light</a>
+	</div>
+
+	<div class="alignright">
+		
+			<a href="https://plus.google.com/u/0/112661429129878562674/posts" target="_blank" title="DHDave Google Plus"><i class="fa fa-google-plus-square"></i></a>
+		
+		
+			<a href="https://github.com/DHDave" target="_blank" title="DHDave Github"><i class="fa fa-github-square"></i></a>	
+		
+		
+		
+		
+		
+		
+	</div>
+
+	<div class="clearfix"></div>
+</div>
+
+<div class="scroll-top"><i class="fa fa-arrow-circle-up"></i></div>
+</footer>
+  
+
+		<script type="text/javascript">
+		var disqus_shortname = 'dhdavegithubiodhdave-github-io';
+
+		        (function() {
+		            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+		            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+		            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+		        })();
+		</script>
+
+		<script type="text/javascript">
+		var disqus_shortname = 'dhdavegithubiodhdave-github-io'; 
+
+		(function () {
+		var s = document.createElement('script'); s.async = true;
+		s.type = 'text/javascript';
+		s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+		(document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+		}());
+		</script>
+
+  
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/3.0.4/jquery.imagesloaded.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+<script type="text/javascript">
+$(window).scroll(function() {
+
+    if($(this).scrollTop() > 400) {
+        $('.scroll-top').fadeIn(200);
+    } else {
+        $('.scroll-top').fadeOut(200);
+    }
+});
+
+$('.scroll-top').bind('click', function(e) {
+    e.preventDefault();
+    $('body,html').animate({scrollTop:0},200);
+});
+</script>
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

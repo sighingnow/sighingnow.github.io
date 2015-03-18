@@ -1,0 +1,1396 @@
+<!DOCTYPE HTML>
+
+<html lang="en">
+  
+<head>
+  <meta charset="utf-8">
+  
+  <title>第 3 页 | DHDave</title>
+  <meta name="author" content="DHDave">
+  
+  <meta name="description" content="DHDave&#39;s Personal Page.">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+  <meta property="og:site_name" content="DHDave"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  
+    <meta http-equiv="Content-Language" content="en"/>
+  
+
+  <link href="/img/favicon.png" rel="icon">
+  
+    <link rel="apple-touch-icon" href="/img/apple-icon.png">
+    <link rel="apple-touch-icon-precomposed" href="/img/apple-icon.png">
+    
+
+  <link rel="alternate" href="/atom.xml" title="DHDave" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  
+  <style type="text/css">
+  /* Tim Pietrusky advanced checkbox hack (Android <= 4.1.2) */
+body{ -webkit-animation: bugfix infinite 1s; }
+@-webkit-keyframes bugfix { from {padding:0;} to {padding:0;} }
+
+  
+
+  
+    article .post-content-index .entry{max-height: 550px; overflow:hidden;}
+  
+</style>
+
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'null', 'auto');
+  ga('send', 'pageview');
+ 
+</script>
+
+
+
+
+  
+    
+      <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400|Playball' rel='stylesheet' type='text/css'>
+    
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.11.1.min.js"></script>
+
+  
+
+
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="padding">
+	<div class="alignleft logo">
+	  <h1><a href="/">DHDave</a></h1>
+	</div>
+	<nav id="main-nav" class="alignright">
+		<input type="checkbox" id="toggle" />
+		<label for="toggle" class="toggle" data-open="Main Menu" data-close="Close Menu" onclick><i class="fa fa-bars"></i></label>
+	  <ul class="menu">
+	    
+	      <li><a href="/">Home</a></li>
+	    
+	      <li><a href="/archives">Archives</a></li>
+	    
+	    
+	  </ul>
+	</nav>
+	<div class="clearfix"></div>
+</div>
+</header>
+  <div id="page-heading-wrap">
+  	<div class="inner">
+      <div class="padding">
+    		
+          <h2>DHDave&#39;s Personal Page</h2>
+        
+      </div>
+  	</div>
+  </div>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper" class="padding">
+  <article class="post">
+  
+  
+    <div class="post-content-index">
+  
+      
+        <header>
+          <div class="icon"></div>
+            
+    
+      <h1 class="title transition"><a href="/2015/02/08/algorithm/sleep_sort/">Sleep Sort</a></h1>
+    
+  
+          <ul>
+            <li>
+              <span class="heading-span">Posted on: </span>
+              <time datetime="2015-02-07T16:00:00.000Z">2015-02-08</time>
+            </li>
+            
+              <li>
+                <span class="heading-span">By: </span>
+
+                
+                  <a href="/">DHDave</a>
+                
+
+              </li>
+            
+            <li>
+              <span class="heading-span">With: </span>
+              
+                <a href="/2015/02/08/algorithm/sleep_sort/#disqus_thread">Comments</a>
+
+              
+          </ul>
+        </header>
+      
+      <div class="entry">
+        
+          
+            <p>Sleep Sort 是一种通过多线程的不同休眠时间的排序方法。可以很简单地用Shell脚本实现。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="shebang">#! /bin/bash</span><br><span class="line"></span></span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">func</span></span>() &#123;</span><br><span class="line">    sleep <span class="string">"<span class="variable">$1</span>"</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"<span class="variable">$1</span>"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> [ -n <span class="string">"<span class="variable">$1</span>"</span> ]</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    func <span class="string">"<span class="variable">$1</span>"</span> &amp;</span><br><span class="line">    <span class="built_in">shift</span></span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"><span class="built_in">wait</span></span><br></pre></td></tr></table></figure>
+<p>很显然，其时间复杂度与排序的数据有关。（在绝大多数场合下，并不是一种实用的排序算法。）</p>
+
+          
+        
+      </div>
+      <footer>
+        
+          <div class="alignright">
+            <a href="/2015/02/08/algorithm/sleep_sort/#more" class="more-link">Continue Reading<i class="fa fa-long-arrow-right fa-1"></i></a>
+          </div>
+        
+        <div class="clearfix"></div>
+      </footer>
+    </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  
+    <div class="post-content-index">
+  
+      
+        <header>
+          <div class="icon"></div>
+            
+    
+      <h1 class="title transition"><a href="/2015/02/07/programming language/python/pep_8/">Python PEP 8 简单汇总</a></h1>
+    
+  
+          <ul>
+            <li>
+              <span class="heading-span">Posted on: </span>
+              <time datetime="2015-02-06T16:00:00.000Z">2015-02-07</time>
+            </li>
+            
+              <li>
+                <span class="heading-span">By: </span>
+
+                
+                  <a href="/">DHDave</a>
+                
+
+              </li>
+            
+            <li>
+              <span class="heading-span">With: </span>
+              
+                <a href="/2015/02/07/programming language/python/pep_8/#disqus_thread">Comments</a>
+
+              
+          </ul>
+        </header>
+      
+      <div class="entry">
+        
+          
+            <p>PEP 8 是Python的代码风格指南(Style Guide for Python Code)，其中很多内容都来自Guido van Rossum。PEP 8 从代码格式、注释、空白、变量名、参考及权利声明等方面出发，主要提到了以下这些关于Python代码风格的问题。</p>
+<h2 id="代码格式(Code_lay-out)">代码格式(Code lay-out)</h2><h3 id="缩进(Indentation)">缩进(Indentation)</h3><p>每一级缩进使用4个空格。当一行过长需要折行时，应该保持与换行的界定符的垂直对齐。如下例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Aligned with opening delimiter.</span></span><br><span class="line">foo = long_function_name(var_one, var_two,</span><br><span class="line">                         var_three, var_four)</span><br></pre></td></tr></table></figure>
+<p>或者下一行采用8个空格的缩进，与其他的正常缩进区别开来，例如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># More indentation included to distinguish this from the rest.</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">long_function_name</span><span class="params">(</span><br><span class="line">        var_one, var_two, var_three,</span><br><span class="line">        var_four)</span>:</span></span><br><span class="line">    print(var_one)</span><br></pre></td></tr></table></figure>
+<p>悬挂的缩进应该保持一致。</p>
+<p>如果<code>if</code>语句太长以至于需要分成多行书写，应该把<code>if</code>和一个空格以及一个左括号和在一起，形成一个自然地4个空格的缩进。但也可以让下一行多缩进4个空格（8个空格的缩进）。同时，还可以添加一些注释使得代码更清楚。例如以下几种写法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># No extra indentation.</span></span><br><span class="line"><span class="keyword">if</span> (this_is_one_thing <span class="keyword">and</span></span><br><span class="line">    that_is_another_thing):</span><br><span class="line">    do_something()</span><br><span class="line"></span><br><span class="line"><span class="comment"># Add a comment, which will provide some distinction in editors</span></span><br><span class="line"><span class="comment"># supporting syntax highlighting.</span></span><br><span class="line"><span class="keyword">if</span> (this_is_one_thing <span class="keyword">and</span></span><br><span class="line">    that_is_another_thing):</span><br><span class="line">    <span class="comment"># Since both conditions are true, we can frobnicate.</span></span><br><span class="line">    do_something()</span><br><span class="line"></span><br><span class="line"><span class="comment"># Add some extra indentation on the conditional continuation line.</span></span><br><span class="line"><span class="keyword">if</span> (this_is_one_thing</span><br><span class="line">        <span class="keyword">and</span> that_is_another_thing):</span><br><span class="line">    do_something()</span><br></pre></td></tr></table></figure>
+<p>如果列表性质的内容需要拆成多行，那么右括号应该在新的一行同列表的上一行内容的第一个字符保持对齐或者同多行语句的开始位置保持对齐，如下例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">my_list = [</span><br><span class="line">    <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>,</span><br><span class="line">    <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>,</span><br><span class="line">    ]</span><br><span class="line">result = some_function_that_takes_arguments(</span><br><span class="line">    <span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>,</span><br><span class="line">    <span class="string">'d'</span>, <span class="string">'e'</span>, <span class="string">'f'</span>,</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">my_list = [</span><br><span class="line">    <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>,</span><br><span class="line">    <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>,</span><br><span class="line">]</span><br><span class="line">result = some_function_that_takes_arguments(</span><br><span class="line">    <span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>,</span><br><span class="line">    <span class="string">'d'</span>, <span class="string">'e'</span>, <span class="string">'f'</span>,</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="制表符与空格(Tabs_or_Spaces?)">制表符与空格(Tabs or Spaces?)</h3><p>应当使用空格来缩进，Tab键仅仅用于那些已经采用Tab键来缩进的Python源代码文件。</p>
+<p>Python 3 不允许混用Tab键和空格来缩进。对于Python 2，混用空格键和Tab键来缩进的代码应当被递归地转换成仅仅使用空格来缩进。</p>
+<p>Python 2 的交互式命令行有<code>-t</code>选项来检查不合理的混用Tab键和空格的缩进。当使用<code>-tt</code>选项时，这些相关的警告将会变成错误。强烈建议使用这些选项。</p>
+<h3 id="每行最长长度(Maximum_Line_Length)">每行最长长度(Maximum Line Length)</h3><p>每行的最长长度限制应该设置为<strong>79</strong>个字符。对于类似<code>docstrings</code>或者<code>comments</code>(文档字符串或注释)的缺乏结构的文本块应当限制在每行<strong>72</strong>个字符。</p>
+<h3 id="空行(Blank_Lines)">空行(Blank Lines)</h3><p>用两个空行来分隔顶层函数和类。用一个空行来分隔类里面定义的函数。此外，还需要额外的空行来分隔相关的几个函数。</p>
+<p>Python允许把<code>Ctrl-L</code>符号当成空白，这在一些文本工具中表示分页符。<strong>注意</strong>，一些文本编辑器可能不能正确识别<code>Ctrl-L</code>符号，并把它当成某个奇怪的象形文字。</p>
+<h3 id="源代码文件编码(Source_File_Encoding)">源代码文件编码(Source File Encoding)</h3><p>Python代码应当使用UTF-8编码(Python 2使用 ASCII)。</p>
+<p>使用 ASCII编码的Python 2 代码文件和使用 UTF-8 编码的Python 3 代码文件应该不使用编码声明。</p>
+<p>Python 可以使用如下格式的注释来声明文件的编码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: &lt;encoding name&gt; -*-</span></span><br></pre></td></tr></table></figure>
+<p>或者：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding=&lt;encoding name&gt; -*-</span></span><br></pre></td></tr></table></figure>
+<h3 id="Import格式(Import)">Import格式(Import)</h3><ul>
+<li><p>多个 import 声明应该分行来写。</p>
+<p>  例如：</p>
+<pre><code><span class="preprocessor"><span class="keyword">import</span> os</span>
+<span class="preprocessor"><span class="keyword">import</span> sys</span>
+</code></pre><p>  而不是写成</p>
+<pre><code><span class="preprocessor"><span class="keyword">import</span> os, sys</span>
+</code></pre><p>  从同一个模块中 import 多个函数等时可以写成一行。例如</p>
+<pre><code><span class="keyword">from</span> subprocess <span class="keyword">import</span> Popen, PIPE
+</code></pre></li>
+<li><p>import 声明应该放在文件的最上方。也就是模块注释和文档字符串之后，模块全局变量和常量之前的位置。</p>
+<p>  多个import声明应该使用如下顺序组织：</p>
+<ul>
+<li>标准库(standard library imports)</li>
+<li>相关的第三方库(related third party imports)</li>
+<li><p>本地应用和库(local application/library specific imports)</p>
+<p>每一组import声明之间应该用一个空行隔开。</p>
+<p>将任何 <code>__all__</code> 说明都放在import声明之后。</p>
+</li>
+</ul>
+</li>
+<li><p>推荐使用绝对引入(absolute import),这样代码可读性更好，并且当引入的库存在错误时，代码表现得会更好（至少会生成更有用的错误信息）。</p>
+<p>  例如：</p>
+<pre><code><span class="preprocessor"><span class="keyword">import</span> mypkg.sibling</span>
+from mypkg <span class="preprocessor"><span class="keyword">import</span> sibling</span>
+</code></pre><p>  隐含的相对路径引入也是可以接受的。例如：</p>
+<pre><code><span class="keyword">from</span> . <span class="keyword">import</span> sibling
+<span class="keyword">from</span> .sibling <span class="keyword">import</span> example
+</code></pre></li>
+<li><p>当从一个包含class的module中import一个类时，应当这样书写：</p>
+<pre><code><span class="keyword">from</span> myclass <span class="keyword">import</span> MyClass
+<span class="keyword">from</span> foo.bar.yourclass <span class="keyword">import</span> YourClass
+</code></pre><p>  如果这会导致与本地的变量名冲突，那么，这样的方式也是可行的：</p>
+<pre><code><span class="preprocessor"><span class="keyword">import</span> myclass</span>
+<span class="preprocessor"><span class="keyword">import</span> foo.bar.yourclass</span>
+</code></pre></li>
+<li><p>应该避免使用通过通配符import的方式(<code>from &lt;module&gt; import *</code>)。这会导致命名空间的混淆，并对一些库和工具造成误解。</p>
+</li>
+</ul>
+<h3 id="引号(String_Quotes)">引号(String Quotes)</h3><p>在Python中，使用双引号和使用单引号表示的字符串没有区别。只要制定一条原则并在整个项目的所有代码中保持一致即可。</p>
+<p>当字符串中包含单引号时，使用单引号，反之，当字符串中包含单引号时，使用双引号。</p>
+<h2 id="空白符(Whitespace)">空白符(Whitespace)</h2><p>在下列情形下应该避免多余的空格：</p>
+<ul>
+<li><p>括号内紧挨着括号不要留空格</p>
+</li>
+<li><p>紧挨着冒号，逗号或分号前面</p>
+<p>  然而，当冒号表现得像一个二元操作符，例如在列表切片(slice)等场合下，冒号左右应该留下相同个数的空格，如下例：</p>
+<pre><code>ham[<span class="number">1</span>:<span class="number">9</span>]
+ham[<span class="built_in">lower</span>+<span class="built_in">offset</span> : <span class="built_in">upper</span>+<span class="built_in">offset</span>]
+</code></pre></li>
+<li><p>函数名与左括号之间不要留空格</p>
+</li>
+<li><p>字典、元组、列表等变量名和左方括号之间不要留空格</p>
+</li>
+<li><p>定义变量或赋值时不要用空格去对齐等号。</p>
+<p>  例如： </p>
+<pre><code><span class="setting">x = <span class="value"><span class="number">1</span></span></span>
+<span class="setting">y = <span class="value"><span class="number">2</span></span></span>
+<span class="setting">long_variable = <span class="value"><span class="number">3</span></span></span>
+</code></pre><p>  不要写成:</p>
+<pre><code><span class="setting">x             = <span class="value"><span class="number">1</span></span></span>
+<span class="setting">y             = <span class="value"><span class="number">2</span></span></span>
+<span class="setting">long_variable = <span class="value"><span class="number">3</span></span></span>
+</code></pre></li>
+<li><p>在函数的默认参数的等号左右和通过命名参数调用函数的等号左右不要留空格。</p>
+<p>  例如：</p>
+<pre><code><span class="function"><span class="keyword">def</span> <span class="title">complex</span><span class="params">(real, imag=<span class="number">0.0</span>)</span>:</span>
+    <span class="keyword">return</span> magic(r=real, i=imag)
+</code></pre><p>  不要写成：</p>
+<pre><code><span class="function"><span class="keyword">def</span> <span class="title">complex</span><span class="params">(real, imag = <span class="number">0.0</span>)</span>:</span>
+    <span class="keyword">return</span> magic(r = real, i = imag)
+</code></pre></li>
+</ul>
+<p>在以下这些情形下，应当使用空格</p>
+<ul>
+<li><p>要在注解函数定义的等号两侧使用空格。此外，还应该在注解函数定义中的冒号”:”后边使用空格，在”-&gt;”两边使用空格。</p>
+<p>  例如：</p>
+<pre><code><span class="function"><span class="keyword">def</span> <span class="title">munge</span><span class="params">(input: AnyStr)</span>:</span>
+<span class="function"><span class="keyword">def</span> <span class="title">munge</span><span class="params">(sep: AnyStr = None)</span>:</span>
+<span class="function"><span class="keyword">def</span> <span class="title">munge</span><span class="params">()</span> -&gt; <span class="title">AnyStr</span>:</span>
+<span class="function"><span class="keyword">def</span> <span class="title">munge</span><span class="params">(input: AnyStr, sep: AnyStr = None, limit=<span class="number">1000</span>)</span>:</span>
+</code></pre><p>  不要写成：</p>
+<pre><code><span class="function"><span class="keyword">def</span> <span class="title">munge</span><span class="params">(input: AnyStr=None)</span>:</span>
+<span class="function"><span class="keyword">def</span> <span class="title">munge</span><span class="params">(input:AnyStr)</span>:</span>
+<span class="function"><span class="keyword">def</span> <span class="title">munge</span><span class="params">(input: AnyStr)</span>-&gt;<span class="title">PosInt</span>:</span>
+</code></pre></li>
+</ul>
+<h2 id="注释(Comments)">注释(Comments)</h2><h3 id="块注释(Block_Comments)">块注释(Block Comments)</h3><p>块注释的缩进应当与代码的缩进保持一致。在<code>#</code>后边要加一个空格。</p>
+<h3 id="行内注释(内联注释)(Inline_Comments)">行内注释(内联注释)(Inline Comments)</h3><p>行内注释跟代码语句应该保持至少<strong>2个空格</strong>的距离。并且，要在<code>#</code>后边加一个空格。</p>
+<h3 id="文档字符串(Documentation_Strings)">文档字符串(Documentation Strings)</h3><p>应该给所有的公有模块、函数、类、方法写文档字符串。文档字符串应该写在<code>def ...</code>语句之后一行。</p>
+<p>PEP 257 描述了好的文档字符串的写法。</p>
+<p>文档字符串格式示例：</p>
+<pre><code><span class="string">"""Return ...
+......
+"""</span>
+</code></pre><p>对于一行的文档字符串，应该把两个<code>&quot;&quot;&quot;</code>写在同一行。</p>
+<h2 id="版本标记(Version_Bookkeeping)">版本标记(Version Bookkeeping)</h2><p>如果需要在代码中描述版本信息，应该写成如下格式：</p>
+<pre><code><span class="title">__version__</span> = <span class="string">"<span class="variable">$Revision</span>$"</span>
+<span class="comment"># $Source$</span>
+</code></pre><p>这些代码应该写在文档字符串之后，代码之前，并且前后都要用一个空行分开。</p>
+<h2 id="命名约定(Naming_Conventions)">命名约定(Naming Conventions)</h2><h3 id="Overriding_Principle">Overriding Principle</h3><p>公有API部分的命名应该能够反映用途而非实现方式。</p>
+<h3 id="Descriptive:_Name_Style">Descriptive: Name Style</h3><p>采用描述性的命名风格。其中，有些形式的命名应该遵循如下约定：</p>
+<ul>
+<li><p><code>_single_leading_undersrore</code>: </p>
+<p>  使用的标识符(“internal use” indicator)。</p>
+<p>  例如，<code>from M import *</code>就不会import名字以一个下划线开头的的对象(objects)。</p>
+</li>
+<li><p><code>single_trailing_underscore</code>: </p>
+<p>  这项约定用来避免与Python的关键字(keywords)冲突。例如：</p>
+<pre><code>Tkinter.<span class="function"><span class="title">Toplevel</span><span class="params">(master, class_ = <span class="string">'ClassName'</span>)</span></span>
+</code></pre></li>
+<li><p><code>__double_leading_underscore</code>:</p>
+<p>  这用来命名类属性(class attribute)。</p>
+</li>
+<li><p><code>__double_leading_and_trailing_underscore__</code>:</p>
+<p>  用在用户控制的(user-controlled)的命名空间下。从不创造这样的变量名，仅仅使用那些文档中存在的。</p>
+</li>
+</ul>
+<h3 id="Prescriptive:_Naming_Conventions">Prescriptive: Naming Conventions</h3><h4 id="Names_to_Avoid">Names to Avoid</h4><p>应当避免使用”l”, “O”, “I”作为单个字母的变量名。</p>
+<h4 id="包和模块的命名">包和模块的命名</h4><p>模块应该采用较短的、全部为小写字母的命名。如果下划线可以增强名字的可读性，那么可以用在模块名中。</p>
+<h4 id="异常命名(Exception_Names)">异常命名(Exception Names)</h4><p>对异常的命名应当包含后缀”Error”。</p>
+<h4 id="类的方法(method)的命名">类的方法(method)的命名</h4><p>使用<code>self</code>作为实例方法(instance methods)的第一个参数。</p>
+<p>使用<code>cls</code>作为类方法(class methods)的第一个参数。</p>
+<h4 id="常量">常量</h4><p>常量的命名应该全部采用大写字母。</p>
+<h4 id="全局变量">全局变量</h4><p>对于包和模块，可以通过设置<code>__all__</code>的内容来指定接口(API)。</p>
+<h2 id="其他的约定">其他的约定</h2><h3 id="lambda和def">lambda和def</h3><p>定义函数时，使用<code>def</code>。不要把<code>lambda</code>表达式绑定到标识符。</p>
+<h3 id="自定义异常">自定义异常</h3><p>自定义异常时，直接继承<code>Exception</code>而不是<code>BaseException</code>。</p>
+<h3 id="合理使用异常链">合理使用异常链</h3><h3 id="捕获异常">捕获异常</h3><p>捕获异常时，尽量指明是什么类型的异常而不要全都是用单单的<code>except:</code>。</p>
+<h3 id="finally">finally</h3><p>如果代码需要做清理工作，要加上 <code>finally</code> 语句块。</p>
+<h3 id="字符串检查">字符串检查</h3><p>使用<code>startwith()</code>和<code>endwith()</code>方法而不是字符串切片(string slicing)来检查字符串的前缀和后缀。</p>
+<h3 id="类型检查">类型检查</h3><p>使用<code>isinstance()</code>而不是<code>type() ==</code>来检查变量的类型。</p>
+<h3 id="序列非空检查">序列非空检查</h3><p>对于序列(string, list, tuple)，空列表的布尔值为<code>False</code>，可以用这一特点来进行序列的非空检查，而不是判断序列的长度。</p>
+
+          
+        
+      </div>
+      <footer>
+        
+          <div class="alignright">
+            <a href="/2015/02/07/programming language/python/pep_8/#more" class="more-link">Continue Reading<i class="fa fa-long-arrow-right fa-1"></i></a>
+          </div>
+        
+        <div class="clearfix"></div>
+      </footer>
+    </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  
+    <div class="post-content-index">
+  
+      
+        <header>
+          <div class="icon"></div>
+            
+    
+      <h1 class="title transition"><a href="/2015/02/07/math/mathematica_io/">Mathematica 输入与输出</a></h1>
+    
+  
+          <ul>
+            <li>
+              <span class="heading-span">Posted on: </span>
+              <time datetime="2015-02-06T16:00:00.000Z">2015-02-07</time>
+            </li>
+            
+              <li>
+                <span class="heading-span">By: </span>
+
+                
+                  <a href="/">DHDave</a>
+                
+
+              </li>
+            
+            <li>
+              <span class="heading-span">With: </span>
+              
+                <a href="/2015/02/07/math/mathematica_io/#disqus_thread">Comments</a>
+
+              
+          </ul>
+        </header>
+      
+      <div class="entry">
+        
+          
+            <h2 id="基本输出">基本输出</h2><p>Mathematica的基本输出命令是<code>Print</code>，具体用法为：</p>
+<ul>
+<li><p>Print[expr] </p>
+<p>  输出 expr. </p>
+</li>
+</ul>
+<p>例如：</p>
+<pre><code><span class="keyword">Print</span>[<span class="string">"Hello world"</span>]
+Hello world
+<span class="keyword">Print</span>[<span class="number">2</span>^<span class="number">10</span>]
+<span class="number">1024</span>
+</code></pre><p><code>Print</code>命令也可以一次输出多项内容(用逗号<code>,</code>隔开)，输出时每项内容之间无间隔：</p>
+<pre><code><span class="keyword">Print</span>[<span class="string">"Hello world"</span>, <span class="number">2</span>^<span class="number">10</span>]
+Hello world1024
+</code></pre><h2 id="基本输入">基本输入</h2><h3 id="Input">Input</h3><p>Mathematica的基本输入命令是<code>Input</code>，具体用法为:</p>
+<ul>
+<li><p>Input[] </p>
+<p>  在一个 Mathematica 表达式中交互读入.</p>
+</li>
+<li><p>Input[prompt] </p>
+<p>  提示输入，显示 prompt 为一个 “ 提示符”.</p>
+</li>
+<li><p>Input[prompt,init] </p>
+<p>  在笔记本前端用 init 作为输入域的初始内容.</p>
+</li>
+</ul>
+<p><code>Input</code>命令得到的结果是表达式，值为表达式进行计算后的结果。</p>
+<p>还有这些命令也可是实现输入：</p>
+<h3 id="InputString">InputString</h3><p><code>InputString</code>用于交互式地读入字符串。具体用法：</p>
+<ul>
+<li><p>InputString[] </p>
+<p>  以交互方式读入一个字符串.</p>
+</li>
+<li><p>InputString[prompt] </p>
+<p>  提示输入，把 prompt 显示为一个 “提示”.</p>
+</li>
+<li><p>InputString[prompt,init] </p>
+<p>  在一个笔记本前端用 init 作为输入域的初始内容. </p>
+</li>
+</ul>
+<h3 id="Get">Get</h3><p><code>Get</code>用于读取文件中的表达式并计算。具体用法：</p>
+<ul>
+<li><p><code>&lt;&lt;name</code> </p>
+<p>  读取一个文件，计算其中的每个表达式，并且返回最后一个.</p>
+</li>
+<li><p><code>Get[stream]</code> </p>
+<p>  读取一个文件流，计算其中的每个表达式，并且返回最后一个.</p>
+</li>
+</ul>
+<h3 id="Read">Read</h3><p><code>Read</code>用于从输入流(stream)中读取表达式或对象。具体用法为：</p>
+<ul>
+<li><p>Read[stream] </p>
+<p>  从一个输入流读取表达式，并返回该表达式.</p>
+</li>
+<li><p>Read[stream,type] </p>
+<p>  读取指定类型的对象.</p>
+</li>
+<li><p>Read[stream,type1,type2,…}] </p>
+<p>  读取指定类型的一系列对象. </p>
+</li>
+</ul>
+<p><code>Get</code>命令可读取的类型有：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Byte</td>
+<td>单字节，返回一个整数编码</td>
+</tr>
+<tr>
+<td>Character</td>
+<td>单字符，返回以一个由单字符组成的字符串</td>
+</tr>
+<tr>
+<td>Expression</td>
+<td>完整的 Mathematica 表达式</td>
+</tr>
+<tr>
+<td>Number</td>
+<td>整数或近似数，以 “E” 格式给出</td>
+</tr>
+<tr>
+<td>Real</td>
+<td>近似数，以 “E” 格式给出</td>
+</tr>
+<tr>
+<td>Record</td>
+<td>用记录分隔符分隔的字符序列</td>
+</tr>
+<tr>
+<td>String</td>
+<td>以换行符结束的字符串</td>
+</tr>
+<tr>
+<td>Word</td>
+<td>用单词分隔符分隔的字符序列</td>
+</tr>
+</tbody>
+</table>
+<h2 id="Import_命令和文件导入">Import 命令和文件导入</h2><p><code>Import</code>命令用来实现文件中的数据的导入。具体用法为：</p>
+<ul>
+<li><p>Import[“file”] </p>
+<p>  从文件中导入数据，将返回相应的 Mathematica 格式. </p>
+</li>
+<li><p>Import[“file”,elements] </p>
+<p>  从文件中导入指定元素. </p>
+</li>
+<li><p>Import[“<a href="http://url" target="_blank" rel="external">http://url</a>“,…] 和 Import[“ftp://url”,…] </p>
+<p>  从任何可访问网址导入. </p>
+</li>
+</ul>
+
+          
+        
+      </div>
+      <footer>
+        
+          <div class="alignright">
+            <a href="/2015/02/07/math/mathematica_io/#more" class="more-link">Continue Reading<i class="fa fa-long-arrow-right fa-1"></i></a>
+          </div>
+        
+        <div class="clearfix"></div>
+      </footer>
+    </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  
+    <div class="post-content-index">
+  
+      
+        <header>
+          <div class="icon"></div>
+            
+    
+      <h1 class="title transition"><a href="/2015/02/05/math/mathematica_notebook/">Mathematica 笔记本(notebook)</a></h1>
+    
+  
+          <ul>
+            <li>
+              <span class="heading-span">Posted on: </span>
+              <time datetime="2015-02-04T16:00:00.000Z">2015-02-05</time>
+            </li>
+            
+              <li>
+                <span class="heading-span">By: </span>
+
+                
+                  <a href="/">DHDave</a>
+                
+
+              </li>
+            
+            <li>
+              <span class="heading-span">With: </span>
+              
+                <a href="/2015/02/05/math/mathematica_notebook/#disqus_thread">Comments</a>
+
+              
+          </ul>
+        </header>
+      
+      <div class="entry">
+        
+          
+            <p>本文主要记录Mathematica笔记本(notebook)使用过程中的一些小细节(Tips)。</p>
+<h3 id="注释">注释</h3><p>所有包含在<code>(*</code>和<code>*)</code>之间的内容为注释内容，都会被Mathematica内核忽略。</p>
+<h3 id="Mathematica区分字母大小写">Mathematica区分字母大小写</h3><p>所有的Mathematica命令都是以大写字母开头的，Mathematica区分字母大小写。因此，为了避免冲突，所有的用户定义符号都应当用小写字母开头。</p>
+<h3 id="函数参数">函数参数</h3><p>Mathematica中用<strong>方括号</strong><code>[]</code>表示函数参数。例如：</p>
+<pre><code>Sqrt<span class="comment">(10)</span>;
+</code></pre><h3 id="N[expr]_和_//">N[expr] 和 //</h3><p>Mathematica中默认并不给出数值值，例如，<code>Sqrt[10]</code>将得到根号表示的数，而不会得到小数数值。<code>N[expr]</code>函数可以得到表达式的数值值。</p>
+<pre><code><span class="keyword">N</span>[expr] 给出 expr 的数值值.
+<span class="keyword">N</span>[expr, <span class="keyword">n</span>] 尝试给出具有 <span class="keyword">n</span> 位精度的数值值.
+</code></pre><p>除非<code>expr</code>是精确的，或者具有足够高的精度，否则<code>N[expr, n]</code>可能无法给出具有<code>n</code>位精度的结果。</p>
+<p>进行近似计算的另外一种方法是在需要求值的表达式右边用<code>//N</code>,因此，<code>N[expr]</code>和<code>expr // N</code> 功能上等价。但<code>//N</code>的方法作用于变量时，会直接把数值值赋给变量，而 <code>N[expr]</code>作用于变量时则不会。</p>
+<h3 id="?_var">? var</h3><p>可以通过如下语句查看符号所代表的意义：</p>
+<pre><code>? <span class="keyword">var</span>
+</code></pre><h3 id="?_func_和_??_func">? func 和 ?? func</h3><ul>
+<li><code>? func</code>表示查看函数的定义及基本用法。</li>
+<li><code>?? func</code>表示查看关于函数用法的详细信息。</li>
+</ul>
+<h3 id="Clear_与_Remove">Clear 与 Remove</h3><ul>
+<li>Clear[符号名]：清除指定符号的定义和取值，但并没有清除它的属性、信息或默认值。因此，指定的符号仍在Mathematica的符号清单中。</li>
+<li>Remove[符号名]：完全删除指定的符号，因此除非重新进行了定义，否则不再识别这个符号(Information::notfound)。</li>
+</ul>
+<h3 id="Out(%)">Out(%)</h3><ul>
+<li>% n 或 Out[n]<br>  是一个对象，被赋予在第 n 个[Null]输出行上产生的值.</li>
+<li>%<br>  给出产生的最后一个结果.</li>
+<li>%%<br>  给出最后一个结果之前的结果. %% [Ellipsis]% (k 次)给出倒数第 k 个结果.</li>
+</ul>
+<p>在命令提示符环境下，可以用<code>%</code>来表示上一条语句。其内容可以通过输入</p>
+<pre><code><span class="comment">%</span>
+</code></pre><p>然后按下<code>[Shift][Enter]</code>键查看。</p>
+<p>还有一下两个技巧：</p>
+<ul>
+<li>Out[] 等于 %.</li>
+<li>Out[-k] 等于 %%…% (k次).</li>
+</ul>
+<h3 id="通配符”*“与命令查找">通配符”*“与命令查找</h3><ul>
+<li><p>找出所有以”A”开头的命令</p>
+<pre><code>? <span class="literal">A</span>*
+</code></pre></li>
+<li><p>找出所有以”A”结尾的命令</p>
+<pre><code>? *<span class="literal">A</span>
+</code></pre></li>
+<li><p>找出所有中间包含”A”的命令</p>
+<pre><code>? <span class="keyword">*</span>A<span class="keyword">*</span>
+</code></pre></li>
+<li><p>找出到现在为止内核中已经用到了哪些符号</p>
+<pre><code>? <span class="escape">`*</span>
+</code></pre><p>  解释：反引号”`“表示全局性。</p>
+<p>  <code>Clear[&quot;\</code><em>“]<code>会清楚所有全局符号。</code>Remove[“`</em>“]`会删除所有全局符号。</p>
+</li>
+</ul>
+<h3 id="常用常数">常用常数</h3><p>Pi: 圆周率（圆的周长和直径的比率）。</p>
+<p>E：自然对数的底。</p>
+<p>Degree：给出1度的弧度，即 [Pi]/180。</p>
+<p>GoldenRatio：给出黄金比率 [Phi]=1/2 (Sqrt[5]+1)，其数值 [TildeEqual]1.61803.</p>
+<p>Infinity：Infinity 或 [Infinity] 表示正无穷大的符号.</p>
+<p>EulerGamma：表示欧拉常数 [Gamma]，其数值 [TildeEqual]0.577216.</p>
+<p>Catalan：Catalan 常数，数值 [TildeEqual]0.915966.</p>
+<h3 id="字符串拼接">字符串拼接</h3><pre><code>strA <span class="tag">&lt;&gt;</span> strB
+</code></pre><p>或者：</p>
+<pre><code>StringJoin[strA, strB, <span class="keyword">...</span>]
+</code></pre>
+          
+        
+      </div>
+      <footer>
+        
+          <div class="alignright">
+            <a href="/2015/02/05/math/mathematica_notebook/#more" class="more-link">Continue Reading<i class="fa fa-long-arrow-right fa-1"></i></a>
+          </div>
+        
+        <div class="clearfix"></div>
+      </footer>
+    </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  
+    <div class="post-content-index">
+  
+      
+        <header>
+          <div class="icon"></div>
+            
+    
+      <h1 class="title transition"><a href="/2015/02/05/programming language/python/cx_freeze/">cx_Freeze打包Python应用程序</a></h1>
+    
+  
+          <ul>
+            <li>
+              <span class="heading-span">Posted on: </span>
+              <time datetime="2015-02-04T16:00:00.000Z">2015-02-05</time>
+            </li>
+            
+              <li>
+                <span class="heading-span">By: </span>
+
+                
+                  <a href="/">DHDave</a>
+                
+
+              </li>
+            
+            <li>
+              <span class="heading-span">With: </span>
+              
+                <a href="/2015/02/05/programming language/python/cx_freeze/#disqus_thread">Comments</a>
+
+              
+          </ul>
+        </header>
+      
+      <div class="entry">
+        
+          
+            <p>cx_Freeze是一个打包Python应用的工具，通过cx_Freeze，可以制作Windows平台、MacOS平台、以及Linux平台的二进制可执行程序，使得Python应用能够在没有安装Python环境的机器上运行。</p>
+<h2 id="cx_Freeze的安装">cx_Freeze的安装</h2><p>同很多Python的第三方库类似，cx_Freeze也可以通过如下命令安装：</p>
+<pre><code>pip <span class="keyword">install</span> cx_Freeze
+</code></pre><p>或者从官网下载安装包，解压后，切换目录至解压后的根目录，运行命令</p>
+<pre><code>python setup<span class="class">.py</span> install
+</code></pre><p>即可。</p>
+<p><strong>注意</strong>：在Windows平台上安装cx_Freeze时，也可以根据官网提供的链接，从SourceForge上下载二进制安装包直接安装，但一定要注意Python的版本问题，否则，打包的应用程序可能会因为Python.dll的版本问题而无法正常运行。</p>
+<h2 id="cx_Freeze的使用(Windows平台)">cx_Freeze的使用(Windows平台)</h2><h3 id="典型的setup脚本的写法">典型的setup脚本的写法</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#! /usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> cx_Freeze <span class="keyword">import</span> setup, Executable</span><br><span class="line"></span><br><span class="line">base = <span class="keyword">None</span></span><br><span class="line"><span class="comment"># base = 'Console'</span></span><br><span class="line"><span class="comment"># base = 'ConsoleKeepPath'</span></span><br><span class="line"><span class="comment"># base = 'Win32GUI'</span></span><br><span class="line"><span class="comment"># base = 'Win32Service'</span></span><br><span class="line"></span><br><span class="line">executables = [</span><br><span class="line">    Executable(<span class="string">'main.py'</span>, base = base)</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">setup(name = <span class="string">'main app'</span>,</span><br><span class="line">      version = <span class="string">'1.0'</span>,</span><br><span class="line">      description = <span class="string">'main app'</span>,</span><br><span class="line">      executables = executables</span><br><span class="line">      )</span><br></pre></td></tr></table></figure>
+<p>在Windows平台上，<code>base</code>的可选值有：</p>
+<ul>
+<li>None<br>  普通的Python程序。也可以不指定，在<code>Executable</code>中忽略<code>base</code>参数即可。</li>
+<li>Console<br>  Console应用程序（控制台应用程序）。</li>
+<li>ConsoleKeepPath<br>  保持相对路径的Console应用程序。</li>
+<li>Win32GUI<br>  GUI应用程序。基于tkinter、wxPython、PyQt的Python GUI应用程序需要将<code>base</code>参数的值设为’Win32GUI’。</li>
+<li>Win32Service<br>  Windows服务程序。</li>
+</ul>
+<h3 id="构建命令选项">构建命令选项</h3><p>构建时，只需要运行如下命令即可：</p>
+<pre><code>python setup<span class="class">.py</span> option
+</code></pre><p>在Windows平台上，<code>option</code> 有以下几种可选值：</p>
+<ul>
+<li>build<br>  cx_Freeze的标准构建命令。</li>
+<li>build_exe<br>  构建一系列的可执行程序。</li>
+<li>bdist_msi<br>  构建Windows平台上的msi安装包。</li>
+</ul>
+<p><strong>注意</strong>：在Windows平台上，存放代码路径一定不要有中文，否则，在执行<code>python setup.py bdist_msi</code>时可能会遇到<code>FCI Error</code>。</p>
+<h3 id="自定义图标">自定义图标</h3><p>通过 <code>Executable</code> 的 <code>icon</code> 参数可以指定应用程序的图标，默认为’Tcl/Tk’的图标。</p>
+<p>如下例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">executables = [</span><br><span class="line">    Executable(<span class="string">'main.py'</span>, base = base, icon = <span class="string">'main.ico'</span>)</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<h3 id="程序资源文件">程序资源文件</h3><p>对于应用程序用到的图片以及其他素材, 特别是GUI程序中用到图片等资源文件，可以在成功构建可执行程序后手动拷贝到可执行程序的目录，保持相对路径不变即可。也可以通过修改构建文件中的<code>include_files</code>参数，直接打包。如下例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">build_exe_options = &#123;</span><br><span class="line">    <span class="string">'include_files'</span> = [<span class="string">'...'</span>, <span class="string">'...'</span>],</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">setup(</span><br><span class="line">    ...</span><br><span class="line">    options = &#123;<span class="string">'build_exe'</span>: build_exe_options&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="复杂应用程序的打包">复杂应用程序的打包</h3><p>通过<code>Executable</code>的<code>includes</code>, <code>excludes</code>, 以及 <code>packages</code> 三个选项可以有效地控制应用程序包含和排除的模块以及包依赖关系。</p>
+<p>也可以通过设置<code>setup</code>函数的<code>options</code>选项来解决依赖问题。如下例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">build_exe_options = &#123;</span><br><span class="line">    <span class="string">'packages'</span>: [<span class="string">'os'</span>, <span class="string">'sys'</span>],</span><br><span class="line">    <span class="string">'includes'</span>: [<span class="string">'tkinter'</span>],</span><br><span class="line">    <span class="string">'excludes'</span>: [<span class="string">'django'</span>],</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">setup(</span><br><span class="line">    ...</span><br><span class="line">    options = &#123;<span class="string">'build_exe'</span>: build_exe_options&#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h2 id="其他平台">其他平台</h2><p>在其他平台上，有如下构建选项可以构建对应平台的可执行文件：</p>
+<ul>
+<li>bdist_rpm<br> 构建rpm安装包。</li>
+<li>bdist_mac<br> 构建Mac OS系统的程序安装包。</li>
+<li>bdist_dmg<br> 构建Mac OS系统的程序安装包。</li>
+</ul>
+<h2 id="说明">说明</h2><p>本文所给代码均在Python34 for Windows, cx_Freeze release 5.0 上运行通过。</p>
+<h2 id="参考">参考</h2><ol>
+<li>cx_Freeze Documentation</li>
+</ol>
+
+          
+        
+      </div>
+      <footer>
+        
+          <div class="alignright">
+            <a href="/2015/02/05/programming language/python/cx_freeze/#more" class="more-link">Continue Reading<i class="fa fa-long-arrow-right fa-1"></i></a>
+          </div>
+        
+        <div class="clearfix"></div>
+      </footer>
+    </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  
+    <div class="post-content-index">
+  
+      
+        <header>
+          <div class="icon"></div>
+            
+    
+      <h1 class="title transition"><a href="/2015/02/04/algorithm/boyer_moore/">Boyer-Moore 算法</a></h1>
+    
+  
+          <ul>
+            <li>
+              <span class="heading-span">Posted on: </span>
+              <time datetime="2015-02-03T16:00:00.000Z">2015-02-04</time>
+            </li>
+            
+              <li>
+                <span class="heading-span">By: </span>
+
+                
+                  <a href="/">DHDave</a>
+                
+
+              </li>
+            
+            <li>
+              <span class="heading-span">With: </span>
+              
+                <a href="/2015/02/04/algorithm/boyer_moore/#disqus_thread">Comments</a>
+
+              
+          </ul>
+        </header>
+      
+      <div class="entry">
+        
+          
+            <p>Boyer-Moore 算法由 Robort S.Boyer 和 J Strother Moore 在1977年提出，可以在O(1)的时间复杂度内完成字符串的匹配，其在绝大部分场合的性能表现要优于KMP算法。GNU grep使用了此算法进行字符串匹配，同时也被很多文本编辑器用进行字符串的查找。</p>
+<h2 id="一、概述">一、概述</h2><h2 id="二、移动规则">二、移动规则</h2><h3 id="“坏字符”规则">“坏字符”规则</h3><p>坏字符规则(bad-character shift)用来计算当前模式串与源串失配时的模式串指针的移动方案。具体计算方法如下：</p>
+<pre><code><span class="attribute">后移位数 </span>=<span class="string"> 坏字符的位置 - 坏字符在模式串中的上一次出现位置</span>
+</code></pre><p>式中，坏字符在模式串中的上一次出现位置值可以由一下算法得出：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * bmBC数组为对应坏字符的应有的右移距离。</span><br><span class="line"> **/</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">getBadChar</span><span class="params">(<span class="keyword">int</span> bmBC[], <span class="keyword">int</span> ALPHABET_SIZE, <span class="keyword">char</span> pattern[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> len = <span class="built_in">strlen</span>(pattern);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; ALPHABET_SIZE; ++i) &#123;</span><br><span class="line">        bmBC[i] = m;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len; ++i) &#123;</span><br><span class="line">        bmBC[pattern[i]] = len - <span class="number">1</span> - i;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>bmBC</code>数组基于字典计算，最终计算得到的<code>bmBC</code>数组便是每个字母在模式串中出现的最后的位置。</p>
+<h3 id="“好后缀”规则">“好后缀”规则</h3><p>好后缀规则(good-suffix shift)通过模式串和源字符串的后缀之间的关系来计算模式串指针移动的位置量。具体计算方法如下：</p>
+<pre><code><span class="attribute">后移位数 </span>=<span class="string"> 好后缀的位置 - 模式串中的上一次出现位置</span>
+</code></pre><p>式中，好后缀的位置的取值以“好后缀”的最后一个字符为准。如果“好后缀”在模式串中没有重复出现，择取其上一次出现的位置为-1。</p>
+<p>为了应用好后缀规则，还需要对模式串预处理，求出后缀长度表。即以每一个位置的字符为后缀和以最后一个字符为后缀的公共后缀串的长度。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * suffix 数组的含义:</span><br><span class="line"> * suffix[i]为pattern中以i位置字符为后缀和</span><br><span class="line"> * 以pattern中最后一个字符为后缀的公共后缀串的长度。</span><br><span class="line"> */</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">getSuffix</span><span class="params">(<span class="keyword">int</span> suffix[], <span class="keyword">char</span> pattern[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> len = <span class="built_in">strlen</span>(pattern);</span><br><span class="line">    suffix[len-<span class="number">1</span>] = len;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = len - <span class="number">2</span>; i &gt;= <span class="number">0</span>; --i) &#123;</span><br><span class="line">        <span class="keyword">int</span> j = i;</span><br><span class="line">        <span class="keyword">while</span>(j &gt; <span class="number">0</span> &amp;&amp; pattern[j] == pattern[len-<span class="number">1</span>-(i-j)]) &#123;</span><br><span class="line">            --j;</span><br><span class="line">        &#125;</span><br><span class="line">        suffix[i] = i - j;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过利用已经求出的后缀串的长度，还可以对该过程做出进一步的改进。如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">getSuffix</span><span class="params">(<span class="keyword">int</span> suffix[], <span class="keyword">char</span> pattern[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> len = <span class="built_in">strlen</span>(pattern);</span><br><span class="line">    <span class="keyword">int</span> g = len-<span class="number">1</span>, f;</span><br><span class="line">    suffix[len-<span class="number">1</span>] = len;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = len - <span class="number">2</span>; i &gt;= <span class="number">0</span>; --i) &#123;</span><br><span class="line">        <span class="keyword">if</span>(i &gt; g &amp;&amp; suffix[(len-<span class="number">1</span>)-(f-i)] &lt; i - g) &#123;</span><br><span class="line">            suffix[i] = suffix[(len-<span class="number">1</span>)-(f-i)];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">if</span>(i &lt; g) &#123;</span><br><span class="line">                g = i;</span><br><span class="line">            &#125;</span><br><span class="line">            f = i;</span><br><span class="line">            <span class="keyword">while</span>(g &gt;= <span class="number">0</span> &amp;&amp; pattern[g] == pattern[(len-<span class="number">1</span>)-(f-g)]) &#123;</span><br><span class="line">                --g;</span><br><span class="line">            &#125;</span><br><span class="line">            suffix[i] = f - g;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过已经求出的后缀长度表，便可以求出“好后缀”的长度。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">getGoodSuffix</span><span class="params">(<span class="keyword">int</span> bmGS[], <span class="keyword">char</span> pattern[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> len = <span class="built_in">strlen</span>(pattern);</span><br><span class="line">    <span class="keyword">int</span> suffix[len+<span class="number">5</span>];</span><br><span class="line">    getSuffix(suffix, pattern);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len; ++i) &#123;</span><br><span class="line">        bmGS[i] = len;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = len-<span class="number">1</span>, j = <span class="number">0</span>; i &gt;= <span class="number">0</span>; --i) &#123;</span><br><span class="line">        <span class="keyword">if</span>(suffix[i] == i + <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">for</span>(; j &lt; len - <span class="number">1</span> - i; ++j) &#123;</span><br><span class="line">                <span class="keyword">if</span>(bmGS[j] == len) &#123;</span><br><span class="line">                    bmGS[j] = len - <span class="number">1</span> - i;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= len-<span class="number">2</span>; ++i) &#123;</span><br><span class="line">        bmGS[len-<span class="number">1</span>-suffix[i]] = len - <span class="number">1</span> - i;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="三、算法实现">三、算法实现</h2><p>最终，BoyerMoore算法的实现如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * 如果模式串存在，返回模式串的第一个字符在文本串中的索引位置（从0开始计算）。</span><br><span class="line"> * 如果不存在，返回 -1 。</span><br><span class="line"> */</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">BoyerMoore</span><span class="params">(<span class="keyword">char</span> pattern[], <span class="keyword">char</span> src[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ALPHABET_SIZE = <span class="number">256</span>, len = <span class="built_in">strlen</span>(pattern);</span><br><span class="line">    <span class="keyword">int</span> bmBC[ALPHABET_SIZE+<span class="number">5</span>], bmGS[len+<span class="number">5</span>];</span><br><span class="line">    getBadChar(bmBC, ALPHABET_SIZE, pattern);</span><br><span class="line">    getGoodSuffix(bmGS, pattern);</span><br><span class="line">    <span class="keyword">int</span> j = <span class="number">0</span>, i;</span><br><span class="line">    <span class="keyword">while</span>(j &lt;= <span class="built_in">strlen</span>(src) - len) &#123;</span><br><span class="line">        <span class="keyword">for</span>(i = len - <span class="number">1</span>; i &gt;= <span class="number">0</span> &amp;&amp; pattern[i] == src[i+j]; --i) &#123;</span><br><span class="line">            ;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(i &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> j;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            j += max(bmBC[src[i+j]]-(len-<span class="number">1</span>-i), bmGS[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="四、参考">四、参考</h2><ol>
+<li><a href="http://blog.jobbole.com/52830" target="_blank" rel="external">grep之字符串搜索算法Boyer-Moore由浅入深(比KMP快3-5倍)</a></li>
+<li><a href="http://blog.jobbole.com/39132" target="_blank" rel="external">字符串匹配的Boyer-Moore算法</a></li>
+</ol>
+
+          
+        
+      </div>
+      <footer>
+        
+          <div class="alignright">
+            <a href="/2015/02/04/algorithm/boyer_moore/#more" class="more-link">Continue Reading<i class="fa fa-long-arrow-right fa-1"></i></a>
+          </div>
+        
+        <div class="clearfix"></div>
+      </footer>
+    </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  
+    <div class="post-content-index">
+  
+      
+        <header>
+          <div class="icon"></div>
+            
+    
+      <h1 class="title transition"><a href="/2015/02/03/programming language/c_cpp/c_cpp_sleep/">C和C++中的sleep函数</a></h1>
+    
+  
+          <ul>
+            <li>
+              <span class="heading-span">Posted on: </span>
+              <time datetime="2015-02-02T16:00:00.000Z">2015-02-03</time>
+            </li>
+            
+              <li>
+                <span class="heading-span">By: </span>
+
+                
+                  <a href="/">DHDave</a>
+                
+
+              </li>
+            
+            <li>
+              <span class="heading-span">With: </span>
+              
+                <a href="/2015/02/03/programming language/c_cpp/c_cpp_sleep/#disqus_thread">Comments</a>
+
+              
+          </ul>
+        </header>
+      
+      <div class="entry">
+        
+          
+            <p><code>sleep</code>这一功能在不同的编译器中实现不同，API也有差别。</p>
+<h2 id="GCC编译器的实现">GCC编译器的实现</h2><p>GCC编译器中，sleep定义在<code>&lt;unistd.h&gt;</code>中。函数原型：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* The sleep() function is, perhaps, the most commonly used of all the</span><br><span class="line"> * process/thread suspension APIs; it provides support for specification</span><br><span class="line"> * of suspension periods ranging from 1 second to ~136 years.  (However,</span><br><span class="line"> * POSIX recommends limiting the maximum period to 65535 seconds, to</span><br><span class="line"> * maintain portability to platforms with only 16-bit ints).</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">unsigned</span> _cdecl __<span class="function">MINGW_NOTHROW <span class="title">sleep</span><span class="params">( <span class="keyword">unsigned</span> )</span></span>;</span><br></pre></td></tr></table></figure>
+<p>注意，在GCC的实现中，<code>sleep</code>的单位为秒(second)。</p>
+<h2 id="VC编译器的实现">VC编译器的实现</h2><p>VC编译器中，Sleep定义在<code>&lt;windows.h&gt;</code>中(具体定义在<code>&lt;winbase.h&gt;</code>中)，函数原型为：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">WINBASEAPI <span class="keyword">void</span> WINAPI <span class="title">Sleep</span><span class="params">(DWORD)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>注意，在VC编译器的实现中，<code>Sleep</code>的首字母”S”要<strong>大写</strong>，并且其时间单位为毫秒(millisecond)。</p>
+<h2 id="MinGW">MinGW</h2><p>在MinGW中，如果安装了win32api，则既可以使用<code>sleep()</code>，也可以使用<code>Sleep()</code>。</p>
+<h2 id="C++11">C++11</h2><p>在C++11中，可以用<code>this_thread</code>命名空间下的<code>sleep_for</code>函数来实现线程休眠的功能。具体函数定义如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt; <span class="keyword">class</span> Rep, <span class="keyword">class</span> Period &gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">sleep_for</span><span class="params">( <span class="keyword">const</span> <span class="built_in">std</span>::chrono::duration&lt;Rep, Period&gt;&amp; sleep_duration )</span></span>;</span><br></pre></td></tr></table></figure>
+<p>使用示例：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;iostream&gt;</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;chrono&gt;</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;thread&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">sleep</span><span class="params">(<span class="keyword">int</span> milliseconds)</span> </span>&#123;</span><br><span class="line">    std::chrono::<span class="function">milliseconds <span class="title">dura</span><span class="params">(milliseconds)</span></span>;</span><br><span class="line">    std::this_thread::sleep_for(dura);</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    std::<span class="built_in">cout</span> &lt;&lt; <span class="string">"test sleep_for in c++11..."</span> &lt;&lt; std::endl;</span><br><span class="line">    sleep(<span class="number">2000</span>);</span><br><span class="line">    std::<span class="built_in">cout</span> &lt;&lt; <span class="string">"sleep for 2000 ms\n"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      </div>
+      <footer>
+        
+          <div class="alignright">
+            <a href="/2015/02/03/programming language/c_cpp/c_cpp_sleep/#more" class="more-link">Continue Reading<i class="fa fa-long-arrow-right fa-1"></i></a>
+          </div>
+        
+        <div class="clearfix"></div>
+      </footer>
+    </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  
+    <div class="post-content-index">
+  
+      
+        <header>
+          <div class="icon"></div>
+            
+    
+      <h1 class="title transition"><a href="/2015/02/03/programming language/python/python_pyc_pyo/">Python编译成Pyc和Pyo文件</a></h1>
+    
+  
+          <ul>
+            <li>
+              <span class="heading-span">Posted on: </span>
+              <time datetime="2015-02-02T16:00:00.000Z">2015-02-03</time>
+            </li>
+            
+              <li>
+                <span class="heading-span">By: </span>
+
+                
+                  <a href="/">DHDave</a>
+                
+
+              </li>
+            
+            <li>
+              <span class="heading-span">With: </span>
+              
+                <a href="/2015/02/03/programming language/python/python_pyc_pyo/#disqus_thread">Comments</a>
+
+              
+          </ul>
+        </header>
+      
+      <div class="entry">
+        
+          
+            <h2 id="什么是pyc文件和pyo文件">什么是pyc文件和pyo文件</h2><p>pyc文件是Python的字节码(byte code)文件，是一种二进制文件。pyc文件跨平台，由python的虚拟机加载执行。pyc文件与Python的版本有关，不同版本的Python编译出的pyc文件不同。</p>
+<p>pyo文件是优化(optimize)后的字节码文件。</p>
+<h2 id="编译成pyc文件">编译成pyc文件</h2><p>可以在命令行执行以下命令来将Python源码文件编译成pyc文件：</p>
+<pre><code><span class="keyword">python</span> -m py_compile <span class="variable">$filename</span>
+</code></pre><p>其中，<code>$filename</code>是要编译的Python源码文件名。</p>
+<p>也可以编写一下脚本来将Python源码文件编译成pyc文件：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> py_compile</span><br><span class="line">py_compile.compile(<span class="string">'$filename'</span>) <span class="comment"># $filename is the file name of python source code.</span></span><br></pre></td></tr></table></figure>
+<h2 id="编译成pyo文件">编译成pyo文件</h2><p>使用以下命令将Python源码文件编译成pyo文件：</p>
+<pre><code><span class="keyword">python</span> -O -m py_compile <span class="variable">$filename</span>
+</code></pre><p>或者</p>
+<pre><code><span class="keyword">python</span> -OO -m py_compile <span class="variable">$filename</span>
+</code></pre><p>其中，</p>
+<ul>
+<li>-O选项表示优化产生的字节码，优化程度由PYTHONOPTIMIZE(environment)的值来决定。</li>
+<li>-OO选项表示在-O优化的基础上移除所有的doc-strings(文档文本)。</li>
+</ul>
+<h2 id="py_compile">py_compile</h2><p>py_compile模块提供了一组函数用于由源码文件生成字节码文件。</p>
+<pre><code>py_compile.compile(file, <span class="variable">cfile=</span>None, <span class="variable">dfile=</span>None, <span class="variable">doraise=</span>False, <span class="variable">optimize=</span><span class="number">1</span>)
+</code></pre><p>参数含义:</p>
+<ul>
+<li>file: Python源码文件(source code) </li>
+<li>cfile: 指定编译得到的pyc文件的路径，cfile的默认位置遵循<code>PEP 3147</code>的约定</li>
+<li>dfile: 如果指定了dfile，在error message中使用dfile的值来作为源文件的文件名而非file参数的文件名</li>
+<li>doraise: 是否抛出警告</li>
+<li>optimize: 优化级别</li>
+</ul>
+<h2 id="批量生成pyc文件">批量生成pyc文件</h2><p>使用compileall模块可以批量编译整个目录下的Python源码文件。</p>
+<p>函数定义：</p>
+<pre><code>compileall.compile_dir(dir, <span class="variable">maxlevels=</span><span class="number">10</span>, <span class="variable">ddir=</span>None, <span class="variable">force=</span>False, <span class="variable">rx=</span>None, <span class="variable">quiet=</span>False, <span class="variable">legacy=</span>False, <span class="variable">optimize=</span>-<span class="number">1</span>) 
+</code></pre><p>用法：</p>
+<pre><code><span class="keyword">python</span> -m compileall <span class="variable">$dir</span>
+</code></pre><p>或者编写以下脚本来实现此功能：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> compileall</span><br><span class="line">compileall.compile_dir(<span class="string">'$dir'</span>)</span><br></pre></td></tr></table></figure>
+<p>其中，$dir为Python源代码所在的目录。</p>
+
+          
+        
+      </div>
+      <footer>
+        
+          <div class="alignright">
+            <a href="/2015/02/03/programming language/python/python_pyc_pyo/#more" class="more-link">Continue Reading<i class="fa fa-long-arrow-right fa-1"></i></a>
+          </div>
+        
+        <div class="clearfix"></div>
+      </footer>
+    </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  
+    <div class="post-content-index">
+  
+      
+        <header>
+          <div class="icon"></div>
+            
+    
+      <h1 class="title transition"><a href="/2015/02/02/programming language/c_cpp/c_function_pointer/">C语言中的函数指针</a></h1>
+    
+  
+          <ul>
+            <li>
+              <span class="heading-span">Posted on: </span>
+              <time datetime="2015-02-01T16:00:00.000Z">2015-02-02</time>
+            </li>
+            
+              <li>
+                <span class="heading-span">By: </span>
+
+                
+                  <a href="/">DHDave</a>
+                
+
+              </li>
+            
+            <li>
+              <span class="heading-span">With: </span>
+              
+                <a href="/2015/02/02/programming language/c_cpp/c_function_pointer/#disqus_thread">Comments</a>
+
+              
+          </ul>
+        </header>
+      
+      <div class="entry">
+        
+          
+            <p>函数指针是C语言的灵魂之一，基于C语言实现的面向对象，底层都以函数指针为基础。</p>
+<h2 id="函数指针的定义">函数指针的定义</h2><p>C语言中，可以通过以下方式定义函数指针：</p>
+<pre><code><span class="typedef"><span class="keyword">type</span> <span class="container">(*<span class="title">fn</span>)</span><span class="container">(<span class="title">args</span>)</span></span>
+</code></pre><p>其中，<code>fn</code>为指针变量名，<code>type</code>为指针所指向的函数的返回值类型，<code>args</code>为指针所指向的函数的参数列表。可以通过<code>&amp;</code>运算符对函数指针赋值，通过<code>(*fn)()</code>的方式调用。举例：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> (*fn)(<span class="keyword">int</span> a);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">func</span><span class="params">(<span class="keyword">int</span> a)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"call func, arg a = %d\n"</span>, a);</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv)</span> </span>&#123;</span><br><span class="line">    fn = &amp;func;</span><br><span class="line">    (*fn)(<span class="number">10</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>参数和返回值类型共同决定函数指针的类型，不同类型的函数指针之间不能做类型转换。</p>
+<h2 id="函数指针数组">函数指针数组</h2><h3 id="指针数组">指针数组</h3><pre><code><span class="keyword">int</span> *p[<span class="number">10</span>];
+</code></pre><p>在这条C语言语句中，由于<code>[]</code>运算符的优先级高于<code>*</code>运算符，因此p是一个有10个元素的数组，再结合<code>*</code>，可知数组p中的每一个元素的类型都是int型指针。上述声明等价于：</p>
+<pre><code><span class="keyword">int</span> *(p[<span class="number">10</span>]);
+</code></pre><h3 id="数组指针">数组指针</h3><pre><code><span class="keyword">int</span> (*p)[<span class="number">10</span>];
+</code></pre><p>在这条C语言语句中，首先，p是一个指针，接着，p是一个指向数组的指针，并且数组中每一个元素的类型都是int。</p>
+<h3 id="函数指针数组-1">函数指针数组</h3><p>函数指针数组的定义同普通指针数组的定义相同。</p>
+<pre><code><span class="keyword">int</span> (*<span class="function"><span class="keyword">fn</span>[10])</span>(args);
+</code></pre><p>这样就定义了一个有10个元素的指针数组，其中，每个指针都是一个函数指针，指向一个返回值类型为 int，参数为 args 的函数。 </p>
+<h2 id="返回指针的函数">返回指针的函数</h2><p>C语言中，可以将函数的返回值类型定义为指针，具体做法例如：</p>
+<pre><code><span class="keyword">int</span> * (*<span class="function"><span class="keyword">fn</span>)</span>(args);
+</code></pre><p>这样便定义了一个返回值类型为int型指针，参数为args的函数指针。</p>
+<h2 id="返回数组指针的函数">返回数组指针的函数</h2><p>C语言中，函数的返回值类型可以是指向数组的指针。例如：</p>
+<pre><code><span class="keyword">int</span> (*<span class="function"><span class="keyword">fn</span></span>(args))[];
+<span class="keyword">int</span> (*fu(args))[] {
+
+}
+</code></pre><p>这样，<code>fn</code>便是一个返回数组指针的函数，该数组指针指向一个有5个int型元素的数组。</p>
+<h2 id="复杂指针嵌套语句的解读">复杂指针嵌套语句的解读</h2><p>C语言中所有复杂的指针声明都是由各种声明嵌套构成的。<strong>左右法则</strong>是一个从C标准中归纳出来的解读复杂指针声明的方法。</p>
+<blockquote>
+<p>左右法则：首先从最里面的未定义标识符开始，然后往右看，再往左看。每当遇到圆括号时，就掉转阅读方向。一旦解析玩圆括号里面所有的内容，就跳出圆括号。重复这一过程直至整个声明解析完毕。</p>
+</blockquote>
+<p>举例：</p>
+<pre><code>int (<span class="keyword">*</span>(<span class="keyword">*</span>func)(int <span class="keyword">*</span>p))[5];
+</code></pre><p>首先，func是一个函数指针，指向一个参数为<code>int *p</code>的函数，函数的返回值类型为指向数组的指针，该数组具有5个int型的元素。</p>
+<p>再如下例：</p>
+<pre><code><span class="keyword">int</span> (*(*<span class="function"><span class="keyword">fn</span>)</span>(args))[<span class="number">5</span>];
+</code></pre><p>这便定义了一个函数指针，指向的函数返回一个数组指针，该数组指针指向一个有5个int类型的元素的数组。</p>
+<h2 id="typedef与函数指针">typedef与函数指针</h2><p>在C语言中，typedef用作类型定义。建立一个类型别名的方法如下：</p>
+<blockquote>
+<p>在传统的变量声明表达式中用类型名替代变量名，然后把<code>typedef</code>关键字加在该语句的开头。</p>
+</blockquote>
+<p>例如：</p>
+<pre><code>typedef int* <span class="comment">(*A[5])(int, char **)</span>;
+A a[<span class="number">5</span>];
+</code></pre><p>与</p>
+<pre><code>int* <span class="comment">(*a[5])(int, char **)</span>;
+</code></pre><p>是等价的。</p>
+<p>其他的更简单的使用typedef的语句如：</p>
+<pre><code><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;
+<span class="keyword">typedef</span> <span class="keyword">char</span> * pchar;
+</code></pre><p>也就容易理解了。</p>
+<h2 id="函数指针作为参数">函数指针作为参数</h2><p>将函数指针类型作为参数进行传参时，函数名前加不加<code>&amp;</code>符号都可以。</p>
+
+          
+        
+      </div>
+      <footer>
+        
+          <div class="alignright">
+            <a href="/2015/02/02/programming language/c_cpp/c_function_pointer/#more" class="more-link">Continue Reading<i class="fa fa-long-arrow-right fa-1"></i></a>
+          </div>
+        
+        <div class="clearfix"></div>
+      </footer>
+    </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  
+    <div class="post-content-index">
+  
+      
+        <header>
+          <div class="icon"></div>
+            
+    
+      <h1 class="title transition"><a href="/2015/02/02/linux/grep/">Grep</a></h1>
+    
+  
+          <ul>
+            <li>
+              <span class="heading-span">Posted on: </span>
+              <time datetime="2015-02-01T16:00:00.000Z">2015-02-02</time>
+            </li>
+            
+              <li>
+                <span class="heading-span">By: </span>
+
+                
+                  <a href="/">DHDave</a>
+                
+
+              </li>
+            
+            <li>
+              <span class="heading-span">With: </span>
+              
+                <a href="/2015/02/02/linux/grep/#disqus_thread">Comments</a>
+
+              
+          </ul>
+        </header>
+      
+      <div class="entry">
+        
+          
+            <h2 id="指定要搜索的单词">指定要搜索的单词</h2><pre><code><span class="keyword">grep</span> -w <span class="string">"word"</span>
+</code></pre><h2 id="搜索以特定字符串开头的单词">搜索以特定字符串开头的单词</h2><pre><code><span class="keyword">grep</span> <span class="string">'\&lt;word'</span>
+</code></pre><h2 id="搜索以特定字符串结尾的单词">搜索以特定字符串结尾的单词</h2><pre><code><span class="keyword">grep</span> <span class="string">'word\&gt;'</span>
+</code></pre><h2 id="搜索以特定字符串开头的行">搜索以特定字符串开头的行</h2><pre><code><span class="keyword">grep</span> <span class="string">'^word'</span>
+</code></pre><h2 id="搜索以特定字符串结尾的行">搜索以特定字符串结尾的行</h2><pre><code><span class="keyword">grep</span> <span class="string">'word$'</span>
+</code></pre><h2 id="显示上下文">显示上下文</h2><ul>
+<li><p>显示 <code>n</code> 行上文</p>
+<pre><code><span class="keyword">grep</span> <span class="string">'word'</span> -B n
+</code></pre></li>
+<li><p>显示 <code>n</code> 行下文</p>
+<pre><code><span class="keyword">grep</span> <span class="string">'word'</span> -A n
+</code></pre></li>
+<li><p>显示上文和下文各 <code>n</code> 行</p>
+<pre><code><span class="keyword">grep</span> <span class="string">'word'</span> -C n
+</code></pre></li>
+</ul>
+<h2 id="正则表达式">正则表达式</h2><ul>
+<li><code>-e</code>选项： 将模式串作为正则表达式进行匹配。</li>
+<li><code>-G</code>选项： 模式串是基本正则表达式。</li>
+<li><code>-E</code>选项： 模式串是扩展正则表达式。</li>
+</ul>
+<h2 id="过滤模式串">过滤模式串</h2><pre><code><span class="keyword">grep</span> -v <span class="string">'word'</span>
+</code></pre><p>查找所有不符合条件的行。</p>
+<h2 id="POSIX字符集">POSIX字符集</h2><pre><code><span class="keyword">grep</span> <span class="string">'[[:space:]]'</span> 
+</code></pre><p>显示出所有有空格的行。</p>
+<p>其他POSIX字符集的用法同上例。</p>
+
+          
+        
+      </div>
+      <footer>
+        
+          <div class="alignright">
+            <a href="/2015/02/02/linux/grep/#more" class="more-link">Continue Reading<i class="fa fa-long-arrow-right fa-1"></i></a>
+          </div>
+        
+        <div class="clearfix"></div>
+      </footer>
+    </div>
+</article>
+
+
+
+
+
+<nav id="pagination">
+  
+    <a href="/page/2/" class="alignleft prev">上一页</a>
+  
+  
+    <a href="/page/4/" class="alignright next">下一页</a>
+  
+  <div class="clearfix"></div>
+</nav></div></div>
+    <aside id="sidebar" class="alignright"><div class="padding">
+	
+	  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:dhdave.github.io">
+  </form>
+</div>
+	
+	  
+<div class="widget recent-post">
+  <h3 class="title">最新文章</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/2015/03/17/algorithm/backpack/">背包问题总结</a>
+      </li>
+    
+      <li>
+        <a href="/2015/02/28/programming language/haskell/dive_into_haskell_4_higher_order_function/">Dive Into Haskell(4) 高阶函数</a>
+      </li>
+    
+      <li>
+        <a href="/2015/02/26/algorithm/max_flow/">最大流算法</a>
+      </li>
+    
+      <li>
+        <a href="/2015/02/25/algorithm/gcd/">最大公约数算法</a>
+      </li>
+    
+      <li>
+        <a href="/2015/02/24/algorithm/binary_index_trees/">树状数组</a>
+      </li>
+    
+  </ul>
+</div>
+
+	
+	  
+<div class="widget category">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/Algorithm/">Algorithm</a><small>17</small></li>
+  
+    <li><a href="/categories/Linux/">Linux</a><small>2</small></li>
+  
+    <li><a href="/categories/Math/">Math</a><small>4</small></li>
+  
+    <li><a href="/categories/Runtime/">Runtime</a><small>1</small></li>
+  
+    <li><a href="/categories/编程语言/">编程语言</a><small>14</small></li>
+  
+  </ul>
+</div>
+
+	
+	  
+<div class="widget tag">
+  <h3 class="title">标签</h3>
+  
+    <a href="/tags/Algorithm/">Algorithm<small>17</small></a>
+  
+    <a href="/tags/C-C/">C/C++<small>4</small></a>
+  
+    <a href="/tags/CodeStyle/">CodeStyle<small>1</small></a>
+  
+    <a href="/tags/Cygwin/">Cygwin<small>1</small></a>
+  
+    <a href="/tags/Haskell/">Haskell<small>4</small></a>
+  
+    <a href="/tags/JNI/">JNI<small>1</small></a>
+  
+    <a href="/tags/JVM/">JVM<small>1</small></a>
+  
+    <a href="/tags/Javascript/">Javascript<small>1</small></a>
+  
+    <a href="/tags/Linux/">Linux<small>1</small></a>
+  
+    <a href="/tags/Mathematica/">Mathematica<small>4</small></a>
+  
+    <a href="/tags/Python/">Python<small>5</small></a>
+  
+</div>
+
+	
+</div></aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="padding">
+	<div class="alignleft">
+	  
+	  &copy; 2015 DHDave
+	  
+	  Powerd by <a href="http://hexo.io/" target="_blank">hexo</a>
+	  and Theme by <a href="https://github.com/halfer53/metro-light" target="_blank">metro-light</a>
+	</div>
+
+	<div class="alignright">
+		
+			<a href="https://plus.google.com/u/0/112661429129878562674/posts" target="_blank" title="DHDave Google Plus"><i class="fa fa-google-plus-square"></i></a>
+		
+		
+			<a href="https://github.com/DHDave" target="_blank" title="DHDave Github"><i class="fa fa-github-square"></i></a>	
+		
+		
+		
+		
+		
+		
+	</div>
+
+	<div class="clearfix"></div>
+</div>
+
+<div class="scroll-top"><i class="fa fa-arrow-circle-up"></i></div>
+</footer>
+  
+
+		<script type="text/javascript">
+		var disqus_shortname = 'dhdavegithubiodhdave-github-io';
+
+		        (function() {
+		            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+		            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+		            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+		        })();
+		</script>
+
+		<script type="text/javascript">
+		var disqus_shortname = 'dhdavegithubiodhdave-github-io'; 
+
+		(function () {
+		var s = document.createElement('script'); s.async = true;
+		s.type = 'text/javascript';
+		s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+		(document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+		}());
+		</script>
+
+  
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/3.0.4/jquery.imagesloaded.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+<script type="text/javascript">
+$(window).scroll(function() {
+
+    if($(this).scrollTop() > 400) {
+        $('.scroll-top').fadeIn(200);
+    } else {
+        $('.scroll-top').fadeOut(200);
+    }
+});
+
+$('.scroll-top').bind('click', function(e) {
+    e.preventDefault();
+    $('body,html').animate({scrollTop:0},200);
+});
+</script>
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

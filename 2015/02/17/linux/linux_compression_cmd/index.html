@@ -1,0 +1,471 @@
+<!DOCTYPE HTML>
+
+<html lang="en">
+  
+<head>
+  <meta charset="utf-8">
+  
+  <title>Linux 文件解压及压缩命令 | DHDave</title>
+  <meta name="author" content="DHDave">
+  
+  <meta name="description" content="DHDave&#39;s Personal Page.">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Linux 文件解压及压缩命令"/>
+  <meta property="og:site_name" content="DHDave"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  
+    <meta http-equiv="Content-Language" content="en"/>
+  
+
+  <link href="/img/favicon.png" rel="icon">
+  
+    <link rel="apple-touch-icon" href="/img/apple-icon.png">
+    <link rel="apple-touch-icon-precomposed" href="/img/apple-icon.png">
+    
+
+  <link rel="alternate" href="/atom.xml" title="DHDave" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  
+  <style type="text/css">
+  /* Tim Pietrusky advanced checkbox hack (Android <= 4.1.2) */
+body{ -webkit-animation: bugfix infinite 1s; }
+@-webkit-keyframes bugfix { from {padding:0;} to {padding:0;} }
+
+  
+
+  
+    article .post-content-index .entry{max-height: 550px; overflow:hidden;}
+  
+</style>
+
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'null', 'auto');
+  ga('send', 'pageview');
+ 
+</script>
+
+
+
+
+  
+    
+      <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400|Playball' rel='stylesheet' type='text/css'>
+    
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.11.1.min.js"></script>
+
+  
+
+
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="padding">
+	<div class="alignleft logo">
+	  <h1><a href="/">DHDave</a></h1>
+	</div>
+	<nav id="main-nav" class="alignright">
+		<input type="checkbox" id="toggle" />
+		<label for="toggle" class="toggle" data-open="Main Menu" data-close="Close Menu" onclick><i class="fa fa-bars"></i></label>
+	  <ul class="menu">
+	    
+	      <li><a href="/">Home</a></li>
+	    
+	      <li><a href="/archives">Archives</a></li>
+	    
+	    
+	  </ul>
+	</nav>
+	<div class="clearfix"></div>
+</div>
+</header>
+  <div id="page-heading-wrap">
+  	<div class="inner">
+      <div class="padding">
+    		
+          <h1>Linux 文件解压及压缩命令</h1>
+          <ul>
+            <li>
+              <span class="heading-span">Posted on: </span>
+              <time datetime="2015-02-16T16:00:00.000Z">2015-02-17</time>
+            </li>
+            
+              <li>
+                <span class="heading-span">By: </span>
+
+                
+                  <a href="/">DHDave</a>
+                
+
+              </li>
+            
+            <li>
+              <span class="heading-span">With: </span>
+              
+                <a href="#disqus_thread">Comments</a>
+
+              
+            </li>
+          </ul>
+        
+      </div>
+  	</div>
+  </div>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper" class="padding"><article class="post">
+  
+  
+    <div class="post-content">
+  
+      
+      <div class="entry">
+        
+          <p>Linux下，通常需要用tar命令进行解压和压缩操作，针对不同的压缩文件格式，tar命令的参数也不相同。</p>
+<h2 id="tar_命令的常用参数含义:">tar 命令的常用参数含义:</h2><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Main operation mode:</span><br><span class="line"></span><br><span class="line"> -A, --catenate, --concatenate   <span class="keyword">append</span> tar files to <span class="keyword">an</span> archive</span><br><span class="line"> -c, --create               create a new archive</span><br><span class="line"> -<span class="keyword">d</span>, --diff, --<span class="keyword">compare</span>      find differences between archive and <span class="keyword">file</span> system</span><br><span class="line">     --delete               delete from the archive (not <span class="keyword">on</span> mag tapes!)</span><br><span class="line"> -r, --<span class="keyword">append</span>               <span class="keyword">append</span> files to the end of <span class="keyword">an</span> archive</span><br><span class="line"> -t, --<span class="keyword">list</span>                 <span class="keyword">list</span> the contents of <span class="keyword">an</span> archive</span><br><span class="line">     --<span class="keyword">test</span>-<span class="keyword">label</span>           <span class="keyword">test</span> the archive volume <span class="keyword">label</span> and <span class="keyword">exit</span></span><br><span class="line"> -<span class="keyword">u</span>, --<span class="keyword">update</span>               only <span class="keyword">append</span> files newer than <span class="keyword">copy</span> <span class="keyword">in</span> archive</span><br><span class="line"> -x, --extract, --get       extract files from <span class="keyword">an</span> archive</span><br></pre></td></tr></table></figure>
+<h2 id="常见压缩文件格式解压参数">常见压缩文件格式解压参数</h2><ol>
+<li><p>.tar.Z 格式</p>
+<pre><code>解压: tar Zxvf FileName<span class="class">.tar</span><span class="class">.Z</span>
+压缩: tar Zcvf FileName<span class="class">.tar</span><span class="class">.Z</span>
+</code></pre></li>
+<li><p>.zip 格式</p>
+<pre><code>压缩: unzip FileName.<span class="keyword">zip</span>
+解压: <span class="keyword">zip</span> 
+</code></pre></li>
+<li><p>.gz 格式</p>
+<pre><code>解压：gunzip FileName<span class="class">.gz</span>
+  或：gzip -d FileName<span class="class">.gz</span>
+压缩：gzip FileName
+</code></pre></li>
+<li><p>.tar.gz 格式</p>
+<pre><code>解压：tar zxvf FileName<span class="class">.tar</span><span class="class">.gz</span>
+压缩：tar zcvf FileName<span class="class">.tar</span><span class="class">.gz</span> DirName
+</code></pre></li>
+<li><p>.bz2 格式</p>
+<pre><code>解压：bzip2 -d FileName<span class="class">.bz2</span>
+  或：bunzip2 FileName<span class="class">.bz2</span>
+压缩：bzip2 -z FileName
+</code></pre></li>
+<li><p>.tar.bz2 格式</p>
+<pre><code>解压：tar jxvf FileName<span class="class">.tar</span><span class="class">.bz2</span>
+压缩：tar jcvf FileName<span class="class">.tar</span><span class="class">.bz2</span> DirName
+</code></pre></li>
+<li><p>.bz 格式</p>
+<pre><code>解压：bzip2 -d <span class="keyword">FileName</span>.bz
+  或：bunzip2 <span class="keyword">FileName</span>.bz
+</code></pre></li>
+<li><p>.tar.bz 格式</p>
+<pre><code>解压：tar jxvf FileName<span class="class">.tar</span><span class="class">.bz</span>
+</code></pre></li>
+<li><p>.Z 格式</p>
+<pre><code>解压：uncompress <span class="keyword">FileName</span>.Z
+压缩：compress <span class="keyword">FileName</span>
+</code></pre></li>
+<li><p>.tgz 格式</p>
+<pre><code>解压：tar zxvf <span class="keyword">FileName</span>.tgz
+</code></pre></li>
+<li><p>.tar.tgz 格式</p>
+<pre><code>解压：tar zxvf FileName<span class="class">.tar</span><span class="class">.tgz</span>
+压缩：tar zcvf FileName<span class="class">.tar</span><span class="class">.tgz</span> FileName
+</code></pre></li>
+<li><p>.zip 格式</p>
+<pre><code>解压：unzip FileName<span class="class">.zip</span>
+压缩：zip FileName<span class="class">.zip</span> DirName
+</code></pre></li>
+<li><p>.rar 格式</p>
+<pre><code>解压：rar e FileDir
+压缩：rar <span class="tag">a</span> FileName<span class="class">.rar</span> 
+</code></pre></li>
+<li><p>.tar.lz 格式</p>
+<pre><code>解压：tar xvf filename<span class="class">.tar</span><span class="class">.lz</span>
+</code></pre></li>
+<li><p>.tar.xz 格式</p>
+<pre><code>解压：xz -d filename<span class="class">.tar</span><span class="class">.xz</span>
+压缩：xz -Z FileDir
+</code></pre></li>
+<li><p>.lzma格式</p>
+<pre><code>解压：lzma -d filename<span class="class">.lzma</span>
+压缩: lzma -k FileDir
+</code></pre></li>
+</ol>
+
+        
+      </div>
+      <footer>
+        
+          
+  
+  <div class="categories">
+    <a href="/categories/Linux/">Linux</a>
+  </div>
+
+          
+  
+  <div class="tags">
+    <a href="/tags/Linux/">Linux</a>
+  </div>
+
+          <div class="share">
+  
+
+    
+
+    
+      <div class="g-plusone"></div>
+
+      <script type="text/javascript">
+        window.___gcfg = {lang: 'en-GB'};
+
+        (function() {
+          var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+          po.src = 'https://apis.google.com/js/platform.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+        })();
+      </script>
+    
+
+    
+      <a href="https://twitter.com/share" class="twitter-share-button" data-via="halfer53">Tweet</a>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+    
+  
+</div>
+          
+<nav class="article-nav clearfix">
+ 
+ <div class="article-prev" >
+ <a href="/2015/02/18/programming language/javascript/variable_scope/" title="Javascript 变量作用域与闭包">
+  <i class="fa fa-long-arrow-left"></i>
+  <span>
+  Javascript 变量作用域与闭包</span>
+</a>
+</div>
+
+
+<div class="article-next">
+<a href="/2015/02/17/algorithm/kmp/"  title="KMP算法">
+ <span>KMP算法
+</span>
+<i class="fa fa-long-arrow-right"></i>
+</a>
+</div>
+
+</nav>
+
+        
+        <div class="clearfix"></div>
+      </footer>
+    </div>
+</article>
+
+
+<section id="comment">
+  <h2 class="title">留言</h2>
+
+  
+
+  <div id="disqus_thread"></div>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+  
+</section>
+
+</div></div>
+    <aside id="sidebar" class="alignright"><div class="padding">
+	
+	  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:dhdave.github.io">
+  </form>
+</div>
+	
+	  
+<div class="widget recent-post">
+  <h3 class="title">最新文章</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/2015/03/17/algorithm/backpack/">背包问题总结</a>
+      </li>
+    
+      <li>
+        <a href="/2015/02/28/programming language/haskell/dive_into_haskell_4_higher_order_function/">Dive Into Haskell(4) 高阶函数</a>
+      </li>
+    
+      <li>
+        <a href="/2015/02/26/algorithm/max_flow/">最大流算法</a>
+      </li>
+    
+      <li>
+        <a href="/2015/02/25/algorithm/gcd/">最大公约数算法</a>
+      </li>
+    
+      <li>
+        <a href="/2015/02/24/algorithm/binary_index_trees/">树状数组</a>
+      </li>
+    
+  </ul>
+</div>
+
+	
+	  
+<div class="widget category">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/Algorithm/">Algorithm</a><small>17</small></li>
+  
+    <li><a href="/categories/Linux/">Linux</a><small>2</small></li>
+  
+    <li><a href="/categories/Math/">Math</a><small>4</small></li>
+  
+    <li><a href="/categories/Runtime/">Runtime</a><small>1</small></li>
+  
+    <li><a href="/categories/编程语言/">编程语言</a><small>14</small></li>
+  
+  </ul>
+</div>
+
+	
+	  
+<div class="widget tag">
+  <h3 class="title">标签</h3>
+  
+    <a href="/tags/Algorithm/">Algorithm<small>17</small></a>
+  
+    <a href="/tags/C-C/">C/C++<small>4</small></a>
+  
+    <a href="/tags/CodeStyle/">CodeStyle<small>1</small></a>
+  
+    <a href="/tags/Cygwin/">Cygwin<small>1</small></a>
+  
+    <a href="/tags/Haskell/">Haskell<small>4</small></a>
+  
+    <a href="/tags/JNI/">JNI<small>1</small></a>
+  
+    <a href="/tags/JVM/">JVM<small>1</small></a>
+  
+    <a href="/tags/Javascript/">Javascript<small>1</small></a>
+  
+    <a href="/tags/Linux/">Linux<small>1</small></a>
+  
+    <a href="/tags/Mathematica/">Mathematica<small>4</small></a>
+  
+    <a href="/tags/Python/">Python<small>5</small></a>
+  
+</div>
+
+	
+</div></aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="padding">
+	<div class="alignleft">
+	  
+	  &copy; 2015 DHDave
+	  
+	  Powerd by <a href="http://hexo.io/" target="_blank">hexo</a>
+	  and Theme by <a href="https://github.com/halfer53/metro-light" target="_blank">metro-light</a>
+	</div>
+
+	<div class="alignright">
+		
+			<a href="https://plus.google.com/u/0/112661429129878562674/posts" target="_blank" title="DHDave Google Plus"><i class="fa fa-google-plus-square"></i></a>
+		
+		
+			<a href="https://github.com/DHDave" target="_blank" title="DHDave Github"><i class="fa fa-github-square"></i></a>	
+		
+		
+		
+		
+		
+		
+	</div>
+
+	<div class="clearfix"></div>
+</div>
+
+<div class="scroll-top"><i class="fa fa-arrow-circle-up"></i></div>
+</footer>
+  
+
+		<script type="text/javascript">
+		var disqus_shortname = 'dhdavegithubiodhdave-github-io';
+
+		        (function() {
+		            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+		            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+		            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+		        })();
+		</script>
+
+		<script type="text/javascript">
+		var disqus_shortname = 'dhdavegithubiodhdave-github-io'; 
+
+		(function () {
+		var s = document.createElement('script'); s.async = true;
+		s.type = 'text/javascript';
+		s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+		(document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+		}());
+		</script>
+
+  
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/3.0.4/jquery.imagesloaded.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+<script type="text/javascript">
+$(window).scroll(function() {
+
+    if($(this).scrollTop() > 400) {
+        $('.scroll-top').fadeIn(200);
+    } else {
+        $('.scroll-top').fadeOut(200);
+    }
+});
+
+$('.scroll-top').bind('click', function(e) {
+    e.preventDefault();
+    $('body,html').animate({scrollTop:0},200);
+});
+</script>
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

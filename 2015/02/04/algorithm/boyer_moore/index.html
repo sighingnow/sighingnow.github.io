@@ -1,0 +1,425 @@
+<!DOCTYPE HTML>
+
+<html lang="en">
+  
+<head>
+  <meta charset="utf-8">
+  
+  <title>Boyer-Moore 算法 | DHDave</title>
+  <meta name="author" content="DHDave">
+  
+  <meta name="description" content="DHDave&#39;s Personal Page.">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Boyer-Moore 算法"/>
+  <meta property="og:site_name" content="DHDave"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  
+    <meta http-equiv="Content-Language" content="en"/>
+  
+
+  <link href="/img/favicon.png" rel="icon">
+  
+    <link rel="apple-touch-icon" href="/img/apple-icon.png">
+    <link rel="apple-touch-icon-precomposed" href="/img/apple-icon.png">
+    
+
+  <link rel="alternate" href="/atom.xml" title="DHDave" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  
+  <style type="text/css">
+  /* Tim Pietrusky advanced checkbox hack (Android <= 4.1.2) */
+body{ -webkit-animation: bugfix infinite 1s; }
+@-webkit-keyframes bugfix { from {padding:0;} to {padding:0;} }
+
+  
+
+  
+    article .post-content-index .entry{max-height: 550px; overflow:hidden;}
+  
+</style>
+
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'null', 'auto');
+  ga('send', 'pageview');
+ 
+</script>
+
+
+
+
+  
+    
+      <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400|Playball' rel='stylesheet' type='text/css'>
+    
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.11.1.min.js"></script>
+
+  
+
+
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="padding">
+	<div class="alignleft logo">
+	  <h1><a href="/">DHDave</a></h1>
+	</div>
+	<nav id="main-nav" class="alignright">
+		<input type="checkbox" id="toggle" />
+		<label for="toggle" class="toggle" data-open="Main Menu" data-close="Close Menu" onclick><i class="fa fa-bars"></i></label>
+	  <ul class="menu">
+	    
+	      <li><a href="/">Home</a></li>
+	    
+	      <li><a href="/archives">Archives</a></li>
+	    
+	    
+	  </ul>
+	</nav>
+	<div class="clearfix"></div>
+</div>
+</header>
+  <div id="page-heading-wrap">
+  	<div class="inner">
+      <div class="padding">
+    		
+          <h1>Boyer-Moore 算法</h1>
+          <ul>
+            <li>
+              <span class="heading-span">Posted on: </span>
+              <time datetime="2015-02-03T16:00:00.000Z">2015-02-04</time>
+            </li>
+            
+              <li>
+                <span class="heading-span">By: </span>
+
+                
+                  <a href="/">DHDave</a>
+                
+
+              </li>
+            
+            <li>
+              <span class="heading-span">With: </span>
+              
+                <a href="#disqus_thread">Comments</a>
+
+              
+            </li>
+          </ul>
+        
+      </div>
+  	</div>
+  </div>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper" class="padding"><article class="post">
+  
+  
+    <div class="post-content">
+  
+      
+      <div class="entry">
+        
+          <p>Boyer-Moore 算法由 Robort S.Boyer 和 J Strother Moore 在1977年提出，可以在O(1)的时间复杂度内完成字符串的匹配，其在绝大部分场合的性能表现要优于KMP算法。GNU grep使用了此算法进行字符串匹配，同时也被很多文本编辑器用进行字符串的查找。</p>
+<h2 id="一、概述">一、概述</h2><h2 id="二、移动规则">二、移动规则</h2><h3 id="“坏字符”规则">“坏字符”规则</h3><p>坏字符规则(bad-character shift)用来计算当前模式串与源串失配时的模式串指针的移动方案。具体计算方法如下：</p>
+<pre><code><span class="attribute">后移位数 </span>=<span class="string"> 坏字符的位置 - 坏字符在模式串中的上一次出现位置</span>
+</code></pre><p>式中，坏字符在模式串中的上一次出现位置值可以由一下算法得出：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * bmBC数组为对应坏字符的应有的右移距离。</span><br><span class="line"> **/</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">getBadChar</span><span class="params">(<span class="keyword">int</span> bmBC[], <span class="keyword">int</span> ALPHABET_SIZE, <span class="keyword">char</span> pattern[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> len = <span class="built_in">strlen</span>(pattern);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; ALPHABET_SIZE; ++i) &#123;</span><br><span class="line">        bmBC[i] = m;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len; ++i) &#123;</span><br><span class="line">        bmBC[pattern[i]] = len - <span class="number">1</span> - i;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>bmBC</code>数组基于字典计算，最终计算得到的<code>bmBC</code>数组便是每个字母在模式串中出现的最后的位置。</p>
+<h3 id="“好后缀”规则">“好后缀”规则</h3><p>好后缀规则(good-suffix shift)通过模式串和源字符串的后缀之间的关系来计算模式串指针移动的位置量。具体计算方法如下：</p>
+<pre><code><span class="attribute">后移位数 </span>=<span class="string"> 好后缀的位置 - 模式串中的上一次出现位置</span>
+</code></pre><p>式中，好后缀的位置的取值以“好后缀”的最后一个字符为准。如果“好后缀”在模式串中没有重复出现，择取其上一次出现的位置为-1。</p>
+<p>为了应用好后缀规则，还需要对模式串预处理，求出后缀长度表。即以每一个位置的字符为后缀和以最后一个字符为后缀的公共后缀串的长度。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * suffix 数组的含义:</span><br><span class="line"> * suffix[i]为pattern中以i位置字符为后缀和</span><br><span class="line"> * 以pattern中最后一个字符为后缀的公共后缀串的长度。</span><br><span class="line"> */</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">getSuffix</span><span class="params">(<span class="keyword">int</span> suffix[], <span class="keyword">char</span> pattern[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> len = <span class="built_in">strlen</span>(pattern);</span><br><span class="line">    suffix[len-<span class="number">1</span>] = len;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = len - <span class="number">2</span>; i &gt;= <span class="number">0</span>; --i) &#123;</span><br><span class="line">        <span class="keyword">int</span> j = i;</span><br><span class="line">        <span class="keyword">while</span>(j &gt; <span class="number">0</span> &amp;&amp; pattern[j] == pattern[len-<span class="number">1</span>-(i-j)]) &#123;</span><br><span class="line">            --j;</span><br><span class="line">        &#125;</span><br><span class="line">        suffix[i] = i - j;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过利用已经求出的后缀串的长度，还可以对该过程做出进一步的改进。如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">getSuffix</span><span class="params">(<span class="keyword">int</span> suffix[], <span class="keyword">char</span> pattern[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> len = <span class="built_in">strlen</span>(pattern);</span><br><span class="line">    <span class="keyword">int</span> g = len-<span class="number">1</span>, f;</span><br><span class="line">    suffix[len-<span class="number">1</span>] = len;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = len - <span class="number">2</span>; i &gt;= <span class="number">0</span>; --i) &#123;</span><br><span class="line">        <span class="keyword">if</span>(i &gt; g &amp;&amp; suffix[(len-<span class="number">1</span>)-(f-i)] &lt; i - g) &#123;</span><br><span class="line">            suffix[i] = suffix[(len-<span class="number">1</span>)-(f-i)];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">if</span>(i &lt; g) &#123;</span><br><span class="line">                g = i;</span><br><span class="line">            &#125;</span><br><span class="line">            f = i;</span><br><span class="line">            <span class="keyword">while</span>(g &gt;= <span class="number">0</span> &amp;&amp; pattern[g] == pattern[(len-<span class="number">1</span>)-(f-g)]) &#123;</span><br><span class="line">                --g;</span><br><span class="line">            &#125;</span><br><span class="line">            suffix[i] = f - g;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过已经求出的后缀长度表，便可以求出“好后缀”的长度。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">getGoodSuffix</span><span class="params">(<span class="keyword">int</span> bmGS[], <span class="keyword">char</span> pattern[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> len = <span class="built_in">strlen</span>(pattern);</span><br><span class="line">    <span class="keyword">int</span> suffix[len+<span class="number">5</span>];</span><br><span class="line">    getSuffix(suffix, pattern);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len; ++i) &#123;</span><br><span class="line">        bmGS[i] = len;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = len-<span class="number">1</span>, j = <span class="number">0</span>; i &gt;= <span class="number">0</span>; --i) &#123;</span><br><span class="line">        <span class="keyword">if</span>(suffix[i] == i + <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">for</span>(; j &lt; len - <span class="number">1</span> - i; ++j) &#123;</span><br><span class="line">                <span class="keyword">if</span>(bmGS[j] == len) &#123;</span><br><span class="line">                    bmGS[j] = len - <span class="number">1</span> - i;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= len-<span class="number">2</span>; ++i) &#123;</span><br><span class="line">        bmGS[len-<span class="number">1</span>-suffix[i]] = len - <span class="number">1</span> - i;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="三、算法实现">三、算法实现</h2><p>最终，BoyerMoore算法的实现如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * 如果模式串存在，返回模式串的第一个字符在文本串中的索引位置（从0开始计算）。</span><br><span class="line"> * 如果不存在，返回 -1 。</span><br><span class="line"> */</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">BoyerMoore</span><span class="params">(<span class="keyword">char</span> pattern[], <span class="keyword">char</span> src[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ALPHABET_SIZE = <span class="number">256</span>, len = <span class="built_in">strlen</span>(pattern);</span><br><span class="line">    <span class="keyword">int</span> bmBC[ALPHABET_SIZE+<span class="number">5</span>], bmGS[len+<span class="number">5</span>];</span><br><span class="line">    getBadChar(bmBC, ALPHABET_SIZE, pattern);</span><br><span class="line">    getGoodSuffix(bmGS, pattern);</span><br><span class="line">    <span class="keyword">int</span> j = <span class="number">0</span>, i;</span><br><span class="line">    <span class="keyword">while</span>(j &lt;= <span class="built_in">strlen</span>(src) - len) &#123;</span><br><span class="line">        <span class="keyword">for</span>(i = len - <span class="number">1</span>; i &gt;= <span class="number">0</span> &amp;&amp; pattern[i] == src[i+j]; --i) &#123;</span><br><span class="line">            ;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(i &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> j;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            j += max(bmBC[src[i+j]]-(len-<span class="number">1</span>-i), bmGS[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="四、参考">四、参考</h2><ol>
+<li><a href="http://blog.jobbole.com/52830" target="_blank" rel="external">grep之字符串搜索算法Boyer-Moore由浅入深(比KMP快3-5倍)</a></li>
+<li><a href="http://blog.jobbole.com/39132" target="_blank" rel="external">字符串匹配的Boyer-Moore算法</a></li>
+</ol>
+
+        
+      </div>
+      <footer>
+        
+          
+  
+  <div class="categories">
+    <a href="/categories/Algorithm/">Algorithm</a>
+  </div>
+
+          
+  
+  <div class="tags">
+    <a href="/tags/Algorithm/">Algorithm</a>
+  </div>
+
+          <div class="share">
+  
+
+    
+
+    
+      <div class="g-plusone"></div>
+
+      <script type="text/javascript">
+        window.___gcfg = {lang: 'en-GB'};
+
+        (function() {
+          var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+          po.src = 'https://apis.google.com/js/platform.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+        })();
+      </script>
+    
+
+    
+      <a href="https://twitter.com/share" class="twitter-share-button" data-via="halfer53">Tweet</a>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+    
+  
+</div>
+          
+<nav class="article-nav clearfix">
+ 
+ <div class="article-prev" >
+ <a href="/2015/02/05/programming language/python/cx_freeze/" title="cx_Freeze打包Python应用程序">
+  <i class="fa fa-long-arrow-left"></i>
+  <span>
+  cx_Freeze打包Python应用程序</span>
+</a>
+</div>
+
+
+<div class="article-next">
+<a href="/2015/02/03/programming language/c_cpp/c_cpp_sleep/"  title="C和C++中的sleep函数">
+ <span>C和C++中的sleep函数
+</span>
+<i class="fa fa-long-arrow-right"></i>
+</a>
+</div>
+
+</nav>
+
+        
+        <div class="clearfix"></div>
+      </footer>
+    </div>
+</article>
+
+
+<section id="comment">
+  <h2 class="title">留言</h2>
+
+  
+
+  <div id="disqus_thread"></div>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+  
+</section>
+
+</div></div>
+    <aside id="sidebar" class="alignright"><div class="padding">
+	
+	  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:dhdave.github.io">
+  </form>
+</div>
+	
+	  
+<div class="widget recent-post">
+  <h3 class="title">最新文章</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/2015/03/17/algorithm/backpack/">背包问题总结</a>
+      </li>
+    
+      <li>
+        <a href="/2015/02/28/programming language/haskell/dive_into_haskell_4_higher_order_function/">Dive Into Haskell(4) 高阶函数</a>
+      </li>
+    
+      <li>
+        <a href="/2015/02/26/algorithm/max_flow/">最大流算法</a>
+      </li>
+    
+      <li>
+        <a href="/2015/02/25/algorithm/gcd/">最大公约数算法</a>
+      </li>
+    
+      <li>
+        <a href="/2015/02/24/algorithm/binary_index_trees/">树状数组</a>
+      </li>
+    
+  </ul>
+</div>
+
+	
+	  
+<div class="widget category">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/Algorithm/">Algorithm</a><small>17</small></li>
+  
+    <li><a href="/categories/Linux/">Linux</a><small>2</small></li>
+  
+    <li><a href="/categories/Math/">Math</a><small>4</small></li>
+  
+    <li><a href="/categories/Runtime/">Runtime</a><small>1</small></li>
+  
+    <li><a href="/categories/编程语言/">编程语言</a><small>14</small></li>
+  
+  </ul>
+</div>
+
+	
+	  
+<div class="widget tag">
+  <h3 class="title">标签</h3>
+  
+    <a href="/tags/Algorithm/">Algorithm<small>17</small></a>
+  
+    <a href="/tags/C-C/">C/C++<small>4</small></a>
+  
+    <a href="/tags/CodeStyle/">CodeStyle<small>1</small></a>
+  
+    <a href="/tags/Cygwin/">Cygwin<small>1</small></a>
+  
+    <a href="/tags/Haskell/">Haskell<small>4</small></a>
+  
+    <a href="/tags/JNI/">JNI<small>1</small></a>
+  
+    <a href="/tags/JVM/">JVM<small>1</small></a>
+  
+    <a href="/tags/Javascript/">Javascript<small>1</small></a>
+  
+    <a href="/tags/Linux/">Linux<small>1</small></a>
+  
+    <a href="/tags/Mathematica/">Mathematica<small>4</small></a>
+  
+    <a href="/tags/Python/">Python<small>5</small></a>
+  
+</div>
+
+	
+</div></aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="padding">
+	<div class="alignleft">
+	  
+	  &copy; 2015 DHDave
+	  
+	  Powerd by <a href="http://hexo.io/" target="_blank">hexo</a>
+	  and Theme by <a href="https://github.com/halfer53/metro-light" target="_blank">metro-light</a>
+	</div>
+
+	<div class="alignright">
+		
+			<a href="https://plus.google.com/u/0/112661429129878562674/posts" target="_blank" title="DHDave Google Plus"><i class="fa fa-google-plus-square"></i></a>
+		
+		
+			<a href="https://github.com/DHDave" target="_blank" title="DHDave Github"><i class="fa fa-github-square"></i></a>	
+		
+		
+		
+		
+		
+		
+	</div>
+
+	<div class="clearfix"></div>
+</div>
+
+<div class="scroll-top"><i class="fa fa-arrow-circle-up"></i></div>
+</footer>
+  
+
+		<script type="text/javascript">
+		var disqus_shortname = 'dhdavegithubiodhdave-github-io';
+
+		        (function() {
+		            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+		            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+		            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+		        })();
+		</script>
+
+		<script type="text/javascript">
+		var disqus_shortname = 'dhdavegithubiodhdave-github-io'; 
+
+		(function () {
+		var s = document.createElement('script'); s.async = true;
+		s.type = 'text/javascript';
+		s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+		(document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+		}());
+		</script>
+
+  
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/3.0.4/jquery.imagesloaded.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+<script type="text/javascript">
+$(window).scroll(function() {
+
+    if($(this).scrollTop() > 400) {
+        $('.scroll-top').fadeIn(200);
+    } else {
+        $('.scroll-top').fadeOut(200);
+    }
+});
+
+$('.scroll-top').bind('click', function(e) {
+    e.preventDefault();
+    $('body,html').animate({scrollTop:0},200);
+});
+</script>
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

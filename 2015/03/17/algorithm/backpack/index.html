@@ -1,0 +1,430 @@
+<!DOCTYPE HTML>
+
+<html lang="en">
+  
+<head>
+  <meta charset="utf-8">
+  
+  <title>背包问题总结 | DHDave</title>
+  <meta name="author" content="DHDave">
+  
+  <meta name="description" content="DHDave&#39;s Personal Page.">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="背包问题总结"/>
+  <meta property="og:site_name" content="DHDave"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  
+    <meta http-equiv="Content-Language" content="en"/>
+  
+
+  <link href="/img/favicon.png" rel="icon">
+  
+    <link rel="apple-touch-icon" href="/img/apple-icon.png">
+    <link rel="apple-touch-icon-precomposed" href="/img/apple-icon.png">
+    
+
+  <link rel="alternate" href="/atom.xml" title="DHDave" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  
+  <style type="text/css">
+  /* Tim Pietrusky advanced checkbox hack (Android <= 4.1.2) */
+body{ -webkit-animation: bugfix infinite 1s; }
+@-webkit-keyframes bugfix { from {padding:0;} to {padding:0;} }
+
+  
+
+  
+    article .post-content-index .entry{max-height: 550px; overflow:hidden;}
+  
+</style>
+
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'null', 'auto');
+  ga('send', 'pageview');
+ 
+</script>
+
+
+
+
+  
+    
+      <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400|Playball' rel='stylesheet' type='text/css'>
+    
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.11.1.min.js"></script>
+
+  
+
+
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="padding">
+	<div class="alignleft logo">
+	  <h1><a href="/">DHDave</a></h1>
+	</div>
+	<nav id="main-nav" class="alignright">
+		<input type="checkbox" id="toggle" />
+		<label for="toggle" class="toggle" data-open="Main Menu" data-close="Close Menu" onclick><i class="fa fa-bars"></i></label>
+	  <ul class="menu">
+	    
+	      <li><a href="/">Home</a></li>
+	    
+	      <li><a href="/archives">Archives</a></li>
+	    
+	    
+	  </ul>
+	</nav>
+	<div class="clearfix"></div>
+</div>
+</header>
+  <div id="page-heading-wrap">
+  	<div class="inner">
+      <div class="padding">
+    		
+          <h1>背包问题总结</h1>
+          <ul>
+            <li>
+              <span class="heading-span">Posted on: </span>
+              <time datetime="2015-03-17T15:11:51.000Z">2015-03-17</time>
+            </li>
+            
+              <li>
+                <span class="heading-span">By: </span>
+
+                
+                  <a href="/">DHDave</a>
+                
+
+              </li>
+            
+            <li>
+              <span class="heading-span">With: </span>
+              
+                <a href="#disqus_thread">Comments</a>
+
+              
+            </li>
+          </ul>
+        
+      </div>
+  	</div>
+  </div>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper" class="padding"><article class="post">
+  
+  
+    <div class="post-content">
+  
+      
+      <div class="entry">
+        
+          <p>背包问题是动态规划思想和方法的经典应用问题，本文将从0-1背包，完全背包和混合背包三个角度来分析简单背包问题的求解方法。</p>
+<h2 id="背包问题">背包问题</h2><p>背包问题本质上是规划型问题，问题的核心在于在满足约束条件下，找到一种选择方案，使得目标值达到最优。通过动态规划的方法，可以将此类问题限制在多项式复杂度的时间内求解。</p>
+<h2 id="0-1背包">0-1背包</h2><h3 id="0-1背包问题的描述">0-1背包问题的描述</h3><p>有N件物品和一个总容量为V的背包，第<code>i</code>件物品的费用是<code>c[i]</code>，价值是<code>w[i]</code>。求解将哪些物品装入背包可以使得装入的物品的价值总和最大。</p>
+<h3 id="0-1背包问题的动态转移">0-1背包问题的动态转移</h3><p>动态转移方程：</p>
+<p>$$ f[i][v] = max{f[i-1][v], f[i-1][v-c[i]]+w[i]} $$</p>
+<p>解释；对于每一个状态，在决策是否装入第<code>i</code>件时，选取装入与不装入该件物品的价值和的最大值。如果放入第i件物品，那么前<code>i</code>件物品最多只能占用<code>v-c[i]</code>的体积，则价值和为<code>f[i-1][w-c[i]]</code>，如果不装入第<code>i</code>件物品，那么价值和仍为前<code>i-1</code>件物品的价值和。</p>
+<h3 id="时间和空间复杂度分析">时间和空间复杂度分析</h3><p>该算法时间复杂度为O(V*N)，如果只需要求解价值总和的最大值，由于只需要根据价值进行DP，空间复杂度可以优化到O(N)。</p>
+<p>代码表述如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j = v; j &gt;= c[i]; j--) &#123;</span><br><span class="line">truetruef[j] = max(f[j], (f[j-c[i]] + w[i]));</span><br><span class="line">        </span><br><span class="line">        <span class="comment">/** 不优化空间的写法</span><br><span class="line">         * f[i][j] = max(f[i-1][j], (f[i-1][j-c[i]] + w[i]));</span><br><span class="line">         */</span></span><br><span class="line">true&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="回溯法推导0-1背包问题的最优方案">回溯法推导0-1背包问题的最优方案</h3><p>可以通过回溯的方法求解到底放入了那些背包，在这个求解过程中，不能进行空间的优化，因此，空间占用为O(V*N)。具体代码表述如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * sum 值为之前DP求出的最大价值。</span><br><span class="line"> * used 数组用来标记每件物品是否装入。</span><br><span class="line"> * 如果第 i 件物品装入了，则 used[i] = true；</span><br><span class="line"> * 否则，used[i] = false。</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">bool</span> used[n] = &#123;<span class="keyword">false</span>&#125;;</span><br><span class="line"><span class="keyword">for</span>(i = n; i &gt;= <span class="number">0</span>; --i) &#123;</span><br><span class="line">    <span class="keyword">if</span>(f[i][sum] &gt; f[i-<span class="number">1</span>][sum]) &#123;</span><br><span class="line">        used[i] = <span class="keyword">true</span>;</span><br><span class="line">        sum -= w[i];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="完全背包">完全背包</h2><h3 id="完全背包问题的描述">完全背包问题的描述</h3><p>有N种物品和一个容量为V的背包，每种物品有无限件可用。第i件物品的费用为<code>c[i]</code>，价值是<code>w[i]</code>。求解将哪些物品装入背包可以使得装入的物品的价值总和最大，并且物品总费用不能超过背包容量。</p>
+<h3 id="完全背包问题的状态转移">完全背包问题的状态转移</h3><p>显然，完全背包问题可以转换为0-1背包问题，通过总体积来限制背包个数即可。不难得出以下的状态转移方程：</p>
+<p>$$ f[i][v] = max{f[i-1][v-k \times c[i]] + k \times w[i]} $$</p>
+<p>其中，</p>
+<p>$$ 0 \leq k \times c[i] \leq v $$</p>
+<p>分析得知，此状态转移求解每个状态的时间已经不是常数了。分析完全背包问题的特点，可以作出优化。分析思路：如果两件物品 <code>i,j</code> 满足 <code>c[i] &lt;= c[j]</code> 且 <code>w[i] &gt;= w[j]</code> , 则将物品j去掉，不用考虑。优化的正确性在于任何情况下都可以用物美价廉的i替换j，至少不会比替换前的方案更差。但此优化在最坏情形下并不能改善问题的复杂度规模，因为在最坏情况下任何一件物品都不能忽略。</p>
+<p>考虑到每种物品都有无限件可以选，因此，在选择第i件物品时，只要根据一个绝无已经选入第i种物品的子结果<code>f[i-1][v-[i]]</code>即可。在具体实现上，只要改变V的递推顺序就行。</p>
+<p>代码表述如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j = c[i]; j &lt;= v; ++j) &#123;</span><br><span class="line">        f[j] = max(f[j], f[j-c[i]]+w[i]);    </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="算法复杂度分析">算法复杂度分析</h3><p>优化后的时间复杂度为O(N*V)，空间复杂度为O(V)。</p>
+<h2 id="混合背包">混合背包</h2><h3 id="混合背包问题的描述">混合背包问题的描述</h3><p>有N种物品和一个容量为V的背包，第i种物品最多有<code>n[i]</code>件可用，每件费用为<code>c[i]</code>，价值为<code>w[i]</code>。求解选择方案使得物品价值总和最大，且总重量不超过背包容量，每件物品的数量也不超过其限制。</p>
+<h3 id="混合背包的朴素求解">混合背包的朴素求解</h3><p>同混合背包类似，完全背包问题也可以建模为0-1背包模型，但无法在常数时间内求解每个状态，其时间复杂度会达到O(n^3)。</p>
+<h3 id="混合背包的二进制拆分求解">混合背包的二进制拆分求解</h3><p>二进制拆分实际上是对朴素求解算法的优化。通过二进制拆分可以减少状态数。其原理基于每一个正整数都可以写成数个2的自然数次幂之和，并且，每两个幂的次数都不相同。此优化方案可以将时间复杂度优化到O(n^2*log(n))。</p>
+<p>代码描述如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">true<span class="keyword">int</span> s[mi][<span class="number">2</span>], k = <span class="number">1</span>, t = <span class="number">0</span>;</span><br><span class="line">true<span class="keyword">while</span>(<span class="keyword">true</span>) &#123;</span><br><span class="line">truetrue<span class="keyword">if</span>(m[i] &lt;= k) &#123;</span><br><span class="line">truetruetrues[t][<span class="number">0</span>] = m[i] * c[i], s[t++][<span class="number">1</span>] = m[i] * w[i];</span><br><span class="line">truetruetrue<span class="keyword">break</span>;</span><br><span class="line">truetrue&#125;</span><br><span class="line">truetrue<span class="keyword">else</span> &#123;</span><br><span class="line">    		s[t][<span class="number">0</span>] = k * c[i], s[t++][<span class="number">1</span>] = k * w[i];</span><br><span class="line">truetrue&#125;</span><br><span class="line">truetruem[i] = m[i] - k;</span><br><span class="line">truetruek = k * <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">true<span class="keyword">while</span>(t--) &#123;</span><br><span class="line">truetrue<span class="keyword">for</span>(j = v; j &gt;= s[t][<span class="number">0</span>]; j--) &#123;</span><br><span class="line">truetruetruef[j] = max(f[j], (f[j-s[t][<span class="number">0</span>]] + s[t][<span class="number">1</span>]));</span><br><span class="line">truetrue&#125;</span><br><span class="line">true&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="混合背包的单调队列优化">混合背包的单调队列优化</h3><p>该算法的思想是根据当前体积模当前物品体积的余数进行分组，每一组的状态都可以有前面的任意一组转换而来。问题可以转化为固定长度区间求最值问题。采用单调队列，可以将时间复杂度优化到O(N*V)。</p>
+<p>代码表述如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * a, b 均为辅助队列，其中，b 是一个单调队列。</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 优化最多可用的物品件数</span></span><br><span class="line">    <span class="keyword">if</span>(!n[i] || v/c[i] &lt; n[i]) &#123;</span><br><span class="line">        n[i] = v / c[i];   </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> d = <span class="number">0</span>; d &lt; c[i]; ++d) &#123;</span><br><span class="line">        <span class="keyword">int</span> l = <span class="number">1</span>, r = <span class="number">0</span>; <span class="comment">// 初始化队列参数，清空队列。</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt;= (v-d)/c[i]; ++j) &#123;</span><br><span class="line">            <span class="comment">// j 对应的体积为 j*c[i]+d。</span></span><br><span class="line">            <span class="keyword">int</span> x = j, y = f[j*c[i]+d] - j*w[i]; <span class="comment">// 退化</span></span><br><span class="line">            <span class="comment">// 插入队列</span></span><br><span class="line">            <span class="keyword">while</span>(l &lt;= r &amp;&amp; b[r] &lt;= y) &#123;</span><br><span class="line">                r--;</span><br><span class="line">            &#125;</span><br><span class="line">            a[++r] = x;</span><br><span class="line">            b[r] = y;</span><br><span class="line">            <span class="comment">// 如果队首元素已经失效，删除失效点。</span></span><br><span class="line">            <span class="keyword">if</span>(a[l] &lt; j - n[i]) &#123;</span><br><span class="line">                l++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 取得队头，进行更新。</span></span><br><span class="line">            f[j*c[i]+d] = b[l] + j*w[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="参考">参考</h2><ol>
+<li>《背包问题九讲》</li>
+<li>《浅谈几类背包问题》，徐持衡，2009年信息学奥林匹克中国国家集训队论文 </li>
+<li><a href="http://blog.csdn.net/flyinghearts/article/details/5898183" title="flyinghearts的专栏" target="_blank" rel="external">多重背包O(N*V)算法详解(使用单调队列)</a></li>
+</ol>
+
+        
+      </div>
+      <footer>
+        
+          
+  
+  <div class="categories">
+    <a href="/categories/Algorithm/">Algorithm</a>
+  </div>
+
+          
+  
+  <div class="tags">
+    <a href="/tags/Algorithm/">Algorithm</a>
+  </div>
+
+          <div class="share">
+  
+
+    
+
+    
+      <div class="g-plusone"></div>
+
+      <script type="text/javascript">
+        window.___gcfg = {lang: 'en-GB'};
+
+        (function() {
+          var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+          po.src = 'https://apis.google.com/js/platform.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+        })();
+      </script>
+    
+
+    
+      <a href="https://twitter.com/share" class="twitter-share-button" data-via="halfer53">Tweet</a>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+    
+  
+</div>
+          
+<nav class="article-nav clearfix">
+ 
+
+<div class="article-next">
+<a href="/2015/02/28/programming language/haskell/dive_into_haskell_4_higher_order_function/"  title="Dive Into Haskell(4) 高阶函数">
+ <span>Dive Into Haskell(4) 高阶函数
+</span>
+<i class="fa fa-long-arrow-right"></i>
+</a>
+</div>
+
+</nav>
+
+        
+        <div class="clearfix"></div>
+      </footer>
+    </div>
+</article>
+
+
+<section id="comment">
+  <h2 class="title">留言</h2>
+
+  
+
+  <div id="disqus_thread"></div>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+  
+</section>
+
+</div></div>
+    <aside id="sidebar" class="alignright"><div class="padding">
+	
+	  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:dhdave.github.io">
+  </form>
+</div>
+	
+	  
+<div class="widget recent-post">
+  <h3 class="title">最新文章</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/2015/03/17/algorithm/backpack/">背包问题总结</a>
+      </li>
+    
+      <li>
+        <a href="/2015/02/28/programming language/haskell/dive_into_haskell_4_higher_order_function/">Dive Into Haskell(4) 高阶函数</a>
+      </li>
+    
+      <li>
+        <a href="/2015/02/26/algorithm/max_flow/">最大流算法</a>
+      </li>
+    
+      <li>
+        <a href="/2015/02/25/algorithm/gcd/">最大公约数算法</a>
+      </li>
+    
+      <li>
+        <a href="/2015/02/24/algorithm/binary_index_trees/">树状数组</a>
+      </li>
+    
+  </ul>
+</div>
+
+	
+	  
+<div class="widget category">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/Algorithm/">Algorithm</a><small>17</small></li>
+  
+    <li><a href="/categories/Linux/">Linux</a><small>2</small></li>
+  
+    <li><a href="/categories/Math/">Math</a><small>4</small></li>
+  
+    <li><a href="/categories/Runtime/">Runtime</a><small>1</small></li>
+  
+    <li><a href="/categories/编程语言/">编程语言</a><small>14</small></li>
+  
+  </ul>
+</div>
+
+	
+	  
+<div class="widget tag">
+  <h3 class="title">标签</h3>
+  
+    <a href="/tags/Algorithm/">Algorithm<small>17</small></a>
+  
+    <a href="/tags/C-C/">C/C++<small>4</small></a>
+  
+    <a href="/tags/CodeStyle/">CodeStyle<small>1</small></a>
+  
+    <a href="/tags/Cygwin/">Cygwin<small>1</small></a>
+  
+    <a href="/tags/Haskell/">Haskell<small>4</small></a>
+  
+    <a href="/tags/JNI/">JNI<small>1</small></a>
+  
+    <a href="/tags/JVM/">JVM<small>1</small></a>
+  
+    <a href="/tags/Javascript/">Javascript<small>1</small></a>
+  
+    <a href="/tags/Linux/">Linux<small>1</small></a>
+  
+    <a href="/tags/Mathematica/">Mathematica<small>4</small></a>
+  
+    <a href="/tags/Python/">Python<small>5</small></a>
+  
+</div>
+
+	
+</div></aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="padding">
+	<div class="alignleft">
+	  
+	  &copy; 2015 DHDave
+	  
+	  Powerd by <a href="http://hexo.io/" target="_blank">hexo</a>
+	  and Theme by <a href="https://github.com/halfer53/metro-light" target="_blank">metro-light</a>
+	</div>
+
+	<div class="alignright">
+		
+			<a href="https://plus.google.com/u/0/112661429129878562674/posts" target="_blank" title="DHDave Google Plus"><i class="fa fa-google-plus-square"></i></a>
+		
+		
+			<a href="https://github.com/DHDave" target="_blank" title="DHDave Github"><i class="fa fa-github-square"></i></a>	
+		
+		
+		
+		
+		
+		
+	</div>
+
+	<div class="clearfix"></div>
+</div>
+
+<div class="scroll-top"><i class="fa fa-arrow-circle-up"></i></div>
+</footer>
+  
+
+		<script type="text/javascript">
+		var disqus_shortname = 'dhdavegithubiodhdave-github-io';
+
+		        (function() {
+		            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+		            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+		            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+		        })();
+		</script>
+
+		<script type="text/javascript">
+		var disqus_shortname = 'dhdavegithubiodhdave-github-io'; 
+
+		(function () {
+		var s = document.createElement('script'); s.async = true;
+		s.type = 'text/javascript';
+		s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+		(document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+		}());
+		</script>
+
+  
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/3.0.4/jquery.imagesloaded.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+<script type="text/javascript">
+$(window).scroll(function() {
+
+    if($(this).scrollTop() > 400) {
+        $('.scroll-top').fadeIn(200);
+    } else {
+        $('.scroll-top').fadeOut(200);
+    }
+});
+
+$('.scroll-top').bind('click', function(e) {
+    e.preventDefault();
+    $('body,html').animate({scrollTop:0},200);
+});
+</script>
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
