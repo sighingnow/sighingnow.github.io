@@ -1,0 +1,93 @@
+# Site settings
+title: DHDave
+email: buaahetao@gmail.com
+description: > # this means to ignore newlines until "baseurl:"
+  DHDave's Personal Page.
+keywords: "DHDave, programing language, functional programing, vm, operating system"
+favicon: https://dhdave.github.io/images/photo.ico
+owner:
+  name: DHDave
+twitter_username:
+github_username: DHDave
+facebook:
+google_plus: 112661429129878562674
+instagram:
+flickr:
+weibo:
+
+# disqus comment.
+comment: true
+disqus_shortname: "dhavegithubio"
+
+# Links to include in footer navigation
+# For external links add external: true
+links:
+  - title: Categories
+    url: /categories
+  - title: Tags
+    url: /tags
+#   - title: About
+#     url: /about
+
+# Links to dispaly in blogroll
+rolls:
+
+# Where things are
+source:      .
+destination: ./_site
+plugins:     ./_plugins
+layouts:     ./_layouts
+data_source: ./_data
+collections: null
+
+# Handling Reading
+safe:         false
+encoding:     "utf-8"
+markdown_ext: "markdown,mkdown,mkdn,mkd,md"
+textile_ext:  "textile"
+
+# Filtering Content
+show_drafts: null
+limit_posts: 0
+future:      true
+unpublished: false
+
+# Plugins
+whitelist: []
+gems:      []
+
+# Conversion
+markdown: redcarpet
+redcarpet:
+  extensions: ["no_intra_emphasis", "fenced_code_blocks", "autolink", "tables", "with_toc_data"]
+highlighter: pygments
+lsi:         false
+excerpt_separator: "<!--more-->"
+
+# Serving
+baseurl: "" # the subpath of your site, e.g. /blog/
+url: "https://dhdave.github.io" # the base hostname & protocol for your site
+
+# Backwards-compatibility
+relative_permalinks: false
+
+# Outputting
+permalink:     /:categories/:title
+paginate: 8
+paginate_path: /page:num
+timezone:      Asia/Shanghai
+
+quiet:    false
+defaults: []
+
+# Markdown Processors
+maruku:
+  fenced_code_blocks: true
+
+redcloth:
+  hard_breaks: true
+
+sass:
+    sass_dir: _sass
+    style: :compressed
+

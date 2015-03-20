@@ -1,0 +1,36 @@
+---
+layout: null
+---
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+<title type="text">{{ site.title | xml_escape }}</title>
+<updated>{{ site.time | date_to_xmlschema }}</updated>
+<id>{{ site.url }}{{site.baseurl }}/</id>
+<link rel="alternate" type="text/html" href="{{ site.url }}{{ site.baseurl }}" />
+<link rel="self" type="application/atom+xml" href="{{ "/feed.xml" | prepend: site.baseurl | prepend: site.url }}" />
+<generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
+<author>
+  <name>{{ site.owner.name }}</name>
+  <uri>{{ site.url }}{{ site.baseurl }}/</uri>
+  <email>{{ site.email }}</email>
+</author>
+
+{% for post in site.posts limit:20 %}
+<entry>
+  <title type="html"><![CDATA[{{ post.title | cdata_escape }}]]></title>
+  <link>{{ post.url | prepend: site.baseurl | prepend: site.url }}</link>
+  <id>{{ site.url }}{{ post.id }}</id>
+  {% if post.modified %}<updated>{{ post.modified | to_xmlschema }}T00:00:00-00:00</updated>
+  <published>{{ post.date | date_to_xmlschema }}</published>
+  {% else %}<published>{{ post.date | date_to_xmlschema }}</published>
+  <updated>{{ post.date | date_to_xmlschema }}</updated>{% endif %}
+  <author>
+    <name>{{ site.owner.name }}</name>
+    <uri>{{ site.url }}{{ site.baseurl }}</uri>
+    <email>{{ site.email }}</email>
+  </author>
+  <content type="html">{{ post.content | xml_escape }}
+  </content>
+</entry>
+{% endfor %}
+</feed>

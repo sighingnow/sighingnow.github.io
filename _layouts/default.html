@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+  {% include head.html %}
+
+  <body id="index" class="home" itemscope itemtype="http://schema.org/WebPage">
+
+    {% include header.html %}
+
+    <div class="page-content" id="pjax-container" itemprop="mainContentOfPage">
+        <section id="content" class="body" itemprop="description">
+        {{ content }}
+        </section>
+    </div>
+
+    {% include footer.html %}
+
+    {% include scripts.html %}
+
+  </body>
+
+</html>

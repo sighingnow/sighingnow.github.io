@@ -1,0 +1,12 @@
+    <header id="banner" class="body">
+        <h1><a class="pjax" href="{{ site.baseurl | prepend: site.url }}/">{{ site.title }}</a></h1>
+                <nav><ul>
+                    {% for link in site.links %}
+                        {% if link.external %}
+                        <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+                        {% else %}
+                        <li><a class="pjax" href="{{ link.url | prepend: site.baseurl | prepend: site.url }}" rel="bookmark">{{ link.title }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                </ul></nav>
+    </header>

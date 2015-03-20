@@ -1,0 +1,30 @@
+<script src="http://cdn.bootcss.com/jquery/2.1.3/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/jquery.pjax/1.9.2/jquery.pjax.min.js"></script>
+<script src="http://cdn.bootcss.com/nprogress/0.1.6/nprogress.min.js"></script>
+<script>
+$(document).pjax('.pjax', '#pjax-container',{ fragment: '#pjax-container', timeout: 10000 });
+$(document).on({
+    'pjax:click': function () {
+        NProgress.start();
+    },
+    'pjax:end': function () {
+        NProgress.done();
+    },
+});
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ /* ["$","$"], */ ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>

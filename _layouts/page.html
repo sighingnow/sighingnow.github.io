@@ -1,0 +1,13 @@
+---
+layout: default
+---
+<article>
+    <header>
+      <h1 class="entry-title">
+          <a class="pjax" href="{{ page.url | prepend: site.baseurl | prepend: site.url }}" rel="bookmark">{{ page.title }}</a></h1>
+    </header>
+
+    <div class="entry-content">
+        {{ content }}
+    </div><!-- /.entry-content -->
+</article>
