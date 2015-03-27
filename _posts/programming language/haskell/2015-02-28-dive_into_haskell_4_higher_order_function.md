@@ -2,7 +2,7 @@
 title: Dive Into Haskell(4) 高阶函数
 author: DHDave
 date: 2015-02-28
-tag: Haskell
+tags: [Haskell, functional programming]
 category: 编程语言
 layout: post
 ---
@@ -163,6 +163,26 @@ foldl1和foldr1类似，函数定义为：
 
 这两个函数以List的第一个元素为初值，对后面的所有元素进行迭代。方向前者向左，后者向右。
 
+举例：
+
+```haskell
+let a = [1, 2, 3, 5, 6]
+print $ foldl (\a b -> a*b) 1 a
+print $ foldr1 (\a b -> a*b) a
+```
+
+由于Haskell的惰性求值特性，列表折叠会产生一个延迟计算栈，当列表过长时，对列表的折叠会造成栈空间的极大消耗，甚至可能造成栈溢出。Haskell还提供了一组严格折叠的函数来避免这一个问题。
+
+这组函数位于`Data.List`中，函数定义如下：
+
+    foldl' :: (b->a->b) -> b -> [a] -> b
+    foldr' :: (b->a->b) -> b -> [a] -> b
+    
+    foldl1' :: (a->a->a) -> [a] -> a
+    foldr1' :: (a->a->a) -> [a] -> a
+
+其用法与惰性求值的列表折叠相同，只是底层的实现原理有差异。
+
 ### scan
 
 scan积累了fold函数执行过程中产生的左右变量，并返回一个包含这些结果的List。
@@ -173,7 +193,7 @@ scan积累了fold函数执行过程中产生的左右变量，并返回一个包
     scanl1 :: (a->a->a)->[a]->[a]
     scanlr :: (a->a->a)->[a]->[a]
 
-\$ 的函数调用
+`$` 的函数调用
 ------------
 
 `$`函数又称为函数应用符(Function Application Operator)。作用是改变函数调用的优先级。通常，普通的函数调用有最高的优先级（左结合），而`$`函数调用的优先级最低（右结合）。例如：`sqrt 5+5`的值为`7.236`，等于`(sqrt 5)+5`，然而，`sqrt $ 5+5`的值为`3.162`，等于`sqrt (5+5)`。

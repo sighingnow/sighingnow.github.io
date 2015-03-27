@@ -2,7 +2,7 @@
 title: Java JNI 初探
 author: DHDave
 date: 2015-02-10
-tag: [JNI, JVM]
+tag: [JNI, JVM, Java]
 category: Runtime
 layout: post
 ---

@@ -16,12 +16,14 @@ flickr:
 weibo:
 
 # disqus comment.
-comment: true
-disqus_shortname: "dhavegithubio"
+# comment: true
+# disqus_shortname: "dhavegithubio"
 
 # Links to include in footer navigation
 # For external links add external: true
 links:
+  - title: Home
+    url: /
   - title: Categories
     url: /categories
   - title: Tags

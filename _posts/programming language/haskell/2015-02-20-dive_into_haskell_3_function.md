@@ -2,7 +2,7 @@
 title: Dive Into Haskell(3) 函数
 author: DHDave
 date: 2015-02-20
-tag: Haskell
+tags: [Haskell, functional programming]
 category: 编程语言
 layout: post
 ---

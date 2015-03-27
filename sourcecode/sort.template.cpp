@@ -1,4 +1,4 @@
-//file: ÅÅĞòÄ£°å
+//file: æ’åºæ¨¡æ¿
 #include <iostream>
 #include <cstring>
 using namespace std;
@@ -9,7 +9,7 @@ void swap(int *a, int *b)
 	c = *a, *a = *b, *b = c;
 }
 
-void insertSort(int *num, int len) //²åÈëÅÅĞò
+void insertSort(int *num, int len) //æ’å…¥æ’åº
 {
 	for(int i = 1; i < len; ++i)
 	{
@@ -23,7 +23,7 @@ void insertSort(int *num, int len) //²åÈëÅÅĞò
 	}
 }
 
-void bubbleSort(int *num, int len) //Ã°ÅİÅÅĞò
+void bubbleSort(int *num, int len) //å†’æ³¡æ’åº
 {
 	for(int i = 0; i < len; ++i)
 	{
@@ -37,7 +37,7 @@ void bubbleSort(int *num, int len) //Ã°ÅİÅÅĞò
 	}
 }
 
-void selectSort(int *num, int len) //Ñ¡ÔñÅÅĞò
+void selectSort(int *num, int len) //é€‰æ‹©æ’åº
 {
 	for(int i = 0; i < len - 1; ++i)
 	{
@@ -51,7 +51,7 @@ void selectSort(int *num, int len) //Ñ¡ÔñÅÅĞò
 	}
 }
 
-void shellSort(int *num, int len) //Ï£¶ûÅÅĞò
+void shellSort(int *num, int len) //å¸Œå°”æ’åº
 {
 	int step = len >> 1;
 	while(step >= 1)
@@ -70,7 +70,7 @@ void shellSort(int *num, int len) //Ï£¶ûÅÅĞò
 	}
 }
 
-void heapSort(int *num, int len) //¶ÑÅÅĞò
+void heapSort(int *num, int len) //å †æ’åº
 {
 	void heapBuild(int *, int, int);
 	for(int i = (len - 1) >> 1; i >= 0; --i)
@@ -96,13 +96,13 @@ void heapBuild(int *num, int i, int len)
 	}
 }
 
-void quickSort(int *num, int left, int right)//¿ìËÙÅÅĞò
+void quickSort(int *num, int left, int right)//å¿«é€Ÿæ’åº
 {
     if(left >= right)
         return;
     srand(time(0)); //use current time as seed for random generator , #include <cstdlib>
     int i = left, j = right;
-    int index = rand() % (right-left + 1) + left; // Ê¹ÓÃËæ»úÊı×èÖ¹×î»µÇé¿ö·¢Éú #include<ctime>
+    int index = rand() % (right-left + 1) + left; // ä½¿ç”¨éšæœºæ•°é˜»æ­¢æœ€åæƒ…å†µå‘ç”Ÿ #include<ctime>
     int key = num[index];
     while(true) {
         while(key < num[j])
@@ -119,15 +119,15 @@ void quickSort(int *num, int left, int right)//¿ìËÙÅÅĞò
     quickSort(num, j+1, right);
 }
 
-/*×îµÍÎ»ÓÅÏÈ»ùÊıÅÅĞò LsdRadixSort£¬£¨×î¸ßÎªÓÅÏÈÎª£ºMsdRadixSort£©
-* int *array: ´ıÅÅĞòÊı×é,´Ó index=1 ¿ªÊ¼
-* int len: ´ıÅÅĞòÊı×é³¤¶È
+/*æœ€ä½ä½ä¼˜å…ˆåŸºæ•°æ’åº LsdRadixSortï¼Œï¼ˆæœ€é«˜ä¸ºä¼˜å…ˆä¸ºï¼šMsdRadixSortï¼‰
+* int *array: å¾…æ’åºæ•°ç»„,ä» index=1 å¼€å§‹
+* int len: å¾…æ’åºæ•°ç»„é•¿åº¦
 */
-void lsdRadixSort(int *array, int len)    //´Ë´¦´ÓĞ¡µ½´óÅÅĞò, ÇÒ½ö¿¼ÂÇÕıÊı
+void lsdRadixSort(int *array, int len)    //æ­¤å¤„ä»å°åˆ°å¤§æ’åº, ä¸”ä»…è€ƒè™‘æ­£æ•°
 {
-	int tmpArray[10][len+1];         //index=0 ÓÃÀ´¼ÇÂ¼¸öÊı£¬´Ë´¦Ò»´ÎĞÔ·ÖÅä£¬½Ï·Ñ¿Õ¼ä£¬¿ÉÒÔÍ¨¹ı¶¯Ì¬·ÖÅäÓÅ»¯
+	int tmpArray[10][len+1];         //index=0 ç”¨æ¥è®°å½•ä¸ªæ•°ï¼Œæ­¤å¤„ä¸€æ¬¡æ€§åˆ†é…ï¼Œè¾ƒè´¹ç©ºé—´ï¼Œå¯ä»¥é€šè¿‡åŠ¨æ€åˆ†é…ä¼˜åŒ–
 	int i, j ;
-	int maxlen, max;		//max:×î´óµÄÊı£¬maxlen: ×î´óµÄÊıµÄÎ»Êı
+	int maxlen, max;		//max:æœ€å¤§çš„æ•°ï¼Œmaxlen: æœ€å¤§çš„æ•°çš„ä½æ•°
 	max = array[0];
 	for(i = 1; i < len; ++i)
 		max = max > array[i] ? max : array[i];
@@ -140,7 +140,7 @@ void lsdRadixSort(int *array, int len)    //´Ë´¦´ÓĞ¡µ½´óÅÅĞò, ÇÒ½ö¿¼ÂÇÕıÊı
 		for(j = 0; j < len; ++j)
 		{
 			int tmp = *(array+j), k = i - 1;
-			while(k--)                  //µÃµ½array[j]µÄµÚ i Î»Êı£¨´ÓµÍÎ»ËãÆğ£©,´æÔÚtmpÖĞ
+			while(k--)                  //å¾—åˆ°array[j]çš„ç¬¬ i ä½æ•°ï¼ˆä»ä½ä½ç®—èµ·ï¼‰,å­˜åœ¨tmpä¸­
 				tmp /= 10;
 			tmp %= 10;
 			tmpArray[tmp][++tmpArray[tmp][0]] = *(array+j);
@@ -154,14 +154,14 @@ void lsdRadixSort(int *array, int len)    //´Ë´¦´ÓĞ¡µ½´óÅÅĞò, ÇÒ½ö¿¼ÂÇÕıÊı
 	}
 }
 
-void mergeSort(int *num, int first, int last)//¹é²¢ÅÅĞò
+void mergeSort(int *num, int first, int last)//å½’å¹¶æ’åº
 {
 	void mergeNum(int *, int, int);
 	int mid = (first + last) / 2;
 	if(first < mid)
 		mergeSort(num, first, mid);
-	if(mid + 1 < last)		//×¢Òâ´Ë´¦ÊÇ mid + 1
-		mergeSort(num, mid, last);	//×¢Òâ´Ë´¦ÊÇmid
+	if(mid + 1 < last)		//æ³¨æ„æ­¤å¤„æ˜¯ mid + 1
+		mergeSort(num, mid, last);	//æ³¨æ„æ­¤å¤„æ˜¯mid
 	mergeNum(num, first, last);
 }
 void mergeNum(int *num, int first, int last)
@@ -183,9 +183,9 @@ void mergeNum(int *num, int first, int last)
 	for(int i = 0; i < index; ++i)
 		num[first+i] = tmp[i];
 	delete []tmp;
-}//´Ë´¦µÄtmpÊı×é¿ÉÒÔÍ¨¹ı´«²Î½â¾öÒÔ±ÜÃâ¶à´Î¶¯Ì¬·ÖÅä£¬ÊµÏÖÓÅ»¯
+}//æ­¤å¤„çš„tmpæ•°ç»„å¯ä»¥é€šè¿‡ä¼ å‚è§£å†³ä»¥é¿å…å¤šæ¬¡åŠ¨æ€åˆ†é…ï¼Œå®ç°ä¼˜åŒ–
 
-void coutSort(){	}//¼ÆÊıÅÅĞò£¨ÂÔ£©
+void coutSort(){	}//è®¡æ•°æ’åºï¼ˆç•¥ï¼‰
 
 int main()
 {

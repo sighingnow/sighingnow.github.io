@@ -2,7 +2,7 @@
 title: Dive Into Haskell(2) 数据类型和类型类(Typeclasses)
 author: DHDave
 date: 2015-02-11
-tag: Haskell
+tags: [Haskell, functional programming]
 category: 编程语言
 layout: post
 ---
@@ -378,5 +378,33 @@ Haskell中，类型类相当于提供了一系列的接口，属于某一类型�
 
     Integral类型类仅包含整数，其实力类型有Int和Integer。
 
+haskell中的类型转换
+--------------------
 
+前面提到的`Read`类可以通过自动推断或类型注解的方式将字符串转换成其他类型。Haskell同时还提供了在不同类型之间进行转换(type case)的方法。
+
+例如：`fromInteger`函数可以将`Integer`类型的数据转换成其他类型。
+
+```haskell
+func :: (Floating a) => a -> a
+func a = a * 2.0
+
+main :: IO()
+main = do
+    let a = read "20" :: Integer
+    print $ func $ fromInteger a
+```
+
+还可以通过与`read`函数类似的加注解的方式来指定`fromInteger`函数将`Integer`类型的变量转换为哪一种类型而非自动类型推断。
+
+```haskell
+main :: IO()
+main = do
+    let a = read "1234" :: Integer
+    print $ (fromInteger a :: Double)
+```
+
+代码运行后，将输出：
+
+    1234.0
 
