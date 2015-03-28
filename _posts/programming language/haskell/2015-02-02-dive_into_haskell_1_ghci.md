@@ -2,7 +2,7 @@
 title: Dive Into Haskell(1) GHCi
 author: DHDave
 date: 2015-02-02
-tags: [Haskell, functional programming]
+tags: [Haskell]
 category: 编程语言
 layout: post
 ---
