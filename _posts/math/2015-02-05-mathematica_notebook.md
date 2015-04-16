@@ -55,11 +55,11 @@ Mathematica中默认并不给出数值值，例如，`Sqrt[10]`将得到根号�
 ### Out(%)
 
 + % n 或 Out[n]
-    是一个对象，被赋予在第 n 个\[Null]输出行上产生的值.
+    是一个对象，被赋予在第 n 个[Null]输出行上产生的值.
 + %
     给出产生的最后一个结果.
 + %%
-    给出最后一个结果之前的结果. %% \[Ellipsis]% (k 次)给出倒数第 k 个结果.
+    给出最后一个结果之前的结果. %% [Ellipsis]% (k 次)给出倒数第 k 个结果.
 
 在命令提示符环境下，可以用`%`来表示上一条语句。其内容可以通过输入
 
@@ -100,15 +100,15 @@ Pi: 圆周率（圆的周长和直径的比率）。
 
 E：自然对数的底。
 
-Degree：给出1度的弧度，即 \[Pi]/180。
+Degree：给出1度的弧度，即 [Pi]/180。
 
-GoldenRatio：给出黄金比率 \[Phi]=1/2 (Sqrt[5]+1)，其数值 \[TildeEqual]1.61803.
+GoldenRatio：给出黄金比率 [Phi]=1/2 (Sqrt[5]+1)，其数值 [TildeEqual]1.61803.
 
-Infinity：Infinity 或 \[Infinity] 表示正无穷大的符号.
+Infinity：Infinity 或 [Infinity] 表示正无穷大的符号.
 
-EulerGamma：表示欧拉常数 \[Gamma]，其数值 \[TildeEqual]0.577216.
+EulerGamma：表示欧拉常数 [Gamma]，其数值 [TildeEqual]0.577216.
 
-Catalan：Catalan 常数，数值 \[TildeEqual]0.915966.
+Catalan：Catalan 常数，数值 [TildeEqual]0.915966.
 
 ### 字符串拼接
 
