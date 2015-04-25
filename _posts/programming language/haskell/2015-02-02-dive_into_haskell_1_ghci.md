@@ -1,6 +1,6 @@
 ---
 title: Dive Into Haskell(1) GHCi
-author: DHDave
+author: He Tao
 date: 2015-02-02
 tags: [Haskell]
 category: 编程语言

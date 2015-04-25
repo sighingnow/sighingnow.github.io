@@ -1,6 +1,6 @@
 ---
 title: Mathematica 编程
-author: DHDave
+author: He Tao
 date: 2015-02-12
 tag: Mathematica
 category: Math

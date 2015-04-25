@@ -1,6 +1,6 @@
 ---
 title: Java JNI 初探
-author: DHDave
+author: He Tao
 date: 2015-02-10
 tag: [JNI, JVM, Java]
 category: Runtime

@@ -1,6 +1,6 @@
 ---
 title: Python yield 关键字
-author: DHDave
+author: He Tao
 date: 2015-01-31
 tag: Python
 category: 编程语言
@@ -135,6 +135,6 @@ def block_read(fpath, BLOCK_SIZE = 1024):
 Reference
 ---------
 
-1. [Python 34 Documentation]()
+1. [Python 34 Documentation](https://docs.python.org/3/)
 
 

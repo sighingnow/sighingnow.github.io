@@ -1,6 +1,6 @@
 ---
 title: K-近邻算法(KNN)
-author: DHDave
+author: He Tao
 date: 2015-02-08
 tag: [机器学习]
 category: 机器学习

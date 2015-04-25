@@ -1,6 +1,6 @@
 ---
 title: Dive Into Haskell(4) 高阶函数
-author: DHDave
+author: He Tao
 date: 2015-02-28
 tags: [Haskell]
 category: 编程语言

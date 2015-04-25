@@ -1,6 +1,6 @@
 ---
 title: Python 的默认参数
-author: DHDave
+author: He Tao
 date: 2015-02-10
 tag: Python
 category: 编程语言
@@ -171,9 +171,9 @@ TypeError: func() missing 1 required positional argument: 'param'
 参考
 ------
 
-1. [http://effbot.org/zone/default-values.htm](http://effbot.org/zone/default-values.htm title="default-values")
+1. [http://effbot.org/zone/default-values.htm](http://effbot.org/zone/default-values.htm "default-values")
 
-2. [Python Documentation](https://docs.python.org/ref/function.html)
+2. [Python Documentation](https://docs.python.org/3/)
 
 
 

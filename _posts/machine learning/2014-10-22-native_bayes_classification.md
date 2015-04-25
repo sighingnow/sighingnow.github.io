@@ -1,6 +1,6 @@
 ---
 title: Native Bayes Classification
-author: DHDave
+author: He Tao
 date: 2014-10-22
 tag: [机器学习]
 category: 机器学习

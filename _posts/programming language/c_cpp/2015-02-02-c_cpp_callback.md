@@ -1,6 +1,6 @@
 ---
 title: C和C++中的回调函数
-author: DHDave
+author: He Tao
 date: 2015-02-02
 tag: C/C++
 category: 编程语言

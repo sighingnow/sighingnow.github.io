@@ -1,6 +1,6 @@
 ---
 title: Java继承中的小细节
-author: DHDave
+author: He Tao
 date: 2015-03-23
 tag: [Java]
 category: 编程语言
