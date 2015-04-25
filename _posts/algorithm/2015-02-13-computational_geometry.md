@@ -1,6 +1,6 @@
 ---
 title: 计算几何算法
-author: DHDave
+author: He Tao
 date: 2015-02-13
 tag: Algorithm
 category: Algorithm
@@ -32,7 +32,7 @@ layout: post
 
 首先判断点是否在线段所在的直线上，然后判断点的坐标是否在线段的坐标范围内。
 
-```cpp
+```
 ON-SEGMENT(P, Q, R)
     if (R-P) x (Q-P) == 0 and min(px, qx) <= rx <= max(px, qx)
         return True

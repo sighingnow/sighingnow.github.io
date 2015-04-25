@@ -161,7 +161,7 @@ if(obj instanceof Cls) {
 
 除了`instanceof`以外，还可以用`getClass`方法来判断一个对象的类型。`getClass`是`Object`类的一个方法，因此，在Java中，所有类都有一个继承来的`getClass`方法。`getClass`方法返回的实例化这个对象时所使用的类。也就是说，将一个对象向上做类型转换后，这个对象的`getClass`方法返回的仍然是那个实例化它的子类。
 
-```
+```java
 public class Main {
     public static void main(String [] args) {
         B b = new B();

@@ -38,7 +38,7 @@ Java中，构造函数的定义如下：
 
 > A static initializer declared in a class is executed when the class is initialized.
 
-关于Static Initializers的文档，[请见](http://docs.oracle.com/javase/specs/jls/se8/html/jls-8.html#jls-8.6)。如果一个类中有多个静态`static`代码块，将按照这些代码块在程序中出现的先后顺序依次执行。
+关于Static Initializers的文档，[祥见](http://docs.oracle.com/javase/specs/jls/se8/html/jls-8.html#jls-8.6)。如果一个类中有多个静态`static`代码块，将按照这些代码块在程序中出现的先后顺序依次执行。
 
 如果一个类有`main(String [] args)`作为程序入口，这个类中的`static`语句块也会比main函数中的语句先执行。比如：
 

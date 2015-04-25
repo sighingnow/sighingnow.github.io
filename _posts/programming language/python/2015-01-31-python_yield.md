@@ -115,7 +115,7 @@ Execution starts when 'next()' is called for the first time.
 >>> print(g.__next__())
 None
 >>> g.close()
-Don't forget to clean up when 'close()' is called.
+Don't forget to clean up when 'close()' is called.'
 >>> 
 ```
 

@@ -1,14 +1,14 @@
 # Site settings
-title: DHDave
-email: buaahetao@gmail.com
+title: He Tao
+email: hetao@mail.com
 description: > # this means to ignore newlines until "baseurl:"
-  DHDave's Personal Page.
-keywords: "DHDave, programing language, functional programing, vm, operating system"
-favicon: https://dhdave.github.io/images/photo.ico
+  He-Tao's Personal Page.
+keywords: "He-Tao, programing language, functional programing, vm, operating system"
+favicon: http://he-tao.github.io/images/photo.ico
 owner:
-  name: DHDave
+  name: He-Tao
 twitter_username:
-github_username: DHDave
+github_username: He-Tao
 facebook:
 google_plus: 112661429129878562674
 instagram:
@@ -68,7 +68,7 @@ excerpt_separator: "<!--more-->"
 
 # Serving
 baseurl: "" # the subpath of your site, e.g. /blog/
-url: "https://dhdave.github.io" # the base hostname & protocol for your site
+url: "http://he-tao.github.io" # the base hostname & protocol for your site
 
 # Backwards-compatibility
 relative_permalinks: false
