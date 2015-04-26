@@ -7,7 +7,7 @@ category: Algorithm
 layout: post
 ---
 
-最近在[Project Euler](https://projecteuler.net)上看到一道很有意思的题目，题目大意是找到一个最小的正整数，这个正整数有 $2^500500$ 个约数。将原题摘引如下：
+最近在[Project Euler](https://projecteuler.net)上看到一道很有意思的题目，题目大意是找到一个最小的正整数，这个正整数有 $2^{500500}$ 个约数。将原题摘引如下：
 
 > The number of divisors of 120 is 16.
 
@@ -42,7 +42,7 @@ layout: post
 
 > For 16 factors the number works out to be 120 (just like the example!). For numbers shown in the questions, sieving the prime takes some time, I also found it helpful to use a binary heap for speeding up finding the next smallest factors.
 
-这个解法的核心在于使约数个数加倍的规则。借助[WolframAlpha](http://www.wolframalpha.com/)，我们求得第500500个质数的值为7376507。因此，只需要先将前500500个质数（这个值可以更少一点）压入优先队列，每次按照上面讲到的规则出队、入队、在O(n)的时间内求得结果。我们知道，此题的时间复杂度取决于初始化质数表的时间复杂度，而筛法的时间复杂度是O(n(lg(lgn)))的。
+这个解法的核心在于使约数个数加倍的规则。借助[WolframAlpha](http://www.wolframalpha.com/)，我们求得第500500个质数的值为7376507。因此，只需要先将前500500个质数（这个值可以更少一点）压入优先队列，每次按照上面讲到的规则出队、入队、在O(n)的时间内求得结果。我们知道，初始化质数表的时间复杂度，而筛法的时间复杂度是O(n(lg(lgn)))的(埃拉托斯特尼筛法(sieve of Eratosthenes))。在这个过程中需要维护一个堆，复杂度为O(n(lg n))。因此，这个题目的时间复杂度为O(n(lg n))。
 
 从这个题的求解来看，真心可以体会到**算法和数据结构改变世界**!
 
