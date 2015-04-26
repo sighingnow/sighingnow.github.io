@@ -35,7 +35,7 @@ layout: default
                     {% else %}
                     <p>{{ post.content | strip_html | truncatewords:100 }}&hellip;</p>
                     {% endif %}
-                    <a class="readmore pjax" href="{{ post.url | prepend: site.baseurl }}" rel="nofollow">more</a>
+                    <a class="readmore pjax" href="{{ post.url | prepend: site.baseurl }}" rel="nofollow">余下全文</a>
                 </div><!-- /.entry-content -->
             </article>
         </li>
