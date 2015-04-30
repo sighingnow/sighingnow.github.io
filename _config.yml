@@ -16,8 +16,8 @@ flickr:
 weibo:
 
 # disqus comment.
-# comment: true
-# disqus_shortname: "dhavegithubio"
+comment: true
+disqus_shortname: he-tao
 
 # Links to include in footer navigation
 # For external links add external: true

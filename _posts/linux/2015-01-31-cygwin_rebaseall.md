@@ -3,7 +3,7 @@ title: Cygwin rebaseall
 author: He Tao
 date: 2015-01-31
 tag: Cygwin
-category: Linux
+category: Linux/Unix
 layout: post
 ---
 

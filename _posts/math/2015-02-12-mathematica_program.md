@@ -22,13 +22,22 @@ Mathematica提供了两种类型的赋值方式。
 
 ### 延迟赋值
 
-延迟赋值是指调用赋值语句时（使用被赋值的变量时）才对值进行计算，延迟赋值用`:=`表示。例如：
-
-<!--more-->
+延迟赋值是指调用赋值语句时（使用被赋值的变量时）才对值进行计算，并且在每次调用时，其值都会重新计算。延迟赋值用`:=`表示。例如：
 
     var := value
 
 在调用`var`是才计算`value`的值。
+
+### 清除赋值
+
+使用如下语法可以做到清除赋值：
+
+    x = .
+    t = .
+
+这样处理以后，`x`, `t`都会重新成为一个没有值得符号。
+
+<!--more-->
 
 ### 赋值与计算
 
@@ -129,7 +138,7 @@ Do命令的用法同Sum和Product函数类似（可以认为Sum和Product是Do�
 While命令的用法如下：
 
 + While[test,body] 
-    
+
     重复计算 test，然后是 body，直到 test 第一次不能给出 True.
 
 
@@ -138,7 +147,7 @@ While命令的用法如下：
 For命令的用法如下：
 
 + For[start,test,incr,body] 
-    
+
     执行 start，然后重复计算 body 和 incr，直到 test 不能给出 True. 
 
 ### Table 命令
@@ -146,19 +155,19 @@ For命令的用法如下：
 Table 命令用于生产表达式的列表。Table 命令的用法如下：
 
 + Table[expr,{Subscript[i, max]}] 
-    
+
     产生一个 expr 的 Subscript[i, max] 拷贝的列表.
 
 + Table[expr,{i,Subscript[i, max]}] 
-    
+
     产生i  从1到 Subscript[i, max] 的一个 expr 的值的列表.
 
 + Table[expr,{i,Subscript[i, min],Subscript[i, max]}] 
-    
+
     以 i=Subscript[i, min] 开始.
 
 + Table[expr,{i,Subscript[i, min],Subscript[i, max],di}] 
-    
+
     使用步长 di. 
 
 + Table[expr,{i,{Subscript[i, 1],Subscript[i, 2],\[Ellipsis]}}] 
@@ -178,11 +187,11 @@ Mathematica中，分支控制主要有If、Which、Switch 等命令实现。
 ### If命令的用法如下：
 
 + If[condition,t,f] 
-    
+
     如果 condition 计算为 True 给出 t，如果它计算为 False 给出 f.
 
 + If[condition,t,f,u] 
-    
+
     如果 condition 计算既不为 True 也不为 False 给出 u.
 
 
@@ -190,16 +199,70 @@ Mathematica中，分支控制主要有If、Which、Switch 等命令实现。
 
 Which命令的用法如下：
 
-+ Which[test1,value1,test2,value,...]
-    
++ Which[test1,value1,test2,value,...
+
     依次计算每个 testi ，返回相应于产生 True 的第一个valuei的值.
 
 ### Switch 命令
 
 + Switch[expr, form1, value1, form2, value2, ...]
-    
+
     计算 expr，然后依次和每个 formi 比较，计算并返回相应于找到的第一个匹配的valuei].
 
+函数与模式
+-----------
+
+1. `Cases`命令，查找列表中匹配模式的表达式。
+
+```mma
+In:= Cases[{f[1], g[2], f[5], g[4]}, f[_]]
+Out= {f[1], f[5]}
+```
+
+此处，`_`(blank)用来代表任意表达式。
+
+2. `x_`(`x:_`的缩写)，代表一个模式，将其值命名为`x`:
+
+```mma
+In:= Replace[f[100], f[x_] -> x+5]
+Out= 105
+```
+
+`->`用来指定规则。
+
+3. `./`表示匹配模式并全部替代。
+
+```mma
+In:= {f[1], g[2], f[4], g[4]} ./ f[x_] -> x+5
+Out= {6, g[2], 9, g[4]}
+```
+2
+4. `__`(两个blank)代表**任意表达式**。例如：
+
+```mma
+fIn:= Cases[{f[1,2],f[1],g[3]}, f[__]]
+Out= {f[1,2],f[1]}
+```
+
+5. `a|b|c`代表`a`、`b`或`c`。例如：
+
+```mma
+In:= Cases[{f[1],g[2],f[3],f[5]}, f[1|3]]
+Out= {f[1],f[3]}
+In:= Cases[{f[1],g[1],f[3],f[5]}, (f|g)[1]]
+Out= {f[1],g[1]}
+```
+
+6. `_h`代表任何具有标头`h`的表达式。例如：<!--没太看明白这个“标头”的含义-->
+
+```mma
+In:= Cases[{1, 2, 3.5, 6}, _Real]
+Out= {1, 2, 6}
+```
+
+7. `:>`是一个延迟规则，类似于规则中的`:=`。
+
+从上面几个例子中可以看出函数式编程中模式匹配的强大威力。
 
 定义数学函数
 ------------
@@ -281,7 +344,7 @@ Mathematica中，程序的范围结构可以由`Module`、`With`、`Block`这三
 通过以下语法定义模块：
 
 + Module[{x,y,...},expr] 
-    
+
     指定在 expr 中出现的符号 x、y、... 应被当作局部值. 
 
 + Module[{x=x0, y=y0, ... expr] 
@@ -299,61 +362,64 @@ With命令的用法如下：
 ### Block
 
 + Block[{x,y,...,expr] 
-    
+
     指定用符号 x、y、... 的局部值计算 expr. 
 
 + Block[{x=x0,...},expr] 
-    
+
     给 x，... 赋初始局部值. 
 
 ### Block 与 Module的区别
 
++ `Module`: 使用词法作用域（局部化名称）
++ `Block`: 使用动态作用域（局部化值）
++ `DynamicModule`: 使用文档中的作用域。
+
 以下关于`Block`和`Module`的区别，引述下面一段Mathematica文档中的陈述和示例：
 
 
-```
-块与模块的比较
+> 块与模块的比较
 
-当进行 Mathematica 编程时，应当尽量使它的项相互独立，这样程序就容易理解、维护和扩充. 
+> 当进行 Mathematica 编程时，应当尽量使它的项相互独立，这样程序就容易理解、维护和扩充. 
 
-保证程序中不同相相互不影响的一个重要途径是给它的变量一定的"范围". Mathematica 用模块和块这两种机制来限制变量的范围. 
+> 保证程序中不同相相互不影响的一个重要途径是给它的变量一定的"范围". Mathematica 用模块和块这两种机制来限制变量的范围. 
 
-在实际编程时，模块远远比块常用，而在相互作用的计算中需要确定范围时，往往是块比较方便. 
+> 在实际编程时，模块远远比块常用，而在相互作用的计算中需要确定范围时，往往是块比较方便. 
 
-    Module[vars,body]	词汇（lexical）定界
-    Block[vars,body]	动态定界
+    Module[vars,body]   词汇（lexical）定界
+    Block[vars,body]    动态定界
 
-Mathematica 变量的定界机理. 
+> Mathematica 变量的定界机理. 
 
-大部分计算机语言使用与 Mathematica 模块类似的词汇定界机理. 一些像LISP等符号计算语言与 Mathematica 块类似的动态定界机理. 
+> 大部分计算机语言使用与 Mathematica 模块类似的词汇定界机理. 一些像LISP等符号计算语言与 Mathematica 块类似的动态定界机理. 
 
-在使用词汇定界时，变量在一个程序中的一个代码段被作为局部变量. 在动态定界时，在程序执行历史的一部分被作为局部值. 
+> 在使用词汇定界时，变量在一个程序中的一个代码段被作为局部变量. 在动态定界时，在程序执行历史的一部分被作为局部值. 
 
-在 C 和 Java 等编译语言中， 它们的变量在使用之前就要声明类型，因此在编译前就已经确定了变量的类型；"代码"和"执行历史"之间的区分非常明显. 而 Mathematica 属于动态类型语言，它的符号特性使这个区别不明显，其原因是代码在程序的执行过程中可以动态地生成.
+> 在 C 和 Java 等编译语言中， 它们的变量在使用之前就要声明类型，因此在编译前就已经确定了变量的类型；"代码"和"执行历史"之间的区分非常明显. 而 Mathematica 属于动态类型语言，它的符号特性使这个区别不明显，其原因是代码在程序的执行过程中可以动态地生成.
 
-Module[vars,body] 的作用是在模块作为 Mathematica 的代码被执行时处理表达式 body 的形式，当任何 vars 明显地出现在代码中时，就被当作局部变量. 
+> Module[vars,body] 的作用是在模块作为 Mathematica 的代码被执行时处理表达式 body 的形式，当任何 vars 明显地出现在代码中时，就被当作局部变量. 
 
-Block[vars,body] 不注意表达式 body 的形式. 而是，在 body 的全局计算过程中使用 vars 的局部值. 
+> Block[vars,body] 不注意表达式 body 的形式. 而是，在 body 的全局计算过程中使用 vars 的局部值. 
 
-通过 i 来定义 m. 
+> 通过 i 来定义 m. 
 
     In[1]:= m = i^2
 
     Out[1]=  i^2
 
-在块内 i+m 的计算过程中，i 用了局部值. 
+> 在块内 i+m 的计算过程中，i 用了局部值. 
 
     In[2]:= Block[{i = a}, i + m]
 
     Out[2]=  a + a^2
 
-这里仅明显出现在 i+m 中的 i 被当作局部变量处理. 
+> 这里仅明显出现在 i+m 中的 i 被当作局部变量处理. 
 
     In[3]:= Module[{i = a}, i + m]
 
     Out[3]=  a + i^2
 
-```
+
 
 由上面一段文档，可以看出，`Module` 比 `Block` 对局部变量的屏蔽程度更高。
 
@@ -365,15 +431,15 @@ Block[vars,body] 不注意表达式 body 的形式. 而是，在 body 的全局�
 
 纯函数的定义方法如下：
 
-+ Function[x,body]	
-    
++ Function[x,body]
+
     纯函数中的 x 可用任何变量代替
 
-+ Function[x1, x2, ... , body]	
++ Function[x1, x2, ... , body]
 
     多变量的纯函数
 
-+ body &	
++ body `&`
 
     自变量为 # 或 #1、#2、#3 等的纯函数.
 
@@ -395,6 +461,59 @@ Block[vars,body] 不注意表达式 body 的形式. 而是，在 body 的全局�
 
 如果纯函数只有一个参数，那么可以直接使用`#`来指定该参数。
 
+将函数应用于多个表达式/多个参数
+-----------------------
+
+可以使用`Map`命令来将一个函数应用于多个表达式，例如：
+
+```mma
+In:= Map[f, {a,b,c,d}]
+Out= {f[a],f[b],f[c],f[d]}
+```
+
+此外，还可以使用`Map`命令的简写形式`/@`：
+
+```mma
+In:= f/@{a,b,c,d}
+Out= {f[a],f[b],f[c],f[d]}
+```
+
+与将函数应用于多个表达式类似，还可以将函数应用于多个参数，使用`Apply`命令或者其简写形式`@@`：
+
+```mma
+In:= Apply[f, {a,b,c,d}]
+Out= f[a,b,c,d]
+
+In:= f@@{{a,b},{c,d}}
+Out= f[{a,b},{c,d}]
+```
+
+使用函数时除了使用`[]`以外，还可以使用`@`符号：
+
+```mma
+In:= f@a
+Out= f[a]
+```
+
+函数的“部分应用”
+---------------
+
+WolframAlpha语言具有函数式编程的特性，Mathematica也支持函数的部分应用。如下例：
+
+```
+In:= Nearest[{1, 2, 3, 4, 5}, 2.7]
+Out= {3}
+
+In:= f = Nearest[{1, 2, 3, 4, 5}]
+Out= NearestFunction[{5,1},<>]
+
+In:= %[2.7]
+Out= {3}
+
+In:= f[2.7]
+Out= {3}
+```
+
 Mathematica的函数与参数占位符
 ------------------------------
 
@@ -404,19 +523,25 @@ Mathematica的函数与参数占位符
 
 | 占位符    | 含义                              |
 |-----------|-----------------------------------|
-| \_	    | 单一表达式                        |
-| x\_	    | 名为 x 的表达式                   |
-| \_\_      | 一个或多个表达式序列              |
-| x\_\_	    | 名为 x 的表达式列                 |
-| x\_\_ h	| 头部为 h 的表达式列               |
-| \_\_\_	| 零个或多个表达式序列              |
-| x\_\_\_	| 名为 x 的零个或多个表达式序列     |
-| x\_\_\_ h	| 头部为 h 的零个或多个表达式序列   |
+| `_`       | 单一表达式                        |
+| `x_`      | 名为 x 的表达式                   |
+| `__`      | 一个或多个表达式序列              |
+| `x__`     | 名为 x 的表达式列                 |
+| `x__ h`   | 头部为 h 的表达式列               |
+| `___`     | 零个或多个表达式序列              |
+| `x___`    | 名为 x 的零个或多个表达式序列     |
+| `x___ h`  | 头部为 h 的零个或多个表达式序列   |
 
 **注意**: 使用三空位`___`来表示0个或多个表达式序列时，某些情况下很容易导致`___`反复与零元素进行匹配，导致死循环。因此，应当尽量避免使用三空位`___`。
 
 Mathematica程序的控制流
 ------------------------
+
+引自[Wolfram语言快速入门](http://www.wolfram.com/language/fast-introduction-for-programmers/procedures/)中的一句话：
+
+> 在 Wolfram 语言中通常只需要小剂量的过程式编程.
+
+>（如果你的大型程序中充满了 If、Do、Return 等，那你的程序可能需要改进.）
 
 Mathematica中，通过`Return`、`Throw`、`Catch`等命令来实现对程序跳转和返回值等的控制。
 
@@ -436,7 +561,7 @@ Mathematica中，通过`Return`、`Throw`、`Catch`等命令来实现对程序�
 
 ### Throw和Catch
 
-`Throw`和`Catch`命令可以比Return 更明确地实现程序的控制流。命令的具体用法：
+`Sow/Reap`和`Throw/Catch`是过程式编程中传递数据和控制的有效方式。`Throw`和`Catch`命令可以比Return 更明确地实现程序的控制流。命令的具体用法：
 
 `Throw`命令：
 
@@ -451,15 +576,15 @@ Mathematica中，通过`Return`、`Throw`、`Catch`等命令来实现对程序�
 `Catch`命令：
 
 + Catch[expr] 
-    
+
     返回在运行 expr 时产生的第一个 Throw 的参数.
 
 + Catch[expr,form] 
-    
+
     返回 form 匹配 tag 的第一个 Throw[value,tag] 中的 value.
 
 + Catch[expr,form,f] 
-    
+
     返回 f[value,tag]. 
 
 TimeConstrained 和 Pause 命令
@@ -476,13 +601,13 @@ TimeConstrained 的用法
     计算 expr，在 t 秒后停止计算. 
 
 + TimeConstrained[expr,t,failexpr] 
-    
+
     如果没有达到时间限制，返回 failexpr.
 
 Puase 的用法：
 
 + Pause[n] 
-    
+
     至少暂停 n 秒.
 
 TimeConstrained的一个显著用途在于限制迭代时间。使得相关的计算能够在限定之间内给出某个不够精确的解。
