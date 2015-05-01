@@ -124,7 +124,7 @@ Do命令的用法同Sum和Product函数类似（可以认为Sum和Product是Do�
 
     使用步长 di. 
 
-+ Do[expr,{i,{Subscript[i, 1],Subscript[i, 2],\[Ellipsis]}}] 
++ Do[expr,{i,{Subscript[i, 1],Subscript[i, 2],\[Ellipsis]} }] 
 
     使用连续的值 Subscript[i, 1]，Subscript[i, 2]，\[Ellipsis].
 
@@ -170,7 +170,7 @@ Table 命令用于生产表达式的列表。Table 命令的用法如下：
 
     使用步长 di. 
 
-+ Table[expr,{i,{Subscript[i, 1],Subscript[i, 2],\[Ellipsis]}}] 
++ Table[expr,{i,{Subscript[i, 1],Subscript[i, 2],\[Ellipsis]} }] 
 
     使用连续值 Subscript[i, 1], Subscript[i, 2], \[Ellipsis]. 
 
@@ -484,7 +484,7 @@ Out= {f[a],f[b],f[c],f[d]}
 In:= Apply[f, {a,b,c,d}]
 Out= f[a,b,c,d]
 
-In:= f@@{{a,b},{c,d}}
+In:= f@@{{a,b},{c,d} }
 Out= f[{a,b},{c,d}]
 ```
 
