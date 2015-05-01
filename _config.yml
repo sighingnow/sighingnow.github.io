@@ -4,7 +4,7 @@ email: hetao@mail.com
 description: > # this means to ignore newlines until "baseurl:"
   He-Tao's Personal Page.
 keywords: "He-Tao, programing language, functional programing, vm, operating system"
-favicon: http://he-tao.github.io/images/photo.ico
+favicon: http://he-tao.github.io/favicon.ico
 owner:
   name: He-Tao
 twitter_username:
