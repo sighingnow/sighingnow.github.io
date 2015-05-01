@@ -25,6 +25,11 @@ layout: default
 
         {{ content }}
 
+        <!-- Copyright -->
+        <p><b>本文档采用<a href="http://mit-license.org/">MIT许可证</a></b></p>
+        <p><b>原文出处</b>：<a href="{{ page.url | prepend: site.baseurl | prepend: site.url }}">{{ page.url | prepend: site.baseurl | prepend: site.url }}</a>
+        </p>
+
         <p class="paginator">
         {% if page.previous %}
         <a class="previous pjax" href="{{ page.previous.url | prepend: site.baseurl }}" title="{{ page.previous.title }}" rel="bookmark">&laquo; 上一页</a>
@@ -34,9 +39,5 @@ layout: default
         {% endif %}
         </p>
     </div><!-- /.entry-content -->
-
-    <br /><!-- Copyright -->
-    <div><b>本文档采用<a href="http://mit-license.org/">MIT许可证</a>，原文出处：<a href="{{ page.url | prepend: site.baseurl | prepend: site.url }}">{{ page.url | prepend: site.baseurl | prepend: site.url }}</a></b></div>
-    <br />
 
 </article>
