@@ -484,7 +484,7 @@ Out= {f[a],f[b],f[c],f[d]}
 In:= Apply[f, {a,b,c,d}]
 Out= f[a,b,c,d]
 
-In:= f@@{{a,b},{c,d} }
+In:= f@@{ {a,b},{c,d} }
 Out= f[{a,b},{c,d}]
 ```
 
