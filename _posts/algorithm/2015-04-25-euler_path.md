@@ -183,7 +183,8 @@ int main(int argc, char** args) {
         memset(in, 0x00, sizeof(in)); memset(out, 0x00, sizeof(out));
         for(int i = 0; i < n; ++i) {
             scanf("%s", edge[i].str); edge[i].len = strlen(edge[i].str);
-            edge[i].start = edge[i].str[0]-'a'; edge[i].end = edge[i].str[edge[i].len-1]-'a';
+            edge[i].start = edge[i].str[0]-'a'; 
+            edge[i].end = edge[i].str[edge[i].len-1]-'a';
             edge[i].used = false;
         }
         sort(edge, edge+n, cmp);
