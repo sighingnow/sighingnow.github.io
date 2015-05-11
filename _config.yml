@@ -33,6 +33,10 @@ links:
 
 # Links to dispaly in blogroll
 rolls:
+  - title: 菊长的菊花田
+    url: http://aicdg.com/
+  - title: zdf's blog
+    url: http://zdf615328619.github.io/
 
 # Where things are
 source:      .
