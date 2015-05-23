@@ -1,51 +1,25 @@
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
-  <meta name="description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
-  <meta name="keywords" content="{% if page.tags %}{{ page.tags | join: ', ' }}{% else %}{{ site.keywords }}{% endif %}">
-
-  {% if site.twitter_username %}
-  <!-- Twitter Cards -->
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
-  <meta name="twitter:description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
-  <meta name="twitter:creator" content="@{{ site.twitter_username }}">
-  {% endif %}
-
-  <!-- Open Graph -->
-  <meta property="og:locale" content="en_US">
-  <meta property="og:type" content="article">
-  <meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
-  <meta property="og:description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
-  <meta property="og:url" content="{{ site.url }}{{ page.url | prepend: site.baseurl }}">
-  <meta property="og:site_name" content="{{ site.title }}">
-
-  {% if site.google_plus %}
-  <link rel="author" href="{{ site.google_plus }}?rel=author">
-  {% endif %}
-
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-
-  <!-- Chrome Color -->
-  <meta name="theme-color" content="#C74350">
-
-  <!-- Windows8 Tile -->
-  <meta name="msapplication-TileColor" content="#C74350">
-
-  <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.2.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="http://cdn.bootcss.com/nprogress/0.1.6/nprogress.min.css">
-  <link rel="stylesheet" href="{{ "/css/main.css" | prepend: site.baseurl }}">
-  <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
-  <link rel="alternate" type="application/atom+xml" title="{{ site.title }}" href="{{ "/feed.xml" | prepend: site.baseurl | prepend: site.url }}" />
-
-  <!-- Icons -->
-  {% if site.favicon %}
-  <link rel="shortcut icon" href="{{ site.favicon }}">
-  {% endif %}
-
-</head>
+<link href='/images/fav.png' rel='shortcut icon'>
+<link href='http://fonts.lug.ustc.edu.cn/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css' />
+<link href='/stylesheets/style.css' rel='stylesheet' type='text/css' />
+<link href='/stylesheets/syntax.css' rel='stylesheet' type='text/css' />
+<link href='/stylesheets/responsive.css' rel='stylesheet' type='text/css' />
+<!-- - -->
+<script src='/javascripts/jquery.js' type='text/javascript'></script>
+<script src='/javascripts/pd.js' type='text/javascript'></script>
+<script src='/javascripts/basics.js' type='text/javascript'></script>
+<script type="text/javascript" src="javascripts/jsapi"></script><!--https://www.google.com/jsapi-->
+<!-- - -->
+<meta content='width=device-width, initial-scale=1.0, user-scalable=no' name='viewport'>
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+<meta content="http://muan.co/images/og.png" property="og:image" />
+<meta content="{{ site.facebook_appid }}" property="fb:app_id" />
+{% if page.date %}
+  <meta content='{{ site.url }}{{ page.url }}' property='og:url' />
+  <meta content="{{ page.content | strip_html | strip_newlines | truncate: 120 }}" property='og:description' />
+  <meta content="article" property="og:type" />
+{% else %}
+  <meta content='{{ site.url }}' property='og:url' />
+  <meta content="{{ site.description }}" property='og:description' />
+  <meta content="blog" property="og:type" />
+{% endif %}
+<!-- - -->

@@ -1,43 +1,31 @@
----
-layout: default
----
-<article itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-    <header>
-      <h1 class="entry-title">
-          <a class="pjax" href="{{ page.url | prepend: site.baseurl | prepend: site.url }}" rel="bookmark">{{ page.title }}</a></h1>
-    </header>
+<html>
+  <head>
+    <meta content='{{ page.title }} - {{ site.title }}' property='og:title' />
+    <title>{{ page.title }} - {{ site.title }}</title>
+    {% include head.html %}
+  </head>
+  <body>
+    {% include header.html %}
+    <div id='container'>
+      {% include links.html %}
+      {% include pages.html %}
+      <div class="content">
+        <section class='post'>
+          <h1 class="upcase">
+            {{ page.title }}<br />
+            <div class='date'>{{ page.date | date: "%B %d, %Y" }}</div>
+          </h1>
+          {{ content }}
+          <!--{% include signoff.html %}-->
 
-    <div class="entry-content">
-        <footer class="post-info">
-            <abbr class="published" title="{{ post.date | date: "%b %-d, %Y" }}">
-                <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.date | date: "%d %b %Y" }}</time>
-            </abbr>
+        </section>
+      </div>
 
-            <address class="vcard author" itemprop="author" itemscope itemtype="http://schema.org/Person">
-                By <span itemprop="name"><a class="url fn pjax" href="{{ "/about/" | prepend: site.baseurl | prepend: site.url }}" title="About {{ site.owner.name }}" itemprop="url">{{ site.owner.name }}</a></span>
-            </address>
-            <p>In 
-            {% for tag in page.categories %}
-            <a class="pjax" href="{{ site.url }}{{ site.baseurl }}/categories/index.html#{{ page.categories | cgi_encode }}" data-toggle="tooltip" rel="tag">{{ tag | capitalize }}</a>
-            {% endfor %}
-            </p>
-        </footer><!-- /.post-info -->
-
-        {{ content }}
-
-        <!-- Copyright -->
-        <p><b>本文档采用<a href="http://mit-license.org/">MIT许可证</a></b></p>
-        <p><b>原文出处</b>：<a href="{{ page.url | prepend: site.baseurl | prepend: site.url }}">{{ page.url | prepend: site.baseurl | prepend: site.url }}</a>
-        </p>
-
-        <p class="paginator">
-        {% if page.previous %}
-        <a class="previous pjax" href="{{ page.previous.url | prepend: site.baseurl }}" title="{{ page.previous.title }}" rel="bookmark">&laquo; 上一页</a>
-        {% endif %}
-        {% if page.next %}
-        <a class="next pjax" href="{{ page.next.url | prepend: site.baseurl }}" title="{{ page.next.title }}" rel="bookmark">下一页 &raquo;</a>
-        {% endif %}
-        </p>
-    </div><!-- /.entry-content -->
-
-</article>
+      {% include share.html %}
+      {% include disqus.html %}
+      {% include social.html %}
+    </div>
+    {% include footer.html %}
+  </body>
+  {% include mathjax.html %}
+</html>

@@ -434,6 +434,10 @@ public boolean allDone(List<SubTask> tasks) {
 
 在[JDK 7 中的 Fork/Join 模式](http://www.ibm.com/developerworks/cn/java/j-lo-forkjoin/)一文中，作者使用Fork/Join模式实现了并行快速排序算法，很值得参考。其实Fork/Join与Callable/Future/ExecutorService挺像的，ExecutorService与ForkJoinPool的API也很类似，ForkJoinPool比ExecutorService多出了Work-stealing(工作窃取)算法的调度，线程池和服务(Service)的概念对应地也能很好。在Fork/Join机制中，Task也是可以取消(cancel)的。
 
+### invoke与fork差异
+
+这两个方法有很大的区别，当使用同步方法，调用这些方法（比如：invokeAll()方法）的任务将被阻塞，直到提交给池的任务完成它的执行。这允许ForkJoinPool类使用work-stealing算法，分配一个新的任务给正在执行睡眠任务的工作线程。反之，当使用异步方法（比如：fork()方法），这个任务将继续它的执行，所以ForkJoinPool类不能使用work-stealing算法来提高应用程序的性能。在这种情况下，只有当你调用join()或get()方法来等待任务的完成时，ForkJoinPool才能使用work-stealing算法。
+
 ### Work-stealing
 
 工作窃取（work-stealing）算法是指某个线程从其他队列里窃取任务来执行。核心思想在于以下两点：
@@ -459,4 +463,10 @@ Disruptor机制
 6. [java 7 fork-join framework and closures](http://www.slideshare.net/hongjiang/java7-fork-join-framework-and-closures)
 7. [聊聊并发（八）——Fork/Join框架介绍](http://ifeve.com/talk-concurrency-forkjoin)
 8. [Java 理论与实践: JDK 5.0 中更灵活、更具可伸缩性的锁定机制](http://www.ibm.com/developerworks/cn/java/j-jtp10264/index.html)
+9. [Fork and Join: Java Can Excel at Painless Parallel Programming Too!](http://www.oracle.com/technetwork/articles/java/fork-join-422606.html)
+10. [Java线程之fork/join框架](http://blog.csdn.net/andycpp/article/details/8903155)
+11. [Java中不同的并发实现的性能比较](http://it.deepinmind.com/%E5%B9%B6%E5%8F%91/2015/01/22/forkjoin-framework-vs-parallel-streams-vs-executorservice-the-ultimate-benchmark.html)
+12. [Java并发的四种风味：Thread、Executor、ForkJoin和Actor](http://www.importnew.com/14506.html)
+
+
 

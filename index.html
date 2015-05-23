@@ -1,92 +1,12 @@
 ---
-layout: default
+layout: index
 ---
-    <h1>Recent posts</h1>
-    <hr>
-    <ol id="posts-list" class="hfeed">
-    {% if site.paginate %}
-    {% for post in paginator.posts %}
-        <li>
-            <article class="hentry">
-                <header>
-                    <h1><a class="pjax" href="{{ post.url | prepend: site.baseurl }}" rel="bookmark">{{ post.title }}</a></h1>
-                </header>
 
-                <div class="entry-content">
-                    <footer class="post-info">
-                        <abbr class="published" title="{{ post.date | date: "%b %-d, %Y" }}">
-                        <time datetime="{{ post.date | date_to_xmlschema }}" itemprop="datePublished">{{ post.date | date: "%B %d, %Y" }}</time>
-                        </abbr>
-
-                        <address class="vcard author" itemprop="author" itemscope itemtype="http://schema.org/Person">
-                            By <span itemprop="name"><a class="url fn pjax" href="{{ "/about/" | prepend: site.baseurl | prepend: site.url }}" title="About {{ site.owner.name }}" itemprop="url">{{ site.owner.name }}</a></span>
-                        </address>
-
-                        <p>
-                        In 
-                        {% for tag in post.categories %}
-                        <a class="pjax" href="{{ site.url }}{{ site.baseurl }}/categories/index.html#{{ post.categories | cgi_encode }}" data-toggle="tooltip" rel="tag">{{ tag | capitalize }}</a>.
-                        {% endfor %}
-                        </p>
-                    </footer><!-- /.post-info -->
-
-                    {% if site.excerpt_separator %}
-                    <p>{{ post.excerpt }}</p>
-                    {% else %}
-                    <p>{{ post.content | strip_html | truncatewords:100 }}&hellip;</p>
-                    {% endif %}
-                    <a class="readmore pjax" href="{{ post.url | prepend: site.baseurl }}" rel="nofollow">余下全文</a>
-                </div><!-- /.entry-content -->
-            </article>
-        </li>
-    {% endfor %}
-    </ol>
-        <p class="paginator text-center">
-        {% if paginator.previous_page %}
-        <a href="{{ paginator.previous_page_path | prepend: site.baseurl }}" class="previous pjax" rel="bookmark">&laquo; 上一页</a>
-        {% endif %}
-        {% if paginator.total_pages !=1 %}
-        <span class="page_number">{{ paginator.page }} / {{ paginator.total_pages }}</span>
-        {% endif %}
-        {% if paginator.next_page %}
-        <a href="{{ paginator.next_page_path | prepend: site.baseurl }}" class="next pjax" rel="bookmark">下一页 &raquo;</a>
-        {% endif %}
-        </p>
-    {% else %}
-    {% for post in site.posts %}
-        <li>
-            <article class="hentry">
-                <header>
-                    <h1><a class="pjax" href="{{ post.url | prepend: site.baseurl }}" rel="bookmark">{{ post.title }}</a></h1>
-                </header>
-
-                <div class="entry-content">
-                    <footer class="post-info">
-                        <abbr class="published" title="{{ post.date | date: "%b %-d, %Y" }}">
-                        <time datetime="{{ post.date | date_to_xmlschema }}" itemprop="datePublished">{{ post.date | date: "%B %d, %Y" }}</time>
-                        </abbr>
-
-                        <address class="vcard author" itemprop="author" itemscope itemtype="http://schema.org/Person">
-                            By <span itemprop="name"><a class="url fn pjax" href="{{ "/about/" | prepend: site.baseurl | prepend: site.url }}" title="About {{ site.owner.name }}" itemprop="url">{{ site.owner.name }}</a></span>
-                        </address>
-
-                        <p>
-                        In 
-                        {% for tag in post.categories %}
-                        <a class="pjax" href="{{ site.url }}{{ site.baseurl }}/categories/index.html#{{ post.categories | cgi_encode }}" data-toggle="tooltip" rel="tag">{{ tag | capitalize }}</a>.
-                        {% endfor %}
-                        </p>
-                    </footer><!-- /.post-info -->
-
-                    {% if site.excerpt_separator %}
-                    <p>{{ post.excerpt }}</p>
-                    {% else %}
-                    <p>{{ post.content | strip_html | truncatewords:100 }}&hellip;</p>
-                    {% endif %}
-                    <a class="readmore pjax" href="{{ post.url | prepend: site.baseurl }}" rel="nofollow">阅读更多</a>
-                </div><!-- /.entry-content -->
-            </article>
-        </li>
-    {% endfor %}
-    </ol>
-    {% endif %}
+<ul class="posts">
+  {% for post in site.posts %}
+  <li>
+    <small class="datetime muted" data-time="{{ post.date }}">{{ post.date | date_to_string }} </small>
+    <a href="{{ post.url }}">{{ post.title }}</a>
+  </li>
+  {% endfor %}
+</ul>

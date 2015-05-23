@@ -1,99 +1,37 @@
-# Site settings
-title: He Tao
-email: hetao@mail.com
-description: > # this means to ignore newlines until "baseurl:"
-  He-Tao's Personal Page.
-keywords: "He-Tao, programing language, functional programing, vm, operating system"
-favicon: http://he-tao.github.io/favicon.ico
-owner:
-  name: He-Tao
-twitter_username:
-github_username: He-Tao
-facebook:
-google_plus: 112661429129878562674
-instagram:
-flickr:
-weibo:
+title:            He Tao
+description:      He Tao's personal page.
+url:              http://he-tao.github.io # Site url.
+signoff:          He Tao # Your name.
+disqus_shortname: he-tao  # disqus comment thread for post header options. ( leave blank if unwanted. )
 
-# disqus comment.
-comment: true
-disqus_shortname: he-tao
-
-# Links to include in footer navigation
-# For external links add external: true
 links:
-  - title: Home
-    url: /
-  - title: Categories
-    url: /categories
-  - title: Tags
-    url: /tags
-#   - title: About
-#     url: /about
+  - name:         Blog
+    url:          http://he-tao.github.io
+  - name:         Category
+    url:          /categories
+  - name:         Tag
+    url:          /tags
+  - name:         Email
+    url:          mailto:he-tao@buaa.edu.cn
+  - name:         GitHub
+    url:          http://github.com/He-Tao
+    external:     true
+  - name:         About
+    url:          /about
 
-# Links to dispaly in blogroll
-rolls:
-  - title: 菊长的菊花田
-    url: http://aicdg.com/
-  - title: zdf's blog
-    url: http://zdf615328619.github.io/
+social:
+  - name:         Google+
+    url:          https://plus.google.com/u/0/112661429129878562674/posts
+    external:     true
+  - name:         Github
+    url:          https://github.com/He-Tao
+    external:     true
+  - name:         Atom feed
+    url:          http://he-tao.github.io/feed.xml
 
-# Where things are
-source:      .
-destination: ./_site
-plugins:     ./_plugins
-layouts:     ./_layouts
-data_source: ./_data
-collections: null
-
-# Handling Reading
-safe:         false
-encoding:     "utf-8"
-markdown_ext: "markdown,mkdown,mkdn,mkd,md"
-textile_ext:  "textile"
-
-# Filtering Content
-show_drafts: null
-limit_posts: 0
-future:      true
-unpublished: false
-
-# Plugins
-whitelist: []
-gems:      []
-
-# Conversion
-markdown: redcarpet
+highlighter:      pygments
+permalink:        pretty
+markdown:         redcarpet
 redcarpet:
-  extensions: ["no_intra_emphasis", "fenced_code_blocks", "autolink", "tables", "with_toc_data"]
-highlighter: pygments
-lsi:         false
-excerpt_separator: "<!--more-->"
-
-# Serving
-baseurl: "" # the subpath of your site, e.g. /blog/
-url: "http://he-tao.github.io" # the base hostname & protocol for your site
-
-# Backwards-compatibility
-relative_permalinks: false
-
-# Outputting
-permalink:     /:categories/:title
-paginate: 8
-paginate_path: /page:num
-timezone:      Asia/Shanghai
-
-quiet:    false
-defaults: []
-
-# Markdown Processors
-maruku:
-  fenced_code_blocks: true
-
-redcloth:
-  hard_breaks: true
-
-sass:
-    sass_dir: _sass
-    style: :compressed
-
+  extensions:
+    - smart

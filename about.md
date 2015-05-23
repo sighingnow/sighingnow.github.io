@@ -1,9 +1,8 @@
 ---
 layout: page
-permalink: /about/index.html
-title: 关于我
-tags: [about]
+title: About
 ---
 
-何涛的博客
+何涛的[个人博客](http://he-tao.github.io)。
 
+Have a nice day. ♥
