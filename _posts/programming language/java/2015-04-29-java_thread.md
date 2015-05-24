@@ -1,5 +1,5 @@
 ---
-title: Java 多线程--线程入门
+title: Java 多线程
 author: He Tao
 date: 2015-04-29
 tag: [Java]
