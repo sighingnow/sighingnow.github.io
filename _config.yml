@@ -30,7 +30,7 @@ social:
     url:          http://he-tao.github.io/feed.xml
 
 highlighter:      pygments
-permalink:        pretty
+permalink:        none
 markdown:         redcarpet
 redcarpet:
   extensions:

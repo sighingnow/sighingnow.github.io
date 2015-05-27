@@ -1,0 +1,77 @@
+---
+title: 最大公约数算法
+author: He Tao
+date: 2015-02-25
+tag: Algorithm
+category: Algorithm
+layout: post
+---
+
+<p>关于最大公约数的求解，主要有欧几里得算法和Stein算法两种方法。</p>
+<h2 id="欧几里得算法">欧几里得算法</h2>
+<p>欧几里得算法的原理为：</p>
+<p>若</p>
+<p><span class="math">\[ a \equiv r(mod\ b) \]</span></p>
+<p>则</p>
+<p><span class="math">\[ gcd(a,b) = gcd(b,r) \]</span></p>
+<p>算法执行过程为辗转相除法。</p>
+<p>算法实现也很简单：</p>
+<!--more-->
+<p>递归形式：</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="co">/**</span>
+<span class="er"> * 求解 a, b 两个数的最大公约数。</span>
+ */
+<span class="dt">int</span> gcd(<span class="dt">int</span> a, <span class="dt">int</span> b)
+{
+    <span class="kw">if</span>(b == <span class="dv">0</span>) {
+        <span class="kw">return</span> a;
+    }
+    <span class="kw">return</span> gcd(b, a%b);
+}</code></pre>
+<p>非递归形式：</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="co">/**</span>
+<span class="er"> * 求解 a, b 两个数的最大公约数。</span>
+ */
+<span class="dt">int</span> gcd(<span class="dt">int</span> a, <span class="dt">int</span> b)
+{
+    <span class="kw">while</span>(b &gt; <span class="dv">0</span>) {
+        <span class="dt">int</span> tmp = a % b;
+        a = b;
+        b = tmp;
+    }
+    <span class="kw">return</span> a;
+}</code></pre>
+<p>欧几里得算法的时间复杂度为O(lg(n))，最坏情形为斐波那契数列的相邻两项。空间复杂度为O(1)。</p>
+<h2 id="stein算法">Stein算法</h2>
+<p>Stein算法是另一种求解两个数的最大公约数的算法。其原理为：</p>
+<p><span class="math">\[ gcd(ka, kb) = k \times gcd(a, b) \]</span></p>
+<p>Stein算法的实现如下：</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="co">/**</span>
+ * Stein算法
+ *
+<span class="er"> * 条件：0 &lt;= b &lt; a.</span>
+ */
+<span class="dt">int</span> gcd(<span class="dt">int</span> a, <span class="dt">int</span> b)
+{
+    <span class="dt">int</span> r = <span class="dv">0</span>;
+    <span class="kw">while</span>(b &gt; <span class="dv">0</span>) {
+        <span class="kw">if</span>(a&amp;<span class="bn">0x01</span> == <span class="dv">0</span> &amp;&amp; b&amp;<span class="bn">0x01</span> == <span class="dv">0</span>) { <span class="co">// a, b 都为偶数</span>
+            a &gt;&gt; <span class="dv">1</span>; b &gt;&gt; <span class="dv">1</span>; r = r + <span class="dv">1</span>;
+        }
+        <span class="kw">else</span> <span class="kw">if</span>(a&amp;<span class="bn">0x01</span> == <span class="dv">0</span> &amp;&amp; b&amp;<span class="bn">0x01</span> == <span class="dv">1</span>) { <span class="co">// a 偶，b 奇</span>
+            a &gt;&gt; <span class="dv">1</span>;
+        }
+        <span class="kw">else</span> <span class="kw">if</span>() { <span class="co">// a 奇，b 偶</span>
+            b &gt;&gt; <span class="dv">1</span>;
+        }
+        <span class="kw">else</span> <span class="kw">if</span>() { <span class="co">// a 奇，b 奇</span>
+            a = (a-b) &gt;&gt; <span class="dv">1</span>;
+        }
+
+        <span class="kw">if</span>(a &lt; b) {
+            a ^= b; b ^= a; a ^= b; <span class="co">// swap(a, b);</span>
+        }
+    }
+    <span class="kw">return</span> a&lt;&lt;r;
+}</code></pre>
+<p>与欧几里得算法相比，Stein 算法的优点在于不需要对大整数进行取模运算，只需要进行移位和减法运算。</p>

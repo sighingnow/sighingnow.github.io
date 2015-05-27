@@ -1,0 +1,101 @@
+---
+title: cx_Freeze打包Python应用程序
+author: He Tao
+date: 2015-02-05
+tag: Python
+category: 编程语言
+layout: post
+---
+
+<p>cx_Freeze是一个打包Python应用的工具，通过cx_Freeze，可以制作Windows平台、MacOS平台、以及Linux平台的二进制可执行程序，使得Python应用能够在没有安装Python环境的机器上运行。</p>
+<h2 id="cx_freeze的安装">cx_Freeze的安装</h2>
+<p>同很多Python的第三方库类似，cx_Freeze也可以通过如下命令安装：</p>
+<pre><code>pip install cx_Freeze</code></pre>
+<p>或者从官网下载安装包，解压后，切换目录至解压后的根目录，运行命令</p>
+<pre><code>python setup.py install</code></pre>
+<p>即可。</p>
+<!--more-->
+<p><strong>注意</strong>：在Windows平台上安装cx_Freeze时，也可以根据官网提供的链接，从SourceForge上下载二进制安装包直接安装，但一定要注意Python的版本问题，否则，打包的应用程序可能会因为Python.dll的版本问题而无法正常运行。</p>
+<h2 id="cx_freeze的使用windows平台">cx_Freeze的使用(Windows平台)</h2>
+<h3 id="典型的setup脚本的写法">典型的setup脚本的写法</h3>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="co">#! /usr/bin/env python</span>
+<span class="co"># -*- coding: utf-8 -*-</span>
+
+<span class="ch">from</span> cx_Freeze <span class="ch">import</span> setup, Executable
+
+base = <span class="ot">None</span>
+<span class="co"># base = &#39;Console&#39;</span>
+<span class="co"># base = &#39;ConsoleKeepPath&#39;</span>
+<span class="co"># base = &#39;Win32GUI&#39;</span>
+<span class="co"># base = &#39;Win32Service&#39;</span>
+
+executables = [
+    Executable(<span class="st">&#39;main.py&#39;</span>, base = base)
+]
+
+setup(name = <span class="st">&#39;main app&#39;</span>,
+      version = <span class="st">&#39;1.0&#39;</span>,
+      description = <span class="st">&#39;main app&#39;</span>,
+      executables = executables
+      )</code></pre>
+<p>在Windows平台上，<code>base</code>的可选值有：</p>
+<ul>
+<li>None 普通的Python程序。也可以不指定，在<code>Executable</code>中忽略<code>base</code>参数即可。</li>
+<li>Console Console应用程序（控制台应用程序）。</li>
+<li>ConsoleKeepPath 保持相对路径的Console应用程序。</li>
+<li>Win32GUI GUI应用程序。基于tkinter、wxPython、PyQt的Python GUI应用程序需要将<code>base</code>参数的值设为’Win32GUI’。</li>
+<li>Win32Service Windows服务程序。</li>
+</ul>
+<h3 id="构建命令选项">构建命令选项</h3>
+<p>构建时，只需要运行如下命令即可：</p>
+<pre><code>python setup.py option</code></pre>
+<p>在Windows平台上，<code>option</code> 有以下几种可选值：</p>
+<ul>
+<li>build cx_Freeze的标准构建命令。</li>
+<li>build_exe 构建一系列的可执行程序。</li>
+<li>bdist_msi 构建Windows平台上的msi安装包。</li>
+</ul>
+<p><strong>注意</strong>：在Windows平台上，存放代码路径一定不要有中文，否则，在执行<code>python setup.py bdist_msi</code>时可能会遇到<code>FCI Error</code>。</p>
+<h3 id="自定义图标">自定义图标</h3>
+<p>通过 <code>Executable</code> 的 <code>icon</code> 参数可以指定应用程序的图标，默认为’Tcl/Tk’的图标。</p>
+<p>如下例：</p>
+<pre class="sourceCode python"><code class="sourceCode python">executables = [
+    Executable(<span class="st">&#39;main.py&#39;</span>, base = base, icon = <span class="st">&#39;main.ico&#39;</span>)
+]</code></pre>
+<h3 id="程序资源文件">程序资源文件</h3>
+<p>对于应用程序用到的图片以及其他素材, 特别是GUI程序中用到图片等资源文件，可以在成功构建可执行程序后手动拷贝到可执行程序的目录，保持相对路径不变即可。也可以通过修改构建文件中的<code>include_files</code>参数，直接打包。如下例：</p>
+<pre class="sourceCode python"><code class="sourceCode python">build_exe_options = {
+    <span class="st">&#39;include_files&#39;</span> = [<span class="st">&#39;...&#39;</span>, <span class="st">&#39;...&#39;</span>],
+    ...
+}
+
+setup(
+    ...
+    options = {<span class="st">&#39;build_exe&#39;</span>: build_exe_options}</code></pre>
+<h3 id="复杂应用程序的打包">复杂应用程序的打包</h3>
+<p>通过<code>Executable</code>的<code>includes</code>, <code>excludes</code>, 以及 <code>packages</code> 三个选项可以有效地控制应用程序包含和排除的模块以及包依赖关系。</p>
+<p>也可以通过设置<code>setup</code>函数的<code>options</code>选项来解决依赖问题。如下例：</p>
+<pre class="sourceCode python"><code class="sourceCode python">build_exe_options = {
+    <span class="st">&#39;packages&#39;</span>: [<span class="st">&#39;os&#39;</span>, <span class="st">&#39;sys&#39;</span>],
+    <span class="co">&#39;includes&#39;</span>: [<span class="st">&#39;tkinter&#39;</span>],
+    <span class="co">&#39;excludes&#39;</span>: [<span class="st">&#39;django&#39;</span>],
+    ...
+}
+
+setup(
+    ...
+    options = {<span class="st">&#39;build_exe&#39;</span>: build_exe_options}
+)</code></pre>
+<h2 id="其他平台">其他平台</h2>
+<p>在其他平台上，有如下构建选项可以构建对应平台的可执行文件：</p>
+<ul>
+<li>bdist_rpm 构建rpm安装包。</li>
+<li>bdist_mac 构建Mac OS系统的程序安装包。</li>
+<li>bdist_dmg 构建Mac OS系统的程序安装包。</li>
+</ul>
+<h2 id="说明">说明</h2>
+<p>本文所给代码均在Python34 for Windows, cx_Freeze release 5.0 上运行通过。</p>
+<h2 id="参考">参考</h2>
+<ol style="list-style-type: decimal">
+<li>cx_Freeze Documentation</li>
+</ol>

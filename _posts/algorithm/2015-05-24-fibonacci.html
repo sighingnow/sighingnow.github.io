@@ -1,0 +1,116 @@
+---
+title: 斐波那契数列
+author: He Tao
+date: 2015-05-24
+tag: Algorithm
+category: Algorithm
+layout: post
+---
+
+<p>2014年蓝桥杯本科C/C++组预赛第9题是很好的一道关于斐波那契(Fibonacci)数列的题目。本文将从这一题母出发，探讨一些与斐波那契数列相关的性质。</p>
+<h2 id="题目">题目</h2>
+<p>题目链接：<a href="http://lx.lanqiao.org/problem.page?gpid=T121">斐波那契 http://lx.lanqiao.org/problem.page?gpid=T121</a></p>
+<p>题目内容：</p>
+<blockquote>
+<p>问题描述</p>
+</blockquote>
+<p>斐波那契数列大家都非常熟悉。它的定义是：</p>
+<p>　　<span class="math">\[ f(x) = 1 .... (x=1,2) \]</span> 　　<span class="math">\[ f(x) = f(x-1) + f(x-2) .... (x&gt;2) \]</span></p>
+<p>对于给定的整数 n 和 m，我们希望求出：$ f(1) + f(2) + + f(n) $ 的值。但这个值可能非常大，所以我们把它对 $ f(m) $取模。</p>
+<p>公式如下: <span class="math">\[ (\sum_{i=1}^n{f(i)}) \ mod \ f(m) \]</span></p>
+<p>但这个数字依然很大，所以需要再对$ p $求模。</p>
+<blockquote>
+<p>输入格式</p>
+</blockquote>
+<p>输入为一行用空格分开的整数 n m p (0 &lt; n, m, p &lt; 10^18)</p>
+<blockquote>
+<p>输出格式</p>
+</blockquote>
+<p>输出为1个整数，表示答案</p>
+<blockquote>
+<p>样例输入</p>
+</blockquote>
+<pre><code>2 3 5</code></pre>
+<blockquote>
+<p>样例输出</p>
+</blockquote>
+<pre><code>0</code></pre>
+<blockquote>
+<p>样例输入</p>
+</blockquote>
+<pre><code>15 11 29</code></pre>
+<blockquote>
+<p>样例输出</p>
+</blockquote>
+<pre><code>25</code></pre>
+<h2 id="fibonacci数列">Fibonacci数列</h2>
+<p>通过递推式和特征方程，不难得到Fibonacci数列的通项公式为：</p>
+<p><span class="math">\[f(n)={\frac{1}{\sqrt{5}}}((\frac{1+\sqrt(5)}{2})^n-(\frac{1+\sqrt(5)}{2})^n)\]</span></p>
+<p>根据Fibonacci数列的递推关系，可以使用矩阵乘法的方法来在O(log n)的时间复杂度内求得Fibonacci数列的第 n 项的值。具体算法：</p>
+<p><span class="math">\[ A=\begin{bmatrix} 1 &amp; 1 \\ 1 &amp; 0 \end{bmatrix}, f(n)=A^{n-1}[0][0] \]</span></p>
+<p>Fibonacci数列有很多很有用的性质，首先根据Fibonacci数列的递推关系，有： <span class="math">\[ f(n+1) = f(n) + f(n-1) \]</span> 那么，由此得到： <span class="math">\[ f(n) = f(n+1)-f(n-1) \]</span> 从这个等式可以推出： <span class="math">\[ \begin{align*} 
+\sum_{i=1}^n {f(i)} &amp;= f(1)+f(2)+f(3)+\dots+f(n) \\
+                    &amp;= f(1)+f(3)-f(1)+f(4)-f(2)+\dots+f(n+1)-f(n-1) \\
+                    &amp;= f(n)+f(n+1)-f(2) \\
+                    &amp;= f(n+2)-1
+\end{align*} \]</span> 这个性质非常重要，通过这个性质，可以将Fibonacci数列前<span class="math">\(N\)</span>项的求和转化为求解某一项的值。</p>
+<p>与上式同理，不难得到：</p>
+<p><span class="math">\[\sum_{i=1}^n {f(2*i-1)} = f(1)+f(3)+f(5)+\dots+f(2*n-1) = f(2*n)-1 \]</span> <span class="math">\[\sum_{i=1}^n {f(2*i)} = f(2)+f(4)+f(5)+\dots+f(2*n) = f(2*n+1) - 1 \]</span></p>
+<p>此外，Fibonacci数列还有以下这些有用的性质：</p>
+<p><span class="math">\[ \sum_{i=1}^n {f(i)^2} = f(n)*f(n+1) \]</span> <span class="math">\[ \sum_{i=1}^n {f(i)*(-1)^i} = (-1)^n * (f(n+1)-f(n))+1 \]</span></p>
+<p>常用的还有下列结论：</p>
+<p><span class="math">\[ f(n+m) = f(n+1)*f(m) + f(n)*f(m-1) \]</span> <span class="math">\[ f(n)^2 = (-1)^{n+1} + f(n-1)*f(n+1) \]</span></p>
+<p>由上式稍作变换，便有<span class="math">\[ f(m-1)^2\ mod\ f(m) = (-1)^m \]</span></p>
+<p>这两个公式都可以通过数学归纳法证明。</p>
+<h2 id="题目分析">题目分析</h2>
+<p>通过上面的Fibonacci数列前N项求和公式，可以将原来的问题简化成<span class="math">\(f(n)%f(m)%p\)</span>的情形。</p>
+<p><span class="math">\[ \begin{align*}
+f(n)\ mod\ f(m) &amp;= f(n-m+m)\ mod\ f(m) \\
+                &amp;= (f(n-m+1)*f(m)+f(n-m)*f(m-1))\ mod\ f(m) \\
+                &amp;= f(n-)f(m-1)\ mod\ f(m) \\
+                &amp;= \dots \\
+                &amp;= f(m-1)^{\frac{n}{m}} f(n\ mod\ m)\ mod\ f(m)
+\end{align*}\]</span></p>
+<p>因此，当<span class="math">\(m\)</span>的值比较小时，完全可以通过预处理一定范围内的Fibonacci数列，便可以求解出问题的答案。</p>
+<p>那么对于本题呢？题目中<span class="math">\(n,m\)</span>的值都达到了<span class="math">\(10^{18}\)</span>，可见，无法通过上面的方面求解。</p>
+<p>上文中，我们已经将问题规约为求解<span class="math">\((f(n+2)-1)\ mod\ f(m)\ mod\ p\)</span>，因此，下面将针对这一简化后的问题讨论其解法。因为这一问题与<span class="math">\(f(n+2)\ mod\ f(m)\ mod\ p\)</span>等价(仅仅需要将结果减1加上p然后对p取模)，为方便起见，后文主要讨论<span class="math">\(f(n+2)\ mod\ f(m)\ mod\ p\)</span>。</p>
+<p>如果<span class="math">\(n+2==m\)</span>，那么显然只需要求解出第<span class="math">\(m\)</span>项的结果即可(因为涉及到-1+p对f(m)取模)。最终答案应该为</p>
+<pre><code>(f[m]%mod -1 + mod) % mod</code></pre>
+<p>结合前面提到了快速幂模的方法，这个问题是容易的。</p>
+<p>我们还有以下结论（推导过程参见文末<a href="http://blog.csdn.net/acdreamers/article/details/21822165">参考 2</a>）：</p>
+<ol style="list-style-type: decimal">
+<li>当<span class="math">\(k\)</span>为奇数时，<span class="math">\[ f(m-1)*f(k)\ mod\ f(m) = f(m-k) \]</span></li>
+<li>当<span class="math">\(k\)</span>为偶数时，<span class="math">\[ f(m-1)*f(k)\ mod\ f(m) = f(m)-f(m-k)\]</span></li>
+</ol>
+<p>如果 m 为奇数，那么如果<span class="math">\(\frac{n}{m}\)</span>和<span class="math">\(\frac{n}{2m}\)</span>都是偶数，那么结果应该是： <span class="math">\[f(n)\ mod\ f(m) = f(n\ mod\ m)\]</span></p>
+<p>如果 m 为奇数，那么:</p>
+<p>如果<span class="math">\(\frac{n}{m}\)</span>和<span class="math">\(\frac{n}{2m}\)</span>都是偶数，那么结果应该是： <span class="math">\[f(n)\ mod\ f(m) = f(n\ mod\ m)\]</span> 如果<span class="math">\(\frac{n}{m}\)</span>是偶数，<span class="math">\(\frac{n}{2m}\)</span>是奇数，那么结果应该是： <span class="math">\[f(n)\ mod\ f(m) = f(m)-f(n\ mod\ m)\]</span> 如果<span class="math">\(\frac{n}{m}\)</span>是奇数，<span class="math">\(\frac{n}{2m}\)</span>是偶数，那么结果应该是： 如果<span class="math">\(n\ mod\ m\)</span>是奇数，结果为<span class="math">\[f(n)\ mod\ f(m) = f(m-n\ mod\ m)\]</span> 如果<span class="math">\(n\ mod\ m\)</span>是偶数，结果为<span class="math">\[f(n)\ mod\ f(m) = f(m)-f(m-f(n\ mod\ m))\]</span> 如果<span class="math">\(\frac{n}{m}\)</span>和<span class="math">\(\frac{n}{2m}\)</span>都是奇数，那么结果应该是： 如果<span class="math">\(n\ mod\ m\)</span>是奇数，结果为<span class="math">\[f(n)\ mod\ f(m) = f(m)-f(m-f(n\ mod\ m))\]</span> 如果<span class="math">\(n\ mod\ m\)</span>是偶数，结果为<span class="math">\[f(n)\ mod\ f(m) = f(m-n\ mod\ m)\]</span></p>
+<p>如果 m 是偶数，那么：</p>
+<p>如果 <span class="math">\(\frac{n}{m}\)</span>是奇数，那么结果应该是： 如果<span class="math">\(n\ mod\ m\)</span>是奇数，结果为<span class="math">\[f(n)\ mod\ f(m) = f(m-n\ mod\ m)\]</span> 如果<span class="math">\(n\ mod\ m\)</span>是偶数，结果为<span class="math">\[f(n)\ mod\ f(m) = f(m)-f(m-f(n\ mod\ m))\]</span> 如果 <span class="math">\(\frac{n}{m}\)</span>是偶数，那么结果应该是： <span class="math">\[f(n)\ mod\ f(m) = f(n\ mod\ m)\]</span></p>
+<p>至此，本体基本解决完毕。</p>
+<h2 id="其他的细节">其他的细节</h2>
+<p>这道题的数据量非常大，因此在其他的一些地方也应该充分注意，才有可能通过全部测试点。</p>
+<ol style="list-style-type: decimal">
+<li>使用矩阵快速幂模来求解某一项的值。</li>
+<li>64位整数的二进制分解乘法（long long 乘以long long会导致溢出）。</li>
+</ol>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">long</span> <span class="dt">long</span> multiply(<span class="dt">long</span> <span class="dt">long</span> a, <span class="dt">long</span> <span class="dt">long</span> b) {
+    <span class="dt">long</span> <span class="dt">long</span> ans = <span class="dv">0</span>;
+    a %= MOD;
+    <span class="kw">while</span>(b) {
+        <span class="kw">if</span>(b &amp; <span class="dv">1</span>) {
+            ans = (ans + a) % MOD;
+            b--;
+        }
+        b &gt;&gt;= <span class="dv">1</span>;
+        a = (a + a) % MOD; <span class="co">// a *= 2</span>
+    }
+    <span class="kw">return</span> ans;
+}</code></pre>
+<p>题目Accept代码：<a href="/sourcecode/PREV_29.cpp">PREV_29.cpp</a></p>
+<h2 id="参考">参考</h2>
+<ol style="list-style-type: decimal">
+<li><a href="http://blog.csdn.net/acdreamers/article/details/23039571">Fibonacci数列的幂和</a></li>
+<li><a href="http://blog.csdn.net/acdreamers/article/details/21822165">从蓝桥杯来谈Fibonacci数列</a></li>
+</ol>
+<!---------------------------links------------------------------->

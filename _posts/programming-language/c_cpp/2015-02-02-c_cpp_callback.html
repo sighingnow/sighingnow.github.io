@@ -1,0 +1,92 @@
+---
+title: C和C++中的回调函数
+author: He Tao
+date: 2015-02-02
+tag: C/C++
+category: 编程语言
+layout: post
+---
+
+<h2 id="回调函数callback-functions">回调函数(Callback Functions)</h2>
+<p>回调函数是指一个通过函数指针调用的函数。回掉函数不是由该函数的实现方法直接调用，而是在特定时间或条件发生时由另一方调用的，用于对该事件或条件进行响应。</p>
+<h2 id="回调函数的简单实现">回调函数的简单实现</h2>
+<p>C和C++中，可以通过函数指针的方式实现回调函数。如下例：</p>
+<!--more-->
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="ot">#include &lt;stdio.h&gt;</span>
+
+<span class="kw">typedef</span> <span class="dt">int</span> (*callf)(<span class="dt">int</span> a);
+
+<span class="co">/* 回调函数 */</span>
+<span class="dt">int</span> fa(<span class="dt">int</span> a) {
+    printf(<span class="st">&quot;a is called, a is </span><span class="ch">%d\n</span><span class="st">&quot;</span>, a);
+    <span class="kw">return</span> a;
+}
+
+<span class="co">/* 回调函数 */</span>
+<span class="dt">int</span> fb(<span class="dt">int</span> b) {
+    printf(<span class="st">&quot;b is called, b is </span><span class="ch">%d\n</span><span class="st">&quot;</span>, b);
+    <span class="kw">return</span> b;
+}
+
+<span class="dt">int</span> call1(callf pcf, <span class="dt">int</span> arg) { <span class="co">/* 通过typedef函数指针的方式 */</span>
+    printf(<span class="st">&quot;call1 is called, arg is </span><span class="ch">%d\n</span><span class="st">&quot;</span>, arg);
+    pcf(arg); <span class="co">// 调用回调函数</span>
+    <span class="kw">return</span> arg;
+}
+
+<span class="dt">int</span> call2(<span class="dt">int</span> (*ptr)(<span class="dt">int</span> ), <span class="dt">int</span> arg) { <span class="co">/* 通过直接定义函数指针的方式 */</span>
+    printf(<span class="st">&quot;call2 is called, arg is </span><span class="ch">%d\n</span><span class="st">&quot;</span>, arg);
+    ptr(arg); <span class="co">// 调用回调函数</span>
+    <span class="kw">return</span> arg;
+}
+
+<span class="dt">int</span> main(<span class="dt">int</span> argc, <span class="dt">char</span> *argv[])
+{
+    <span class="dt">int</span> arg = <span class="dv">10</span>;
+    call1(&amp;fa, arg);
+    call2(&amp;fb, arg);
+    <span class="kw">return</span> <span class="dv">0</span>;
+}</code></pre>
+<p>在上例中，我们可以看到，在C/C++中可以直接将函数指针作为参数传参，并通过函数指针进行函数调用和传递参数，从而实现了回调函数。</p>
+<h2 id="回调函数与事件模型">回调函数与事件模型</h2>
+<p>首先声明时间模型、回调函数和事件注册函数。</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="co">// 事件模型声明</span>
+<span class="kw">struct</span> Event;
+<span class="co">// 回调函数声明</span>
+<span class="kw">typedef</span> <span class="dt">void</span> (*pEvent_cbF)(<span class="dt">const</span> <span class="kw">struct</span> Event *e, <span class="dt">void</span> *data);
+<span class="co">// 事件注册函数声明</span>
+<span class="dt">void</span> event_cbF_register(pEvent_cbF pf, <span class="dt">void</span> *data);</code></pre>
+<p>在事件调度器(event dispather)中，通常将回调函数放在结构体中。</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">struct</span> Event {
+    pEvent_cbF callback;
+    <span class="dt">void</span> *data;
+};</code></pre>
+<p>接下来，实现事件注册函数和回掉函数。</p>
+<pre><code>void event_cbF_register(Event *e, pEvent_cbF callback, void *data) {
+    e-&gt;callback = callback;
+    e-&gt;data = data;
+}
+void my_event_cbF(const struct Event *e, void *data) {
+    printf(&quot;my event callback function is called.\n&quot;);
+    printf(&quot;data: %s\n&quot;, (const char *)data);
+    printf(&quot;event data: %s\n&quot;, (const char *)(e-&gt;data));
+}
+</code></pre>
+<p>在main函数中测试：</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> main(<span class="dt">int</span> argc, <span class="dt">char</span> *argv[])
+{
+    Event curtom_event;
+    <span class="dt">char</span> custom_data[<span class="dv">15</span>] = <span class="st">&quot;Event occur !&quot;</span>;
+    event_cbF_register(&amp;curtom_event, &amp;my_event_cbF, custom_data);
+    curtom_event.callback(&amp;curtom_event, curtom_event.data);
+
+    <span class="kw">return</span> <span class="dv">0</span>;
+}</code></pre>
+<p>运行上述程序，将获得如下输出：</p>
+<pre><code>ht@debian ~
+$ ./callback
+my event callback function is called.
+data: Event occur !
+event data: Event occur !</code></pre>
+<h2 id="回调函数与异步非阻塞">回调函数与异步非阻塞</h2>
+<p>将回调函数放在单独的线程中执行，便可以做到异步非阻塞处理。</p>

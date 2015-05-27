@@ -1,0 +1,46 @@
+---
+title: Python实现docx2txt
+author: He Tao
+date: 2015-05-17
+tag: Python
+category: 编程语言
+layout: post
+---
+
+<p>对于一些Linux平台，特别是没有安装桌面的Linux系统，查看MS Office的文档是一件非常痛苦的事情，如果能够将.dox格式的文件转化成一个文本文件，将会解决很多问题。我们知道，.docx文件实质上是一个.zip压缩包，里面包含了各种各样的XML结构化文本文件、资源文件、XML样式表，等等。文档中的所有内容都集中在压缩包中的<code>word/document.xml</code>文件中，然而这是一个复杂的XML文件，并不适合直接阅读。因此，需要将其中的文本提取出来。</p>
+<p>我们知道，Python作为一门强大的脚本语言，很擅长处理与字符串相关的问题。因此使用Python来实现一个docx2txt的小工具。</p>
+<!--more-->
+<h2 id="获取xml源文件">获取XML源文件</h2>
+<p>第一步，我们需要解压docx包，读取其中的XML文件。Python提供了<code>ZipFile</code>可供读取.zip文件。</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="ch">from</span> zipfile <span class="ch">import</span> ZipFile
+
+zf = Zipfile(filename)</code></pre>
+<p>那么，就如何判断一个文件是不是MS Office Word(.docx)文件呢？我们可以通过判断压缩包文件中是否存在<code>word/document.xml</code>文件来实现。</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="kw">def</span> isdocx(zf):
+    <span class="kw">if</span> not zf.namelist().<span class="ot">__contains__</span>(<span class="st">&#39;word/document.xml&#39;</span>):
+        <span class="co"># print(&#39;invalid MS word file.&#39;)</span>
+        <span class="kw">return</span> <span class="ot">False</span>
+    <span class="kw">return</span> <span class="ot">True</span></code></pre>
+<p>接下来，读取<code>word/document.xml</code>文件：</p>
+<pre class="sourceCode python"><code class="sourceCode python">text = <span class="dt">str</span>(zf.read(<span class="st">&#39;word/document.xml&#39;</span>), encoding=<span class="st">&#39;utf-8&#39;</span>)</code></pre>
+<p>读取之后，还需要解析这个XML文件，以提取出其中的所有文字信息。因为此处并不关心XML文件的样式以及其他信息，为方便起见，直接使用标准库中的<code>html.parser.HTMLParser</code>来解析XML即可。</p>
+<p>首先，继承HTMLParser类：</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="kw">class</span> Parser(HTMLParser):
+    <span class="kw">def</span> <span class="ot">__init__</span>(<span class="ot">self</span>):
+        HTMLParser.<span class="ot">__init__</span>(<span class="ot">self</span>)
+        <span class="ot">self</span>.text = <span class="st">&#39;&#39;</span></code></pre>
+<p>接下来，提取出所有的data，这就是docx文件中的文本内容。这一步需要重写<code>handle_data</code>方法：</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="kw">def</span> handle_data(<span class="ot">self</span>, data):
+    <span class="ot">self</span>.text += data</code></pre>
+<p>然而仅仅通过<code>handle_data</code>并无法处理换行符的问题。通过观察<code>word/document.xml</code>文件的特点和查阅DOXC文件规范得知Word中每一个新段落都是通过<code>&lt;w:p&gt;</code>Tag开始的，因此，只需要在每次<code>&lt;w:p&gt;</code>标签结束的时候加上一个<code>\n</code>即可实现段落的划分。</p>
+<pre><code>def handle_endtag(self, tag):
+    if tag == &#39;w:p&#39;:  # new line
+        self.text += &#39;\n&#39;</code></pre>
+<h2 id="更多">更多</h2>
+<p>目前还无法处理docx文件中的图片等等信息，样式表信息也忽略，进一步开发的话，希望能够做到将.docx文件转换成markdown文件。</p>
+<h2 id="项目地址">项目地址</h2>
+<p><a href="https://github.com/He-Tao/Programming/tree/master/docx2txt">Programming/docx2txt</a></p>
+<h2 id="参考资料">参考资料</h2>
+<ol style="list-style-type: decimal">
+<li><a href="https://msdn.microsoft.com/en-us/library/dd773189(v=office.12).aspx">Word Extensions to the Office Open XML (.docx) File Format</a></li>
+</ol>

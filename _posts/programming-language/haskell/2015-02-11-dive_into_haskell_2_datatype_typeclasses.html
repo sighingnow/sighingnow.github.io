@@ -1,0 +1,256 @@
+---
+title: Dive Into Haskell(2) 数据类型和类型类(Typeclasses)
+author: He Tao
+date: 2015-02-11
+tags: [Haskell]
+category: 编程语言
+layout: post
+---
+
+<h2 id="静态类型">静态类型</h2>
+<p>Haskell是静态类型(Static Type)语言，在编译时期每个表达式的类型都已经确定下来。如果在代码中有类型错误，就不可能通过编译。这极大地提高了代码的安全性。在Haskell中，所有东西都有类型。</p>
+<h2 id="ghci中查看数据类型">GHCi中查看数据类型</h2>
+<p>在GHCi中，通过 <code>:t &lt;name&gt;</code> 或者 <code>:type &lt;name&gt;</code>来查看变量、常量或表达式的数据类型。例如：</p>
+<pre><code>Prelude&gt; let a = 1
+Prelude&gt; :t a
+a :: Num a =&gt; a
+Prelude&gt; :type True
+True :: Bool
+Prelude&gt; :t 4 == 5
+4 == 5 :: Bool</code></pre>
+<h2 id="基本数据类型">基本数据类型</h2>
+<p>Haskell有以下几种基本数据类型：</p>
+<!--more-->
+<ul>
+<li>Char 单个Unicode字符。</li>
+<li>Bool 表示一个Bool逻辑值。这个类型只有两个值：<code>True</code>或<code>False</code>。</li>
+<li>Int 表示一个整数。范围为<code>-2147483648 ~ 2147483647</code>。</li>
+<li>Integer 可以认为是无限范围的整数。</li>
+<li>Floating 表示浮点数。注意<code>**</code>运算得到的结果的数据类型是<code>Floating</code>。</li>
+</ul>
+<h2 id="list">List</h2>
+<p>在Haskell中，一个List由一对方括号括起来。其中的元素的数据类型必须相同，相邻元素之间用逗号<code>,</code>隔开。</p>
+<h3 id="haskell的字符串">Haskell的字符串</h3>
+<p>在Haskell中，字符串实际上是一组字符的List，例如，<code>&quot;Hello&quot;</code>只是<code>['H', 'e', 'l', 'l', 'o']</code>的语法糖而已。</p>
+<pre><code>Prelude&gt; :t &quot;Hello&quot;
+&quot;Hello&quot; :: [Char]</code></pre>
+<h3 id="list的拼接">List的拼接</h3>
+<p>两个List之间的拼接用<code>++</code>运算符：</p>
+<pre><code>Prelude&gt; [1, 2] + [3, 4]
+[1, 2, 3, 4]</code></pre>
+<p><strong>注意</strong>：<code>++</code>符号会遍历整个<code>++</code>符号<strong>左边</strong>的List，因此，当给较长的List追加元素时，会有严重的性能问题。</p>
+<h3 id="向list中追加元素">向List中追加元素</h3>
+<p><code>:</code>运算符的作用是在一个List的前面追加一个元素：</p>
+<pre><code>Prelude&gt; 1: [2, 3, 4]
+[1, 2, 3, 4]</code></pre>
+<p><code>:</code>运算符无法在List的后面追加元素，例如，以下用法会出现错误：</p>
+<pre><code>Prelude&gt; [2, 3, 4] : 1
+
+&lt;interactive&gt;:77:1
+    No instance for (Num [[t0]]) arising from a use of &#39;it&#39;
+    In a stmt of an interactive GHCi command: print it</code></pre>
+<p>如果需要在List的后面追加元素，可以使用如下的语法：</p>
+<pre><code>Prelude&gt; [2, 3, 4] ++ [1]
+[2, 3, 4, 1]</code></pre>
+<p>即把要追加的元素写成一个单独的List，再用 <code>++</code>运算符将两个List连接。</p>
+<h3 id="多级list">多级List</h3>
+<p>List中的元素可以是List，其长度可以不同，但其中的元素的数据类型必须是相同的。</p>
+<h3 id="list索引元素">List索引元素</h3>
+<p>使用 <code>!!</code>按照索引取得List中的元素，例如：</p>
+<pre><code>Prelude&gt; [1, 2, 3] !! 1
+2</code></pre>
+<p>List的索引值是从 <code>0</code> 开始的。如果索引值超过了List的长度，便会出错。</p>
+<p>对于多级列表的索引，只需要逐级索引即可，例如：</p>
+<pre><code>Prelude&gt; let a = [[1, 2, 3], [4, 5], [6]]
+Prelude&gt; a !! 1 !! 1
+5</code></pre>
+<h3 id="list大小比较">List大小比较</h3>
+<p>当List中装有课比较的元素时，可以用<code>&gt;</code>运算符和<code>&gt;=</code>运算符以及<code>&lt;</code>运算符和<code>&lt;=</code>运算符比较List的大小。用来比较大小的两个List中的元素的数据类型必须是相同的。它会先比较第一个元素，如果相等，在比较下一个元素。如果直到其中一个List已经到达末尾其对应位置的元素仍相等，而另一个没有到达末尾，则另一个List较大。举例：</p>
+<pre><code>Prelude&gt; [2, 2] &gt; [2]
+True
+Prelude&gt; [1, 2] &lt; [2]
+True</code></pre>
+<h3 id="list相关的常用函数">List相关的常用函数</h3>
+<ul>
+<li><p>head 返回一个List的头部（首个元素）。如果当前List为空，则会产生异常。</p>
+<pre><code>Prelude&gt; head [1, 2, 3]
+1
+Prelude&gt; head []
+*** Exception: Prelude.head: empty list</code></pre></li>
+<li><p>tail 返回一个List除去头部元素之后的元素的List。如果当前List为空，则会产生异常。</p>
+<pre><code>Prelude&gt; tail [1, 2, 3]
+[2, 3]
+Prelude&gt; tail [1]
+[]
+Prelude&gt; tail []
+*** Exception: Prelude.tail: empty list</code></pre></li>
+<li>last 返回一个List的最后一个元素。</li>
+<li>init 返回一个List的除去最后一个元素的部分(List)。</li>
+<li>length 返回一个List的长度（包含的元素个数）。</li>
+<li>null 检查一个List是否为空，若为空，返回<code>True</code>，否则返回<code>False</code>。</li>
+<li>reverse 将一个List反转。</li>
+<li><p>take 取得一个List的前几个元素。</p>
+<pre><code>Prelude&gt; take 2 [1, 2, 3]
+[1, 2]
+Prelude&gt; take 1 [1, 2, 3]
+[1]</code></pre>
+<p>如果要求的元素个数大于List的长度，则返回整个List，不会产生异常。</p>
+<pre><code>Prelude&gt; take 4 [1, 2]
+[1, 2]</code></pre></li>
+<li>maximum 取得一个List中的元素的最大值。</li>
+<li>minimum 取得一个List中的元素的最小值。</li>
+<li>sum 求得一个List中所有元素的和。<strong>注意</strong>用于求和的List中的元素必须是可相加的类型。例如，其元素类型不能是<code>Char</code>。对空List的求和结果为<code>0</code>。</li>
+<li><p>elem 判断一个元素是否在List中。如果在，返回<code>True</code>，否则返回<code>False</code>。也可以用中缀函数的方法调用<code>elem</code>函数。</p>
+<pre><code>Prelude&gt; elem 1 [1, 2, 3]
+True
+Prelude&gt; 4 `elem` [1, 2, 3]
+False</code></pre></li>
+</ul>
+<h3 id="list与range">List与Range</h3>
+<p>对于可枚举的值，通过区间(Range)的方式可以很方便地生成列表。比如，要生成一个包含<code>1-20</code>的自然数的列表，只需要运行如下命令：</p>
+<pre><code>Prelude&gt; [1..20]
+[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]</code></pre>
+<p>对于字符型列表的生成，Haskell会按照字符的ASCII码的顺序来生成。</p>
+<pre><code>Prelude&gt; [&#39;a&#39;..&#39;d&#39;]
+&quot;abcd&quot;
+Prelude&gt; [&#39;a&#39;..&#39;a&#39;]
+&quot;a&quot;</code></pre>
+<p>如果给出的上界大于下界，则返回一个空List。</p>
+<pre><code>Prelude&gt; [&#39;b&#39;..&#39;a&#39;]
+&quot;&quot;
+Prelude&gt; [1..0]
+[]</code></pre>
+<p>通过Range的生成方式可以指定其规律，例如：</p>
+<pre><code>Prelude&gt; [2, 4..10]
+[2,4,6,8,10]</code></pre>
+<p>Haskell正是根据前两项推导出生成规则的。</p>
+<p>Range也可以生成无限长的列表，不指定上界即可：</p>
+<pre><code>Prelude&gt; [2, 4..]</code></pre>
+<p>在GHCi中执行这条命令，便会不停输出一个无限长的列表<code>[2,4,6,8,10 ...]</code></p>
+<p>由于Haskell是<strong>惰性</strong>的，因此，也可以通过这这种方式来得到List的前几项：</p>
+<pre><code>Prelude&gt; take 3 [2, 4..]
+[2, 4, 6]</code></pre>
+<h3 id="list与cycle函数">List与<code>cycle</code>函数</h3>
+<p><code>cycle</code>函数的作用是无限重复某一列表的内容：</p>
+<pre><code>Prelude&gt; take 5 (cycle [1, 2, 3])
+[1, 2, 3, 1, 1]</code></pre>
+<h3 id="list与repeat函数">List与repeat函数</h3>
+<p><code>repeat</code>函数的作用是接受一个值作为参数，并返回一个仅包含该值的无限List。</p>
+<pre><code>Prelude&gt; take 5 (repeat 2)
+[2,2,2,2,2]</code></pre>
+<p><code>replicate</code>函数也具有同样的功能：</p>
+<pre><code>Prelude&gt; replicate 3 10
+[10, 10, 10]</code></pre>
+<h3 id="list推导式list-comprehension">List推导式(List Comprehension)</h3>
+<p>在Haskell中，List Comprehension的核心思想是通过不断添加谓词(predicate)(限制条件)来从一个集合中不断筛选出符合条件的元素，最终得到想要的集合。</p>
+<pre><code>Prelude&gt; [x | x &lt;- [10 .. 20], odd x]
+[11, 13, 15, 17, 19]
+Prelude&gt; [x*2 | x &lt;- [10 .. 20], even x, x /= 16]
+[10, 12, 14, 18, 20]</code></pre>
+<p><strong>注意</strong>：多个谓词(predicate)之间用“,”连接。</p>
+<h2 id="tuple">Tuple</h2>
+<h3 id="tuple的特点">Tuple的特点</h3>
+<p>在Haskell中，元组用“()”来表示，元组中的不同元素之间用“,”分隔开。通常用元组来表示向量等数据结构。使用元组(Tuple)时应该注意以下几点问题：</p>
+<ul>
+<li><p>每一个元组中的元素可以是不同类型的元素，例如：</p>
+<pre><code>Prelude&gt; (&#39;a&#39;, 1, &quot;abcd&quot;)
+(&#39;a&#39;,1,&quot;abcd&quot;)</code></pre></li>
+<li>不同长度的元组是不同的<strong>类型</strong>。</li>
+<li>同样长度，对应位置元素类型相同，且元素可比较的Tuple是可以比较大小的。</li>
+<li><p>元组中元素的最小长度为2，因此不存在只有一个元素的元组，但可以存在只有一个元素的List。</p></li>
+</ul>
+<h4 id="序对pair">序对(Pair)</h4>
+<p>Haskell中，序对(Pair)是只有两个元素的元组。</p>
+<ul>
+<li><code>fst</code>函数返回一个序对的首项。</li>
+<li><p><code>snd</code>函数返回一个序对的尾项。</p>
+<p>Prelude&gt; fst (8, 11) 8 Prelude&gt; snd (8, 11) 11</p></li>
+</ul>
+<p><strong>注意</strong>：<code>fst</code>函数和<code>snd</code>函数仅仅对序对(Pair,只有两个元素的元组)有效。</p>
+<h3 id="zip-函数">zip 函数</h3>
+<p><code>zip</code>函数把两个List交叉配对，生成一个Pair的List。如果两个List长度不同，以较短的List的长度为基准，较长List中多余的项舍去。</p>
+<pre><code>Prelude&gt; zip [1, 2, 3] &quot;abcde&quot;
+[(1,&#39;a&#39;),(2,&#39;b&#39;),(3,&#39;c&#39;)]</code></pre>
+<h2 id="类型变量与多态">类型变量与多态</h2>
+<p>在GHCi中运行如下命令，会看到：</p>
+<pre><code>Prelude&gt; :t head
+head :: [a] -&gt; a</code></pre>
+<p>此处，<code>a</code>便是一个类型变量(Type variables)，它可以是任何类型。使用了类型变量的函数是多态函数。Haskell中，类似的函数还有：</p>
+<pre><code>head, tail, sum, fst, snd ... 等等。</code></pre>
+<h2 id="类型类typeclasses">类型类(Typeclasses)</h2>
+<p>Haskell中，类型类相当于提供了一系列的接口，属于某一类型类的数据类型具有对应的一类性质。</p>
+<p>主要有以下几种类型类：</p>
+<ul>
+<li><p>Eq类型类</p>
+<p>Eq类型类用于可以判断相等性的类型。其实例必须实现<code>==</code>和<code>/=</code>这两个函数。</p></li>
+<li><p>Ord类型类</p>
+<p>Ord类型类用于可以比较大小的类型。Ord类型中包含了所有的比较函数。</p>
+<ul>
+<li><code>&gt;</code>、<code>&lt;</code>、<code>&gt;=</code>、<code>&lt;=</code>。</li>
+<li><code>compare</code>函数。<code>compare</code> 函数读取连个Ord中的相同类型的值作为参数，返回一个Ordering类型的值。Ordering类型有 <code>GT</code>、<code>LT</code>、<code>EQ</code>三种值，分别表示大于、小于和等于。</li>
+</ul>
+<p>举例：</p>
+<pre><code>Prelude&gt; compare 1 2
+LT
+Prelude&gt; 1 `compare` 2
+LT</code></pre></li>
+<li><p>Show 类型类</p>
+<p>Show类型类的实例为可以表示为字符串的类型。</p>
+<pre><code>Prelude&gt; :t show
+show :: Show a =&gt; a -&gt; String</code></pre></li>
+<li><p>Read类型类</p>
+<p>Read类型类与Show类型类相反。<code>read</code>函数可以取一个字符串作为参数并转为Read的某个实例的类型，其具体类型可以在表达式中自动推断。</p>
+<pre><code>Prelude&gt; read &quot;True&quot; || True
+True
+Prelude&gt; read &quot;1&quot; + 1
+2
+Prelude&gt; read &quot;[1, 2, 3]&quot; ++ [4, 5, 6]
+[1, 2, 3, 4, 5, 6]</code></pre>
+<p><strong>注意</strong>:<code>read</code>函数不能将字符串解析成字符串。</p>
+<pre><code>Prelude&gt; read &quot;123&quot; ++ &quot;456&quot;
+*** Exception: Prelude.read: no parse</code></pre>
+<p>除了自动推断类型以外，还可以通过类型注解(type annotation)的方式显示指出应该将字符串解析成何种类型。类型注解跟在表达式后面，通过<code>::</code>连接。</p>
+<pre><code>Prelude&gt; read &quot;123&quot; :: Int
+123
+Prelude&gt; read &quot;123&quot; :: Float
+123.0</code></pre>
+<p>如果将<code>read</code>函数放在列表中，便可以根据这个列表中其他元素的类型来解析得到对应的类型。</p>
+<pre><code>Prelude&gt; [read &quot;123&quot;, 4]
+[123, 4]
+Prelude&gt; [read &quot;123&quot;, 4.0]
+[123.0, 4.0]</code></pre></li>
+<li><p>Enum 类型类</p>
+<p>Enum类型类的实例类型都是有连续顺序的，都是可枚举的。对于Enum类型的实例类型，每个值都有相应的后继(successer)和前驱(predecesor)。可以用<code>succ</code>函数和<code>pred</code>函数得到。该类型类包含的主要类型有：</p>
+<pre><code>(), Bool, Char, Ordering, Int, Integer, Float 和 Double。</code></pre></li>
+<li><p>Bounded类型类</p>
+<p>Bounded类型类的实例类型都有一个上限和下限，分别可以通过<code>maxBound</code>和<code>minBound</code>函数得到。</p>
+<pre><code>Prelude&gt; minBound :: Int
+-2147483648
+Prelude&gt; maxBound :: Bool
+True
+Prelude&gt; maxBound :: Char
+&#39;\1114111&#39;
+Prelude&gt; maxBound :: (Bool, Int, Char)
+(True, 2147483647, &#39;\1114111&#39;)</code></pre></li>
+<li><p>Floating类型类</p>
+<p>Floating类型类用于存储浮点数，仅包含Float和Double两种浮点类型。</p></li>
+<li><p>Integral类型类</p>
+<p>Integral类型类仅包含整数，其实力类型有Int和Integer。</p></li>
+</ul>
+<h2 id="haskell中的类型转换">haskell中的类型转换</h2>
+<p>前面提到的<code>Read</code>类可以通过自动推断或类型注解的方式将字符串转换成其他类型。Haskell同时还提供了在不同类型之间进行转换(type case)的方法。</p>
+<p>例如：<code>fromInteger</code>函数可以将<code>Integer</code>类型的数据转换成其他类型。</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">func ::</span> (<span class="dt">Floating</span> a) <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> a
+func a <span class="fu">=</span> a <span class="fu">*</span> <span class="fl">2.0</span>
+
+<span class="ot">main ::</span> <span class="dt">IO</span>()
+main <span class="fu">=</span> <span class="kw">do</span>
+    <span class="kw">let</span> a <span class="fu">=</span> read <span class="st">&quot;20&quot;</span><span class="ot"> ::</span> <span class="dt">Integer</span>
+    print <span class="fu">$</span> func <span class="fu">$</span> fromInteger a</code></pre>
+<p>还可以通过与<code>read</code>函数类似的加注解的方式来指定<code>fromInteger</code>函数将<code>Integer</code>类型的变量转换为哪一种类型而非自动类型推断。</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">main ::</span> <span class="dt">IO</span>()
+main <span class="fu">=</span> <span class="kw">do</span>
+    <span class="kw">let</span> a <span class="fu">=</span> read <span class="st">&quot;1234&quot;</span><span class="ot"> ::</span> <span class="dt">Integer</span>
+    print <span class="fu">$</span> (fromInteger<span class="ot"> a ::</span> <span class="dt">Double</span>)</code></pre>
+<p>代码运行后，将输出：</p>
+<pre><code>1234.0</code></pre>

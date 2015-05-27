@@ -1,0 +1,131 @@
+---
+title: 一致性哈希算法
+author: He Tao
+date: 2015-05-18
+tag: 分布式系统
+category: 分布式系统
+layout: post
+---
+
+<p>在一个分布式服务系统中，当有一台Server宕机时，需要将其数据、服务等迁移到别的主机上。不难想到，可以对整个集群的任务重新做一次Hash，使得数据重复分布，但这样往往会造成大规模的数据迁移，并且在数据迁移完成之前所有的服务都不可用。一致性Hash算法很好的解决了这一问题。</p>
+<!--more-->
+<h2 id="一致性hash">一致性Hash</h2>
+<p>针对ReHash的弊端，Karger提出了一种算法，即一致性哈希算法(Consistent Hashing Algorithm)，算法的核心是”虚拟节点”。其相比普通hash的主要优势在于在添加或移除节点时，保证尽量少的cache失效（数据迁移及均衡）。使用一致性Hash算法时，处理服务器的选择不再仅仅依赖key的hash本身而是将服务实例（节点）的配置也进行hash运算。在一致性Hash中，虚拟节点的过渡作用起到了很好的效果。</p>
+<h2 id="算法流程">算法流程</h2>
+<p>算法流程如下：</p>
+<ol style="list-style-type: decimal">
+<li>假设Hash范围为<code>N</code>，首先求出每个服务节点的hash，并将其配置到一个0~N的圆环（continuum）区间上。</li>
+<li>其次使用同样的方法求出你所需要存储的key的hash，也将其配置到这个圆环（continuum）上。</li>
+<li>然后从数据映射到的位置开始顺时针查找，将数据保存到找到的第一个服务节点上。如果超过N仍然找不到服务节点，就会保存到第一个memcached服务节点上。</li>
+</ol>
+<h2 id="算法的改进">算法的改进</h2>
+<h3 id="负载均衡的考量">负载均衡的考量</h3>
+<p>在经典一致性Hash算法中，只需要将服务不可用的虚拟节点重新迁移到下一台对应的可用的虚拟主机上即可。但这样的方便存在很大的缺陷，一台服务器宕机将会使得接收其数据的主机负载加倍，显然，这对于负载均衡是很不利的。</p>
+<p>将故障节点Rehash，然后按照一致性Hash算法去寻找好几台主机共同接收故障节点的负载，这能够使得整个系统的负载重新做到相对均衡。</p>
+<h3 id="虚拟节点的扩展">虚拟节点的扩展</h3>
+<p>在真实的系统情况下，相同部署的两套系统可能不能提供相同的服务，主要原因：</p>
+<ol style="list-style-type: decimal">
+<li>硬件个体差异导致服务器性能不同。</li>
+<li>机房交换机和网络带宽导致IDC服务器之间的网络通信效率不同。</li>
+<li>用户使用不同的网络运营商导致电信IDC和联通IDC提供的服务性能不同。</li>
+<li>服务器所在网络或机房遭遇攻击。</li>
+</ol>
+<p>所以完全相同的两套系统可能也需要提供差异化的服务，通过使用虚拟节点可以灵活的动态调整，达到系统服务的最优化。</p>
+<h2 id="一致性hash的简单实现">一致性Hash的简单实现</h2>
+<h3 id="代码实现">代码实现</h3>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="ch">import</span> random
+
+<span class="kw">def</span> con_hash():
+    <span class="co">&#39;&#39;&#39;</span>
+<span class="co">    Consistent Hashing Algorithm</span>
+
+<span class="co">    node: physical machine. count: 10</span>
+<span class="co">    vnode: virtual node. count: 7920</span>
+<span class="co">    &#39;&#39;&#39;</span>
+    node = [<span class="dv">0</span> <span class="kw">for</span> i in <span class="dt">range</span>(<span class="dv">0</span>, <span class="dv">11</span>)]
+    vnode = [<span class="dv">0</span> <span class="kw">for</span> j in <span class="dt">range</span>(<span class="dv">0</span>, <span class="dv">7921</span>)]
+    <span class="kw">def</span> hashcode(s):
+        result, base = <span class="dv">0</span>, <span class="dv">97</span>
+        <span class="kw">for</span> c in s:
+            result += base*<span class="dt">ord</span>(c)
+            base *= <span class="dv">97</span>
+        <span class="kw">return</span> result%<span class="dv">7919</span>
+
+    <span class="kw">def</span> init_maps():
+        <span class="kw">for</span> i in <span class="dt">range</span>(<span class="dv">1</span>, <span class="dv">11</span>):
+            <span class="kw">for</span> j in <span class="dt">range</span>(<span class="dv">1</span>, <span class="dv">792</span>):
+                vnode[random.randint(<span class="dv">1</span>,<span class="dv">7920</span>)] = random.randint(<span class="dv">1</span>, <span class="dv">10</span>)
+                <span class="co"># vnode[hashcode(str((i-1)*792+j))] = i</span>
+        <span class="kw">for</span> i in <span class="dt">range</span>(<span class="dv">0</span>, <span class="dv">7920</span>):
+            node[vnode[i]] += <span class="dv">1</span>
+
+    <span class="kw">def</span> add_test():
+        node = [<span class="dv">0</span> <span class="kw">for</span> i in <span class="dt">range</span>(<span class="dv">0</span>, <span class="dv">11</span>)]
+        <span class="kw">for</span> i in <span class="dt">range</span>(<span class="dv">1235</span>, <span class="dv">10000</span>):
+            target = hashcode(<span class="dt">str</span>(i))
+            <span class="kw">while</span> vnode[target] == <span class="dv">0</span>:
+                target = (target<span class="dv">+1</span>)%<span class="dv">7920</span>
+            node[vnode[target]] += <span class="dv">1</span>
+        <span class="dt">print</span>(node)
+
+    <span class="kw">def</span> del_test():
+        node = [<span class="dv">0</span> <span class="kw">for</span> i in <span class="dt">range</span>(<span class="dv">0</span>, <span class="dv">11</span>)]
+        <span class="kw">for</span> i in <span class="dt">range</span>(<span class="dv">4324</span>, <span class="dv">12349</span>):
+            data = <span class="dt">str</span>(random.randint(<span class="dv">0</span>, <span class="dv">123456789</span>))
+            badnode = random.randint(<span class="dv">1</span>, <span class="dv">10</span>)
+            target = hashcode(data)
+            <span class="kw">while</span> vnode[target] == <span class="dv">0</span> or vnode[target] == badnode:
+                target = (target<span class="dv">+1</span>)%<span class="dv">7920</span>
+            node[vnode[target]] += <span class="dv">1</span>
+        <span class="dt">print</span>(node)
+
+    init_maps()
+    add_test()
+    del_test()
+
+con_hash()</code></pre>
+<p>测试结果表明，算法效果确实很不错，在负载均衡上做的很好。</p>
+<h2 id="murmurhash算法">MurMurHash算法</h2>
+<p>MurmurHash 是一种非加密型哈希函数，适用于一般的哈希检索操作。由Austin Appleby在2008年发明，并出现了多个变种，都已经发布到了公有领域(public domain)。与其它流行的哈希函数相比，对于规律性较强的key，MurmurHash的随机分布特征表现更良好。这个算法已经被若干开源计划所采纳，最重要的有libstdc++ (4.6版)、Perl、nginx (不早于1.0.1版)、Rubinius、 libmemcached (Memcached的C语言客户端驱动)、maatkit、Hadoop、Kyoto Cabinet以及RaptorDB。与CRC32，MD5，SHA-1等加密算法相比，MurmurHash算法的效率较高，碰撞率也很低。算法的Java实现：</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">private</span> Long <span class="fu">hash</span>(String key) {
+    ByteBuffer buf = ByteBuffer.<span class="fu">wrap</span>(key.<span class="fu">getBytes</span>());
+    <span class="dt">int</span> seed = <span class="bn">0x1234ABCD</span>;
+    ByteOrder byteOrder = buf.<span class="fu">order</span>();
+    buf.<span class="fu">order</span>(ByteOrder.<span class="fu">LITTLE_ENDIAN</span>);
+    <span class="dt">long</span> m = 0xc6a4a7935bd1e995L;
+    <span class="dt">int</span> r = <span class="dv">47</span>;
+
+    <span class="dt">long</span> h = seed ^ (buf.<span class="fu">remaining</span>() * m);
+    <span class="dt">long</span> k;
+
+    <span class="kw">while</span> (buf.<span class="fu">remaining</span>() &gt;= <span class="dv">8</span>) {
+        k = buf.<span class="fu">getLong</span>();
+        k *= m;
+        k ^= k &gt;&gt;&gt; r;
+        k *= m;
+        h ^= k;
+        h *= m;
+    }
+    <span class="kw">if</span> (buf.<span class="fu">remaining</span>() &gt; <span class="dv">0</span>) {
+        ByteBuffer finish = ByteBuffer.<span class="fu">allocate</span>(<span class="dv">8</span>).<span class="fu">order</span>(ByteOrder.<span class="fu">LITTLE_ENDIAN</span>);
+        <span class="co">// for big-endian version, do this first:</span>
+        <span class="co">// finish.position(8-buf.remaining());</span>
+        finish.<span class="fu">put</span>(buf).<span class="fu">rewind</span>();
+        h ^= finish.<span class="fu">getLong</span>();
+        h *= m;
+    }
+    h ^= h &gt;&gt;&gt; r;
+    h *= m;
+    h ^= h &gt;&gt;&gt; r;
+
+    buf.<span class="fu">order</span>(byteOrder);
+    <span class="kw">return</span> h;
+}</code></pre>
+<h2 id="参考">参考</h2>
+<ol style="list-style-type: decimal">
+<li><a href="http://blog.jobbole.com/80334/">一致性哈希算法原理设计</a></li>
+<li><a href="http://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf">Dynamo: Amazon’s Highly Available Key-value Store</a></li>
+<li><a href="https://sites.google.com/site/murmurhash/">MurmurHash</a></li>
+<li><a href="http://zh.wikipedia.org/wiki/Murmur%E5%93%88%E5%B8%8C">Murmur哈希</a></li>
+<li><a href="http://blog.csdn.net/cywosp/article/details/23397179">理解一致性哈希算法(consistent hashing)</a></li>
+</ol>

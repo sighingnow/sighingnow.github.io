@@ -1,0 +1,339 @@
+---
+title: Java 多线程
+author: He Tao
+date: 2015-04-29
+tag: [Java]
+category: 编程语言
+layout: post
+---
+
+<p>随着多核芯片逐渐成为主流，大多数软件开发人员不可避免地需要了解并行编程的知识。而同时，主流程序语言正在将越来越多的并行特性合并到标准库或者语言本身之中。我们可以看到，JDK 在这方面同样走在潮流的前方。从JDK 5到JDK 7，越来越多的线程相关的新API加入到了标准库中，为不同场景下对线程实现与调度提供了完善的支持。我们可以充分利用这些类库，来提高开发效率，改善程序性能。</p>
+<h2 id="java中使用线程">Java中使用线程</h2>
+<p>Java的多线程基于以下两个重要的机制：</p>
+<ol style="list-style-type: decimal">
+<li>父线程结束，如果子线程正在运行，子线程不会跟着结束。</li>
+<li>每个线程拥有一个线程栈，会维护引用，用于GC。</li>
+</ol>
+<!--more-->
+<p>Java提供了以下两种常用的方式来使用多线程：</p>
+<ol style="list-style-type: decimal">
+<li>继承<code>Thread</code>类</li>
+<li>实现<code>Runnable</code>接口</li>
+</ol>
+<h3 id="继承thread类">继承<code>Thread</code>类</h3>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">class</span> MyThread <span class="kw">extends</span> Thread {
+    <span class="fu">@Override</span>
+    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">run</span>() {
+    
+    } 
+}
+
+Thread t = <span class="kw">new</span> <span class="fu">MyThread</span>();
+t.<span class="fu">start</span>();</code></pre>
+<h3 id="实现runnable接口">实现<code>Runnable</code>接口</h3>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">class</span> MyThread <span class="kw">implements</span> Runnable {
+    <span class="fu">@Override</span>
+    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">run</span>() {
+    
+    }
+}
+
+MyThread mt = <span class="kw">new</span> <span class="fu">MyThread</span>();
+Thread t = <span class="kw">new</span> Thread(mt);
+t.<span class="fu">start</span>();</code></pre>
+<p>需要注意的是：<strong>一个线程只能start()一次</strong>，如果多次调用<code>start()</code>方法，会出现<code>Java.lang.IllegalStateException</code>。</p>
+<p>两种方式的区别在于继承<code>Thread</code>方式是每次都会创建一个<code>MyThread</code>对象，而如果采用实现<code>Runnable</code>接口的方式，可以使用同一个<code>MyThread</code>对象来创建多个线程，便于线程间共享内存。因此，设计线程间的数据共享时，一般应当采用实现<code>Runnable</code>接口的方式。</p>
+<h2 id="callable与future">Callable与Future</h2>
+<p><code>java.util.concurrent</code>包中还提供了一个<code>Callable</code>接口来实现线程，使用<code>Callable</code>需要与<code>Future</code>类配合使用。</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> TEMP {
+    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(String[] args) <span class="kw">throws</span> Exception {
+         FutureTask&lt;Integer&gt; task = <span class="kw">new</span> FutureTask&lt;&gt;(<span class="kw">new</span> <span class="fu">FF</span>());
+         <span class="kw">new</span> Thread(task).<span class="fu">start</span>();
+         System.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;main thread&quot;</span>);
+         System.<span class="fu">out</span>.<span class="fu">println</span>(task.<span class="fu">get</span>());
+    }
+}
+
+<span class="kw">class</span> FF <span class="kw">implements</span> Callable&lt;Integer&gt; {
+    <span class="fu">@Override</span>
+    <span class="kw">public</span> Integer <span class="fu">call</span>() <span class="kw">throws</span> Exception {
+        Thread.<span class="fu">sleep</span>(<span class="dv">2000</span>);
+        System.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;ff thread&quot;</span>);
+        <span class="kw">return</span> <span class="kw">new</span> Random().<span class="fu">nextInt</span>(<span class="dv">100</span>);
+    }
+}</code></pre>
+<p>程序运行的输出为：</p>
+<pre><code>main thread
+ff thread
+34</code></pre>
+<p><code>Callable</code>接口与<code>Runnable</code>接口类似，不同的是，<code>call</code>方法是可以有返回值的，并且可以抛出异常。如果没有<code>System.out.println(task.get())</code>，那么主线程在运行完<code>System.out.println(&quot;main thread&quot;)</code>就会结束，但是因为有<code>task.get()</code>，因此，主线程会等待<code>Callable</code>线程执行完毕。</p>
+<p>与<code>Callable-Future</code>类似的一个方法是回调(callback)。在子线程结束时调用父线程的方法来通知父线程。</p>
+<p>一般Callable/Future与ExecutorService配合使用。使用<code>ExecutorService</code>来运行<code>Callable</code>线程：</p>
+<pre class="sourceCode java"><code class="sourceCode java">ExecutorService exec = Executors.<span class="fu">newCachedThreadPool</span>();
+<span class="co">// exec = Executors.newFixedThreadPool(3 /* nThread */);</span>
+exec.<span class="fu">submit</span>(<span class="kw">new</span> Callable&lt;Integer&gt;() {
+    <span class="fu">@Override</span>
+    <span class="kw">public</span> Integer <span class="fu">call</span>() <span class="kw">throws</span> Exception {
+        <span class="co">// ...</span>
+        <span class="kw">return</span> <span class="kw">null</span>;
+    }
+});
+<span class="co">// exec.shutdown();</span></code></pre>
+<p>ExecutorService也可以用来执行实现Runnable线程：</p>
+<pre class="sourceCode java"><code class="sourceCode java">exec.<span class="fu">submit</span>(<span class="kw">new</span> Runnable() {
+    <span class="fu">@Override</span>
+    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">run</span>() <span class="kw">throws</span> Exception {
+        <span class="co">// ...</span>
+    }
+});</code></pre>
+<p>使用<code>ExecutorService</code>时，可以通过<code>FutureTask</code>来获取Callable线程call方法的返回值：</p>
+<pre class="sourceCode java"><code class="sourceCode java">ExecutorService exec = Executors.<span class="fu">newCachedThreadPool</span>();
+FutureTask&lt;Integer&gt; task = <span class="kw">new</span> FutureTask&lt;&gt;(<span class="kw">new</span> Callable&lt;Integer&gt;() {
+    <span class="fu">@Override</span>
+    <span class="kw">public</span> Integer <span class="fu">call</span>() <span class="kw">throws</span> Exception {
+        <span class="co">// ...</span>
+        <span class="kw">return</span> <span class="kw">null</span>;
+    }
+});
+exec.<span class="fu">submit</span>(task);
+Integer result = task.<span class="fu">get</span>();</code></pre>
+<p>ExecutorService还可以取消(cancel)一个Task(FutureTask)。</p>
+<h2 id="简单的线程同步">简单的线程同步</h2>
+<p>通常使用<code>synchronized</code>关键字来进行线程间的同步。<code>synchronized</code>有两种用法：修饰方法和修饰代码块。</p>
+<h3 id="修饰方法">修饰方法</h3>
+<p>可以使用<code>synchronized</code>关键字来修饰类中的方法，从而达到线程间同步的目的。示例：</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">class</span> A {
+    <span class="kw">public</span> <span class="kw">synchronized</span> <span class="dt">void</span> <span class="fu">Func</span>() {
+        <span class="co">// ...</span>
+    }
+}</code></pre>
+<p><code>synchronized</code>关键字修饰方法表明该方法在运行期间将会对<code>this</code>加锁，也就是说，当方法<code>Func</code>运行时其他方法无法操作<code>this</code>对象。需要注意的是，<code>synchronized</code>与<code>static</code>关键字是可以共存的。</p>
+<h3 id="修饰代码块">修饰代码块</h3>
+<p><code>synchronized</code>关键字除了用来修饰方法，还可以用来修饰代码块：</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">class</span> A {
+    Integer i;
+    <span class="co">// ...</span>
+    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">func</span>() {
+        <span class="co">// ...</span>
+        <span class="kw">synchronized</span>(i) {
+            <span class="co">// ...</span>
+        }
+    }
+}</code></pre>
+<p>这表明在<code>synchronized</code>中的代码块运行期间将会占有锁<code>this.i</code>。<code>synchronized</code>修饰方法等价于下列写法：</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">class</span> A {
+    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">Func</span>() {
+        <span class="kw">synchronized</span>(<span class="kw">this</span>) {
+            <span class="co">// ...</span>
+        }
+    }
+}</code></pre>
+<p>可以看到，<code>synchronized</code>修饰代码块与修饰方法类似，但控制粒度更细，同步开销也较小。但是，在尽量减小同步代码块规模时应该注意原子操作中的语句必须在同一个同步代码块中。</p>
+<h3 id="静态方法同步">静态方法同步</h3>
+<p>要同步静态方法，需要一个作用于整个类对象的锁。这个锁就是类自身。举例：</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">class</span> A {
+    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">func</span>() {
+        <span class="kw">synchronized</span>(B.<span class="fu">class</span>) {
+            <span class="co">// ...</span>
+        }
+    }
+}</code></pre>
+<h3 id="可重入锁">可重入锁</h3>
+<p>另一个需要注意的地方是Java的同步锁匙可重入锁，例如，递归调用<code>run</code>方法或者调用的函数有同样的<code>synchronized</code>锁并不会造成死锁。示例如下：</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">class</span> KK <span class="kw">extends</span> Thread {
+    <span class="dt">static</span> Integer x = <span class="dv">10</span>;
+    <span class="fu">@Override</span>
+    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">run</span>() {
+        <span class="kw">synchronized</span> (x) {
+            <span class="kw">if</span>(x &gt; <span class="dv">5</span>) {
+                x -= <span class="dv">1</span>;
+                System.<span class="fu">out</span>.<span class="fu">println</span>(x);
+                <span class="fu">run</span>();
+            }
+        }
+    }
+}</code></pre>
+<p><code>wait</code>, <code>notify</code>, <code>notifyAll</code>，<code>join</code>是常用的线程控制调度方法。</p>
+<h2 id="对象安全和volatile">对象安全和<code>volatile</code></h2>
+<p><code>volatile</code>是一个声明，<code>volatile</code>关键字表示内存可见，<code>volatile</code>声明的变量不会被copy到线程的本地内存(<strong>缓存、缓冲区、寄存器，Cache等</strong>)中，而是直接在主存上进行操作。每次使用前从主存中读取新值，修改后立即写入主存，这用于防止线程间因寄存器和缓存引起的肮脏数据的读取和使用。</p>
+<p>进一步的，JVM的规范里并没有要求<code>volatile</code>关键字修饰的变量一定不能被copy到线程的本地内存中，而是要求对其读写需要遵循<code>happens-before</code>语义，类似于互斥锁。同时，<code>volatile</code>还涉及到编译器的指令重排和CPU的重排序等等（影响变量之间的访问顺序）。</p>
+<p>有些时候，可能一个线程只需要<strong>读</strong>一个变量的值，这时也有可能需要使用<code>volatile</code>的方式来防止出现同步错误。但需要注意的是，<code>volatile</code>不能和<code>final</code>一起共同修饰一个变量，因为<code>final</code>变量是不可改的。</p>
+<h2 id="lockcondition机制">Lock/Condition机制</h2>
+<p>Lock是控制多个线程对共享资源进行访问的工具。通常，锁提供了对共享资源的独占访问，每次只能有一个线程对Lock对象加锁，线程开始访问共享资源之前应先获得Lock对象。不过某些锁支持共享资源的并发访问，如：ReadWriteLock（读写锁），在线程安全控制中，通常使用ReentrantLock（可重入锁）。使用该Lock对象可以显示加锁、释放锁。</p>
+<p>使用Lock的一般框架：</p>
+<pre class="sourceCode java"><code class="sourceCode java">Lock lock = <span class="kw">new</span> <span class="fu">ReetrantLock</span>();
+lock.<span class="fu">lock</span>();
+<span class="kw">try</span> {
+    <span class="co">// ...</span>
+}
+<span class="kw">finally</span> {
+    lock.<span class="fu">unlock</span>();
+}</code></pre>
+<p>注意，<code>try</code>中的语句块是可能抛出异常的，因此，如果可能有异常抛出，那么<code>lock.unlock()</code>必须在<code>finally</code>语句块中，以确保JVM会释放锁。通常认为：Lock提供了比synchronized方法和synchronized代码块更广泛的锁定操作，Lock更灵活的结构，有很大的差别，并且可以支持多个Condition对象。</p>
+<p>Condition的功能更类似于传统多线程技术中的<code>Object.wait()</code>(<code>Condition.await()</code>)和<code>Object.notifyAll()</code>(<code>Condition.signal()</code>)，用于实现线程间通信，一个Lock锁可以支持多个Condition。</p>
+<p>一个使用Lock/Condition机制的例子：</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">class</span> AA <span class="kw">implements</span> Runnable {
+    Lock lock = <span class="kw">new</span> ReentrantLock();
+    <span class="fu">@Override</span>
+    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">run</span>() {
+        lock.<span class="fu">lock</span>();
+        System.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;get lock&quot;</span>);
+        <span class="co">// ...</span>
+        System.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;release lock&quot;</span>);
+        lock.<span class="fu">unlock</span>();
+    }
+}</code></pre>
+<p>在这里面，可以配合使用Condition完成较复杂的线程管理和调度。在<a href="http://blog.csdn.net/huang_xw/article/details/7090122">Java多线程之Condition接口的实现</a>一文中，作者使用<code>Condition/Lock</code>机制来实现了经典的“生产者-消费者”调度模型。在很多情景下，Condition提供了一种更加高效的、更有针对性的线程调度和同步方式。</p>
+<h2 id="reentrantlock深究">ReentrantLock深究</h2>
+<h2 id="blockingqueue的使用">BlockingQueue的使用</h2>
+<p>BlockingQueue,阻塞队列。BlockingQueue是一种特殊的Queue，若BlockingQueue是空的，从BlockingQueue取东西的操作将会被阻断进入等待状态直到BlocingkQueue进了新货才会被唤醒。同样，如果BlockingQueue是满的任何试图往里存东西的操作也会被阻断进入等待状态，直到BlockingQueue里有新的空间才会被唤醒继续操作。</p>
+<p>BlockingQueue提供的方法主要有：</p>
+<ol style="list-style-type: decimal">
+<li><p><code>add(anObject)</code>: 把anObject加到BlockingQueue里，如果BlockingQueue可以容纳返回true，否则抛出IllegalStateException异常。</p></li>
+<li><p><code>offer(anObject)</code>: 把anObject加到BlockingQueue里，如果BlockingQueue可以容纳返回true，否则返回false。</p></li>
+<li><p><code>put(anObject)</code>: 把anObject加到BlockingQueue里，如果BlockingQueue没有空间，调用此方法的线程被阻断直到BlockingQueue里有新的空间再继续。</p></li>
+<li><p><code>poll(time)</code>: 取出BlockingQueue里排在首位的对象，若不能立即取出可等time参数规定的时间。取不到时返回null。</p></li>
+<li><p><code>take()</code>: 取出BlockingQueue里排在首位的对象，若BlockingQueue为空，阻断进入等待状态直到BlockingQueue有新的对象被加入为止。</p></li>
+</ol>
+<p>根据不同的需要BlockingQueue有4种具体实现：</p>
+<ol style="list-style-type: decimal">
+<li><p><code>ArrayBlockingQueue</code>：规定大小的BlockingQueue，其构造函数必须带一个int参数来指明其大小。其所含的对象是以FIFO（先入先出）顺序排序的。</p></li>
+<li><p><code>LinkedBlockingQueue</code>：大小不定的BlockingQueue，若其构造函数带一个规定大小的参数，生成的BlockingQueue有大小限制。若不带大小参数，所生成的BlockingQueue的大小由Integer.MAX_VALUE来决定。其所含的对象是以FIFO（先入先出）顺序排序的。LinkedBlockingQueue和ArrayBlockingQueue比较起来，它们背后所用的数据结构不一样，导致LinkedBlockingQueue的数据吞吐量要大于ArrayBlockingQueue，但在线程数量很大时其性能的可预见性低于ArrayBlockingQueue。</p></li>
+<li><p><code>PriorityBlockingQueue</code>：类似于LinkedBlockingQueue，但其所含对象的排序不是FIFO，而是依据对象的自然排序顺序或者是构造函数所带的Comparator决定的顺序。</p></li>
+<li><p><code>SynchronousQueue</code>：特殊的BlockingQueue，对其的操作必须是放和取交替完成的。</p></li>
+</ol>
+<p>BlockingQueue特别适用于线程间共享缓冲区的场景。BlockingQueue的四种实现也能够满足大多数的缓冲区调度需求。</p>
+<h2 id="forkjoin">Fork/Join</h2>
+<p>Fork/Join机制是JDK 7新增加的多线程框架，如果一个应用能被分解成多个子任务，并且组合多个子任务的结果就能够获得最终的答案，那么这个应用就适合用 Fork/Join 模式来解决。下图可大概说明Fork/Join模式的结构：</p>
+<div class="figure">
+<img src="{{%20site.url%20}}/resource/java_thread/fork_join.png" alt="Fork/Join模式" />
+<p class="caption">Fork/Join模式</p>
+</div>
+<h3 id="forkjoin框架的几个核心类">Fork/Join框架的几个核心类：</h3>
+<ol style="list-style-type: decimal">
+<li>ForkJoinPool: 线程池实现。实现了Work-stealing(工作窃取)算法，线程会主动寻找新创建的任务去执行，从而保证较高的线程利用率。程序运行时只需要唯一的一个ForkJoinPool。</li>
+<li>ForkJoinTask: 任务类，有两个子类实现具体的Task：
+<ol style="list-style-type: decimal">
+<li>RecursiveAction: 无返回值；</li>
+<li>RecursiveTask: 有返回值。</li>
+</ol></li>
+</ol>
+<h3 id="使用forkjoin">使用Fork/Join</h3>
+<p>首先，我们需要为程序创建一个ForkJoinPool：</p>
+<blockquote>
+<p>Creates a ForkJoinPool with parallelism equal to java.lang.Runtime.availableProcessors,</p>
+</blockquote>
+<pre><code>private static ForkJoinPool pool = new ForkJoinPool();</code></pre>
+<p>这儿ForkJoinPool的构造函数有重载方法，可以通过参数设置线程数量（并行级别，parallelism level）以及ThreadFactory。</p>
+<p>Task类需要实现compute方法，ForkJoinTask的代码框架：</p>
+<pre><code>If (problem size &gt; default size){
+    task s = divide(task);
+    execute(tasks);
+} 
+else {
+    resolve problem using another algorithm;
+}</code></pre>
+<h3 id="无返回值task的示例">无返回值Task的示例</h3>
+<p>通过并行，将一个数组中每个元素的值都置为其索引值，即令<code>a[i] = i</code>。</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">class</span> Task {
+    <span class="co">// Creates a ForkJoinPool with parallelism equal to</span>
+    <span class="co">// java.lang.Runtime.availableProcessors,</span>
+    <span class="kw">private</span> <span class="dt">static</span> ForkJoinPool pool = <span class="kw">new</span> <span class="fu">ForkJoinPool</span>();
+    <span class="kw">private</span> <span class="dt">static</span> <span class="dt">final</span> <span class="dt">int</span> default_size = <span class="dv">10</span>;
+
+    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">solve</span>() {
+        System.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;available processor number: &quot;</span> +
+                java.<span class="fu">lang</span>.<span class="fu">Runtime</span>.<span class="fu">getRuntime</span>().<span class="fu">availableProcessors</span>());
+        <span class="dt">int</span>[] a = <span class="kw">new</span> <span class="dt">int</span>[<span class="dv">100</span>];
+        SubTask task = <span class="kw">new</span> <span class="fu">SubTask</span>(a, <span class="dv">0</span>, <span class="dv">100</span>);
+        System.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;task start!&quot;</span>);
+        pool.<span class="fu">invoke</span>(task);
+        System.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;task finish!&quot;</span>);
+    }
+
+    <span class="kw">class</span> SubTask <span class="kw">extends</span> RecursiveAction {
+        <span class="dt">int</span>[] a;
+        <span class="dt">int</span> l, r;
+
+        <span class="kw">public</span> <span class="fu">SubTask</span>(<span class="dt">int</span>[] a, <span class="dt">int</span> l, <span class="dt">int</span> r) {
+            <span class="kw">this</span>.<span class="fu">a</span> = a;
+            <span class="kw">this</span>.<span class="fu">l</span> = l;
+            <span class="kw">this</span>.<span class="fu">r</span> = r;
+        }
+
+        <span class="fu">@Override</span>
+        <span class="kw">protected</span> <span class="dt">void</span> <span class="fu">compute</span>() {
+            System.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Thread id: &quot;</span> + Thread.<span class="fu">currentThread</span>().<span class="fu">getId</span>());
+            <span class="kw">if</span> (r - l &gt; BB.<span class="fu">default_size</span>) {
+                <span class="dt">int</span> mid = (l + r) / <span class="dv">2</span>;
+                <span class="fu">invokeAll</span>(<span class="kw">new</span> <span class="fu">SubTask</span>(a, l, mid + <span class="dv">1</span>), <span class="kw">new</span> <span class="fu">SubTask</span>(a, mid, r));
+            }
+            <span class="kw">else</span> {
+                <span class="kw">for</span> (<span class="dt">int</span> i = l; i &lt; r; ++i) {
+                    a[i] = i;
+                }
+            }
+        }
+    }
+}</code></pre>
+<h3 id="有返回值的task">有返回值的Task</h3>
+<p>如果子任务有返回值，只需要改成继承<code>RecursiveTask</code>类，然后<code>compute</code>方法返回对应类型的返回值即可。例如：</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">class</span> SubTask <span class="kw">extends</span> RecursiveTask&lt;Integer&gt; {
+    <span class="kw">public</span> Integer <span class="fu">compute</span>() {
+        <span class="co">// ...</span>
+    }
+}
+
+SubTask task = <span class="kw">new</span> <span class="fu">SubTask</span>(...);
+Integer result = task.<span class="fu">get</span>()</code></pre>
+<p>在fork子任务时，只需要：</p>
+<pre class="sourceCode java"><code class="sourceCode java">SubTask t1 = <span class="kw">new</span> <span class="fu">SubTask</span>(...);
+SubTask t2 = <span class="kw">new</span> <span class="fu">SubTask</span>(...);
+<span class="fu">invokeAll</span>(t1, t2);
+<span class="kw">try</span> {
+    result = t1.<span class="fu">get</span>()+t2.<span class="fu">get</span>();  
+} <span class="kw">catch</span> (InterruptedException | ExecutionException e) {  
+    e.<span class="fu">printStackTrace</span>();  
+}
+<span class="kw">return</span> result</code></pre>
+<h3 id="异步执行task">异步执行Task</h3>
+<p>上面两个示例都是同步执行的，invoke与invokeAll都是阻塞当前线程的。当Task线程运行时会阻塞父线程，而在很多场合，我们需要Task线程异步执行。这是需要使用到<code>execute</code>或者<code>submit</code>方法。<code>execute</code>方法直接执行task，而<code>submit</code>方法是将task提交到任务队列里边去。而<code>shutdown</code>方法则表示线程池不再接收新的task(ForkJoinPool是有守护线程的)(shutdown之后再submit后产生RejectedExecutionException)。ForkJoinPool线程池提供了execute()方法来异步启动任务，而作为任务本身，可以调用fork()方法异步启动新的子任务，并调用子任务的join()方法来取得计算结果。通过通过task.isDone()方法来判断任务是否结束。</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="dt">boolean</span> <span class="fu">allDone</span>(List&lt;SubTask&gt; tasks) {
+    <span class="kw">for</span>(SubTask task: tasks) {
+        <span class="kw">if</span>(!task.<span class="fu">isDone</span>()) {
+            <span class="kw">return</span> <span class="kw">false</span>;
+        }
+    }
+    <span class="kw">return</span> <span class="kw">true</span>;
+}</code></pre>
+<p>当使用Fork/Join框架时，如果主线程(main方法)先于task线程结束了，那么task线程也会结束，而不会等待执行完。这也是与Java中传统的Thread/Runnable有区别的地方。至于原因，应该是主线程(main方法)结束导致ForkJoinPool的守护线程结束了。此外，<code>ForkJoinPool</code>的<code>awaitTermination</code>方法也值得注意。<code>execute/submit/fork/join</code>也可以与<code>invoke/invokeAll</code>配合使用，来调整线程间的阻塞关系。</p>
+<p>在<a href="http://www.ibm.com/developerworks/cn/java/j-lo-forkjoin/">JDK 7 中的 Fork/Join 模式</a>一文中，作者使用Fork/Join模式实现了并行快速排序算法，很值得参考。其实Fork/Join与Callable/Future/ExecutorService挺像的，ExecutorService与ForkJoinPool的API也很类似，ForkJoinPool比ExecutorService多出了Work-stealing(工作窃取)算法的调度，线程池和服务(Service)的概念对应地也能很好。在Fork/Join机制中，Task也是可以取消(cancel)的。</p>
+<h3 id="invoke与fork差异">invoke与fork差异</h3>
+<p>这两个方法有很大的区别，当使用同步方法，调用这些方法（比如：invokeAll()方法）的任务将被阻塞，直到提交给池的任务完成它的执行。这允许ForkJoinPool类使用work-stealing算法，分配一个新的任务给正在执行睡眠任务的工作线程。反之，当使用异步方法（比如：fork()方法），这个任务将继续它的执行，所以ForkJoinPool类不能使用work-stealing算法来提高应用程序的性能。在这种情况下，只有当你调用join()或get()方法来等待任务的完成时，ForkJoinPool才能使用work-stealing算法。</p>
+<h3 id="work-stealing">Work-stealing</h3>
+<p>工作窃取（work-stealing）算法是指某个线程从其他队列里窃取任务来执行。核心思想在于以下两点：</p>
+<ol style="list-style-type: decimal">
+<li>将一个任务分解为多个互不依赖的子任务。</li>
+<li>当一个线程完成自己队列中的任务后，将其他线程的任务队列里的任务取出来执行。</li>
+</ol>
+<div class="figure">
+<img src="{{%20site.url%20}}/resource/java_thread/work-stealing.png" alt="Work-stealing算法示意图" />
+<p class="caption">Work-stealing算法示意图</p>
+</div>
+<h2 id="disruptor机制">Disruptor机制</h2>
+<p>单核情形下提高CPU利用率</p>
+<h2 id="参考">参考</h2>
+<ol style="list-style-type: decimal">
+<li><a href="http://www.ibm.com/developerworks/cn/java/j-jtp06197.html">Java 理论与实践: 正确使用 Volatile 变量</a></li>
+<li><a href="http://www.iteye.com/topic/260515">用happen-before规则重新审视DCL</a></li>
+<li><a href="http://blog.csdn.net/huang_xw/article/details/7090122">Java多线程之Condition接口的实现</a></li>
+<li><a href="http://ifeve.com/reentrantlock-and-fairness/">ReentrantLock(重入锁)以及公平性</a></li>
+<li><a href="http://www.ibm.com/developerworks/cn/java/j-lo-forkjoin/">JDK 7 中的 Fork/Join 模式</a></li>
+<li><a href="http://www.slideshare.net/hongjiang/java7-fork-join-framework-and-closures">java 7 fork-join framework and closures</a></li>
+<li><a href="http://ifeve.com/talk-concurrency-forkjoin">聊聊并发（八）——Fork/Join框架介绍</a></li>
+<li><a href="http://www.ibm.com/developerworks/cn/java/j-jtp10264/index.html">Java 理论与实践: JDK 5.0 中更灵活、更具可伸缩性的锁定机制</a></li>
+<li><a href="http://www.oracle.com/technetwork/articles/java/fork-join-422606.html">Fork and Join: Java Can Excel at Painless Parallel Programming Too!</a></li>
+<li><a href="http://blog.csdn.net/andycpp/article/details/8903155">Java线程之fork/join框架</a></li>
+<li><a href="http://it.deepinmind.com/%E5%B9%B6%E5%8F%91/2015/01/22/forkjoin-framework-vs-parallel-streams-vs-executorservice-the-ultimate-benchmark.html">Java中不同的并发实现的性能比较</a></li>
+<li><a href="http://www.importnew.com/14506.html">Java并发的四种风味：Thread、Executor、ForkJoin和Actor</a></li>
+</ol>

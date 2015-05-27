@@ -1,0 +1,156 @@
+---
+title: KMP算法
+author: He Tao
+date: 2015-02-17
+tag: Algorithm
+category: Algorithm
+layout: post
+---
+
+<h2 id="一概述">一、概述</h2>
+<p>KMP算法(Knuth–Morris–Pratt algorithm)是一种快速模式串匹配算法，其核心是next数组的求解和使用。时间复杂度O(mn)，与BF等需要回溯的算法相比，KMP算法具有极高的性能。</p>
+<h2 id="二next数组的求解">二、next数组的求解</h2>
+<p>next数组的含义是：<code>next[i]</code>为i之前的字符串的前缀和后缀的共有元素的最长长度。具体计算可以有递推式产生。若<code>pattern[i] == pattern[j]</code>,则<code>pattern[i+1] = pattern[j+1]</code>,否则，依次使<code>j = next[j]</code>,向前寻找匹配位置。具体实现代码如下：</p>
+<!--more-->
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">void</span> getNext(<span class="dt">int</span> next[], <span class="dt">char</span> pattern[])
+{
+    <span class="dt">int</span> i = <span class="dv">0</span>, j = <span class="dv">-1</span>;
+    <span class="kw">while</span> (pattern[i] != <span class="st">&#39;</span><span class="ch">\0</span><span class="st">&#39;</span>) {
+        <span class="kw">if</span> (j == <span class="dv">-1</span> || pattern[i] == pattern[j]) {
+            next[++i] = ++j;
+        } <span class="kw">else</span> {
+            j = next[j];
+        }
+    }
+}</code></pre>
+<p>还可以做一个小优化，提高匹配效率：</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">void</span> getNext(<span class="dt">int</span> next[], <span class="dt">char</span> pattern[])
+{
+    <span class="dt">int</span> i = <span class="dv">0</span>, j = <span class="dv">-1</span>;
+    <span class="kw">while</span> (pattern[i] != <span class="st">&#39;</span><span class="ch">\0</span><span class="st">&#39;</span>) {
+        <span class="kw">if</span> (j == <span class="dv">-1</span> || pattern[i] == pattern[j]) {
+            ++i;
+            ++j;
+            <span class="co">// 再次判断i位置和j位置的字符的相等关系</span>
+            <span class="kw">if</span> (pattern[i] == pattern[j]) {
+                next[i] = next[j];
+            } <span class="kw">else</span> {
+                next[i] = j;
+            }
+        } <span class="kw">else</span> {
+            j = next[j];
+        }
+    }
+} </code></pre>
+<h2 id="三匹配">三、匹配</h2>
+<p>在匹配过程中，就可以充分利用next数组，在很次失配时尽可能向前移动，提高匹配段的效率，具体实现如下：</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="co">/* return the first position of pattern appears in src string.</span>
+<span class="co"> * if the pattern doesn&#39;t appear, return -1.</span>
+<span class="co"> **/</span>
+<span class="dt">int</span> kmp(<span class="dt">char</span> src[], <span class="dt">char</span> pattern[], <span class="dt">int</span> next[])
+{
+    <span class="dt">int</span> i = <span class="dv">0</span>, j = <span class="dv">0</span>;
+    <span class="kw">while</span> (str[i] != <span class="st">&#39;</span><span class="ch">\0</span><span class="st">&#39;</span> &amp;&amp; pattern[j] != <span class="st">&#39;</span><span class="ch">\0</span><span class="st">&#39;</span>) {
+        <span class="co">/**</span>
+<span class="er">         * j == -1: 源字符串中当前字符失配。</span>
+<span class="er">         * src[i] == pattern[j]: 当前位置匹配，两个指针都要后移。</span>
+         **/
+        <span class="kw">if</span> (j == <span class="dv">-1</span> || src[i] == pattern[j]) {
+            ++i;
+            ++j;
+        } <span class="kw">else</span> {
+            j = next[j]; <span class="co">// when match failed, jump to next[j].</span>
+        }
+    }
+    <span class="kw">if</span> (pattern[j] == <span class="st">&#39;</span><span class="ch">\0</span><span class="st">&#39;</span>) { <span class="co">// get to the end of pattern string.</span>
+        <span class="kw">return</span> i - strlen(pattern);
+    } <span class="kw">else</span> {
+        <span class="kw">return</span> <span class="dv">-1</span>; <span class="co">// failed.</span>
+    }
+} </code></pre>
+<h2 id="四kmp算法寻找pattern在src中出现的次数">四、KMP算法寻找pattern在src中出现的次数</h2>
+<p>寻找模式串出现次数，只需要在原来的寻找出现位置的基础上稍作修改即可，具体实现如下：</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="co">/* return the times of pattern appears in src string.</span>
+<span class="co"> **/</span>
+<span class="dt">int</span> kmp(<span class="dt">char</span> src[], <span class="dt">char</span> pattern[], <span class="dt">int</span> next[])
+{
+    <span class="dt">int</span> i = <span class="dv">0</span>, j = <span class="dv">0</span>, ans = <span class="dv">0</span>;
+    <span class="kw">while</span> (str[i] != <span class="st">&#39;</span><span class="ch">\0</span><span class="st">&#39;</span>) {
+        <span class="kw">if</span> (j == <span class="dv">-1</span> || src[i] == pattern[j]) {
+            ++i;
+            ++j;
+        } <span class="kw">else</span> {
+            j = next[j]; <span class="co">// when match failed, jump to next[j].</span>
+        }
+        <span class="kw">if</span> (pattern[j] == <span class="st">&#39;</span><span class="ch">\0</span><span class="st">&#39;</span>) { <span class="co">// get to the end of pattern string.</span>
+            ans++;
+            j = next[j];
+            i--;
+        }
+    }
+    <span class="kw">return</span> ans;
+}</code></pre>
+<p>另一种实现方法：</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="co">/* return the times of pattern appears in src string.</span>
+<span class="co"> **/</span>
+<span class="dt">int</span> kmp(<span class="dt">char</span> src[], <span class="dt">char</span> pattern[], <span class="dt">int</span> next[])
+{
+    <span class="dt">int</span> i = <span class="dv">0</span>, j = <span class="dv">0</span>, ans = <span class="dv">0</span>;
+    <span class="kw">for</span> (i = <span class="dv">0</span>; src[i] != <span class="st">&#39;</span><span class="ch">\0</span><span class="st">&#39;</span>; ++i) {
+        <span class="kw">while</span> (j &gt; <span class="dv">0</span> &amp;&amp; src[i] != pattern[j]) {
+            j = next[j];
+        }
+        <span class="kw">if</span> (src[j] == pattern[i]) {
+            j++;
+        }
+        <span class="kw">if</span> (pattern[j] == <span class="st">&#39;</span><span class="ch">\0</span><span class="st">&#39;</span>) { <span class="co">// get to the end of pattern.</span>
+            ans++;
+            j = next[j];
+        }
+    }
+
+    <span class="kw">return</span> ans;
+} </code></pre>
+<h2 id="五关于字符串匹配">五、关于字符串匹配</h2>
+<p>某种意义上讲，AC自动机算法相当于是Trie上进行的KMP，其失败指针的含义类似于KMP算法中的next数组。</p>
+<p>此外，若只需要判断多个模式串在源字符串中是否存在，则Trie图算法相当于路径压缩的AC自动机。或者说，AC自动机和Trie图分别为字符串匹配的有限状态自动机DFA的不同表达形式。</p>
+<h2 id="六扩展kmp">六、扩展KMP</h2>
+<h3 id="扩展kmp问题定义">扩展KMP问题定义：</h3>
+<p>给定字母串 S，T，定义 n = |S|, m = |T|, extend[i]=S[i..n] 与 T 的最长公共前缀长度。</p>
+<p>要求在线性时间内求出所有的 extend[1..n] 。</p>
+<h3 id="分析">分析</h3>
+<p>扩展KMP算法的核心在于如何利用已经求出的前缀长度来减少比较次数。用 next[i] 来表示 T[i..m] 与 T 的最长公共前缀长度。不难建立起 next 数组与 extend 数组之间的关系。</p>
+<p>不难发现：计算 next 数组的过程实际上也是一个以 T 为母串、T 为字串的扩展 KMP 算法过程。</p>
+<h3 id="实现">实现</h3>
+<p>刘雅琼的PPT中给出了一个扩展KMP的实现。代码如下所示（有改动）：</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="co">/**</span>
+ * Extend KMP algorithm.
+ * This implemention is modified from the code in Liu YaQiong<span class="st">&#39;s slides.</span>
+ */
+<span class="dt">void</span> extendKmpLYQ(<span class="dt">char</span> pattern[], <span class="dt">char</span> str[], <span class="dt">int</span> next[], <span class="dt">int</span> extend[]) {
+    <span class="dt">int</span> a(<span class="dv">0</span>), p(<span class="dv">0</span>), pLen(strlen(pattern)), sLen(strlen(str));
+    <span class="kw">for</span>(<span class="dt">int</span> i = <span class="dv">0</span>, j = <span class="dv">-1</span>; i &lt; sLen; ++i, --j) {
+        <span class="kw">if</span>(j &lt; <span class="dv">0</span> || i + next[i-a] &gt;= p) {
+            <span class="kw">if</span>(j &lt; <span class="dv">0</span>) {
+                j = <span class="dv">0</span>, p = i;
+            }
+            <span class="kw">while</span>(p &lt; sLen &amp;&amp; j &lt; pLen &amp;&amp; str[p] == pattern[j]) {
+                ++p, ++j;
+            }
+            extend[i] = j, a = i;
+        }
+        <span class="kw">else</span> {
+            extend[i] = next[i-a];
+        }
+    }
+}</code></pre>
+<p>运行该算法时，只需要先将 T 即作为母串又作为字串求出 next 数组，在求 extend 数组的值。</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> next[<span class="dv">1000</span>] = {<span class="dv">0</span>}, extend[<span class="dv">1000</span>] = {<span class="dv">0</span>};
+<span class="dt">char</span> S[<span class="dv">1000</span>] = {<span class="st">&#39;</span><span class="ch">\0</span><span class="st">&#39;</span>}, T[<span class="dv">1000</span>] = {<span class="st">&#39;</span><span class="ch">\0</span><span class="st">&#39;</span>};
+
+extendKmpLYQ(T, T, next, next);
+extendKmpLYQ(T, S, next, extend);</code></pre>
+<h3 id="参考">参考</h3>
+<ol style="list-style-type: decimal">
+<li><a href="http://wenku.baidu.com/view/8e9ebefb0242a8956bece4b3.html">扩展KMP算法，刘雅琼</a></li>
+</ol>

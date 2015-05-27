@@ -1,0 +1,96 @@
+---
+title: Python yield 关键字
+author: He Tao
+date: 2015-01-31
+tag: Python
+category: 编程语言
+layout: post
+---
+
+<p>Yield 表达式和声明仅仅用于定义一个“生成器(<code>generator</code>)”函数，并且仅仅用在“生成器”函数的函数体中。使用yield声明足以使得函数定义产生一个<code>generator</code>函数而非一个普通的函数。</p>
+<blockquote>
+<p>Yield expressions and statements are only used when defining a <code>generator</code> function, and are only used in the body of the generator function. Using yield in a function definition is sufficient to cause that definition to create a generator fun instead of a normal function.</p>
+</blockquote>
+<h2 id="the-yield-statement">The <code>yield</code> statement</h2>
+<pre><code>yield_stmt ::= yield_expression</code></pre>
+<p><code>yield</code> 声明与yield表达式(<code>yield expression</code>) 在语义上等价。yield声明通常可以省略括号使用然而在yield表倒是中括号是必须的(required)。例如</p>
+<!--more-->
+<pre><code>yield &lt;expr&gt;
+yield from &lt;expr&gt;</code></pre>
+<p>和</p>
+<pre><code>(yield &lt;expr&gt;)
+(yield from &lt;expr&gt;)</code></pre>
+<p>是等价的。</p>
+<h2 id="yield-expressions">Yield expressions</h2>
+<pre><code>yield_atom          ::= &quot;(&quot; yield_expression &quot;)&quot;
+yield_expression    ::= &quot;yield&quot; [expression_list] | &quot;from&quot; expression]</code></pre>
+<p>当调用一个生成器函数时，返回一个生成器（迭代器）。然后这个生成器会控制生成器函数的执行。当生成器的一个方法被调用时生成器函数开始执行。</p>
+<h2 id="iterator和generators">Iterator和Generators</h2>
+<p>Iterator，迭代器，可以逐个地读取每一项。可以使用<code>for ... in ...</code>语句来操作可迭代对象。如list, str, tuple 等。</p>
+<p>Generator，生成器，生成器同样是可迭代对象。但由于生成器是动态地生成值，并没有把所有制都放在内存中。因此，只能读取一次。</p>
+<p>yield关键字产生生成器函数，其对象是生成器，可迭代。</p>
+<h2 id="generator-iterator-methods">Generator-iterator methods</h2>
+<p>class generator + generator.<strong>next</strong>() + generator.send() + generator.throw(type[, value[, traceback]]) + generator.close()</p>
+<p>当第一次调用生成器的__next__() 方法时，函数执行并生成迭代器。如果调用生成器的__next__()方法，将会得到该生成器函数的下一个值。如果已经到达末尾，则抛出<code>StopIteration</code>异常。</p>
+<p>如果调用生成器的send()方法，结果将会是send()方法传入的值。</p>
+<p>yield 表达式可以用在 <code>try ... finally</code>结构的<code>try</code>部分中。当生成器的close()函数被调用时，<code>finally</code>语句块中的表达式会执行。</p>
+<h2 id="example">Example</h2>
+<pre class="sourceCode python"><code class="sourceCode python">&gt;&gt;&gt; <span class="kw">def</span> fib(bound):
+    a, b, n = <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>
+    <span class="kw">while</span> n &lt; bound:
+        <span class="kw">yield</span> a
+        a, b = b, a+b
+        n += <span class="dv">1</span>
+        
+&gt;&gt;&gt; g = fib(<span class="dv">5</span>)
+&gt;&gt;&gt; g.<span class="ot">__next__</span>()
+<span class="dv">0</span>
+&gt;&gt;&gt; g.<span class="ot">__next__</span>()
+<span class="dv">1</span>
+&gt;&gt;&gt; g.<span class="ot">__next__</span>()
+<span class="dv">1</span>
+&gt;&gt;&gt; g.<span class="ot">__next__</span>()
+<span class="dv">2</span>
+&gt;&gt;&gt; <span class="kw">for</span> i in g:
+    <span class="dt">print</span>(i)
+    
+<span class="dv">0</span>
+<span class="dv">1</span>
+<span class="dv">1</span>
+<span class="dv">2</span>
+&gt;&gt;&gt; </code></pre>
+<p>由此，yield声明可以得到一个生成器函数。其类型为<code>&lt;class 'generator'&gt;</code>。</p>
+<p>yield 表示与 <code>try ... finally</code>语句块的运用:</p>
+<pre class="sourceCode python"><code class="sourceCode python">&gt;&gt;&gt; <span class="kw">def</span> func(value = <span class="ot">None</span>):
+        <span class="dt">print</span>(<span class="st">&quot;Execution starts when &#39;next()&#39; is called for the first time.&quot;</span>)
+        <span class="kw">try</span>:
+            <span class="kw">while</span> <span class="ot">True</span>:
+                <span class="kw">try</span>:
+                    value = (<span class="kw">yield</span> value)
+                <span class="kw">except</span> <span class="ot">Exception</span> <span class="ch">as</span> e:
+                    value = e
+        <span class="kw">finally</span>:
+            <span class="dt">print</span>(<span class="st">&quot;Don&#39;t forget to clean up when &#39;close()&#39; is called.&quot;</span>)
+
+&gt;&gt;&gt; g = func(<span class="dv">1</span>)
+&gt;&gt;&gt; g.<span class="ot">__next__</span>()
+Execution starts when <span class="st">&#39;next()&#39;</span> is called <span class="kw">for</span> the first time.
+<span class="dv">1</span>
+&gt;&gt;&gt; <span class="dt">print</span>(g.<span class="ot">__next__</span>())
+<span class="ot">None</span>
+&gt;&gt;&gt; g.close()
+Don<span class="st">&#39;t forget to clean up when &#39;</span>close()<span class="st">&#39; is called.&#39;</span>
+&gt;&gt;&gt; </code></pre>
+<p>读取文件时，如果直接对文件对象调用<code>read()</code>方法，会导致不可预测的内存占用，因此，常常需要用固定长度的缓冲区来不断读取文件内容。通过yield关键字，很容易实现文件的块读取。具体实现如下：</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="kw">def</span> block_read(fpath, BLOCK_SIZE = <span class="dv">1024</span>):
+    <span class="kw">with</span> <span class="dt">open</span>(fpath, mode = <span class="st">&#39;rd&#39;</span>) <span class="ch">as</span> fp:
+        <span class="kw">while</span> <span class="ot">True</span>:
+            block = f.read(BLOCK_SIZE)
+            <span class="kw">if</span> block:
+                <span class="kw">yield</span> block
+            <span class="kw">else</span>:
+                <span class="kw">return</span></code></pre>
+<h2 id="reference">Reference</h2>
+<ol style="list-style-type: decimal">
+<li><a href="https://docs.python.org/3/">Python 34 Documentation</a></li>
+</ol>

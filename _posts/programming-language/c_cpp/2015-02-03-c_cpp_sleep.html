@@ -1,0 +1,47 @@
+---
+title: C和C++中的sleep函数
+author: He Tao
+date: 2015-02-03
+tag: C/C++
+category: 编程语言
+layout: post
+---
+
+<p><code>sleep</code>这一功能在不同的编译器中实现不同，API也有差别。</p>
+<h2 id="gcc编译器的实现">GCC编译器的实现</h2>
+<p>GCC编译器中，sleep定义在<code>&lt;unistd.h&gt;</code>中。函数原型：</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="co">/* The sleep() function is, perhaps, the most commonly used of all the</span>
+<span class="co"> * process/thread suspension APIs; it provides support for specification</span>
+<span class="co"> * of suspension periods ranging from 1 second to ~136 years.  (However,</span>
+<span class="co"> * POSIX recommends limiting the maximum period to 65535 seconds, to</span>
+<span class="co"> * maintain portability to platforms with only 16-bit ints).</span>
+<span class="co"> */</span>
+<span class="dt">unsigned</span> _cdecl __MINGW_NOTHROW sleep( <span class="dt">unsigned</span> );</code></pre>
+<p>注意，在GCC的实现中，<code>sleep</code>的单位为秒(second)。</p>
+<!--more-->
+<h2 id="vc编译器的实现">VC编译器的实现</h2>
+<p>VC编译器中，Sleep定义在<code>&lt;windows.h&gt;</code>中(具体定义在<code>&lt;winbase.h&gt;</code>中)，函数原型为：</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">WINBASEAPI <span class="dt">void</span> WINAPI Sleep(DWORD);</code></pre>
+<p>注意，在VC编译器的实现中，<code>Sleep</code>的首字母“S”要<strong>大写</strong>，并且其时间单位为毫秒(millisecond)。</p>
+<h2 id="mingw">MinGW</h2>
+<p>在MinGW中，如果安装了win32api，则既可以使用<code>sleep()</code>，也可以使用<code>Sleep()</code>。</p>
+<h2 id="c11">C++11</h2>
+<p>在C++11中，可以用<code>this_thread</code>命名空间下的<code>sleep_for</code>函数来实现线程休眠的功能。具体函数定义如下：</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">template</span>&lt; <span class="kw">class</span> Rep, <span class="kw">class</span> Period &gt;
+<span class="dt">void</span> sleep_for( <span class="dt">const</span> std::chrono::duration&lt;Rep, Period&gt;&amp; sleep_duration );</code></pre>
+<p>使用示例：</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="ot">#include &lt;iostream&gt;</span>
+<span class="ot">#include &lt;chrono&gt;</span>
+<span class="ot">#include &lt;thread&gt;</span>
+
+<span class="dt">void</span> sleep(<span class="dt">int</span> milliseconds) {
+    std::chrono::milliseconds dura(milliseconds);
+    std::this_thread::sleep_for(dura);
+} 
+
+<span class="dt">int</span> main()
+{
+    std::cout &lt;&lt; <span class="st">&quot;test sleep_for in c++11...&quot;</span> &lt;&lt; std::endl;
+    sleep(<span class="dv">2000</span>);
+    std::cout &lt;&lt; <span class="st">&quot;sleep for 2000 ms</span><span class="ch">\n</span><span class="st">&quot;</span>;
+}</code></pre>

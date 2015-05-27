@@ -35,11 +35,11 @@ kNN算法的一般步骤
 
 如下例所示，通过散点图的方法，不难看出以下样本集中，不同特征对分类的影响是不同的。
 
-![图1](/resource/k_nearest_neighbors/knn-dating-1.png "图1")
+![图1]({{ site.url }}/resource/k_nearest_neighbors/knn-dating-1.png "图1")
 
-![图2](/resource/k_nearest_neighbors/knn-dating-2.png "图2")
+![图2]({{ site.url }}/resource/k_nearest_neighbors/knn-dating-2.png "图2")
 
-![图3](/resource/k_nearest_neighbors/knn-dating-3.png "图3")
+![图3]({{ site.url }}/resource/k_nearest_neighbors/knn-dating-3.png "图3")
 
 可见，选取不同的特征作为`x`，`y`轴时，数据集中各类的点分布是不同的。在数据分析阶段，除了以上使用的散点图，还可以使用相关性分析等方法进行数据特征分析。
 
@@ -69,10 +69,10 @@ $$ newVal = \frac{oldVal-min}{max-min} $$
 附件
 -----
 
-1. [knn-dating](/resource/k_nearest_neighbors/dating.py)
-   测试用数据：[dating.zip](/resource/k_nearest_neighbors/dating.zip)
-2. [KNN 手写数字识别](/resource/k_nearest_neighbors/handwriting.py)
-   测试用数据：[handwriting.zip](/resource/k_nearest_neighbors/handwriting.zip)
+1. [knn-dating]({{ site.url }}/resource/k_nearest_neighbors/dating.py)
+   测试用数据：[dating.zip]({{ site.url }}/resource/k_nearest_neighbors/dating.zip)
+2. [KNN 手写数字识别]({{ site.url }}/resource/k_nearest_neighbors/handwriting.py)
+   测试用数据：[handwriting.zip]({{ site.url }}/resource/k_nearest_neighbors/handwriting.zip)
 
 参考
 -----

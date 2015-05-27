@@ -1,0 +1,44 @@
+---
+title: 星期的计算
+author: He Tao
+date: 2015-02-16
+tag: Algorithm
+category: Algorithm
+layout: post
+---
+
+<p>经常需要通过日期来计算对应的星期，相关的方法主要有蔡勒公式和基姆拉尔森公式。</p>
+<h2 id="蔡勒公式">蔡勒公式</h2>
+<h3 id="蔡勒zeller公式">蔡勒(Zeller)公式</h3>
+<p><span class="math">\[ w = (y+\lfloor{y/4}\rfloor+\lfloor{c/4}\rfloor-2c+\lfloor{26(m+1)/10}\rfloor+d-1)\ mod\ 7 \]</span></p>
+<h3 id="参数含义解释">参数含义解释</h3>
+<p>蔡勒公式中个参数的含义如下：</p>
+<ul>
+<li>y: 年份的后两位数；</li>
+<li>c: 年份的前两位数；</li>
+<li>m: 月份；<strong>注意</strong>：月份的值在3-14之间，1月和2月应当作为上一年的13、14月来考虑。</li>
+<li>d: 日。</li>
+</ul>
+<!--more-->
+<h3 id="使用范围">使用范围</h3>
+<p>蔡勒公式只适用于格里高利历（现在时间通用的公历），即<strong>1582年10月15日</strong>之后的情形。</p>
+<h3 id="代码实现python">代码实现(Python)</h3>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="kw">def</span> getWeek(year, mouth, day):
+    <span class="co">&#39;&#39;&#39; Zeller Method.</span>
+<span class="co">    &#39;&#39;&#39;</span>
+    <span class="kw">if</span> mouth &lt; <span class="dv">3</span>:
+        year, mouth = year<span class="dv">-1</span>, mouth<span class="dv">+12</span>
+    y, c = <span class="dt">int</span>(<span class="dt">str</span>(year)[<span class="dv">2</span>:<span class="dv">4</span>]), <span class="dt">int</span>(<span class="dt">str</span>(year)[<span class="dv">0</span>:<span class="dv">2</span>])
+    week = (y + y//<span class="dv">4</span> + c//<span class="dv">4</span> - <span class="dv">2</span>*c + <span class="dv">26</span>*(mouth<span class="dv">+1</span>)//<span class="dv">10</span> + day - <span class="dv">1</span>) % <span class="dv">7</span>
+    <span class="kw">return</span> week</code></pre>
+<h2 id="基姆拉尔森公式">基姆拉尔森公式</h2>
+<h3 id="基姆拉尔森公式-1">基姆拉尔森公式</h3>
+<p><span class="math">\[ w = (y/400-y/100+y/4+y+3*(m+1)/5+2*m+d+1)\ mod\ 7 \]</span></p>
+<h3 id="参数含义解释-1">参数含义解释</h3>
+<p>公式中个参数的含义如下：</p>
+<ul>
+<li>y: 年份的后两位数；</li>
+<li>c: 年份的前两位数；</li>
+<li>m: 月份；<strong>注意</strong>：月份的值在3-14之间，1月和2月应当作为上一年的13、14月来考虑。</li>
+<li>d: 日。</li>
+</ul>

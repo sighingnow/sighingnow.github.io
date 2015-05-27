@@ -1,0 +1,105 @@
+---
+title: Javascript 变量作用域与闭包
+author: He Tao
+date: 2015-02-18
+tag: Javascript
+category: 编程语言
+layout: post
+---
+
+<h2 id="javascript-中的变量">Javascript 中的变量</h2>
+<p>Javascript 中的变量可分为全局变量和局部变量两种。</p>
+<p>Javascript 中使用 <code>var</code> 语句声明变量。例如：</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> x = <span class="dv">10</span>;
+<span class="kw">var</span> y = [<span class="st">&quot;a&quot;</span>, <span class="dv">20</span>, <span class="kw">true</span>]</code></pre>
+<h2 id="变量相等性比较">变量相等性比较</h2>
+<p>Javascript 中，比较两个变量是否想等是，必须注意 <code>==</code>和<code>===</code> 之间的区别。</p>
+<p><code>==</code>只比较变量的值，而 <code>===</code>既比较变量的值，又比较变量的类型。如下例：</p>
+<!--more-->
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="ot">console</span>.<span class="fu">log</span>(<span class="dv">5</span> == <span class="st">&quot;5&quot;</span>);
+<span class="ot">console</span>.<span class="fu">log</span>(<span class="dv">5</span> === <span class="st">&quot;5&quot;</span>);</code></pre>
+<p>得到的输出如下：</p>
+<pre><code>true
+false</code></pre>
+<h2 id="变量生命期">变量生命期</h2>
+<p>Javascript 中的变量在声明时初始化。</p>
+<ul>
+<li>局部变量在函数执行完毕后销毁。</li>
+<li>全局变量在页面关闭后销毁。</li>
+</ul>
+<h2 id="函数参数变量">函数参数变量</h2>
+<p>函数的参数只在函数内起作用，是局部变量。</p>
+<h2 id="变量作用域">变量作用域</h2>
+<h3 id="全局变量与局部变量">全局变量与局部变量</h3>
+<p>函数内部可以访问全局变量，但在函数外部无法访问函数的局部变量。</p>
+<p>局部变量会在局部作用域中覆盖全局变量。</p>
+<p>Javascript 中，<code>function</code>中内容相对于外部的内容形成新的作用域(scope)。</p>
+<p>在同一作用域中，同名变量可以重复声明。重复声明的作用相当于赋值操作。例如：</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript">(<span class="kw">function</span>() {
+    <span class="kw">var</span> a = <span class="dv">10</span>;
+    <span class="ot">console</span>.<span class="fu">log</span>(a);
+    <span class="kw">var</span> a = <span class="dv">20</span>;
+    <span class="ot">console</span>.<span class="fu">log</span>(a);
+    <span class="kw">var</span> a;
+    <span class="ot">console</span>.<span class="fu">log</span>(a);
+})();</code></pre>
+<p>运行后得到：</p>
+<pre><code>10
+20
+20</code></pre>
+<p>Javascript 中，如果不用<code>var</code>声明变量，则该变量为全局变量。如：</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> n = <span class="dv">100</span>;
+(<span class="kw">function</span>(){
+    <span class="ot">console</span>.<span class="fu">log</span>(n);
+    n=<span class="dv">200</span>;
+    <span class="ot">console</span>.<span class="fu">log</span>(n);
+})();</code></pre>
+<p>得到输出：</p>
+<pre><code>100
+200</code></pre>
+<p>在函数体内部，对于每一个变量，Javascript 会首先在函数体内寻找是否用<code>var</code>语句声明了局部变量，如果有（<strong>无论是在该变量使用前声明还是使用后声明</strong>），都会认为该变量是局部变量。如果找不到，在逐层向外寻找该变量(一级一级地向上寻找父对象的变量)。例如下面两段代码：</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> n = <span class="dv">100</span>;
+(<span class="kw">function</span>(){
+    <span class="ot">console</span>.<span class="fu">log</span>(n); 
+    <span class="kw">return</span> n;
+})();</code></pre>
+<p>得到输出：</p>
+<pre><code>100</code></pre>
+<p>而代码：</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> n = <span class="dv">100</span>;
+(<span class="kw">function</span>(){
+    <span class="ot">console</span>.<span class="fu">log</span>(n); 
+    <span class="kw">return</span> n; 
+    <span class="kw">var</span> n;
+})();
+
+<span class="co">// 注意 var 语句在 return 语句之后！！！</span></code></pre>
+<p>运行后得到如下输出：</p>
+<pre><code>undefined</code></pre>
+<p>如果写成这样：</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> n = <span class="dv">100</span>;
+(<span class="kw">function</span>(){
+    n = <span class="dv">200</span>; 
+    <span class="ot">console</span>.<span class="fu">log</span>(n); 
+    <span class="kw">return</span> n; 
+    <span class="kw">var</span> n;
+})();
+<span class="ot">console</span>.<span class="fu">log</span>(n);</code></pre>
+<p>得到输出：</p>
+<pre><code>200
+100</code></pre>
+<p>这便是 Javascript 的作用域的运行机制。</p>
+<h2 id="从外部读取局部变量">从外部读取局部变量</h2>
+<p>我们知道，在Javascript中，无法直接从外部读取局部变量，但是，Javascript函数(Function对象)的子函数(子对象)是可以读取函数的局部变量的。因此，通过如下方法可以从外部读取和操作局部变量。</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">function</span> <span class="fu">func</span>() {
+    <span class="kw">var</span> innerVar = <span class="dv">100</span>;
+
+    <span class="kw">function</span> <span class="fu">setInner</span>(value) {
+        innerVar = value;
+    }
+
+    <span class="kw">return</span> setInner;
+}</code></pre>
+<h2 id="闭包">闭包</h2>
+<p>当内部函数在定义它的作用域外部被引用时，就会创建该内部函数的闭包。如果内部函数引用了位于外部函数的变量，当外部函数调用完毕后，这些闭包中的变量不会被释放，会保持在内存中。</p>
+<p>闭包对应函数示例，当函数示例销毁时才会销毁闭包，并释放其占用的内存。</p>

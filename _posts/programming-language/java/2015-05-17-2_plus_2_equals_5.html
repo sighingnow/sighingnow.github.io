@@ -1,0 +1,63 @@
+---
+title: 实现2+2=5
+author: He Tao
+date: 2015-05-17
+tag: [Java, Python]
+category: 编程语言
+layout: post
+---
+
+<p>Java、Python都采取了常量实例池优化的技术，也就是预先生成-128~127之间的所有常量对象，每次创建这个范围内的对象时直接返回其引用即可。在一般的程序中，这个范围内的常量使用很频繁，因此，这个常量池可以取得非常好的效果。</p>
+<p>然而，Java、Python都会允许程序员做一些很Hacker的事情，例如，利用常量池优化使得<strong>2+2=5</strong>。</p>
+<!--more-->
+<h2 id="代码实现">代码实现</h2>
+<h3 id="java的实现">Java的实现</h3>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">import java.lang.reflect.Field;</span>
+
+<span class="kw">public</span> <span class="kw">class</span> Main {
+    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(String[] args) <span class="kw">throws</span> Exception {
+
+        Class cache = Integer.<span class="fu">class</span>.<span class="fu">getDeclaredClasses</span>()[<span class="dv">0</span>];
+        Field c = cache.<span class="fu">getDeclaredField</span>(<span class="st">&quot;cache&quot;</span>);
+        c.<span class="fu">setAccessible</span>(<span class="kw">true</span>);
+        Integer[] array = (Integer[]) c.<span class="fu">get</span>(cache);
+        array[<span class="dv">132</span>] = array[<span class="dv">133</span>];
+
+        System.<span class="fu">out.printf</span>(<span class="st">&quot;</span><span class="ch">%d</span><span class="st">&quot;</span>,<span class="dv">2</span> + <span class="dv">2</span>);
+    }
+}</code></pre>
+<p>对于这段代码的解释是这样的：</p>
+<blockquote>
+<p>You need to change it even deeper than you can typically access. Note that this is designed for Java 6 with no funky parameters passed in on the JVM that would otherwise change the IntegerCache.</p>
+</blockquote>
+<blockquote>
+<p>Deep within the Integer class is a Flyweight of Integers. This is an array of Integers from −128 to +127. cache[132] is the spot where 4 would normally be. Set it to 5.</p>
+</blockquote>
+<blockquote>
+<p>Since you’re already using reflection, you could easily make this independent of the cache size (which does depend on runtime flags after all): Field f = Integer.class.getDeclaredField(“value”); f.setAccessible(true); f.set(4, 5) Could be made even more reliable by just grabbing the first non-static field - any reasonable implementation will only have a single field after all.</p>
+</blockquote>
+<h3 id="python的实现">Python的实现</h3>
+<pre class="sourceCode python"><code class="sourceCode python">&gt;&gt;&gt; patch = <span class="st">&#39;</span><span class="ch">\x312\x2D7</span><span class="st">&#39;</span>
+&gt;&gt;&gt; <span class="ch">import</span> ctypes;ctypes.c_int8.from_address(<span class="dt">id</span>(<span class="dt">len</span>(patch))+<span class="dv">8</span>).value=<span class="dt">eval</span>(patch)
+&gt;&gt;&gt; <span class="dv">2</span> + <span class="dv">2</span>
+<span class="dv">5</span></code></pre>
+<p>这也是通过使用<code>ctypes</code>去改变运行时(Runtime)的常量池。</p>
+<blockquote>
+<p>Like Java, CPython uses the same memory location for any copy of the first few small integers (0-255 if memory serves). This goes in and directly edits that memory location via ctypes. patch is just an obfuscated “12-7”, a string with len 4, which eval’s to 5.</p>
+</blockquote>
+<h3 id="c的实现">C的实现</h3>
+<p>除了考虑改变常量池来改变引用的结果以外，在C/C++这一类较为底层的语言中还可以根据构造特定的数据结构来实现这一点：</p>
+<pre class="sourceCode c"><code class="sourceCode c"><span class="dt">int</span> main() {
+    <span class="dt">char</span> __func_version__[] = <span class="st">&quot;5&quot;</span>;  <span class="co">// For source control</span>
+    <span class="dt">char</span> b[]=<span class="st">&quot;2&quot;</span>, a=<span class="dv">2</span>;
+    printf(<span class="st">&quot;%d + %s = %s</span><span class="ch">\n</span><span class="st">&quot;</span>, a, b, a+b);
+    <span class="kw">return</span> <span class="dv">0</span>;
+}</code></pre>
+<blockquote>
+<p>Doesn’t work with optimization.</p>
+</blockquote>
+<h2 id="参考">参考</h2>
+<p>文中所有代码都经过了测试，代码和解释来源于<code>http://codegolf.stackexchange.com/questions/28786/write-a-program-that-makes-2-2-5</code>，感谢！</p>
+<ol style="list-style-type: decimal">
+<li><a href="http://codegolf.stackexchange.com/questions/28786/write-a-program-that-makes-2-2-5">write-a-program-that-makes-2-2-5</a></li>
+</ol>

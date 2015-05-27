@@ -1,0 +1,187 @@
+---
+title: Manacher算法
+author: He Tao
+date: 2015-02-01
+tag: Algorithm
+category: Algorithm
+layout: post
+---
+
+<h2 id="一概述">一、概述</h2>
+<p>Manacher算法是一个用来求解最长回文子串(Longest Palindromic Substring)的高效算法。其核心是在枚举回文字串的中心位置，并在计算其对应的回文子串时充分前面的已经算出来的结果。</p>
+<h2 id="二算法原理">二、算法原理</h2>
+<p>首先，需要考虑回文子串长度为奇数和为偶数的情形下的差异，为了消除这一差异，在长度为n的字符串中插入n+1个无关字符，例如’#‘,’*’等。这一步骤时间复杂度为O(n)。 Manacher算法需要O(n)的辅助数组，用来记录每一个位置可以向右扩展回文串的长度（包含其自身），同时，记录当前有最大向右扩展长度的索引位置 id，那么，辅助数组有如下性质：</p>
+<!--more-->
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">if</span>(f[id] + id &gt; i)
+    f[i] = min(f[<span class="dv">2</span>*id-i], f[id]+id-i)</code></pre>
+<p>解释：2*id-i为i关于id位置的对称位置，在考虑回文串长度时，i位置能够向右扩展的长度应不小于j位置向左扩展的长度，而以j为中心位置的回文串的左右扩展长度相同。同时，如果i在id的扩展范围内，在i位置未单独向右扩展之前，i位置能够向右扩展的位置应当小于id向右扩展的位置。</p>
+<p>在找到<code>f[i]</code>的下界后，开始以i为中心，<code>f[i]</code>为长度下界，扩展此回文串。具体做法如下：</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">while</span>(str[i-f[i]] == str[i+f[i]])
+    f[i]++</code></pre>
+<p>找到i位置能够扩展的最大长度之后，如果i位置能够向右到达的最大位置大于id位置能够向右到达的最大位置，则更新id。</p>
+<p>最后，由于之前已经在每两个字符之间插入了无关字符，因此，以i为中心位置的最长回文字串的长度为<code>f[i]-1</code>,线性扫一遍，便可以得到该字符串的最大回文字串长度。</p>
+<h2 id="三复杂度解释">三、复杂度解释</h2>
+<p>由于每次最外层循环都在扩展能够向右到达的最大位置，而该位置值的最大值为字符串的长度，因此，此算法具有O(n)的优异复杂度。</p>
+<h2 id="四参考题目">四、参考题目</h2>
+<p><a href="http://hihocoder.com/problemset/problem/1032" class="uri" title="HihoCoder 1032">http://hihocoder.com/problemset/problem/1032</a></p>
+<p>题解：</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="ot">#include &lt;cstdio&gt;</span>
+<span class="ot">#include &lt;cstring&gt;</span>
+<span class="ot">#include &lt;iostream&gt;</span>
+<span class="kw">using</span> <span class="kw">namespace</span> std;
+
+<span class="co">// manacher.</span>
+
+<span class="dt">int</span> len, f[<span class="dv">2000010</span>];
+<span class="dt">char</span> str[<span class="dv">2000010</span>];
+
+<span class="dt">int</span> solve()
+{
+    <span class="dt">int</span> id = <span class="dv">0</span>, mx = <span class="dv">0</span>, ans = <span class="dv">0</span>; <span class="co">// mx = id + f[id]</span>
+    memset(f, <span class="bn">0x00</span>, <span class="kw">sizeof</span>(f));
+    <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">1</span>; i &lt;= <span class="dv">2</span> * len; ++i) {
+        <span class="kw">if</span> (mx &gt; i) {
+            f[i] = min(f[<span class="dv">2</span> * id - i], f[id] + id - i);
+        } <span class="kw">else</span> {
+            f[i] = <span class="dv">1</span>;
+        }
+        <span class="kw">while</span> (i-f[i] &gt;= <span class="dv">0</span> &amp;&amp; i+f[i] &lt;= <span class="dv">2</span>*len &amp;&amp; str[i+f[i]] == str[i-f[i]]) {
+            f[i]++;
+        }
+        <span class="kw">if</span> (f[i] + i &gt; mx) {
+            mx = f[i] + i;
+            id = i;
+        }
+        <span class="kw">if</span> (str[i] == <span class="st">&#39;#&#39;</span>) {
+            ans = max(ans, ((f[i]<span class="dv">-1</span>)/<span class="dv">2</span>) * <span class="dv">2</span>);
+        } <span class="kw">else</span> {
+            ans = max(ans, ((f[i]<span class="dv">-1</span>)/<span class="dv">2</span>) * <span class="dv">2</span> + <span class="dv">1</span>);
+        }
+    }
+
+    <span class="kw">return</span> ans;
+}
+
+<span class="dt">int</span> main(<span class="dt">int</span> argc, <span class="dt">char</span> **argv)
+{
+    <span class="dt">int</span> n;
+    scanf(<span class="st">&quot;</span><span class="ch">%d</span><span class="st">&quot;</span>, &amp;n);
+    <span class="kw">while</span> (n--) {
+        scanf(<span class="st">&quot;</span><span class="ch">%s</span><span class="st">&quot;</span>, str);
+        len = strlen(str);
+        <span class="co">// 预处理</span>
+        <span class="kw">for</span> (<span class="dt">int</span> i =len<span class="dv">-1</span>; i &gt;= <span class="dv">0</span>; --i) {
+            str[<span class="dv">2</span>*i<span class="dv">+1</span>] = str[i];
+            str[<span class="dv">2</span>*i<span class="dv">+2</span>] = <span class="st">&#39;#&#39;</span>;
+        }
+        str[<span class="dv">0</span>] = <span class="st">&#39;#&#39;</span>;
+        printf(<span class="st">&quot;</span><span class="ch">%d\n</span><span class="st">&quot;</span>, solve());
+    }
+
+    <span class="kw">return</span> <span class="dv">0</span>;
+}</code></pre>
+<p>LeetCode OJ <a href="https://leetcode.com/problems/longest-palindromic-substring/">005. Longest Palindromic Substring</a></p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="kw">class</span> Solution:
+    <span class="co"># @param {string} s</span>
+    <span class="co"># @return {string}</span>
+    <span class="kw">def</span> longestPalindrome(<span class="ot">self</span>, s):
+        T = <span class="st">&#39;#&#39;</span>.join(<span class="st">&#39;^{}$&#39;</span>.<span class="dt">format</span>(s))
+        n, p, c, r = <span class="dt">len</span>(T), [<span class="dv">0</span>]*<span class="dt">len</span>(T), <span class="dv">0</span>, <span class="dv">0</span>
+        <span class="kw">for</span> i in <span class="dt">range</span>(<span class="dv">1</span>, n<span class="dv">-1</span>):
+            p[i] = (r&gt;i) and <span class="dt">min</span>(r-i, p[<span class="dv">2</span>*c-i])
+            <span class="kw">while</span> T[i<span class="dv">+1</span>+p[i]] == T[i<span class="dv">-1</span>-p[i]]:
+                p[i] += <span class="dv">1</span>
+            <span class="kw">if</span> i+p[i] &gt; r:
+                c, r = i, i+p[i]
+        maxlen, centerindex = <span class="dt">max</span>((n, i) <span class="kw">for</span> i, n in <span class="dt">enumerate</span>(p))
+        <span class="kw">return</span> s[(centerindex  - maxlen)//<span class="dv">2</span>: (centerindex  + maxlen)//<span class="dv">2</span>]</code></pre>
+<h2 id="五扩展">五、扩展</h2>
+<p>还有以下几种算法可以用来求解序列的最长回文字串：</p>
+<ol style="list-style-type: decimal">
+<li>暴力法</li>
+</ol>
+<p>枚举起点和终点，然后判断该字串是否为回文字串，时间复杂度O(n^3)。</p>
+<ol start="2" style="list-style-type: decimal">
+<li>动态规划</li>
+</ol>
+<p>原理：最长回文字串的字串也是回文的，因此可以将最长回文字串分解为一系列的子问题。需要额外的O(n<sup>2)的空间，时间复杂度也为O(n</sup>2)。</p>
+<p>定义 <code>P[i][j]=1</code>表示<code>S[i][j]</code>是回文字符串，若为0，则不是。那么，状态转移方程为：</p>
+<p><span class="math">\[ p[i][i] = 0 \]</span></p>
+<p><span class="math">\[ 
+p_{}=
+\begin{cases}
+p[i+1][j-1] &amp;\text{s[i]==s[j]}
+0           &amp;\text{s[i]!=s[j]}
+\end{cases}
+\]</span></p>
+<p>算法实现：</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">string findLongestPalindrome(string &amp;s) {
+    <span class="dt">const</span> <span class="dt">int</span> length = s.size();
+    <span class="dt">int</span> start, maxlength = <span class="dv">0</span>;
+    <span class="dt">bool</span> P[<span class="dv">50</span>][<span class="dv">50</span>] = {<span class="kw">false</span>};
+    <span class="kw">for</span>(<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; length; i++) {  <span class="co">//初始化准备</span>
+        P[i][i] = <span class="kw">true</span>;
+        <span class="kw">if</span>(i &lt; length<span class="dv">-1</span> &amp;&amp; s.at(i) == s.at(i<span class="dv">+1</span>)) {
+            P[i][i<span class="dv">+1</span>] = <span class="kw">true</span>; 
+            start = i; maxlength = <span class="dv">2</span>;
+        }
+    }
+    <span class="kw">for</span>(<span class="dt">int</span> len=<span class="dv">3</span>; len&lt;length; len++) {  <span class="co">//子串长度</span>
+        <span class="kw">for</span>(<span class="dt">int</span> i=<span class="dv">0</span>; i&lt;=length-len; i++) {  <span class="co">//子串起始地址</span>
+            <span class="dt">int</span> j=i+len<span class="dv">-1</span>;  <span class="co">//子串结束地址</span>
+            <span class="kw">if</span>(P[i<span class="dv">+1</span>][j<span class="dv">-1</span>] &amp;&amp; s.at(i)==s.at(j)) {
+                P[i][j]=<span class="kw">true</span>;
+                start = i; maxlength=len;
+            }
+        }
+    }
+    <span class="kw">if</span>(maxlength&gt;=<span class="dv">2</span>) {
+        <span class="kw">return</span> s.substr(start,maxlength);
+    }
+    <span class="kw">return</span> NULL;
+}</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>中心扩展</li>
+</ol>
+<p>中心扩展就是把给定的字符串的每一个字母当做中心，向两边扩展，这样来找最长的子回文串。算法的时间复杂度为O(N^2)。但是要考虑两种情况：</p>
+<ul>
+<li>像aba，这样长度为奇数。</li>
+<li>想abba，这样长度为偶数。</li>
+</ul>
+<p>这一方法的优点在于实现简单：</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">string findLongestPalindrome(string &amp;s) {
+    <span class="dt">const</span> <span class="dt">int</span> length = s.size();
+    <span class="dt">int</span> start, maxlength=<span class="dv">0</span>;
+
+    <span class="kw">for</span>(<span class="dt">int</span> i=<span class="dv">0</span>; i&lt;length; i++) {  <span class="co">//长度为奇数</span>
+        <span class="dt">int</span> j=i<span class="dv">-1</span>, k=i<span class="dv">+1</span>;
+        <span class="kw">while</span>(j&gt;=<span class="dv">0</span> &amp;&amp; k&lt;length &amp;&amp; s.at(j)==s.at(k)) {
+            <span class="kw">if</span>(k-j<span class="dv">+1</span>&gt;maxlength) {
+                maxlength=k-j<span class="dv">+1</span>; start=j;
+            }
+            j--; k++;
+        }
+    }
+
+    <span class="kw">for</span>(<span class="dt">int</span> i=<span class="dv">0</span>; i&lt;length; i++) {  <span class="co">//长度为偶数</span>
+        <span class="dt">int</span> j=i, k=i<span class="dv">+1</span>;
+        <span class="kw">while</span>(j&gt;=<span class="dv">0</span> &amp;&amp; k&lt;length &amp;&amp; s.at(j)==s.at(k)) {
+            <span class="kw">if</span>(k-j<span class="dv">+1</span>&gt;maxlength) {
+                maxlength=k-j<span class="dv">+1</span>; start=j;
+            }
+            j--; k++;
+        }
+    }
+    <span class="kw">if</span>(maxlength &gt; <span class="dv">0</span>) {
+        <span class="kw">return</span> s.substr(start,maxlength);
+    }
+    <span class="kw">return</span> NULL;
+}</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li>后缀数组</li>
+</ol>
+<p>还可以利用后缀数组等其他算法解决最长回文子串问题，但时间复杂度和编程复杂度均高于Manacher算法。</p>
+<h2 id="参考">参考</h2>
+<ol style="list-style-type: decimal">
+<li><a href="http://en.wikipedia.org/wiki/Longest_palindromic_substring">Longest palindromic substring</a></li>
+</ol>

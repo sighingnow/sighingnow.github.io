@@ -1,0 +1,217 @@
+---
+title: Python PEP 8 简单汇总
+author: He Tao
+date: 2015-02-07
+tag: [Python, CodeStyle]
+category: 编程语言
+layout: post
+---
+
+<p>PEP 8 是Python的代码风格指南(Style Guide for Python Code)，其中很多内容都来自Guido van Rossum。PEP 8 从代码格式、注释、空白、变量名、参考及权利声明等方面出发，主要提到了以下这些关于Python代码风格的问题。</p>
+<h2 id="代码格式code-lay-out">代码格式(Code lay-out)</h2>
+<h3 id="缩进indentation">缩进(Indentation)</h3>
+<p>每一级缩进使用4个空格。当一行过长需要折行时，应该保持与换行的界定符的垂直对齐。如下例：</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="co"># Aligned with opening delimiter.</span>
+foo = long_function_name(var_one, var_two,
+                     var_three, var_four)</code></pre>
+<p>或者下一行采用8个空格的缩进，与其他的正常缩进区别开来，例如：</p>
+<!--more-->
+<pre class="sourceCode python"><code class="sourceCode python"><span class="co"># More indentation included to distinguish this from the rest.</span>
+<span class="kw">def</span> long_function_name(
+        var_one, var_two, var_three,
+        var_four):
+    <span class="dt">print</span>(var_one)</code></pre>
+<p>悬挂的缩进应该保持一致。</p>
+<p>如果<code>if</code>语句太长以至于需要分成多行书写，应该把<code>if</code>和一个空格以及一个左括号和在一起，形成一个自然地4个空格的缩进。但也可以让下一行多缩进4个空格（8个空格的缩进）。同时，还可以添加一些注释使得代码更清楚。例如以下几种写法：</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="co"># No extra indentation.</span>
+<span class="kw">if</span> (this_is_one_thing and
+    that_is_another_thing):
+    do_something()
+
+<span class="co"># Add a comment, which will provide some distinction in editors</span>
+<span class="co"># supporting syntax highlighting.</span>
+<span class="kw">if</span> (this_is_one_thing and
+    that_is_another_thing):
+    <span class="co"># Since both conditions are true, we can frobnicate.</span>
+    do_something()
+
+<span class="co"># Add some extra indentation on the conditional continuation line.</span>
+<span class="kw">if</span> (this_is_one_thing
+        and that_is_another_thing):
+    do_something()</code></pre>
+<p>如果列表性质的内容需要拆成多行，那么右括号应该在新的一行同列表的上一行内容的第一个字符保持对齐或者同多行语句的开始位置保持对齐，如下例：</p>
+<pre class="sourceCode python"><code class="sourceCode python">my_list = [
+    <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>,
+    <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>,
+    ]
+result = some_function_that_takes_arguments(
+    <span class="st">&#39;a&#39;</span>, <span class="st">&#39;b&#39;</span>, <span class="st">&#39;c&#39;</span>,
+    <span class="co">&#39;d&#39;</span>, <span class="st">&#39;e&#39;</span>, <span class="st">&#39;f&#39;</span>,
+    )
+
+my_list = [
+    <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>,
+    <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>,
+]
+result = some_function_that_takes_arguments(
+    <span class="st">&#39;a&#39;</span>, <span class="st">&#39;b&#39;</span>, <span class="st">&#39;c&#39;</span>,
+    <span class="co">&#39;d&#39;</span>, <span class="st">&#39;e&#39;</span>, <span class="st">&#39;f&#39;</span>,
+)</code></pre>
+<h3 id="制表符与空格tabs-or-spaces">制表符与空格(Tabs or Spaces?)</h3>
+<p>应当使用空格来缩进，Tab键仅仅用于那些已经采用Tab键来缩进的Python源代码文件。</p>
+<p>Python 3 不允许混用Tab键和空格来缩进。对于Python 2，混用空格键和Tab键来缩进的代码应当被递归地转换成仅仅使用空格来缩进。</p>
+<p>Python 2 的交互式命令行有<code>-t</code>选项来检查不合理的混用Tab键和空格的缩进。当使用<code>-tt</code>选项时，这些相关的警告将会变成错误。强烈建议使用这些选项。</p>
+<h3 id="每行最长长度maximum-line-length">每行最长长度(Maximum Line Length)</h3>
+<p>每行的最长长度限制应该设置为<strong>79</strong>个字符。对于类似<code>docstrings</code>或者<code>comments</code>(文档字符串或注释)的缺乏结构的文本块应当限制在每行<strong>72</strong>个字符。</p>
+<h3 id="空行blank-lines">空行(Blank Lines)</h3>
+<p>用两个空行来分隔顶层函数和类。用一个空行来分隔类里面定义的函数。此外，还需要额外的空行来分隔相关的几个函数。</p>
+<p>Python允许把<code>Ctrl-L</code>符号当成空白，这在一些文本工具中表示分页符。<strong>注意</strong>，一些文本编辑器可能不能正确识别<code>Ctrl-L</code>符号，并把它当成某个奇怪的象形文字。</p>
+<h3 id="源代码文件编码source-file-encoding">源代码文件编码(Source File Encoding)</h3>
+<p>Python代码应当使用UTF-8编码(Python 2使用 ASCII)。</p>
+<p>使用 ASCII编码的Python 2 代码文件和使用 UTF-8 编码的Python 3 代码文件应该不使用编码声明。</p>
+<p>Python 可以使用如下格式的注释来声明文件的编码：</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="co"># -*- coding: &lt;encoding name&gt; -*-</span></code></pre>
+<p>或者：</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="co"># -*- coding=&lt;encoding name&gt; -*-</span></code></pre>
+<h3 id="import格式import">Import格式(Import)</h3>
+<ul>
+<li><p>多个 import 声明应该分行来写。</p>
+<p>例如：</p>
+<pre><code>import os
+import sys</code></pre>
+<p>而不是写成</p>
+<pre><code>import os, sys</code></pre>
+<p>从同一个模块中 import 多个函数等时可以写成一行。例如</p>
+<pre><code>from subprocess import Popen, PIPE</code></pre></li>
+<li><p>import 声明应该放在文件的最上方。也就是模块注释和文档字符串之后，模块全局变量和常量之前的位置。</p>
+<p>多个import声明应该使用如下顺序组织：</p>
+<ul>
+<li>标准库(standard library imports)</li>
+<li>相关的第三方库(related third party imports)</li>
+<li>本地应用和库(local application/library specific imports)</li>
+</ul>
+<p>每一组import声明之间应该用一个空行隔开。</p>
+<p>将任何 <code>__all__</code> 说明都放在import声明之后。</p></li>
+<li><p>推荐使用绝对引入(absolute import),这样代码可读性更好，并且当引入的库存在错误时，代码表现得会更好（至少会生成更有用的错误信息）。</p>
+<p>例如：</p>
+<pre><code>import mypkg.sibling
+from mypkg import sibling</code></pre>
+<p>隐含的相对路径引入也是可以接受的。例如：</p>
+<pre><code>from . import sibling
+from .sibling import example</code></pre></li>
+<li><p>当从一个包含class的module中import一个类时，应当这样书写：</p>
+<pre><code>from myclass import MyClass
+from foo.bar.yourclass import YourClass</code></pre>
+<p>如果这会导致与本地的变量名冲突，那么，这样的方式也是可行的：</p>
+<pre><code>import myclass
+import foo.bar.yourclass</code></pre></li>
+<li><p>应该避免使用通过通配符import的方式(<code>from &lt;module&gt; import *</code>)。这会导致命名空间的混淆，并对一些库和工具造成误解。</p></li>
+</ul>
+<h3 id="引号string-quotes">引号(String Quotes)</h3>
+<p>在Python中，使用双引号和使用单引号表示的字符串没有区别。只要制定一条原则并在整个项目的所有代码中保持一致即可。</p>
+<p>当字符串中包含单引号时，使用单引号，反之，当字符串中包含单引号时，使用双引号。</p>
+<h2 id="空白符whitespace">空白符(Whitespace)</h2>
+<p>在下列情形下应该避免多余的空格：</p>
+<ul>
+<li><p>括号内紧挨着括号不要留空格</p></li>
+<li><p>紧挨着冒号，逗号或分号前面</p>
+<p>然而，当冒号表现得像一个二元操作符，例如在列表切片(slice)等场合下，冒号左右应该留下相同个数的空格，如下例：</p>
+<pre><code>ham[1:9]
+ham[lower+offset : upper+offset]</code></pre></li>
+<li><p>函数名与左括号之间不要留空格</p></li>
+<li><p>字典、元组、列表等变量名和左方括号之间不要留空格</p></li>
+<li><p>定义变量或赋值时不要用空格去对齐等号。</p>
+<p>例如：</p>
+<pre><code>x = 1
+y = 2
+long_variable = 3</code></pre>
+<p>不要写成:</p>
+<pre><code>x             = 1
+y             = 2
+long_variable = 3</code></pre></li>
+<li><p>在函数的默认参数的等号左右和通过命名参数调用函数的等号左右不要留空格。</p>
+<p>例如：</p>
+<pre><code>def complex(real, imag=0.0):
+    return magic(r=real, i=imag)</code></pre>
+<p>不要写成：</p>
+<pre><code>def complex(real, imag = 0.0):
+    return magic(r = real, i = imag)</code></pre></li>
+</ul>
+<p>在以下这些情形下，应当使用空格</p>
+<ul>
+<li><p>要在注解函数定义的等号两侧使用空格。此外，还应该在注解函数定义中的冒号“:”后边使用空格，在“-&gt;”两边使用空格。</p>
+<p>例如：</p>
+<pre><code>def munge(input: AnyStr):
+def munge(sep: AnyStr = None):
+def munge() -&gt; AnyStr:
+def munge(input: AnyStr, sep: AnyStr = None, limit=1000):</code></pre>
+<p>不要写成：</p>
+<pre><code>def munge(input: AnyStr=None):
+def munge(input:AnyStr):
+def munge(input: AnyStr)-&gt;PosInt:</code></pre></li>
+</ul>
+<h2 id="注释comments">注释(Comments)</h2>
+<h3 id="块注释block-comments">块注释(Block Comments)</h3>
+<p>块注释的缩进应当与代码的缩进保持一致。在<code>#</code>后边要加一个空格。</p>
+<h3 id="行内注释内联注释inline-comments">行内注释(内联注释)(Inline Comments)</h3>
+<p>行内注释跟代码语句应该保持至少<strong>2个空格</strong>的距离。并且，要在<code>#</code>后边加一个空格。</p>
+<h3 id="文档字符串documentation-strings">文档字符串(Documentation Strings)</h3>
+<p>应该给所有的公有模块、函数、类、方法写文档字符串。文档字符串应该写在<code>def ...</code>语句之后一行。</p>
+<p>PEP 257 描述了好的文档字符串的写法。</p>
+<p>文档字符串格式示例：</p>
+<pre><code>&quot;&quot;&quot;Return ...
+......
+&quot;&quot;&quot;</code></pre>
+<p>对于一行的文档字符串，应该把两个<code>&quot;&quot;&quot;</code>写在同一行。</p>
+<h2 id="版本标记version-bookkeeping">版本标记(Version Bookkeeping)</h2>
+<p>如果需要在代码中描述版本信息，应该写成如下格式：</p>
+<pre><code>__version__ = &quot;$Revision$&quot;
+# $Source$</code></pre>
+<p>这些代码应该写在文档字符串之后，代码之前，并且前后都要用一个空行分开。</p>
+<h2 id="命名约定naming-conventions">命名约定(Naming Conventions)</h2>
+<h3 id="overriding-principle">Overriding Principle</h3>
+<p>公有API部分的命名应该能够反映用途而非实现方式。</p>
+<h3 id="descriptive-name-style">Descriptive: Name Style</h3>
+<p>采用描述性的命名风格。其中，有些形式的命名应该遵循如下约定：</p>
+<ul>
+<li><p><code>_single_leading_undersrore</code>:</p>
+<p>使用的标识符(“internal use” indicator)。</p>
+<p>例如，<code>from M import *</code>就不会import名字以一个下划线开头的的对象(objects)。</p></li>
+<li><p><code>single_trailing_underscore</code>:</p>
+<p>这项约定用来避免与Python的关键字(keywords)冲突。例如：</p>
+<pre><code>Tkinter.Toplevel(master, class_ = &#39;ClassName&#39;)</code></pre></li>
+<li><p><code>__double_leading_underscore</code>:</p>
+<p>这用来命名类属性(class attribute)。</p></li>
+<li><p><code>__double_leading_and_trailing_underscore__</code>:</p>
+<p>用在用户控制的(user-controlled)的命名空间下。从不创造这样的变量名，仅仅使用那些文档中存在的。</p></li>
+</ul>
+<h3 id="prescriptive-naming-conventions">Prescriptive: Naming Conventions</h3>
+<h4 id="names-to-avoid">Names to Avoid</h4>
+<p>应当避免使用“l”, “O”, “I”作为单个字母的变量名。</p>
+<h4 id="包和模块的命名">包和模块的命名</h4>
+<p>模块应该采用较短的、全部为小写字母的命名。如果下划线可以增强名字的可读性，那么可以用在模块名中。</p>
+<h4 id="异常命名exception-names">异常命名(Exception Names)</h4>
+<p>对异常的命名应当包含后缀“Error”。</p>
+<h4 id="类的方法method的命名">类的方法(method)的命名</h4>
+<p>使用<code>self</code>作为实例方法(instance methods)的第一个参数。</p>
+<p>使用<code>cls</code>作为类方法(class methods)的第一个参数。</p>
+<h4 id="常量">常量</h4>
+<p>常量的命名应该全部采用大写字母。</p>
+<h4 id="全局变量">全局变量</h4>
+<p>对于包和模块，可以通过设置<code>__all__</code>的内容来指定接口(API)。</p>
+<h2 id="其他的约定">其他的约定</h2>
+<h3 id="lambda和def">lambda和def</h3>
+<p>定义函数时，使用<code>def</code>。不要把<code>lambda</code>表达式绑定到标识符。</p>
+<h3 id="自定义异常">自定义异常</h3>
+<p>自定义异常时，直接继承<code>Exception</code>而不是<code>BaseException</code>。</p>
+<h3 id="合理使用异常链">合理使用异常链</h3>
+<h3 id="捕获异常">捕获异常</h3>
+<p>捕获异常时，尽量指明是什么类型的异常而不要全都是用单单的<code>except:</code>。</p>
+<h3 id="finally">finally</h3>
+<p>如果代码需要做清理工作，要加上 <code>finally</code> 语句块。</p>
+<h3 id="字符串检查">字符串检查</h3>
+<p>使用<code>startwith()</code>和<code>endwith()</code>方法而不是字符串切片(string slicing)来检查字符串的前缀和后缀。</p>
+<h3 id="类型检查">类型检查</h3>
+<p>使用<code>isinstance()</code>而不是<code>type() ==</code>来检查变量的类型。</p>
+<h3 id="序列非空检查">序列非空检查</h3>
+<p>对于序列(string, list, tuple)，空列表的布尔值为<code>False</code>，可以用这一特点来进行序列的非空检查，而不是判断序列的长度。</p>

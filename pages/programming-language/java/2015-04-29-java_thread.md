@@ -307,7 +307,7 @@ Fork/Join
 
 Fork/Join机制是JDK 7新增加的多线程框架，如果一个应用能被分解成多个子任务，并且组合多个子任务的结果就能够获得最终的答案，那么这个应用就适合用 Fork/Join 模式来解决。下图可大概说明Fork/Join模式的结构：
 
-![Fork/Join模式](/resource/java_thread/fork_join.png)
+![Fork/Join模式]({{ site.url }}/resource/java_thread/fork_join.png)
 
 ### Fork/Join框架的几个核心类：
 
@@ -445,7 +445,7 @@ public boolean allDone(List<SubTask> tasks) {
 1. 将一个任务分解为多个互不依赖的子任务。
 2. 当一个线程完成自己队列中的任务后，将其他线程的任务队列里的任务取出来执行。
 
-![Work-stealing算法示意图](/resource/java_thread/work-stealing.png)
+![Work-stealing算法示意图]({{ site.url }}/resource/java_thread/work-stealing.png)
 
 Disruptor机制
 -------------

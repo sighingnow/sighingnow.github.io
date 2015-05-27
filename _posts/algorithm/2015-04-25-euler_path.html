@@ -1,0 +1,197 @@
+---
+title: 欧拉路径
+author: He Tao
+date: 2015-04-25
+tag: Algorithm
+category: Algorithm
+layout: post
+---
+
+<p>总结下欧拉路径相关的算法。</p>
+<h2 id="相关的定义">相关的定义</h2>
+<ol style="list-style-type: decimal">
+<li>欧拉环：图中经过每条边一次且仅一次的环；</li>
+<li>欧拉路径：图中经过每条边一次且仅一次的路径；</li>
+<li>欧拉图：有至少一个欧拉环的图；</li>
+<li>半欧拉图：没有欧拉环，但有至少一条欧拉路径的图。</li>
+</ol>
+<!--more-->
+<h2 id="欧拉图判定">欧拉图判定</h2>
+<h3 id="无向图">无向图</h3>
+<p>一个无向图是欧拉图当且仅当该图是连通的（注意，不考虑图中度为0的点，因为它们的存在对于图中是否存在欧拉环、欧拉路径没有影响）且所有点的度数都是偶数；一个无向图是半欧拉图当且仅当该图是连通的且有且只有2个点的度数是奇数（此时这两个点只能作为欧拉路径的起点和终点）。</p>
+<p>原理：因为任意一个点，欧拉环（或欧拉路径）从它这里进去多少次就要出来多少次，故(进去的次数+出来的次数)为偶数，又因为(进去的次数+出来的次数)=该点的度数（根据定义），所以该点的度数为偶数。</p>
+<h3 id="有向图">有向图</h3>
+<p>一个有向图是欧拉图当且仅当该图的基图（将所有有向边变为无向边后形成的无向图，这里同样不考虑度数为0的点）是连通的且所有点的入度等于出度；一个有向图是半欧拉图当且仅当该图的基图是连通的且有且只有一个点的入度比出度少1（作为欧拉路径的起点），有且只有一个点的入度比出度多1（作为终点），其余点的入度等于出度。</p>
+<h2 id="欧拉路径判定">欧拉路径判定</h2>
+<h3 id="无向图-1">无向图</h3>
+<p>一个无向图存在欧拉路径，当且仅当该图所有顶点的度数为偶数或者除了两个度数为奇数（这两个点是欧拉路的起点和终点）外其余的全是偶数。</p>
+<h3 id="有向图-1">有向图</h3>
+<p>一个有向图存在欧拉路径，当且仅当 该图所有顶点的度数为零或者 一个顶点的度数为1，另一个度数为-1，其他顶点的度数为0。</p>
+<h2 id="欧拉路径求法">欧拉路径求法</h2>
+<p>根据上面叙述的欧拉路径的判定条件，不难想到，对图做一次DFS遍历便可以得到欧拉路径，复杂度为O(2M)。具体做法如下：</p>
+<p>对于无向图，如果度数为奇数的顶点恰好有两个，那么从这两个点中的任何一个点开始DFS，最终一定会到达另一个度数为奇数的顶点。如果度数为奇数的顶点个数为0，那么从图中的任何一个点出发，都能找到欧拉路径。</p>
+<p>对于有向图，做法无向图中的算法类似。需要注意的是，如果图中有一个顶点度数为1，另一个顶点度数为-1，那么需要从那个度数为1的顶点开始DFS遍历。</p>
+<h2 id="举例">举例</h2>
+<p>下面举出两个需要求解欧拉路径的题目。</p>
+<ol style="list-style-type: decimal">
+<li><a href="http://acm.sgu.ru/problem.php?contest=0&amp;problem=101">SGU 101</a></li>
+</ol>
+<p>题解：</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="ot">#include &lt;cstdio&gt;</span>
+<span class="ot">#include &lt;iostream&gt;</span>
+<span class="ot">#include &lt;cstring&gt;</span>
+<span class="ot">#include &lt;list&gt;</span>
+<span class="kw">using</span> <span class="kw">namespace</span> std;
+
+<span class="kw">struct</span> Edge {
+    <span class="dt">int</span> x, y;
+};
+<span class="dt">const</span> <span class="dt">int</span> maxn = <span class="dv">105</span>;
+Edge edge[maxn], path[maxn];
+<span class="dt">int</span> mat[<span class="dv">10</span>][<span class="dv">10</span>];
+<span class="dt">int</span> n, x, y, start = <span class="dv">0</span>, flag = <span class="dv">0</span>, degree[<span class="dv">10</span>], p = <span class="dv">0</span>;
+
+<span class="dt">void</span> dfs(<span class="dt">int</span> s) {
+    <span class="kw">for</span>(<span class="dt">int</span> i = <span class="dv">0</span>; i &lt;= <span class="dv">6</span>; ++i) {
+        <span class="kw">if</span>(mat[s][i]) {
+            mat[s][i]--; mat[i][s]--;
+            dfs(i);
+            p++; path[p].x = s; path[p].y = i;
+        }
+    }
+}
+
+<span class="kw">inline</span> <span class="dt">void</span> output() {
+    <span class="kw">for</span>(<span class="dt">int</span> i = p; i &gt;= <span class="dv">1</span>; --i) {
+        <span class="kw">for</span>(<span class="dt">int</span> j = <span class="dv">1</span>; j &lt;= n; ++j) {
+            <span class="kw">if</span>(edge[j].x == path[i].x &amp;&amp; edge[j].y == path[i].y) {
+                edge[j].x = <span class="dv">-1</span>; printf(<span class="st">&quot;</span><span class="ch">%d</span><span class="st"> +</span><span class="ch">\n</span><span class="st">&quot;</span>, j); <span class="kw">break</span>;
+            }
+            <span class="kw">else</span> <span class="kw">if</span>(edge[j].x == path[i].y &amp;&amp; edge[j].y == path[i].x) {
+                edge[j].x = <span class="dv">-1</span>; printf(<span class="st">&quot;</span><span class="ch">%d</span><span class="st"> -</span><span class="ch">\n</span><span class="st">&quot;</span>, j); <span class="kw">break</span>;
+            }
+        }
+    }
+}
+
+<span class="dt">int</span> main(<span class="dt">int</span> argc, <span class="dt">char</span>** args) {
+    scanf(<span class="st">&quot;</span><span class="ch">%d</span><span class="st">&quot;</span>, &amp;n);
+    <span class="kw">for</span>(<span class="dt">int</span> i = <span class="dv">1</span>; i &lt;= n; ++i) {
+        scanf(<span class="st">&quot;</span><span class="ch">%d</span><span class="st"> </span><span class="ch">%d</span><span class="st">&quot;</span>, &amp;x, &amp;y);
+        edge[i].x = x, edge[i].y = y;
+        degree[x]++; degree[y]++;
+        mat[x][y]++; mat[y][x]++;
+    }
+    <span class="kw">for</span>(<span class="dt">int</span> i = <span class="dv">0</span>; i &lt;= <span class="dv">6</span>; ++i) {
+        <span class="kw">if</span>(degree[i]) {
+            start = i; <span class="kw">break</span>;
+        }
+    }
+    <span class="kw">for</span>(<span class="dt">int</span> i = <span class="dv">0</span>; i &lt;= <span class="dv">6</span>; ++i) {
+        <span class="kw">if</span>(degree[i] % <span class="dv">2</span> == <span class="dv">1</span>) {
+            flag++; start = i;
+        }
+    }
+    <span class="kw">if</span>(flag!=<span class="dv">0</span> &amp;&amp; flag!=<span class="dv">2</span>) {
+        printf(<span class="st">&quot;No solution&quot;</span>); <span class="kw">return</span> <span class="dv">0</span>;
+    }
+    dfs(start);
+    <span class="kw">if</span>(p &lt; n) {
+        printf(<span class="st">&quot;No solution&quot;</span>); <span class="kw">return</span> <span class="dv">0</span>;
+    }
+    output();
+    <span class="kw">return</span> <span class="dv">0</span>;
+}</code></pre>
+<p>这题有两个地方需要特别注意：</p>
+<p>(1). 完成DFS之后，还需要进一步判断图是否连通，即DFS过程是否经过了所有的边，这一点可以通过比较边数与DFS经过的边数来实现。</p>
+<p>(2). 注意欧拉路径不是欧拉环！忽略这一点在DFS是会出错，例如下图：假如题目中给出的边具有几下关系：</p>
+<div class="figure">
+<img src="{{%20site.url%20}}/resource/euler_path/euler_path_1.png" alt="欧拉路径" />
+<p class="caption">欧拉路径</p>
+</div>
+<p>那么，从节点3开始DFS，先到节点2，再到节点1，就会陷入死循环！</p>
+<p>这道题也可以不使用邻接矩阵记录每两个节点之间边的数目(当顶点数较多时，使用邻接矩阵来记录边的信息会占用大量的内存空间)，从边开始递归DFS，注意下压栈的顺序即可。</p>
+<ol start="2" style="list-style-type: decimal">
+<li><a href="http://poj.org/problem?id=2337">POJ 2337</a></li>
+</ol>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="ot">#include &lt;cstdio&gt;</span>
+<span class="ot">#include &lt;iostream&gt;</span>
+<span class="ot">#include &lt;cstring&gt;</span>
+<span class="ot">#include &lt;algorithm&gt;</span>
+<span class="kw">using</span> <span class="kw">namespace</span> std;
+
+<span class="kw">struct</span> Edge {
+    <span class="dt">char</span> str[<span class="dv">25</span>];
+    <span class="dt">int</span> start, end, len;
+    <span class="dt">bool</span> used;
+};
+
+<span class="dt">const</span> <span class="dt">int</span> maxn = <span class="dv">1005</span>;
+Edge edge[maxn];
+<span class="dt">int</span> T, n, path[maxn], p = <span class="dv">0</span>;
+<span class="dt">int</span> in[<span class="dv">27</span>] = {<span class="dv">0</span>}, out[<span class="dv">27</span>] = {<span class="dv">0</span>};
+
+<span class="dt">bool</span> cmp(<span class="dt">const</span> Edge &amp; a, <span class="dt">const</span> Edge &amp; b) {
+    <span class="kw">return</span> strcmp(a.str, b.str) &lt;= <span class="dv">0</span> ? <span class="kw">true</span> : <span class="kw">false</span>;
+}
+
+<span class="dt">void</span> dfs(<span class="dt">int</span> s) {
+    <span class="kw">for</span>(<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; ++i) {
+        <span class="kw">if</span>(!edge[i].used &amp;&amp; edge[i].start == s) {
+            edge[i].used = <span class="kw">true</span>;
+            dfs(edge[i].end);
+            path[p++] = i;
+        }
+    }
+}
+
+<span class="dt">int</span> main(<span class="dt">int</span> argc, <span class="dt">char</span>** args) {
+    scanf(<span class="st">&quot;</span><span class="ch">%d</span><span class="st">&quot;</span>, &amp;T);
+    <span class="kw">while</span>(T--) {
+        scanf(<span class="st">&quot;</span><span class="ch">%d</span><span class="st">&quot;</span>, &amp;n); p = <span class="dv">0</span>;
+        memset(path, <span class="bn">0x00</span>, <span class="kw">sizeof</span>(path)); memset(edge, <span class="bn">0x00</span>, <span class="kw">sizeof</span>(edge));
+        memset(in, <span class="bn">0x00</span>, <span class="kw">sizeof</span>(in)); memset(out, <span class="bn">0x00</span>, <span class="kw">sizeof</span>(out));
+        <span class="kw">for</span>(<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; ++i) {
+            scanf(<span class="st">&quot;</span><span class="ch">%s</span><span class="st">&quot;</span>, edge[i].str); edge[i].len = strlen(edge[i].str);
+            edge[i].start = edge[i].str[<span class="dv">0</span>]-<span class="st">&#39;a&#39;</span>; 
+            edge[i].end = edge[i].str[edge[i].len<span class="dv">-1</span>]-<span class="st">&#39;a&#39;</span>;
+            edge[i].used = <span class="kw">false</span>;
+        }
+        sort(edge, edge+n, cmp);
+        <span class="kw">for</span>(<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; ++i) {
+            out[edge[i].start]++;
+            in[edge[i].end]++;
+        }
+        <span class="dt">int</span> start = edge[<span class="dv">0</span>].start, incnt = <span class="dv">0</span>, outcnt = <span class="dv">0</span>, flag = <span class="dv">0</span>;
+        <span class="kw">for</span>(<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; <span class="dv">26</span>; ++i) {
+            <span class="kw">if</span>(in[i] == out[i]) {
+                <span class="kw">continue</span>;
+            }
+            <span class="kw">else</span> <span class="kw">if</span>(in[i]<span class="dv">-1</span> == out[i]) {
+                incnt++;
+            }
+            <span class="kw">else</span> <span class="kw">if</span>(out[i]<span class="dv">-1</span> == in[i]) {
+                outcnt++; start = i;
+            }
+            <span class="kw">else</span> {
+                flag = <span class="dv">1</span>; <span class="kw">break</span>;
+            }
+        }
+        <span class="kw">if</span>(flag == <span class="dv">0</span> &amp;&amp; (incnt==<span class="dv">1</span>&amp;&amp;outcnt==<span class="dv">1</span> || incnt==<span class="dv">0</span>&amp;&amp;outcnt==<span class="dv">0</span>)) {
+            p = <span class="dv">0</span>; dfs(start);
+            <span class="kw">if</span>(p &lt; n) {
+                printf(<span class="st">&quot;***</span><span class="ch">\n</span><span class="st">&quot;</span>); <span class="kw">continue</span>; <span class="co">// no euler path.</span>
+            }
+            <span class="kw">for</span>(<span class="dt">int</span> i = p<span class="dv">-1</span>; i &gt; <span class="dv">0</span>; --i) {
+                printf(<span class="st">&quot;</span><span class="ch">%s</span><span class="st">.&quot;</span>, edge[path[i]].str);
+            }
+            printf(<span class="st">&quot;</span><span class="ch">%s\n</span><span class="st">&quot;</span>, edge[path[<span class="dv">0</span>]].str);
+        }
+        <span class="kw">else</span> {
+            printf(<span class="st">&quot;***</span><span class="ch">\n</span><span class="st">&quot;</span>); <span class="kw">continue</span>; <span class="co">// no euler path.</span>
+        }
+    }
+
+    <span class="kw">return</span> <span class="dv">0</span>;
+}</code></pre>
+<p>这一题考察的是有向图的欧拉路径。</p>

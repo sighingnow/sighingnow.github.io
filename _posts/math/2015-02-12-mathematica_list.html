@@ -1,0 +1,191 @@
+---
+title: Mathematica中的列表(List)
+author: He Tao
+date: 2015-02-12
+tag: Mathematica
+category: Math
+layout: post
+---
+
+<p>List是Mathematica中的一种重要的数据结构。</p>
+<p>** 在Mathematica中使用<code>List</code>时必须注意：Mathematica的<code>List</code>的索引是从<code>1</code>开始的，不是<code>0</code>! **</p>
+<h2 id="list的表示">List的表示</h2>
+<p>List用<code>{}</code>来表示。如：</p>
+<pre><code>{1, 2, 3, 4}</code></pre>
+<h2 id="list的生成">List的生成</h2>
+<p>Mathematica中，有以下三种方式来生成List。</p>
+<ol style="list-style-type: decimal">
+<li>Range 命令</li>
+</ol>
+<pre class="mma"><code>Range[Subscript[i, max]] 
+    生成列表 {1,2,\[Ellipsis],Subscript[i, max]}.
+Range[Subscript[i, min],Subscript[i, max]] 
+    生成列表 {Subscript[i, min],\[Ellipsis],Subscript[i, max]}.
+Range[Subscript[i, min],Subscript[i, max],di] 
+    使用步长 di 生成列表. </code></pre>
+<!--more-->
+<ol start="2" style="list-style-type: decimal">
+<li>Table 命令</li>
+</ol>
+<pre class="mma"><code>Table[expr,{Subscript[i, max]}] 
+    产生一个 expr 的 Subscript[i, max] 拷贝的列表.
+Table[expr,{i,Subscript[i, max]}] 
+    产生i  从1到 Subscript[i, max] 的一个 expr 的值的列表.
+Table[expr,{i,Subscript[i, min],Subscript[i, max]}] 
+    以 i=Subscript[i, min] 开始.
+Table[expr,{i,Subscript[i, min],Subscript[i, max],di}] 
+    使用步长 di. 
+Table[expr,{i,{Subscript[i, 1],Subscript[i, 2],\[Ellipsis]}}] 
+    使用连续值 Subscript[i, 1], Subscript[i, 2], \[Ellipsis]. 
+Table[expr,{i,Subscript[i, min],Subscript[i, max]},{j,Subscript[j, min],Subscript[j, max]},\[Ellipsis]] 
+    给出一个嵌套列表. 和 i 相关联的列表是最外的列表.  </code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>Array 命令</li>
+</ol>
+<pre class="mma"><code>Array[f,n] 
+    生成长度为 n、元素为 f[i] 的列表. 
+Array[f,n,r] 
+    生成使用索引原点 r 的列表.
+Array[f,n,{a,b}] 
+    生成使用 n 个从 a 到 b 的数值组成的列表.
+Array[f,{Subscript[n, 1],Subscript[n, 2],\[Ellipsis]}] 
+    生成嵌套列表的 Subscript[n, 1]*Subscript[n, 2]*\[Ellipsis] 数组，元素为 f[Subscript[i, 1],Subscript[i, 2],\[Ellipsis]]. 
+Array[f,{Subscript[n, 1],Subscript[n, 2],\[Ellipsis]},{Subscript[r, 1],Subscript[r, 2],\[Ellipsis]}] 
+    生成一个列表，该列表使用指标起点 Subscript[r, i],(缺省为 1). 
+Array[f,{Subscript[n, 1],Subscript[n, 2],\[Ellipsis]},{ {Subscript[a, 1],Subscript[b, 1]},{Subscript[a, 2],Subscript[b, 2]},\[Ellipsis]}] 
+    生成使用 Subscript[n, i] 个从 Subscript[a, i] 到 Subscript[b, i] 的数值组成的列表.
+Array[f,dims,origin,h] 
+    对数组的每一层使用头部 h，而不是 List. </code></pre>
+<h2 id="字符型list的生成">字符型List的生成</h2>
+<p>生成字符型的List，有如下两种方式：</p>
+<ol style="list-style-type: decimal">
+<li>Characters 命令</li>
+</ol>
+<pre class="mma"><code>Characters[&quot;string&quot;] 
+    给出了字符串中字符的列表. </code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>CharacterRange 命令</li>
+</ol>
+<pre class="mma"><code>CharacterRange[Subscript[c, 1],Subscript[c, 2]] 
+    产生 &quot;Subscript[c, 1]&quot; 到 &quot;Subscript[c, 2]&quot; 范围之内的字符列表. </code></pre>
+<pre><code>具体的字符顺序为起始字符之间 ASCII 码表中的字符顺序。
+
+例如：</code></pre>
+<pre class="mma"><code>CharacterRange[&quot;a&quot;, &quot;c&quot;]
+{a, b, c}
+FullForm[%]
+List[&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]  </code></pre>
+<h2 id="list的运算">List的运算</h2>
+<p>可以对 List 进行加、减、乘、除、阶乘、乘方等运算，具体运算过程为对列表进行逐项计算。</p>
+<p>例如：</p>
+<pre class="mma"><code>2 ^ Range[10]
+{2, 4, 8, 16, 32, 64, 128, 256, 512, 1024}
+Prime[Range[10]]
+{2, 3, 5, 7, 11, 13, 17, 19, 23, 29}</code></pre>
+<h2 id="list取得指定位置元素">List取得指定位置元素</h2>
+<p>Mathematica中，用<code>[[]]</code>符号来根据索引取得列表的值。在使用列表索引时，应当注意一下两个问题：</p>
+<ol style="list-style-type: decimal">
+<li>列表的索引从<strong>1</strong>开始。</li>
+<li>列表可以逆向索引，也就是说，最后一项的索引可以为<code>-1</code>。</li>
+</ol>
+<h2 id="list的线性操作">List的线性操作</h2>
+<p>在Mathematica中，很多线性操作都可以直接用于列表。例如：</p>
+<pre><code>{a,b,c}+{d,e,f}</code></pre>
+<p>的结果为</p>
+<pre><code>{a+d,b+e,c+f}</code></pre>
+<h2 id="list的操作">List的操作</h2>
+<ul>
+<li><p>List的列表切片操作</p>
+<p>List使用<code>;;</code>运算符可以实现切片操作，例如：</p>
+<pre><code>{1,2,3,4,5,6}[[2;;4]]</code></pre>
+<p>的结果为：</p>
+<pre><code>{2,3,4}</code></pre></li>
+<li><p>Length[lst]</p>
+<p>求出列表lst的长度（lst中的元素个数）。</p></li>
+<li><p>First[lst]</p>
+<p>得到lst中的第一个位置的元素。</p>
+<p>如果lst的长度为0（没有元素），会得到如下输出：</p></li>
+</ul>
+<pre class="mma"><code>    First::first: &quot;{} 长度为零，并且没有第一个元素.&quot;</code></pre>
+<ul>
+<li><p>Last[lst]</p>
+<p>得到lst中的最后一个位置的元素。</p>
+<p>如果lst的长度为0（没有元素），会得到如下输出：</p></li>
+</ul>
+<pre class="mma"><code>    Last::nolast: &quot;{} 的长度为零，并且没有最后一个元素&quot;.</code></pre>
+<ul>
+<li><p>Part[lst, k] 或 lst[[k]]</p>
+<p>返回lst中的第<code>k</code>个元素。如果lst中没有第<code>k</code>个元素，会得到如下输出：</p></li>
+</ul>
+<pre class="mma"><code>    Part::partw: {} 的部分 1 不存在.</code></pre>
+<ul>
+<li><p>Part[lst, -k] 或 lst[[-k]]</p>
+<p>返回lst中的倒数第<code>k</code>个元素。如果lst中没有倒数第<code>k</code>个元素，会得到如下输出：</p></li>
+</ul>
+<pre class="mma"><code>    Part::partw: &quot;{} 的部分 -1 不存在.</code></pre>
+<ul>
+<li><p>Rest[lst]</p>
+<p>返回删除<code>lst</code>中第一个对象后的结果。</p></li>
+<li><p>Take 命令</p>
+<p>Take 命令用于从 List 中取得一部分元素，返回一个新的列表。</p></li>
+<li><p>Delete 命令</p>
+<p>Delete 命令用于从列表中删除元素。根据索引的正负来删除整数第<code>k</code>个元素或者第<code>-k</code>个元素。</p></li>
+<li><p>Drop 命令</p>
+<p>Drop命令和Take命令的格式基本一致，用于从列表中删除多个元素（连续的）。</p></li>
+<li><p>Append 命令</p>
+<p>Append命令用于在原来的列表末尾追加元素。</p></li>
+<li><p>Prepend 命令</p>
+<p>Prepend命令用于在原来的列表开头处追加元素。</p></li>
+<li><p>Insert 命令</p>
+<p>Insert 命令用于将元素插入到列表中，位置索引既可以为正值也可以为负值。</p></li>
+<li><p>ReplacePart 命令</p>
+<p>ReplacePart 命令用于替换List某个位置的元素。</p></li>
+<li><p>Sort 命令</p>
+<p>Sort命令用于对列表进行排序，具体标准顺序的定义如下例：</p></li>
+</ul>
+<pre class="mma"><code>    a = {1, 2, &quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;A&quot;, &quot;B&quot;, &quot;C&quot;}
+    {1, 2, &quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;A&quot;, &quot;B&quot;, &quot;C&quot;}
+    Sort[a]
+    {1, 2, &quot;a&quot;, &quot;A&quot;, &quot;b&quot;, &quot;B&quot;, &quot;c&quot;, &quot;C&quot;}</code></pre>
+<pre><code>Mathematica中标准顺序的定义同其他编程语言有所不同，需格外注意。</code></pre>
+<ul>
+<li><p>Reverse 命令</p>
+<p>Reverse命令用于将列表逆序排序。</p>
+<p><strong>注意</strong>：<code>Sort</code> 命令和 <code>Reverse</code> 命令并不改变原来的列表，只是返回一个排好序的列表。</p></li>
+<li><p>RotateRight 和 RotateLeft 命令</p>
+<p>RotateRight 和 RotateLeft 命令用于对列表进行循环旋转操作。可以指定循环旋转的距离。</p></li>
+<li><p>Join 和 Union 命令</p>
+<p>Join 命令和 Union 命令用于列表的合并。区别在于 Join 命令仅仅合并列表，并不去除重复的元素。而 Union 命令则采取的是集合的并集操作方式，重复的元素仅仅保留一个。</p></li>
+<li><p>Depth 命令</p>
+<p>Depth命令可以得到多层嵌套列表的嵌套层数。<strong>注意</strong> Depth命令得到的值为列表的嵌套层数加 1。</p></li>
+<li><p>IntegerDigits 命令</p>
+<p>IntegerDigits 命令可以得到一个整数各个位上的数字组成的列表。</p>
+<p>类似，RealDigits 命令可以得到一个实数（有限位近似值）的各个位上的数字组成的列表。并且能够得到小数点左边的数字位数。例如:</p></li>
+</ul>
+<pre class="mma"><code>    RealDigits[N[Pi, 10]]
+    { {3, 1, 4, 1, 5, 9, 2, 6, 5, 3}, 1}</code></pre>
+<pre><code>上述结果中包含两个子列表，其中，第一个子列表为各个位上的数字组成的列表，第二个子列表的值为小数点左侧的数字的位数。</code></pre>
+<h2 id="list与集合">List与集合</h2>
+<p>集合在Mathematica中是用列表表示的。集合的基本操作：</p>
+<ul>
+<li><p>Union[lst1, lst2]</p>
+<p>求并集</p></li>
+<li><p>Intersection</p>
+<p>求交集</p></li>
+<li><p>Complement[universe, lst]</p>
+<p>求全集</p></li>
+<li><p>Subsets[lst]</p>
+<p>返回一个集合的所有子集构成的列表（幂集）</p></li>
+<li><p>KSubsets[lst]</p>
+<p>返回lst的所有包含K个元素的子集构成的列表。</p></li>
+</ul>
+<h2 id="list-与矩阵matrix">List 与矩阵(Matrix)</h2>
+<p>Mathematica中，用多层List来表示矩阵。设计矩阵的常用运算有：</p>
+<ul>
+<li><p>MatrixForm</p>
+<p>以矩阵的形式显示多层List。</p></li>
+<li><p>IdentityMatrix[n]</p>
+<p>返回一个<code>n</code>阶单位阵。</p></li>
+<li><p>DiagonalMatrix[lst]</p>
+<p>返回一个主对角线值为<code>lst</code>的元素、其他元素为<code>0</code>的矩阵。</p></li>
+</ul>

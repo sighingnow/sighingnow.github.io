@@ -1,0 +1,204 @@
+---
+title: 树状数组
+author: He Tao
+date: 2015-02-24
+tag: Algorithm
+category: Algorithm
+layout: post
+---
+
+<p>树状数组(Binary Index Tree, BIT)，是一个查询和修改复杂度都为O(lg(n))的数据结构。</p>
+<h2 id="定义">定义</h2>
+<p>对于序列<code>a</code>，我们设一个数组<code>C</code>定义<code>C[i] = a[i – 2^k + 1] + … + a[i]</code>(<strong>i从1开始</strong>)，<code>k</code>为<code>i</code>在二进制下末尾0的个数。 k的计算可以这样:</p>
+<pre><code>2^k = x and (x xor (x-1))</code></pre>
+<p>树状数组的结构如下图所示：</p>
+<div class="figure">
+<img src="{{%20site.url%20}}/resource/binary_index_trees/binary_index_trees_1.png" alt="树状数组" />
+<p class="caption">树状数组</p>
+</div>
+<p>在实现时，可以定义宏</p>
+<!--more-->
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="ot">#define lowbit(x) ((x)&amp;((x)^((x)-1)))</span></code></pre>
+<p>利用补码的特性，可以写为：</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="ot">#define lowbit(x) ((x)&amp;(-x))</span></code></pre>
+<p>来方便求得K值。</p>
+<h2 id="建立树状数组">建立树状数组</h2>
+<p>可以将数组中所有元素都初始化为0，然后再逐个插入（修改）。</p>
+<h2 id="修改单个位置的值">修改单个位置的值</h2>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="co">/**</span>
+<span class="er"> * 将k位置的值增加delta。</span>
+ */
+<span class="dt">void</span> change(<span class="dt">int</span> k, <span class="dt">int</span> delta)
+{
+    <span class="kw">while</span>(k &lt;= n) {
+        c[k] += delta;
+        k += lowbit(k);
+    }
+}</code></pre>
+<h2 id="查询区间和">查询区间和</h2>
+<p>首先，可以通过如下方法在O(log(n))的时间内得出前k个元素的和。</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="co">/**</span>
+ * 求区间[<span class="dv">1</span>, k]内元素的和
+ */
+<span class="dt">int</span> query_sum(<span class="dt">int</span> k) {
+    <span class="dt">int</span> _sum = <span class="dv">0</span>;
+    <span class="kw">while</span>(k &gt; <span class="dv">0</span>) {
+        _sum += c[k];
+        k -= lowbit(k);
+    }
+    <span class="kw">return</span> _sum;
+}</code></pre>
+<p>区间和查询便不难实现：</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="co">/**</span>
+<span class="er"> * 求区间[x, y] 内元素的和。</span>
+ */
+<span class="dt">int</span> query_range(<span class="dt">int</span> x, <span class="dt">int</span> y) 
+{
+    <span class="kw">return</span> query_sum(y) - query_sum(x<span class="dv">-1</span>);
+}</code></pre>
+<h2 id="二维情形">二维情形</h2>
+<p>直接将一维的所有操作扩展到二维即可。</p>
+<p>更新：</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="co">/**</span>
+ * (x, y)处的值增加delta
+ */
+<span class="dt">void</span> change(<span class="dt">int</span> x, <span class="dt">int</span> y, <span class="dt">int</span> delta)
+{
+    <span class="kw">while</span>(x &lt;= xn) {
+        <span class="kw">while</span>(y &lt;= yn) {
+            c[x][y] += delta;
+            y += lowbit(y);
+        }
+        x += lowbit(x);
+    }
+}</code></pre>
+<p>查询二维区间和操作：</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="co">/**</span>
+<span class="er"> * 查询(0,0)与(x, y)范围内的和。</span>
+ */
+<span class="dt">int</span> query_sum(<span class="dt">int</span> x, <span class="dt">int</span> y) {
+    <span class="dt">int</span> _sum = <span class="dv">0</span>;
+    <span class="kw">while</span>(x &gt; <span class="dv">0</span>) {
+        <span class="kw">while</span>(y &gt; <span class="dv">0</span>) {
+            _sum += c[x][y];
+            y -= lowbit(y);
+        }
+        x -= lowbit(x);
+    }
+    <span class="kw">return</span> _sum;
+}
+
+<span class="co">/**</span>
+ * 查询(x1, y1)与(x2, y2)范围内的和
+ */
+<span class="dt">int</span> query_range(x1, y1, x2, y2) {
+    <span class="kw">return</span> query_sum(x2, y2) + query_sum(x1<span class="dv">-1</span>, y1<span class="dv">-1</span>) -
+            query_sum(x1<span class="dv">-1</span>, y2) - query_sum(x2, y1<span class="dv">-1</span>);
+}</code></pre>
+<h2 id="区间修改单点查询">区间修改单点查询</h2>
+<p>线段树也可以用于区间修改单点值查询的场合。</p>
+<p>在这种模型中，数组<code>C</code>的含义有所不同。<code>c[i]</code>用来表示到目前为止<code>a[1...i]</code>共被整体加了多少。此时，<code>a[i]</code>的值为<code>c[i...n]</code>之和。</p>
+<p>对区间[x, y]的修改可以变换为对区间[1, x]和区间[1, y]的修改。具体代码实现如下：</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="co">/**</span>
+<span class="er"> * 将[1, x]位置的值增加delta。</span>
+ */
+<span class="dt">void</span> change(<span class="dt">int</span> k, <span class="dt">int</span> delta)
+{
+    <span class="kw">while</span>(k &gt; <span class="dv">0</span>) {
+        c[k] += delta;
+        k -= lowbit(k);
+    }
+}
+
+<span class="co">/**</span>
+ * 将[x, y]区间的所有值增加delta
+ */
+<span class="dt">void</span> chang(<span class="dt">int</span> x, <span class="dt">int</span> y, <span class="dt">int</span> delta) {
+    <span class="kw">if</span>(x &gt; <span class="dv">1</span>) {
+        change(x<span class="dv">-1</span>, -delta);
+    }
+    change(y, delta);
+}
+
+<span class="co">/**</span>
+ * 求解原序列k处的值
+ */
+<span class="dt">void</span> query_value(<span class="dt">int</span> k) {
+    <span class="dt">int</span> _value = <span class="dv">0</span>;
+    <span class="kw">while</span>(k &lt;= n) {
+        _value += c[i];
+        k += lowbit(k);
+    }
+    <span class="kw">return</span> _value;
+}</code></pre>
+<p>这样的区间修改单点查询的模型同样可以用于多维情形。</p>
+<h2 id="区间修改区间查询">区间修改区间查询</h2>
+<p>这种情形需要两个辅助数组。<code>c[i]</code>用来记录<code>a[1...n]</code>共被整体加了多少次，<code>d[i]</code>用来记录<code>a[1...n]</code>到目前为止共被整体加了多少的总和。也即<code>d[i]=a[i]*i</code>。</p>
+<p>代码实现如下：</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">void</span> change_c(<span class="dt">int</span> k, <span class="dt">int</span> delta) { <span class="co">// change c[].</span>
+    <span class="kw">while</span>(k &gt; <span class="dv">0</span>) {
+        c[k] += delta;
+        k -= lowbit(k);
+    }
+}
+
+<span class="dt">void</span> change_d(<span class="dt">int</span> k, <span class="dt">int</span> delta) { <span class="co">// change d[].</span>
+    <span class="dt">int</span> tmp = k;
+    <span class="kw">while</span>(k &lt;= n) {
+        d[k] += tmp * delta; <span class="co">// 总和</span>
+        k += lowbit(k);
+    }
+}
+
+<span class="dt">void</span> sum_c(<span class="dt">int</span> k) {
+    <span class="dt">int</span> _sum = <span class="dv">0</span>;
+    <span class="kw">while</span>(k &lt;= n) {
+        _sum += c[k];
+        k += lowbit(k);
+    }
+    <span class="kw">return</span> _sum;
+}
+
+<span class="dt">void</span> sum_d(<span class="dt">int</span> k) {
+    <span class="dt">int</span> _sum = <span class="dv">0</span>;
+    <span class="kw">while</span>(k &gt; <span class="dv">0</span>) {
+        _sum += d[k];
+        k -= lowbit(k);
+    }
+    <span class="kw">return</span> _sum;
+}
+
+<span class="dt">void</span> change(<span class="dt">int</span> x, <span class="dt">int</span> y, <span class="dt">int</span> delta) {
+    change_c(y, delta); change_d(y, delta);
+    <span class="kw">if</span>(x &gt; <span class="dv">1</span>) {
+        change_c(x<span class="dv">-1</span>, -delta); change_d(x<span class="dv">-1</span>, -delta);
+    }
+}
+
+<span class="dt">void</span> query_sum(<span class="dt">int</span> k) {
+    <span class="kw">if</span>(k) {
+        <span class="kw">return</span> sum_c(k)*k + sum_d(k<span class="dv">-1</span>);
+    }
+    <span class="kw">else</span> {
+        <span class="kw">return</span> <span class="dv">0</span>;
+    }
+}
+
+<span class="dt">void</span> query_range(<span class="dt">int</span> x, <span class="dt">int</span> y) {
+    <span class="kw">return</span> query_sum(y)-query_sum(x<span class="dv">-1</span>);
+}</code></pre>
+<h2 id="与线段树的对比">与线段树的对比</h2>
+<h3 id="优势">优势</h3>
+<p>相对于使用线段树进行区间和动态查询，树状数组有如下优势：</p>
+<ol style="list-style-type: decimal">
+<li>空间复杂度降低；</li>
+<li>编程复杂度降低；</li>
+<li>无递归操作，栈空间占用小；</li>
+<li>在时间复杂度上，相对于线段树常数要小一些。</li>
+</ol>
+<h3 id="局限">局限</h3>
+<p>能用树状数组实现的，都能用线段树实现，反之并不成立。</p>
+<h2 id="参考">参考</h2>
+<ol style="list-style-type: decimal">
+<li><a href="http://baike.baidu.com/view/1420784.htm">树状数组，百度百科</a></li>
+</ol>

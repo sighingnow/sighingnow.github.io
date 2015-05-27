@@ -1,0 +1,112 @@
+---
+title: 巧用异或(XOR)运算
+author: He Tao
+date: 2015-02-09
+tag: Algorithm
+category: Algorithm
+layout: post
+---
+
+<p>异或(Exclusive or, XOR)是一种逻辑运算，在一些情境下，巧用异或运算能够很高效地解决问题。</p>
+<h2 id="异或运算的定义">异或运算的定义</h2>
+<p>异或运算的符号是<code>^</code>，其定义如下：</p>
+<pre><code>a xor b = (a &amp; ^b) | (^a &amp; b)</code></pre>
+<p>真值表：</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">a</th>
+<th align="center">b</th>
+<th align="center">a xor b</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+<!--more-->
+<h2 id="应用情境">应用情境</h2>
+<h3 id="基础问题">基础问题</h3>
+<p>首先考虑下述问题：</p>
+<p>一组整数，除了一个只出现一次以外，其他每个整数都恰好出现两次，寻找那个特殊的整数。</p>
+<p>最容易想到的方法是排序后再遍历一趟数组，便可以得到这个唯一的只出现一次的整数。算法实现如下：</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="kw">def</span> single_number(numbers):
+    tmp = numbers.sort()
+    <span class="kw">for</span> i in <span class="dt">range</span>(tmp.<span class="ot">__len__</span>()-<span class="dv">1</span>):
+        <span class="kw">if</span> tmp[i] != tmp[i<span class="dv">+1</span>]:
+            <span class="kw">return</span> tmp[<span class="dv">0</span>] <span class="kw">if</span> i == <span class="dv">0</span> <span class="kw">else</span> tmp[i<span class="dv">+1</span>]</code></pre>
+<p>此算法的时间复杂度取决于采用的排序算法的时间复杂度。</p>
+<p>进一步思考不难想到，可以用哈希算法来解决这一问题。具体做法是每遍历到一个数，如果该数在哈希表中存在，就从哈希表中删除该数，否则将该数加入到哈希表中。这一算法实现如下：</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="kw">def</span> single_number(numbers):
+    m = {}
+    <span class="kw">for</span> n in numbers:
+        <span class="kw">if</span> n in m:
+            m.pop(n)
+        <span class="kw">else</span>:
+            m[n] = <span class="ot">True</span>
+    <span class="kw">return</span> <span class="dt">list</span>(m)[<span class="dv">0</span>]</code></pre>
+<p>由于哈希表的时间复杂度可以认为是O(1)的，因此，可以在O(n)的时间内求出整数序列中仅仅出现一次的元素。</p>
+<p>再进一步思考，可以利用异或运算的性质来解决这个问题。相同元素异或的值为0，任意值与0异或都得原值。具体实现如下：</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="kw">def</span> single_number(numbers):
+    tmp = <span class="dv">0</span>
+    <span class="kw">for</span> n in numbers:
+        tmp ^= n
+    <span class="kw">return</span> tmp</code></pre>
+<p>利用异或的性质来解决这一问题，即简便又高效，是一个非常好的算法。</p>
+<h3 id="扩展">扩展</h3>
+<p>接下来，思考这样一个问题：</p>
+<p>一组整数，除了一个只出现一次以外，其他每个整数都恰好出现三次，寻找那个特殊的整数。</p>
+<p>当题目条件变为每个整数都出现三次，排序的解法和哈希表的解法仍然试用，且实现方式和算法的复杂度都不变。此处不再赘述。</p>
+<p>思考，在此条件下，这个问题能否仍然利用异或运算的性质来解决吗？答案是肯定的。</p>
+<p>对于32位的整数，显然有如下结论：所有数每一位的和模3的结果必定为0或1，并且，该值肯定为序列中仅仅出现一次的那个数该位上的值(0或1)。于是，这个问题便可以这样解决：分别求出仅仅出现一次的数的每一位的值，然后通过或运算连在一起即可。</p>
+<p>上述算法也不难实现：</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="kw">def</span> single_number(numbers):
+    number = <span class="dv">0</span>
+    <span class="kw">for</span> i in <span class="dt">range</span>(<span class="dv">32</span>):
+        value, mask = <span class="dv">0</span>, <span class="dv">1</span> &lt;&lt; i
+        <span class="kw">for</span> n in numbers:
+            value += (<span class="dv">0</span> <span class="kw">if</span> mask &amp; n == <span class="dv">0</span> <span class="kw">else</span> <span class="dv">1</span>)
+        number |= (value % <span class="dv">3</span>) &lt;&lt; i
+    <span class="kw">return</span> number</code></pre>
+<h3 id="推广到一半情形">推广到一半情形</h3>
+<p>推广到更一般的情形：</p>
+<p>一组整数，除了一个只出现一次以外，其他每个整数都恰好出现<strong>n次</strong>，寻找那个特殊的整数。</p>
+<p>不难想到，对序列中每一个数的某一位上的值求和，再模n，得到的余数便是仅仅出现一次的那个数该位上的值。这一方法可以灵活、高效地解决这一类问题。</p>
+<h3 id="算法修正">算法修正</h3>
+<p>然而经过测试，发现上述算法有一个缺陷：如果最终仅仅出现一次的数是一个负数，那么返回的将是该数的补码所对应的无符号整数。这显然不是我们想要的结果，因此，需要进一步根据结果的特点(最高二进制位的值是否为1)来进行补码的转换。也可以增加一个标志变量来记录负数的个数，以此来判断最终得到的是不是负数的二进制补码。</p>
+<h3 id="延伸思考">延伸思考</h3>
+<p>对于Python这一类的语言，这一问题并不便于解决。因此不得不思考更好的解决这一问题的方法。</p>
+<p>对于这一模型中 <code>n=3</code> 的情形，可以这样考虑：</p>
+<p>通过两个变量来保存异或运算过程中得到的信息。如果某个数出现了三次，便直接清除该数每一位上的信息。实现如下：</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="kw">def</span> single_number(numbers):
+    <span class="co">## a, b 分别为出现一次的标志位和积累标志位</span>
+    a, b = <span class="dv">0</span>, <span class="dv">0</span>
+    <span class="kw">for</span> n in numbers:
+        b |= a &amp; n <span class="co">## 是否为第二次出现</span>
+        a ^= n <span class="co">## 出现奇数次保留，否则抛弃</span>
+        t = a &amp; b <span class="co">## 第三次出现</span>
+        a, b = a &amp; ~t, b &amp; ~t <span class="co">## 抛弃出现三次的数的信息</span>
+    <span class="kw">return</span> a <span class="co">## 返回仅仅出现一次的数。</span></code></pre>
+<p>这样的算法便可以从一组数中找到仅仅出现一次的数。</p>
+<p>对于<code>n</code>为其他值得情形，分析起来更复杂，也更容易出错。在绝大多数问题中，哈希表的算法会更加适用。</p>
+<h2 id="总结">总结</h2>
+<p>二进制数字的每一位包含的信息很丰富也很费解，位运算特别是异或运算在特殊模型中能有意想不到的妙用。</p>
