@@ -21,11 +21,11 @@ layout: post
     length[i] = depth_0[i] + depth_1[i] - <span class="dv">1</span>
     longest = max({length[i]})</code></pre>
 <p>由此，得到结果。</p>
-<h2 id="三dfs求解">三、DFS求解</h2>
-<p>此题通过DFS求解的算法正确性基于以下性质：</p>
+<h2 id="三bfs求解">三、BFS求解</h2>
+<p>此题通过BFS求解的算法正确性基于以下性质：</p>
 <p>以树上的任意一点为根节点，距离根节点最远的点一定是树的最长路径的一个端点。</p>
 <p>证明：假设 s-t这条路径为树的最长路径，分以下两种情况证明： 1. 设u为s-t路径上的一点，结论显然成立，否则设搜到的最远点为T则<code>dis(u,T) &gt;dis(u,s)</code>且<code>dis(u,T)&gt;dis(u,t)</code>，则最长路不是s-t了，与假设矛盾。 2. 设u不为s-t路径上的点，首先明确，假如u走到了s-t路径上的一点，那么接下来的路径肯定都在s-t上了，而且终点为s或t，在1中已经证明过了。 所以现在又有两种情况了： 1：u走到了s-t路径上的某点，假设为X，最后肯定走到某个端点，假设是t ，则路径总长度为<code>dis(u,X)+dis(X,t)</code> 2：u走到最远点的路径u-T与s-t无交点，则<code>dis(u-T)&gt;dis(u,X)+dis(X,t)</code>显然，如果这个式子成立， 则<code>dis(u,T)+dis(s,X)+dis(u,X)&gt;dis(s,X)+dis(X,t)=dis(s,t)</code>最长路不是s-t矛盾。</p>
-<p>由此上性质，得到如下解法：从任意一点对树DFS，找出深度最大的点，该点即为树的最长路径的一个端点。再从该点出发，对树进行一次DFS，此时得到的深度最大的点，该点即为树的最长路径的另一个端点，此时改点的深度值即为树的最长路径的长度。</p>
+<p>由此上性质，得到如下解法：从任意一点对树BFS，找出深度最大的点，该点即为树的最长路径的一个端点。再从该点出发，对树进行一次BFS，此时得到的深度最大的点，该点即为树的最长路径的另一个端点，此时改点的深度值即为树的最长路径的长度。</p>
 <h2 id="四代码实现">四、代码实现</h2>
 <p><a href="http://hihocoder.com/problemset/problem/1050">HihoCoder 1050</a></p>
 <pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="ot">#include &lt;cstdio&gt;</span>

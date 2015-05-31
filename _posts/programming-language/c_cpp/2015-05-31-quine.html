@@ -1,0 +1,71 @@
+---
+title: 自产生程序(Quine)
+author: He Tao
+date: 2015-05-31
+tags: C/C++
+categories: 编程语言
+layout: post
+---
+
+<p>自产生程式（Quine），它以哲学家奎恩命名，指的是输出结果为程式自身源码的程式。</p>
+<p>Quine 的想法最初出现在 <em>Bratley, Paul and Jean Millo. “Computer Recreations; Self-Reproducing Automata”, Software — Practice &amp; Experience, Vol. 2 (1972). pp. 397-400 中。Bratley</em> 在看到已知的第一个 这样的程序以后对 Quine 产生了兴趣。这个程序于二十世纪六十年代由爱丁堡 大学的 Hamish Dewar 以 Atlas Autocode 语言写成。</p>
+<p>作为真正的 Quine ，有一些约定：程序不能接受输入或者是打开文件，因为那 样就可以直接输入源代码或者是把源代码文件直接打开再重新打印出来，就没有 什么意思了；同时，一个完全空白的程序(产生完全空白的输出，即没有输出)也 并不能称作 Quine。</p>
+<h2 id="c语言示例">C语言示例</h2>
+<p>例如上面这一段C语言程序，编译、运行后将会输出程序自身。</p>
+<pre class="sourceCode c"><code class="sourceCode c"><span class="dt">char</span>*s=<span class="st">&quot;char*s=%c%s%c;main(){printf(s,34,s,34);}&quot;</span>;main(){printf(s,<span class="dv">34</span>,s,<span class="dv">34</span>);}</code></pre>
+<p>简要分析一下上面这段代码。代码之所以能达到这样的效果，核心在于<code>printf(s,34,s,34)</code>。我们知道，<code>printf</code>需要将一个常量字符串作为自己的格式化字符串，此处使用的正是<code>s</code>。而<code>34</code>是<code>&quot;</code>的ASCII码值。因此，<code>printf(&quot;%c&quot;, 34)</code>表示输出一个引号。于是，这段代码运行的结果是程序自身。</p>
+<p>下面是另一个更加简短的例子：</p>
+<pre class="sourceCode c"><code class="sourceCode c">main(a){printf(a,<span class="dv">34</span>,a=<span class="st">&quot;main(a){printf(a,34,a=%c%s%c,34);}&quot;</span>,<span class="dv">34</span>);}</code></pre>
+<p>这段运用了这一原理：函数调用时参数压栈的顺序为<strong>从右至左</strong>。因此，在<code>printf</code>中先对<code>a</code>进行赋值操作，然后再将<code>a</code>作为格式化字符串。</p>
+<p>另一个使用宏来实现的例子：</p>
+<pre class="sourceCode c"><code class="sourceCode c"><span class="ot">#define q(k)main(){return!puts(#k&quot;\nq(&quot;#k&quot;)&quot;);}</span>
+q(#define q(k)main(){<span class="kw">return</span>!puts(#k<span class="st">&quot;</span><span class="ch">\n</span><span class="st">q(&quot;</span>#k<span class="st">&quot;)&quot;</span>);})</code></pre>
+<h2 id="实现原理">实现原理</h2>
+<pre><code>A=&quot;储存&lt;B&gt;&quot;
+B=&quot;对于输入&lt;M&gt;,而M作为一段程序码。
+   一、计算出q(&lt;M&gt;)
+   二、把计算结果和&lt;M&gt;结合起来
+   三、打印出所求出的结果&quot;</code></pre>
+<p>自产生程序的实际执行过程：</p>
+<ol style="list-style-type: decimal">
+<li>首先A先执行，会得到 &lt; B &gt; 。</li>
+<li>B开始执行，然后被输入&lt; B &gt;（即M=B）。</li>
+<li>B利用 &lt; B &gt; ,可以计算出 q(&lt; B &gt;)，并以此计算出 &lt; A &gt;。将 &lt; A &gt; 与 &lt; B &gt; 组合成一个新的程式的描述 &lt; SELF &gt; 。</li>
+<li>输出&lt; SELF &gt;。</li>
+</ol>
+<h2 id="输出注释">输出注释</h2>
+<p>有了上面的普适性的原理，不难构造一个能够输出注释的自产生程序。</p>
+<pre class="sourceCode c"><code class="sourceCode c"><span class="co">//Copyright (c) He Tao</span>
+<span class="ot">#include&lt;stdio.h&gt;</span>
+<span class="dt">void</span> main() {
+    <span class="dt">char</span> *s=<span class="st">&quot;//Copyright (c) He Tao%c#include&lt;stdio.h&gt;%cvoid main() {%c%cchar *s=%c%s%c;%c%cprintf(s,10,10,10,9,34,s,34,10,9,10);%c}&quot;</span>;
+    printf(s,<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">9</span>,<span class="dv">34</span>,s,<span class="dv">34</span>,<span class="dv">10</span>,<span class="dv">9</span>,<span class="dv">10</span>);
+}</code></pre>
+<h2 id="输出到文件">输出到文件</h2>
+<p>接下来，再构造一个能够产生自身源文件的C程序。</p>
+<pre><code>//Copyright (c) He Tao
+#include&lt;stdio.h&gt;
+main(){
+    FILE *fp=fopen(&quot;file.c&quot;,&quot;w&quot;);
+    char *s=&quot;//Copyright (c) He Tao%c#include&lt;stdio.h&gt;%cmain(){%c%cFILE *fp=fopen(%cfile.c%c,%cw%c);%c%cchar *s=%c%s%c;%c%cfprintf(fp,s,10,10,10,9,34,34,34,34,10,9,34,s,34,10,9,10,9,10,9,10);%c%cfclose(fp);%c%creturn 0;%c}&quot;;
+    fprintf(fp,s,10,10,10,9,34,34,34,34,10,9,34,s,34,10,9,10,9,10,9,10);
+    fclose(fp);
+    return 0;
+}</code></pre>
+<h2 id="自产生程序的利用">自产生程序的利用</h2>
+<p>由于自产生程序的独特性质，可以将其用来做一些很Hacker的事情。在<a href="http://dl.acm.org/author_page.cfm?id=81100436668&amp;coll=DL&amp;dl=ACM&amp;trk=0&amp;cfid=679238461&amp;cftoken=40350017">Ken Thompson</a>的大作<a href="http://dl.acm.org/citation.cfm?id=358210">Reflections on trusting trust</a>中，他详细讲述了如何利用这个原理，在编译器中插入后门，使得所有的使用这个编译器编译的Unix系统都带着一个后门，并且从源码中看不出任何问题。</p>
+<p>中科大的李博杰根据这一原理对LCC做了这样的<a href="https://github.com/bojieli/CompilerBackdoor">Hack</a>，并在LUG的活动中做了一次相关的<a href="http://zhan.renren.com/h5/entry/3602888498034871403">演讲</a>。</p>
+<h2 id="python实现">Python实现</h2>
+<pre class="sourceCode python"><code class="sourceCode python">x=<span class="st">&#39;y=&quot;x=&quot;+`x`+&quot;</span><span class="ch">\\</span><span class="st">n&quot;</span><span class="ch">\n</span><span class="st">print(y+x)&#39;</span>
+y=<span class="st">&quot;x=&quot;</span>+<span class="st">&#39;x&#39;</span>+<span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>
+<span class="dt">print</span>(y+x)</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">s = <span class="st">&#39;s = </span><span class="ot">%r</span><span class="ch">\n</span><span class="st">print(s</span><span class="ot">%%</span><span class="st">s)&#39;</span>
+<span class="dt">print</span>(s%s)</code></pre>
+<h2 id="参考">参考</h2>
+<ol style="list-style-type: decimal">
+<li><a href="http://en.wikipedia.org/wiki/Quine_(computing)">Quine (computing)</a></li>
+<li><a href="http://www.linuxfoundation.org/news-media/blogs/browse/2013/09/booting-self-signed-linux-kernel">booting a self-signed Linux kernel</a></li>
+<li></li>
+</ol>
+<p><strong>注</strong>: 所有代码均在gcc 4.8.1上通过测试。</p>
+<!----------------links---------------->

@@ -11,6 +11,7 @@ def build_pages(src, dst):
         elif f.endswith('.md'):
             if not os.path.exists(dst):
                 os.makedirs(dst)
+            print('build %s'%(srcpath))
             os.system('pandoc %s -o %s --mathjax --highlight-style=pygments -S'%(srcpath, dstpath[:-3]+'.html'))
             meta, text = '', ''
             with open(srcpath, 'r', encoding='utf-8') as fp:
@@ -22,4 +23,4 @@ def build_pages(src, dst):
                 fp.write(text)
 
 if __name__ == '__main__':
-    build_pages('pages', '_posts')
+    build_pages('_pages', '_posts')

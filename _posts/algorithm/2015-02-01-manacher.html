@@ -106,14 +106,11 @@ layout: post
 </ol>
 <p>原理：最长回文字串的字串也是回文的，因此可以将最长回文字串分解为一系列的子问题。需要额外的O(n<sup>2)的空间，时间复杂度也为O(n</sup>2)。</p>
 <p>定义 <code>P[i][j]=1</code>表示<code>S[i][j]</code>是回文字符串，若为0，则不是。那么，状态转移方程为：</p>
-<p><span class="math">\[ p[i][i] = 0 \]</span></p>
-<p><span class="math">\[ 
-p_{}=
-\begin{cases}
-p[i+1][j-1] &amp;\text{s[i]==s[j]}
-0           &amp;\text{s[i]!=s[j]}
-\end{cases}
-\]</span></p>
+<p><span class="math">\[ p_{i,j}=\begin{cases}
+0           &amp; {i==j}\text{(initial)}\\
+p[i+1][j-1] &amp; {s_i==s_j} \\
+0           &amp; {s_i!=s_j}
+\end{cases} \]</span></p>
 <p>算法实现：</p>
 <pre class="sourceCode cpp"><code class="sourceCode cpp">string findLongestPalindrome(string &amp;s) {
     <span class="dt">const</span> <span class="dt">int</span> length = s.size();

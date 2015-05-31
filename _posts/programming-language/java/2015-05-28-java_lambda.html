@@ -1,0 +1,290 @@
+---
+title: Java 8 Lambda 代码片段
+author: He Tao
+date: 2015-05-28
+category: 编程语言
+tags: Java
+layout: post
+---
+
+<p>Java 8引入了lambda表达式，可以用来完成很多函数式编程的目的。本文的内容主要用来积累一些有用的Lambda表达式的应用代码片段。</p>
+<p>可以使用下面语法实现Lambda表达式:</p>
+<pre><code>(params) -&gt; expression
+(params) -&gt; statement
+(params) -&gt; { statements }</code></pre>
+<p>如果方法并不改变任何方法参数，比如只是输出，那么可以简写如下：</p>
+<pre><code>() -&gt; System.out.println(&quot;Hello Lambda Expressions&quot;);</code></pre>
+<p>如果方法接受两个方法参数，如下：</p>
+<pre><code>(int even, int odd) -&gt; even + odd</code></pre>
+<h2 id="functional-interface">Functional Interface</h2>
+<p>Functional Interface指的是只有一个抽象方法的接口。在Java 8中，使用@FunctionalInterface注解来标记(注解是可选的)。可以使用lambda表达式来实例化接口的子类。</p>
+<p>实现Runnable线程，使用() -&gt; {}替代匿名类：</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">@FunctionalInterface</span>
+<span class="kw">interface</span> M {
+    <span class="kw">public</span> <span class="kw">abstract</span> <span class="dt">void</span> <span class="fu">A</span>();
+}
+<span class="co">// ...</span>
+M m = ()-&gt;System.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;a&quot;</span>);
+
+<span class="fu">@FunctionalInterface</span>
+<span class="kw">interface</span> N {
+    <span class="kw">public</span> <span class="kw">abstract</span> <span class="dt">void</span> <span class="fu">A</span>(String arg);
+}
+<span class="co">// ...</span>
+N n = (<span class="st">&quot;lambda expression&quot;</span>)-&gt;{
+    System.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;class N&quot;</span>); 
+    System.<span class="fu">out</span>.<span class="fu">println</span>(arg);
+};</code></pre>
+<p>一个更加实用的例子：使用Lambda表达式来创建匿名Runnable线程对象：</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="co">//Before Java 8:</span>
+<span class="kw">new</span> Thread(<span class="kw">new</span> Runnable() {
+    <span class="fu">@Override</span>
+    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">run</span>() {
+        System.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Before Java8&quot;</span>);
+    }
+}).<span class="fu">start</span>();
+
+<span class="co">//Java 8 way:</span>
+<span class="kw">new</span> Thread(() -&gt; System.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;In Java8!&quot;</span>)).<span class="fu">start</span>();</code></pre>
+<p>仿照Runnable的例子，也可以使用lambda表达式来实现事件处理。使用lambda表达式如下所示写出更好的事件侦听器的代码。</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="co">// Before Java 8:</span>
+JButton show =  <span class="kw">new</span> JButton(<span class="st">&quot;Show&quot;</span>);
+show.<span class="fu">addActionListener</span>(<span class="kw">new</span> ActionListener() {
+     <span class="fu">@Override</span>
+     <span class="kw">public</span> <span class="dt">void</span> <span class="fu">actionPerformed</span>(ActionEvent e) {
+           System.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;without lambda expression is boring&quot;</span>);
+        }
+     });
+
+<span class="co">// Java 8 way:</span>
+show.<span class="fu">addActionListener</span>((e) -&gt; {
+    System.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Action !! Lambda expressions Rocks&quot;</span>);
+});</code></pre>
+<p>使用lambda表达式实现排序：</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="co">// Old style.</span>
+List&lt;String&gt; l = <span class="kw">new</span> LinkedList&lt;&gt;();
+<span class="co">// ...</span>
+l.<span class="fu">sort</span>(<span class="kw">new</span> Comparator&lt;String&gt;() {
+    <span class="fu">@Override</span>
+    <span class="kw">public</span> <span class="dt">int</span> <span class="fu">compare</span>(String s1, String s2) {
+        <span class="co">//...</span>
+        <span class="kw">return</span> s1.<span class="fu">compareTo</span>(s2);
+    }
+})
+
+<span class="co">// Lambda style.</span>
+l.<span class="fu">sort</span>((String s1, String s2)-&gt;s1.<span class="fu">compareTo</span>(s2));</code></pre>
+<p>更复杂的情形中，也许需要进行多个属性的比较，此时，我们可以考虑使用<code>thenComparing</code>方法：</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">class</span> A {
+    <span class="dt">int</span> a, b;
+    <span class="fu">A</span>(<span class="dt">int</span> a, <span class="dt">int</span> b) {
+        <span class="kw">this</span>.<span class="fu">a</span> = a; <span class="kw">this</span>.<span class="fu">b</span> = b;
+    }
+}
+List&lt;A&gt; aList = Arrays.<span class="fu">asList</span>(<span class="kw">new</span> <span class="fu">A</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="kw">new</span> <span class="fu">A</span>(<span class="dv">3</span>, <span class="dv">4</span>), <span class="kw">new</span> <span class="fu">A</span>(<span class="dv">1</span>, <span class="dv">5</span>));
+    aList.<span class="fu">sort</span>(<span class="kw">new</span> Comparator&lt;A&gt;() {
+        <span class="fu">@Override</span>
+        <span class="kw">public</span> <span class="dt">int</span> <span class="fu">compare</span>(A o1, A o2) {
+            <span class="co">// TODO Auto-generated method stub</span>
+            <span class="kw">return</span> <span class="dv">0</span>;
+        }
+    }.<span class="fu">thenComparing</span>((o1, o2) -&gt; o1.<span class="fu">a</span> - o2.<span class="fu">a</span>)
+     .<span class="fu">thenComparing</span>((o1, o2) -&gt; o1.<span class="fu">b</span> - o2.<span class="fu">b</span>));
+
+<span class="co">// 或者写成：</span>
+<span class="kw">class</span> Utils {
+    <span class="dt">static</span> &lt;E&gt; Comparator&lt;E&gt; <span class="fu">compare</span>() {
+        <span class="kw">return</span> (e1, e2) -&gt; <span class="dv">0</span>;
+    }
+}
+aList.<span class="fu">sort</span>(Utils.&lt;A&gt; <span class="fu">compare</span>().<span class="fu">thenComparing</span>((o1, o2) -&gt; o1.<span class="fu">a</span> - o2.<span class="fu">a</span>)
+                              .<span class="fu">thenComparing</span>((o1, o2) -&gt; o1.<span class="fu">b</span> - o2.<span class="fu">b</span>));</code></pre>
+<p>在java 8中你可以使用Lambda表达式替代丑陋的匿名类。</p>
+<p><strong>需要注意的是，在Lambda表达式中使用的外部变量在效果上必须是<code>final</code>的。</strong></p>
+<blockquote>
+<p>Local variable a defined in an enclosing scope must be final or effectively final.</p>
+</blockquote>
+<p><strong>也就是说，这些变量是不可以被改变的，尽管在声明变量时不是必须使用<code>final</code>关键字。</strong></p>
+<h2 id="接口的默认方法">接口的默认方法</h2>
+<p>Java 8中，接口可以有默认方法。如下：</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">interface</span> A {
+    <span class="kw">default</span> <span class="dt">void</span> <span class="fu">funcA</span>() {
+        /...
+    }
+    <span class="dt">void</span> <span class="fu">funcB</span>();
+}</code></pre>
+<p>在实现接口时，只需要实现接口的非默认方法即可。但是，使用lambda表达式去实现一个<code>FunctionalInterface</code>的时候，不能调用接口的默认方法，否则会有编译错误。</p>
+<h2 id="遍历集合">遍历集合</h2>
+<p>使用Lambda表达式遍历List集合</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="co">//Prior Java 8 :</span>
+List features = Arrays.<span class="fu">asList</span>(<span class="st">&quot;Lambdas&quot;</span>, <span class="st">&quot;Default Method&quot;</span>, <span class="st">&quot;Stream API&quot;</span>, 
+        <span class="st">&quot;Date and Time API&quot;</span>);
+<span class="kw">for</span>(String feature : features) {
+    System.<span class="fu">out</span>.<span class="fu">println</span>(feature);
+}
+
+<span class="co">//In Java 8:</span>
+List features = Arrays.<span class="fu">asList</span>(<span class="st">&quot;Lambdas&quot;</span>, <span class="st">&quot;Default Method&quot;</span>, <span class="st">&quot;Stream API&quot;</span>,
+        <span class="st">&quot;Date and Time API&quot;</span>);
+features.<span class="fu">forEach</span>(n -&gt; System.<span class="fu">out</span>.<span class="fu">println</span>(n));
+
+<span class="co">// Even better use Method reference feature of Java 8</span>
+<span class="co">// method reference is denoted by :: (double colon) operator</span>
+<span class="co">// looks similar to score resolution operator of C++</span>
+features.<span class="fu">forEach</span>(System.<span class="fu">out</span>::println);</code></pre>
+<p>方法引用是使用两个冒号<code>::</code>这个操作符号。</p>
+<h2 id="lambda表达式和函数接口">Lambda表达式和函数接口</h2>
+<p>为了支持函数编程，Java 8加入了一个新的包java.util.function，其中有一个接口<code>java.util.function.Predicate</code>是支持Lambda函数编程：</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(args[]){
+    List languages = Arrays.<span class="fu">asList</span>(<span class="st">&quot;Java&quot;</span>, <span class="st">&quot;Scala&quot;</span>, <span class="st">&quot;C++&quot;</span>, <span class="st">&quot;Haskell&quot;</span>, <span class="st">&quot;Lisp&quot;</span>);
+
+    System.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Languages which starts with J :&quot;</span>);
+    <span class="fu">filter</span>(languages, (str)-&gt;str.<span class="fu">startsWith</span>(<span class="st">&quot;J&quot;</span>));
+
+    System.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Languages which ends with a &quot;</span>);
+    <span class="fu">filter</span>(languages, (str)-&gt;str.<span class="fu">endsWith</span>(<span class="st">&quot;a&quot;</span>));
+
+    System.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Print all languages :&quot;</span>);
+    <span class="fu">filter</span>(languages, (str)-&gt;<span class="kw">true</span>);
+
+    System.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Print no language : &quot;</span>);
+    <span class="fu">filter</span>(languages, (str)-&gt;<span class="kw">false</span>);
+
+    System.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Print language whose length greater than 4:&quot;</span>);
+    <span class="fu">filter</span>(languages, (str)-&gt;str.<span class="fu">length</span>() &gt; <span class="dv">4</span>);
+}
+
+<span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">filter</span>(List names, Predicate condition) {
+    <span class="kw">for</span>(String name: names) {
+        <span class="kw">if</span>(condition.<span class="fu">test</span>(name)) {
+            System.<span class="fu">out</span>.<span class="fu">println</span>(name + <span class="st">&quot; &quot;</span>);
+        }
+    }
+}</code></pre>
+<p>程序运行后的输出结果为：</p>
+<pre><code>Languages which starts with J :
+Java
+Languages which ends with a
+Java
+Scala
+Print all languages :
+Java
+Scala
+C++
+Haskell
+Lisp
+Print no language :
+Print language whose length greater than 4:
+Scala
+Haskell</code></pre>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="co">//Even better</span>
+<span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">filter</span>(List names, Predicate condition) {
+    names.<span class="fu">stream</span>()
+        .<span class="fu">filter</span>((name) -&gt; (condition.<span class="fu">test</span>(name)))
+        .<span class="fu">forEach</span>((name) -&gt; {System.<span class="fu">out</span>.<span class="fu">println</span>(name + <span class="st">&quot; &quot;</span>);
+    });
+}</code></pre>
+<p>从这个例子中可以看出，来自Stream API 的filter方法能够接受 Predicate参数, 能够允许测试多个条件。</p>
+<h2 id="复杂的结合predicate使用">复杂的结合Predicate使用</h2>
+<p><code>java.util.function.Predicate</code>提供<code>and()</code>, <code>or()</code>和<code>xor()</code>可以进行逻辑操作，比如为了得到一串字符串中以“J”开头的4个长度：</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="co">// We can even combine Predicate using and(), or() And xor() logical functions</span>
+<span class="co">// for example to find names, which starts with J and four letters long, you</span>
+<span class="co">// can pass combination of two Predicate</span>
+
+Predicate&lt;String&gt; startsWithJ = (n) -&gt; n.<span class="fu">startsWith</span>(<span class="st">&quot;J&quot;</span>);
+Predicate&lt;String&gt; fourLetterLong = (n) -&gt; n.<span class="fu">length</span>() == <span class="dv">4</span>;
+
+names.<span class="fu">stream</span>().<span class="fu">filter</span>(startsWithJ.<span class="fu">and</span>(fourLetterLong))
+              .<span class="fu">forEach</span>((n) -&gt; System.<span class="fu">out</span>.<span class="fu">print</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">Name, which starts with &#39;J&#39; </span>
+                        and four letter <span class="dt">long</span> is : <span class="st">&quot; + n));</span></code></pre>
+<p>其中<code>startsWithJ.and(fourLetterLong)</code>是使用了AND逻辑操作。</p>
+<h2 id="lambda实现map和reduce">Lambda实现Map和Reduce</h2>
+<p>最流行的函数编程概念是map，它允许你改变你的对象，在这个案例中，我们将<code>costBeforeTeax</code>集合中每个元素改变了增加一定的数值，我们将Lambda表达式 <code>x -&gt; x*x</code> 传送<code>map()</code>方法，这将应用到stream中所有元素。然后我们使用 <code>forEach()</code> 打印出这个集合的元素.</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="co">// applying 12% VAT on each purchase</span>
+<span class="co">// Without lambda expressions:</span>
+List costBeforeTax = Arrays.<span class="fu">asList</span>(<span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">300</span>, <span class="dv">400</span>, <span class="dv">500</span>);
+<span class="kw">for</span> (Integer cost : costBeforeTax) {
+    <span class="dt">double</span> price = cost + .<span class="dv">12</span>*cost;
+    System.<span class="fu">out</span>.<span class="fu">println</span>(price);
+}
+
+<span class="co">// With Lambda expression:</span>
+List costBeforeTax = Arrays.<span class="fu">asList</span>(<span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">300</span>, <span class="dv">400</span>, <span class="dv">500</span>);
+costBeforeTax.<span class="fu">stream</span>().<span class="fu">map</span>((cost) -&gt; cost + .<span class="dv">12</span>*cost)
+                      .<span class="fu">forEach</span>(System.<span class="fu">out</span>::println);</code></pre>
+<p>程序的输出为：</p>
+<pre><code>112.0
+224.0
+336.0
+448.0
+560.0</code></pre>
+<p><code>reduce()</code>是将集合中所有值结合进一个，Reduce类似SQL语句中的<code>sum()</code>, <code>avg()</code> 或<code>count()</code>, 如下面的例子：</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="co">// Applying 12% VAT on each purchase</span>
+<span class="co">// Old way:</span>
+List costBeforeTax = Arrays.<span class="fu">asList</span>(<span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">300</span>, <span class="dv">400</span>, <span class="dv">500</span>);
+<span class="dt">double</span> total = <span class="dv">0</span>;
+<span class="kw">for</span> (Integer cost : costBeforeTax) {
+    <span class="dt">double</span> price = cost + .<span class="dv">12</span>*cost;
+    total = total + price;
+}
+System.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Total : &quot;</span> + total);
+
+<span class="co">// New way:</span>
+List costBeforeTax = Arrays.<span class="fu">asList</span>(<span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">300</span>, <span class="dv">400</span>, <span class="dv">500</span>);
+<span class="dt">double</span> bill = costBeforeTax.<span class="fu">stream</span>().<span class="fu">map</span>((cost) -&gt; cost + .<span class="dv">12</span>*cost)
+                                    .<span class="fu">reduce</span>((sum, cost) -&gt; sum + cost)
+                                    .<span class="fu">get</span>();
+System.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Total : &quot;</span> + bill);</code></pre>
+<p>程序运行的输出为：</p>
+<pre><code>Total : 1680.0</code></pre>
+<h2 id="filter和filtering">filter和filtering</h2>
+<p>Filtering是对大型Collection操作的一个通用操作，Stream提供filter()方法，接受一个Predicate对象，意味着你能传送lambda表达式作为一个过滤逻辑进入这个方法。例如，通过filtering 创建一个字符串String的集合:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="co">// Create a List with String more than 2 characters</span>
+List&lt;String&gt; strList = Arrays.<span class="fu">asList</span>(<span class="st">&quot;abc&quot;</span>, <span class="st">&quot;&quot;</span>, <span class="st">&quot;bcd&quot;</span>, <span class="st">&quot;&quot;</span>, <span class="st">&quot;defg&quot;</span>, <span class="st">&quot;jk&quot;</span>);
+List&lt;String&gt; filtered = strList.<span class="fu">stream</span>().<span class="fu">filter</span>(x -&gt; x.<span class="fu">length</span>()&gt; <span class="dv">2</span>)
+                                        .<span class="fu">collect</span>(Collectors.<span class="fu">toList</span>());
+System.<span class="fu">out.printf</span>(<span class="st">&quot;Original List : </span><span class="ch">%s</span><span class="st">, filtered list : </span><span class="ch">%s</span><span class="st"> </span><span class="ch">%n</span><span class="st">&quot;</span>, 
+        strList, filtered);</code></pre>
+<p>程序运行后的输出为：</p>
+<pre><code>Original List : [abc, , bcd, , defg, jk], filtered list : [abc, bcd, defg]</code></pre>
+<h2 id="map与list的结合使用">map与List的结合使用</h2>
+<ol style="list-style-type: decimal">
+<li>对集合中每个元素应用函数。我们经常需要对集合中元素运用一定的功能，如表中的每个元素乘以或除以一个值等等.</li>
+</ol>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="co">// Convert String to Uppercase and join them using coma</span>
+List&lt;String&gt; G7 = Arrays.<span class="fu">asList</span>(<span class="st">&quot;USA&quot;</span>, <span class="st">&quot;Japan&quot;</span>, <span class="st">&quot;France&quot;</span>, <span class="st">&quot;Germany&quot;</span>, 
+                                <span class="st">&quot;Italy&quot;</span>, <span class="st">&quot;U.K.&quot;</span>,<span class="st">&quot;Canada&quot;</span>);
+String G7Countries = G7.<span class="fu">stream</span>().<span class="fu">map</span>(x -&gt; x.<span class="fu">toUpperCase</span>())
+                                .<span class="fu">collect</span>(Collectors.<span class="fu">joining</span>(<span class="st">&quot;, &quot;</span>));
+System.<span class="fu">out</span>.<span class="fu">println</span>(G7Countries);</code></pre>
+<p>Output :</p>
+<pre><code>USA, JAPAN, FRANCE, GERMANY, ITALY, U.K., CANADA</code></pre>
+<p>上面是将字符串转换为大写，然后使用逗号串起来。</p>
+<ol start="2" style="list-style-type: decimal">
+<li>通过复制不同的值创建一个子列表。使用Stream的distinct()方法过滤集合中重复元素。</li>
+</ol>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="co">// Create List of square of all distinct numbers</span>
+List&lt;Integer&gt; numbers = Arrays.<span class="fu">asList</span>(<span class="dv">9</span>, <span class="dv">10</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">7</span>, <span class="dv">3</span>, <span class="dv">4</span>);
+List&lt;Integer&gt; distinct = numbers.<span class="fu">stream</span>().<span class="fu">map</span>(i -&gt; i*i).<span class="fu">distinct</span>()
+                                         .<span class="fu">collect</span>(Collectors.<span class="fu">toList</span>());
+System.<span class="fu">out.printf</span>(<span class="st">&quot;Original List : </span><span class="ch">%s</span><span class="st">,</span><span class="ch">\n</span><span class="st">Square Without duplicates: </span><span class="ch">%s</span><span class="st"> </span><span class="ch">%n</span><span class="st">&quot;</span>,
+        numbers, distinct);</code></pre>
+<p>程序的输出为：</p>
+<pre><code>Original List : [9, 10, 3, 4, 7, 3, 4], 
+Square Without duplicates : [81, 100, 9, 16, 49]</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>计算List中的元素的最大值，最小值，总和及平均值</li>
+</ol>
+<pre><code>//Get count, min, max, sum, and average for numbers
+List&lt;Integer&gt; primes = Arrays.asList(2, 3, 5, 7, 11, 13, 17, 19, 23, 29);
+IntSummaryStatistics stats = primes.stream().mapToInt((x) -&gt; x)
+                                            .summaryStatistics();
+System.out.println(&quot;Highest prime number in List : &quot; + stats.getMax());
+System.out.println(&quot;Lowest prime number in List : &quot; + stats.getMin());
+System.out.println(&quot;Sum of all prime numbers : &quot; + stats.getSum());
+System.out.println(&quot;Average of all prime numbers : &quot; + stats.getAverage());</code></pre>
+<p>程序运行后的输出为:</p>
+<pre><code>Highest prime number in List : 29
+Lowest prime number in List : 2
+Sum of all prime numbers : 129
+Average of all prime numbers : 12.9</code></pre>
