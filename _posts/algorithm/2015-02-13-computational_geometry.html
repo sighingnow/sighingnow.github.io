@@ -59,3 +59,26 @@ layout: post
 <p>首先判断线段的两个端点是否在多边形内，然后判断线段是否与多边形的每条边都不相交。</p>
 <h2 id="求点到线段的最近点">8. 求点到线段的最近点</h2>
 <p>首先，从点出发向线段所在的直线做垂线，如果垂足在线段上，则返回垂足，否则返回距离垂足最近的端点。</p>
+<h2 id="凸包问题">9. 凸包问题</h2>
+<ol style="list-style-type: decimal">
+<li>卷包裹算法(Gift Wrapping)</li>
+</ol>
+<p>思路：尽量找在外侧的点。算法时间复杂度：O(HN)，其中，H为最终在凸包上的点的个数。</p>
+<ol start="2" style="list-style-type: decimal">
+<li>Graham Scan算法</li>
+</ol>
+<p>思路：先按照斜率排序，再朝着一个方向(顺时针或逆时针)栈扫描。</p>
+<ol start="3" style="list-style-type: decimal">
+<li>快速凸包算法(Quickhull Algorithm)</li>
+</ol>
+<p>思路：类似于快速排序，递归分治。</p>
+<h3 id="凸包问题的两个应用">凸包问题的两个应用</h3>
+<ol style="list-style-type: decimal">
+<li>平面最远点对</li>
+</ol>
+<p>思路：平面最远点对必然是凸包上的两个顶点。算法：旋转卡壳算法(Rotating Calipers Algorithm)。</p>
+<ol start="2" style="list-style-type: decimal">
+<li>最小矩形覆盖</li>
+</ol>
+<p>最小矩阵覆盖指的是用一个尽量小的矩形来覆盖一个平面上所有的点。具体思路：最小矩形的一条边和平面上点集的凸包共线。</p>
+<p>因此，找到凸包后，采用旋转卡壳算法找边到点的最小距离即可找到矩形的一条边，从而使得问题得以求解。</p>

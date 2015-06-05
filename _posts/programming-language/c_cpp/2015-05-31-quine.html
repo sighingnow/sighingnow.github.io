@@ -38,7 +38,7 @@ B=&quot;对于输入&lt;M&gt;,而M作为一段程序码。
 <pre class="sourceCode c"><code class="sourceCode c"><span class="co">//Copyright (c) He Tao</span>
 <span class="ot">#include&lt;stdio.h&gt;</span>
 <span class="dt">void</span> main() {
-    <span class="dt">char</span> *s=<span class="st">&quot;//Copyright (c) He Tao%c#include&lt;stdio.h&gt;%cvoid main() {%c%cchar *s=%c%s%c;%c%cprintf(s,10,10,10,9,34,s,34,10,9,10);%c}&quot;</span>;
+    <span class="dt">char</span> *s=<span class="st">&quot;//Copyright (c) He Tao%c#include&lt;stdio.h&gt;%cvoid main() { %c%cchar *s=%c%s%c;%c%cprintf(s,10,10,10,9,34,s,34,10,9,10);%c}&quot;</span>;
     printf(s,<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">9</span>,<span class="dv">34</span>,s,<span class="dv">34</span>,<span class="dv">10</span>,<span class="dv">9</span>,<span class="dv">10</span>);
 }</code></pre>
 <h2 id="输出到文件">输出到文件</h2>
@@ -47,7 +47,7 @@ B=&quot;对于输入&lt;M&gt;,而M作为一段程序码。
 #include&lt;stdio.h&gt;
 main(){
     FILE *fp=fopen(&quot;file.c&quot;,&quot;w&quot;);
-    char *s=&quot;//Copyright (c) He Tao%c#include&lt;stdio.h&gt;%cmain(){%c%cFILE *fp=fopen(%cfile.c%c,%cw%c);%c%cchar *s=%c%s%c;%c%cfprintf(fp,s,10,10,10,9,34,34,34,34,10,9,34,s,34,10,9,10,9,10,9,10);%c%cfclose(fp);%c%creturn 0;%c}&quot;;
+    char *s=&quot;//Copyright (c) He Tao%c#include&lt;stdio.h&gt;%cmain(){ %c%cFILE *fp=fopen(%cfile.c%c,%cw%c);%c%cchar *s=%c%s%c;%c%cfprintf(fp,s,10,10,10,9,34,34,34,34,10,9,34,s,34,10,9,10,9,10,9,10);%c%cfclose(fp);%c%creturn 0;%c}&quot;;
     fprintf(fp,s,10,10,10,9,34,34,34,34,10,9,34,s,34,10,9,10,9,10,9,10);
     fclose(fp);
     return 0;
