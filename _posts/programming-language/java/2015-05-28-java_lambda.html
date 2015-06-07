@@ -134,7 +134,7 @@ features.<span class="fu">forEach</span>(n -&gt; System.<span class="fu">out</sp
 features.<span class="fu">forEach</span>(System.<span class="fu">out</span>::println);</code></pre>
 <p>方法引用是使用两个冒号<code>::</code>这个操作符号。</p>
 <h2 id="lambda表达式和函数接口">Lambda表达式和函数接口</h2>
-<p>为了支持函数编程，Java 8加入了一个新的包java.util.function，其中有一个接口<code>java.util.function.Predicate</code>是支持Lambda函数编程：</p>
+<p>为了支持函数编程，Java 8加入了一个新的包<code>java.util.function</code>，其中有一个接口<code>java.util.function.Predicate</code>是支持Lambda函数编程：</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(args[]){
     List languages = Arrays.<span class="fu">asList</span>(<span class="st">&quot;Java&quot;</span>, <span class="st">&quot;Scala&quot;</span>, <span class="st">&quot;C++&quot;</span>, <span class="st">&quot;Haskell&quot;</span>, <span class="st">&quot;Lisp&quot;</span>);
 
@@ -238,7 +238,7 @@ System.<span class="fu">out</span>.<span class="fu">println</span>(<span class="
 <p>程序运行的输出为：</p>
 <pre><code>Total : 1680.0</code></pre>
 <h2 id="filter和filtering">filter和filtering</h2>
-<p>Filtering是对大型Collection操作的一个通用操作，Stream提供filter()方法，接受一个Predicate对象，意味着你能传送lambda表达式作为一个过滤逻辑进入这个方法。例如，通过filtering 创建一个字符串String的集合:</p>
+<p>Filtering是对大型Collection操作的一个通用操作，Stream提供<code>filter()</code>方法，接受一个Predicate对象，意味着你能传送lambda表达式作为一个过滤逻辑进入这个方法。例如，通过filtering 创建一个字符串<code>String</code>的集合:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="co">// Create a List with String more than 2 characters</span>
 List&lt;String&gt; strList = Arrays.<span class="fu">asList</span>(<span class="st">&quot;abc&quot;</span>, <span class="st">&quot;&quot;</span>, <span class="st">&quot;bcd&quot;</span>, <span class="st">&quot;&quot;</span>, <span class="st">&quot;defg&quot;</span>, <span class="st">&quot;jk&quot;</span>);
 List&lt;String&gt; filtered = strList.<span class="fu">stream</span>().<span class="fu">filter</span>(x -&gt; x.<span class="fu">length</span>()&gt; <span class="dv">2</span>)
@@ -275,14 +275,14 @@ Square Without duplicates : [81, 100, 9, 16, 49]</code></pre>
 <ol start="3" style="list-style-type: decimal">
 <li>计算List中的元素的最大值，最小值，总和及平均值</li>
 </ol>
-<pre><code>//Get count, min, max, sum, and average for numbers
-List&lt;Integer&gt; primes = Arrays.asList(2, 3, 5, 7, 11, 13, 17, 19, 23, 29);
-IntSummaryStatistics stats = primes.stream().mapToInt((x) -&gt; x)
-                                            .summaryStatistics();
-System.out.println(&quot;Highest prime number in List : &quot; + stats.getMax());
-System.out.println(&quot;Lowest prime number in List : &quot; + stats.getMin());
-System.out.println(&quot;Sum of all prime numbers : &quot; + stats.getSum());
-System.out.println(&quot;Average of all prime numbers : &quot; + stats.getAverage());</code></pre>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="co">//Get count, min, max, sum, and average for numbers</span>
+List&lt;Integer&gt; primes = Arrays.<span class="fu">asList</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">11</span>, <span class="dv">13</span>, <span class="dv">17</span>, <span class="dv">19</span>, <span class="dv">23</span>, <span class="dv">29</span>);
+IntSummaryStatistics stats = primes.<span class="fu">stream</span>().<span class="fu">mapToInt</span>((x) -&gt; x)
+                                            .<span class="fu">summaryStatistics</span>();
+System.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Highest prime number in List : &quot;</span> + stats.<span class="fu">getMax</span>());
+System.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Lowest prime number in List : &quot;</span> + stats.<span class="fu">getMin</span>());
+System.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Sum of all prime numbers : &quot;</span> + stats.<span class="fu">getSum</span>());
+System.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Average of all prime numbers : &quot;</span> + stats.<span class="fu">getAverage</span>());</code></pre>
 <p>程序运行后的输出为:</p>
 <pre><code>Highest prime number in List : 29
 Lowest prime number in List : 2

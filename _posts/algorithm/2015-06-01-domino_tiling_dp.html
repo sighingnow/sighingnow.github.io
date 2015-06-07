@@ -1,0 +1,101 @@
+---
+title: 一类棋盘覆盖问题的动态规划求解
+date: 2015-06-01
+author: He Tao
+tags: Algorithm
+categories: Algorithm
+layout: post
+---
+
+<p>棋盘覆盖问题是算法研究和实践中一个很有意思的问题。在解决这一类问题时，往往需要用到动态规划、状态压缩、二进制拆分、快速幂等多种算法技巧。</p>
+<h2 id="x2---2xn">1x2 - 2xn</h2>
+<p>首先考虑一个较为简单的问题，使用1x2的骨牌覆盖2xn的棋盘，问：有多少种方案。</p>
+<p>分析，注意到骨牌面积(1x2)和棋盘面积(2xn)之间的关系，只有以下两种放置方法：</p>
+<div class="figure">
+<img src="{{%20site.url%20}}/resource/domino_tiling_dp/pic_1.png" alt="放置示意图" />
+<p class="caption">放置示意图</p>
+</div>
+<p>显然，不难得到这样的结论：<span class="math">\[f(n) = f(n-1) + f(n-2) \]</span></p>
+<p>这便是Fibonacci数列的递推公式。</p>
+<h2 id="x2---3xn">1x2 - 3xn</h2>
+<p>下来我们考虑使用1x2的骨牌覆盖3xn的棋盘的问题。根据上一题中我们的经验不难想到可以从上一行的状态来推出当前行的状态，从而根据状态转移和状态量来得到最终解的个数。对于3xn的棋盘，我们应该怎样处理呢？</p>
+<p>当有三列时，当第i-1行摆好后，第i行可能会出现如下图所示的八种状态：</p>
+<div class="figure">
+<img src="{{%20site.url%20}}/resource/domino_tiling_dp/pic_2.png" alt="八种状态" />
+<p class="caption">八种状态</p>
+</div>
+<p>考虑这八种状态有分别会如下影响下一行的状态，拿状态 1 举例，当出现状态 1 的局面时，有以下两种放法：</p>
+<div class="figure">
+<img src="{{%20site.url%20}}/resource/domino_tiling_dp/pic_3.png" alt="方案 1" />
+<p class="caption">方案 1</p>
+</div>
+<div class="figure">
+<img src="{{%20site.url%20}}/resource/domino_tiling_dp/pic_4.png" alt="方案 2" />
+<p class="caption">方案 2</p>
+</div>
+<p>对于第一种方案，对于第i行状态1，我们在第i+1行竖放两块骨牌之后便能到达状态6。对于第二种方案，相当于第i行的状态1变成了第i行的状态7，本质上并没有改变第i+1行的状态，而对于第i行的状态7，不做任何动作便能够转移到第i+1行的状态0。通过枚举八种状态的转移，可以得到如下图所示的状态转移矩阵：</p>
+<div class="figure">
+<img src="{{%20site.url%20}}/resource/domino_tiling_dp/pic_5.png" alt="状态转移矩阵" />
+<p class="caption">状态转移矩阵</p>
+</div>
+<p>其中，第i行第j列的位置的值表示两行之间从状态i变为状态j的方案数。之后，便可以通过矩阵乘法来递推最后一行的状态的方案数了。而由于第0行的状态肯定是7，因此，初始状态向量为(0, 0, 0, 0, 0, 0, 1)。最终只用统计第n行状态为7的方案数即可。</p>
+<p>对于3xn的情况，还有另外一种思考方式：</p>
+<p>n为奇数肯定为0，n为偶数，每次都是加两列，我们把两列看为一列，如果这一列与前面分开就只有三种方法即<code>3*a[n-2]</code>,如果这一列不与前面的分开，那么不可分解矩形都只有两种情况所以为<code>2*(a[n-4]+a[n-6]+...+a[0])</code>。化简即为<code>a[n]=4*a[n-2]-a[n-4]</code>。</p>
+<h2 id="x2---kxn">1x2 - kxn</h2>
+<p>考虑更加普适性的问题，如果要覆盖一个kxn的棋盘，又应该如何去推导状态转移矩阵呢？</p>
+<p>假设当第i行的状态为x，第i-1行的状态为y，那么有如下三种防止策略：</p>
+<ol style="list-style-type: decimal">
+<li>第i行不放置，则前一行必须有放置的骨牌。x对应二进制位为0，y对应二进制位为1。</li>
+<li>第i行竖放骨牌，则前一行必须为空。x对应二进制位为1，y对应二进制位为0。</li>
+<li>第i行横向骨牌，则前一行必须两个位置均有骨牌，否则会产生空位。x对应二进制位为1，y对应二进制位为1。</li>
+</ol>
+<div class="figure">
+<img src="{{%20site.url%20}}/resource/domino_tiling_dp/pic_6.png" alt="三种策略" />
+<p class="caption">三种策略</p>
+</div>
+<p>这三种策略分别对应一下三种状态转移：</p>
+<ol style="list-style-type: decimal">
+<li>第i行不放置：<code>new_x = x &lt;&lt; 1</code>, <code>new_y = (y &lt;&lt; 1) + 1</code>; 列数+1</li>
+<li>第i行竖放骨牌：<code>new_x = (x &lt;&lt; 1) + 1</code>, <code>new_y = y &lt;&lt; 1</code>; 列数+1</li>
+<li>第i行横向骨牌：<code>new x = (x &lt;&lt; 2) + 3</code>, <code>new_y = (y &lt;&lt; 2) + 3</code>; 列数+2</li>
+</ol>
+<p>根据上述分析，只需要进行dfs便可以找到状态转移矩阵：</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> n, k, mat[<span class="dv">1</span>&lt;&lt;<span class="dv">7</span>][<span class="dv">1</span>&lt;&lt;<span class="dv">7</span>];
+<span class="dt">void</span> dfs(<span class="dt">int</span> column, <span class="dt">int</span> now, <span class="dt">int</span> pre) {
+    <span class="kw">if</span>(column &gt; k) { <span class="kw">return</span>; }
+    <span class="kw">if</span>(column == k) { mat[pre][now]++; <span class="kw">return</span>; }
+    dfs(column<span class="dv">+1</span>, (now&lt;&lt;<span class="dv">1</span>), (pre&lt;&lt;<span class="dv">1</span>)|<span class="dv">1</span>);
+    dfs(column<span class="dv">+1</span>, (now&lt;&lt;<span class="dv">1</span>)|<span class="dv">1</span>, (pre&lt;&lt;<span class="dv">1</span>));
+    dfs(column<span class="dv">+2</span>, (now&lt;&lt;<span class="dv">2</span>)|<span class="dv">3</span>, (pre&lt;&lt;<span class="dv">2</span>)|<span class="dv">3</span>);
+}</code></pre>
+<p>当k较大时，便无法使用状态转移矩阵乘法的方法来解决问题，此时，需要存下状态转移矩阵中所有的边，然后递推。例如<a href="http://poj.org/problem?id=2411">POJ 2411: Mondriaan’s Dream</a>。对应的DFS过程改成：</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">const</span> <span class="dt">int</span> maxh = <span class="dv">11</span>, maxw = <span class="dv">11</span>;
+<span class="dt">int</span> h, w, edge[(<span class="dv">1</span>&lt;&lt;maxw)*maxw<span class="dv">+1</span>][<span class="dv">2</span>], top = <span class="dv">0</span>;
+<span class="dt">void</span> dfs(<span class="dt">int</span> l, <span class="dt">int</span> now, <span class="dt">int</span> pre) {
+    <span class="kw">if</span>(l &gt; w) { <span class="kw">return</span>; }
+    <span class="kw">if</span>(l == w) { edge[top][<span class="dv">0</span>] = pre; edge[top++][<span class="dv">1</span>] = now; <span class="kw">return</span>; }
+    dfs(l<span class="dv">+1</span>, now&lt;&lt;<span class="dv">1</span>, (pre&lt;&lt;<span class="dv">1</span>)|<span class="dv">1</span>);
+    dfs(l<span class="dv">+1</span>, (now&lt;&lt;<span class="dv">1</span>)|<span class="dv">1</span>, pre&lt;&lt;<span class="dv">1</span>);
+    dfs(l<span class="dv">+2</span>, (now&lt;&lt;<span class="dv">2</span>)|<span class="dv">3</span>, (pre&lt;&lt;<span class="dv">2</span>)|<span class="dv">3</span>);
+}</code></pre>
+<p>此处应当<strong>注意</strong>存边的二维数组的体积：<code>(1&lt;&lt;maxw)*maxw</code>。</p>
+<p>然后就是简单的递推了：</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">long</span> <span class="dt">long</span> dp[maxh<span class="dv">+1</span>][<span class="dv">1</span>&lt;&lt;maxw] = {{<span class="dv">0</span>}};
+dp[<span class="dv">0</span>][(<span class="dv">1</span>&lt;&lt;w)<span class="dv">-1</span>] = <span class="dv">1</span>;
+<span class="kw">for</span>(<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; h; ++i) {
+    <span class="kw">for</span>(<span class="dt">int</span> j = <span class="dv">0</span>; j &lt; top; ++j) {
+        dp[i<span class="dv">+1</span>][edge[j][<span class="dv">1</span>]] += dp[i][edge[j][<span class="dv">0</span>]];
+    }
+}
+<span class="kw">return</span> dp[h%<span class="dv">2</span>][(<span class="dv">1</span>&lt;&lt;w)<span class="dv">-1</span>];</code></pre>
+<p>还可以进一步压缩空间：</p>
+<pre><code>long long dp[2][1&lt;&lt;maxw] = {{0}};
+dp[0][(1&lt;&lt;w)-1] = 1;
+for(int i = 0; i &lt; h; ++i) {
+    memset(dp[(i+1)%2], 0x00, sizeof(dp[0][0])*(1&lt;&lt;maxw));
+    for(int j = 0; j &lt; top; ++j) {
+        dp[(i+1)%2][edge[j][1]] += dp[i%2][edge[j][0]];
+    }
+}
+return dp[h%2][(1&lt;&lt;w)-1];</code></pre>
+<!------------------links----------------------->

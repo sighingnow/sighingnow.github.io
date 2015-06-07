@@ -183,7 +183,7 @@ features.forEach(System.out::println);
 Lambda表达式和函数接口
 ----------------------
 
-为了支持函数编程，Java 8加入了一个新的包java.util.function，其中有一个接口`java.util.function.Predicate`是支持Lambda函数编程：
+为了支持函数编程，Java 8加入了一个新的包`java.util.function`，其中有一个接口`java.util.function.Predicate`是支持Lambda函数编程：
 
 ```java
 public static void main(args[]){
@@ -320,7 +320,7 @@ System.out.println("Total : " + bill);
 filter和filtering
 -----------------
 
-Filtering是对大型Collection操作的一个通用操作，Stream提供filter()方法，接受一个Predicate对象，意味着你能传送lambda表达式作为一个过滤逻辑进入这个方法。例如，通过filtering 创建一个字符串String的集合:
+Filtering是对大型Collection操作的一个通用操作，Stream提供`filter()`方法，接受一个Predicate对象，意味着你能传送lambda表达式作为一个过滤逻辑进入这个方法。例如，通过filtering 创建一个字符串`String`的集合:
 
 ```java
 // Create a List with String more than 2 characters
@@ -373,7 +373,7 @@ System.out.printf("Original List : %s,\nSquare Without duplicates: %s %n",
 
 3. 计算List中的元素的最大值，最小值，总和及平均值
 
-```
+```java
 //Get count, min, max, sum, and average for numbers
 List<Integer> primes = Arrays.asList(2, 3, 5, 7, 11, 13, 17, 19, 23, 29);
 IntSummaryStatistics stats = primes.stream().mapToInt((x) -> x)
