@@ -76,7 +76,9 @@ blockquote {
   font-style: normal !important; }
 
 header {
-  text-align: center; }
+  text-align: center; 
+  font-family: Consolas, monospace;
+}
 
 footer {
   width: 100%;
@@ -84,6 +86,7 @@ footer {
   line-height: 2em;
   margin: auto;
   padding-bottom: 30px;
+  font-family: Consolas, monospace;
   text-align: center; }
   footer * {
     color: #797979; }
@@ -340,6 +343,10 @@ code {
 pre > code {
   width: 100%;
   padding: 0;
+}
+
+div.block {
+  font-family: Consolas, monospace;
 }
 
 img {
