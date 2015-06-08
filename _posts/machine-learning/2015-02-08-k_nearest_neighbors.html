@@ -23,15 +23,15 @@ layout: post
 <p>很多时候，数据的某些特征与分类无关，如果将这些特征应用于KNN算法，可能会影响到分类的准确性，因此，需要先对数据进行分析，去除无关特征。</p>
 <p>如下例所示，通过散点图的方法，不难看出以下样本集中，不同特征对分类的影响是不同的。</p>
 <div class="figure">
-<img src="{{%20site.url%20}}/resource/k_nearest_neighbors/knn-dating-1.png" title="图1" alt="图1" />
+<img src="{{site.url}}/resource/k_nearest_neighbors/knn-dating-1.png" title="图1" alt="图1" />
 <p class="caption">图1</p>
 </div>
 <div class="figure">
-<img src="{{%20site.url%20}}/resource/k_nearest_neighbors/knn-dating-2.png" title="图2" alt="图2" />
+<img src="{{site.url}}/resource/k_nearest_neighbors/knn-dating-2.png" title="图2" alt="图2" />
 <p class="caption">图2</p>
 </div>
 <div class="figure">
-<img src="{{%20site.url%20}}/resource/k_nearest_neighbors/knn-dating-3.png" title="图3" alt="图3" />
+<img src="{{site.url}}/resource/k_nearest_neighbors/knn-dating-3.png" title="图3" alt="图3" />
 <p class="caption">图3</p>
 </div>
 <p>可见，选取不同的特征作为<code>x</code>，<code>y</code>轴时，数据集中各类的点分布是不同的。在数据分析阶段，除了以上使用的散点图，还可以使用相关性分析等方法进行数据特征分析。</p>
@@ -50,8 +50,8 @@ layout: post
 <p>在归一化处理时，还可以根据之前的分析，对不同的特征分量加上不同的权重，以提高分类的准确率。</p>
 <h2 id="附件">附件</h2>
 <ol style="list-style-type: decimal">
-<li><a href="{{%20site.url%20}}/resource/k_nearest_neighbors/dating.py">knn-dating</a> 测试用数据：<a href="{{%20site.url%20}}/resource/k_nearest_neighbors/dating.zip">dating.zip</a></li>
-<li><a href="{{%20site.url%20}}/resource/k_nearest_neighbors/handwriting.py">KNN 手写数字识别</a> 测试用数据：<a href="{{%20site.url%20}}/resource/k_nearest_neighbors/handwriting.zip">handwriting.zip</a></li>
+<li><a href="{{site.url}}/resource/k_nearest_neighbors/dating.py">knn-dating</a> 测试用数据：<a href="{{site.url}}/resource/k_nearest_neighbors/dating.zip">dating.zip</a></li>
+<li><a href="{{site.url}}/resource/k_nearest_neighbors/handwriting.py">KNN 手写数字识别</a> 测试用数据：<a href="{{site.url}}/resource/k_nearest_neighbors/handwriting.zip">handwriting.zip</a></li>
 </ol>
 <h2 id="参考">参考</h2>
 <ol style="list-style-type: decimal">

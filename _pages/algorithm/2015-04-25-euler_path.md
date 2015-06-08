@@ -135,7 +135,7 @@ int main(int argc, char** args) {
 
 (2). 注意欧拉路径不是欧拉环！忽略这一点在DFS是会出错，例如下图：假如题目中给出的边具有几下关系：
 
-![欧拉路径]({{ site.url }}/resource/euler_path/euler_path_1.png)
+![欧拉路径]({{site.url}}/resource/euler_path/euler_path_1.png)
 
 那么，从节点3开始DFS，先到节点2，再到节点1，就会陷入死循环！
 

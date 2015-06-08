@@ -12,7 +12,7 @@ layout: post
 <p>首先考虑一个较为简单的问题，使用1x2的骨牌覆盖2xn的棋盘，问：有多少种方案。</p>
 <p>分析，注意到骨牌面积(1x2)和棋盘面积(2xn)之间的关系，只有以下两种放置方法：</p>
 <div class="figure">
-<img src="{{%20site.url%20}}/resource/domino_tiling_dp/pic_1.png" alt="放置示意图" />
+<img src="{{site.url}}/resource/domino_tiling_dp/pic_1.png" alt="放置示意图" />
 <p class="caption">放置示意图</p>
 </div>
 <p>显然，不难得到这样的结论：<span class="math">\[f(n) = f(n-1) + f(n-2) \]</span></p>
@@ -21,21 +21,21 @@ layout: post
 <p>下来我们考虑使用1x2的骨牌覆盖3xn的棋盘的问题。根据上一题中我们的经验不难想到可以从上一行的状态来推出当前行的状态，从而根据状态转移和状态量来得到最终解的个数。对于3xn的棋盘，我们应该怎样处理呢？</p>
 <p>当有三列时，当第i-1行摆好后，第i行可能会出现如下图所示的八种状态：</p>
 <div class="figure">
-<img src="{{%20site.url%20}}/resource/domino_tiling_dp/pic_2.png" alt="八种状态" />
+<img src="{{site.url}}/resource/domino_tiling_dp/pic_2.png" alt="八种状态" />
 <p class="caption">八种状态</p>
 </div>
 <p>考虑这八种状态有分别会如下影响下一行的状态，拿状态 1 举例，当出现状态 1 的局面时，有以下两种放法：</p>
 <div class="figure">
-<img src="{{%20site.url%20}}/resource/domino_tiling_dp/pic_3.png" alt="方案 1" />
+<img src="{{site.url}}/resource/domino_tiling_dp/pic_3.png" alt="方案 1" />
 <p class="caption">方案 1</p>
 </div>
 <div class="figure">
-<img src="{{%20site.url%20}}/resource/domino_tiling_dp/pic_4.png" alt="方案 2" />
+<img src="{{site.url}}/resource/domino_tiling_dp/pic_4.png" alt="方案 2" />
 <p class="caption">方案 2</p>
 </div>
 <p>对于第一种方案，对于第i行状态1，我们在第i+1行竖放两块骨牌之后便能到达状态6。对于第二种方案，相当于第i行的状态1变成了第i行的状态7，本质上并没有改变第i+1行的状态，而对于第i行的状态7，不做任何动作便能够转移到第i+1行的状态0。通过枚举八种状态的转移，可以得到如下图所示的状态转移矩阵：</p>
 <div class="figure">
-<img src="{{%20site.url%20}}/resource/domino_tiling_dp/pic_5.png" alt="状态转移矩阵" />
+<img src="{{site.url}}/resource/domino_tiling_dp/pic_5.png" alt="状态转移矩阵" />
 <p class="caption">状态转移矩阵</p>
 </div>
 <p>其中，第i行第j列的位置的值表示两行之间从状态i变为状态j的方案数。之后，便可以通过矩阵乘法来递推最后一行的状态的方案数了。而由于第0行的状态肯定是7，因此，初始状态向量为(0, 0, 0, 0, 0, 0, 1)。最终只用统计第n行状态为7的方案数即可。</p>
@@ -50,7 +50,7 @@ layout: post
 <li>第i行横向骨牌，则前一行必须两个位置均有骨牌，否则会产生空位。x对应二进制位为1，y对应二进制位为1。</li>
 </ol>
 <div class="figure">
-<img src="{{%20site.url%20}}/resource/domino_tiling_dp/pic_6.png" alt="三种策略" />
+<img src="{{site.url}}/resource/domino_tiling_dp/pic_6.png" alt="三种策略" />
 <p class="caption">三种策略</p>
 </div>
 <p>这三种策略分别对应一下三种状态转移：</p>

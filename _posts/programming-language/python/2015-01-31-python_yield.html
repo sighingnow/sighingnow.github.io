@@ -30,7 +30,13 @@ yield_expression    ::= &quot;yield&quot; [expression_list] | &quot;from&quot; e
 <p>Generator，生成器，生成器同样是可迭代对象。但由于生成器是动态地生成值，并没有把所有制都放在内存中。因此，只能读取一次。</p>
 <p>yield关键字产生生成器函数，其对象是生成器，可迭代。</p>
 <h2 id="generator-iterator-methods">Generator-iterator methods</h2>
-<p>class generator + generator.<strong>next</strong>() + generator.send() + generator.throw(type[, value[, traceback]]) + generator.close()</p>
+<p>class generator</p>
+<ul>
+<li>generator.<strong>next</strong>()</li>
+<li>generator.send()</li>
+<li>generator.throw(type[, value[, traceback]])</li>
+<li>generator.close()</li>
+</ul>
 <p>当第一次调用生成器的__next__() 方法时，函数执行并生成迭代器。如果调用生成器的__next__()方法，将会得到该生成器函数的下一个值。如果已经到达末尾，则抛出<code>StopIteration</code>异常。</p>
 <p>如果调用生成器的send()方法，结果将会是send()方法传入的值。</p>
 <p>yield 表达式可以用在 <code>try ... finally</code>结构的<code>try</code>部分中。当生成器的close()函数被调用时，<code>finally</code>语句块中的表达式会执行。</p>

@@ -51,6 +51,7 @@ Generator-iterator methods
 --------------------------
 
 class generator
+
 + generator.__next__()
 + generator.send()
 + generator.throw(type[, value[, traceback]])

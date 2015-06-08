@@ -106,7 +106,7 @@ Edge edge[maxn], path[maxn];
 <p>(1). 完成DFS之后，还需要进一步判断图是否连通，即DFS过程是否经过了所有的边，这一点可以通过比较边数与DFS经过的边数来实现。</p>
 <p>(2). 注意欧拉路径不是欧拉环！忽略这一点在DFS是会出错，例如下图：假如题目中给出的边具有几下关系：</p>
 <div class="figure">
-<img src="{{%20site.url%20}}/resource/euler_path/euler_path_1.png" alt="欧拉路径" />
+<img src="{{site.url}}/resource/euler_path/euler_path_1.png" alt="欧拉路径" />
 <p class="caption">欧拉路径</p>
 </div>
 <p>那么，从节点3开始DFS，先到节点2，再到节点1，就会陷入死循环！</p>

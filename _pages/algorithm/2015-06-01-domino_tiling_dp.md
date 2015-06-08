@@ -124,12 +124,10 @@ return dp[h%2][(1<<w)-1];
 
 <!------------------links----------------------->
 
-[1]: {{ site.url }}/resource/domino_tiling_dp/pic_1.png
-[2]: {{ site.url }}/resource/domino_tiling_dp/pic_2.png
-[3]: {{ site.url }}/resource/domino_tiling_dp/pic_3.png
-[4]: {{ site.url }}/resource/domino_tiling_dp/pic_4.png
-[5]: {{ site.url }}/resource/domino_tiling_dp/pic_5.png
-[6]: {{ site.url }}/resource/domino_tiling_dp/pic_6.png
+[1]: {{site.url}}/resource/domino_tiling_dp/pic_1.png
+[2]: {{site.url}}/resource/domino_tiling_dp/pic_2.png
+[3]: {{site.url}}/resource/domino_tiling_dp/pic_3.png
+[4]: {{site.url}}/resource/domino_tiling_dp/pic_4.png
+[5]: {{site.url}}/resource/domino_tiling_dp/pic_5.png
+[6]: {{site.url}}/resource/domino_tiling_dp/pic_6.png
 [7]: http://poj.org/problem?id=2411
-
-

@@ -18,7 +18,7 @@ layout: post
 
 树状数组的结构如下图所示：
 
-![树状数组]({{ site.url }}/resource/binary_index_trees/binary_index_trees_1.png)
+![树状数组]({{site.url}}/resource/binary_index_trees/binary_index_trees_1.png)
 
 在实现时，可以定义宏
 

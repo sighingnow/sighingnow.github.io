@@ -206,7 +206,7 @@ lock.<span class="fu">lock</span>();
 <h2 id="forkjoin">Fork/Join</h2>
 <p>Fork/Join机制是JDK 7新增加的多线程框架，如果一个应用能被分解成多个子任务，并且组合多个子任务的结果就能够获得最终的答案，那么这个应用就适合用 Fork/Join 模式来解决。下图可大概说明Fork/Join模式的结构：</p>
 <div class="figure">
-<img src="{{%20site.url%20}}/resource/java_thread/fork_join.png" alt="Fork/Join模式" />
+<img src="{{site.url}}/resource/java_thread/fork_join.png" alt="Fork/Join模式" />
 <p class="caption">Fork/Join模式</p>
 </div>
 <h3 id="forkjoin框架的几个核心类">Fork/Join框架的几个核心类：</h3>
@@ -317,7 +317,7 @@ SubTask t2 = <span class="kw">new</span> <span class="fu">SubTask</span>(...);
 <li>当一个线程完成自己队列中的任务后，将其他线程的任务队列里的任务取出来执行。</li>
 </ol>
 <div class="figure">
-<img src="{{%20site.url%20}}/resource/java_thread/work-stealing.png" alt="Work-stealing算法示意图" />
+<img src="{{site.url}}/resource/java_thread/work-stealing.png" alt="Work-stealing算法示意图" />
 <p class="caption">Work-stealing算法示意图</p>
 </div>
 <h2 id="disruptor机制">Disruptor机制</h2>

@@ -11,10 +11,10 @@ layout: post
 <p>首先是群的概念：</p>
 <p>设<span class="math">\(G\)</span>是一个集合，<span class="math">\(*\)</span>是<span class="math">\(G\)</span>上的二元运算，如果<span class="math">\((G,*)\)</span>满足下面的条件：</p>
 <ol style="list-style-type: decimal">
-<li>封闭性：对于任何<span class="math">\(a,b \subset G\)</span>有<span class="math">\(a*b \subset G\)</span>;</li>
-<li>结合律：对任何<span class="math">\(a,b,c\subset G\)</span>有<span class="math">\((a*b)*c=a*(b*c)\)</span>;</li>
-<li>单位元：存在<span class="math">\(e\subset G\)</span>,使得对所有的<span class="math">\(a\subset G\)</span>,都有<span class="math">\(a*e=e*a=a\)</span>;</li>
-<li>逆元：对于每个元素<span class="math">\(a\subset G\)</span>,存在<span class="math">\(x\subset G\)</span>,使得<span class="math">\(a*x=x*a=e\)</span>,这个时候记<span class="math">\(x\)</span>为<span class="math">\(a^{-1}\)</span>，称为<span class="math">\(a\)</span>的逆元，那么则称<span class="math">\((G,*)\)</span>为一个群。</li>
+<li>封闭性：对于任何<span class="math">\(a,b \in G\)</span>有<span class="math">\(a*b \in G\)</span>;</li>
+<li>结合律：对任何<span class="math">\(a,b,c\in G\)</span>有<span class="math">\((a*b)*c=a*(b*c)\)</span>;</li>
+<li>单位元：存在<span class="math">\(e\in G\)</span>,使得对所有的<span class="math">\(a\in G\)</span>,都有<span class="math">\(a*e=e*a=a\)</span>;</li>
+<li>逆元：对于每个元素<span class="math">\(a\in G\)</span>,存在<span class="math">\(x\in G\)</span>,使得<span class="math">\(a*x=x*a=e\)</span>,这个时候记<span class="math">\(x\)</span>为<span class="math">\(a^{-1}\)</span>，称为<span class="math">\(a\)</span>的逆元，那么则称<span class="math">\((G,*)\)</span>为一个群。</li>
 </ol>
 <p>例：<span class="math">\(G=\{0,1,2,3,4....n-1\}\)</span>，那么它在<span class="math">\(\text{mod n}\)</span>加法下是一个群。</p>
 <p>群元素的个数有限，称为有限群，且其中元素的个数称为阶，记为<span class="math">\(|G|\)</span>,群元素的个数无限，称为无限群。</p>
@@ -37,12 +37,12 @@ layout: post
  2 &amp;  4 &amp;  5 &amp;  1 &amp;  3 &amp;  6 \\ \hline
 \end{array} \]</span></p>
 <p>则可以表示为<span class="math">\((124)(35)(6)\)</span>,置换的循环节数是上面的循环个数，上面的例题的循环节数为<span class="math">\(3\)</span>.</p>
-<p>定义：设<span class="math">\(G\)</span>是有限集<span class="math">\(X\)</span>上的置换群，点<span class="math">\(a,b\subset X\)</span>称为“等价”的，当且仅当，存在<span class="math">\(\pi \subset G\)</span>使得<span class="math">\(\pi(a)=b\)</span>，记为<span class="math">\(a~b\)</span>，这种等价条件下，<span class="math">\(X\)</span>的元素形成的等价类称为<span class="math">\(G\)</span>的轨道，它是集<span class="math">\(X\)</span>的一个子集，<span class="math">\(G\)</span>的任意两个不同的轨道之交是空集，所以置换群<span class="math">\(G\)</span>的轨道全体是集合<span class="math">\(X\)</span>的一个划分，构成若干个等价类，等价类的个数记为<span class="math">\(L\)</span>。</p>
+<p>定义：设<span class="math">\(G\)</span>是有限集<span class="math">\(X\)</span>上的置换群，点<span class="math">\(a,b\in X\)</span>称为“等价”的，当且仅当，存在<span class="math">\(\pi \in G\)</span>使得<span class="math">\(\pi(a)=b\)</span>，记为<span class="math">\(a~b\)</span>，这种等价条件下，<span class="math">\(X\)</span>的元素形成的等价类称为<span class="math">\(G\)</span>的轨道，它是集<span class="math">\(X\)</span>的一个子集，<span class="math">\(G\)</span>的任意两个不同的轨道之交是空集，所以置换群<span class="math">\(G\)</span>的轨道全体是集合<span class="math">\(X\)</span>的一个划分，构成若干个等价类，等价类的个数记为<span class="math">\(L\)</span>。</p>
 <p><span class="math">\(Z_k\)</span> (<span class="math">\(K\)</span>不动置换类)：设<span class="math">\(G\)</span>是<span class="math">\(1\dots n\)</span>的置换群。若<span class="math">\(K\)</span>是<span class="math">\(1\dots n\)</span>中某个元素，<span class="math">\(G\)</span>中使<span class="math">\(K\)</span>保持不变的置换的全体，记以<span class="math">\(Z_k\)</span>，叫做<span class="math">\(G\)</span>中使<span class="math">\(K\)</span>保持不动的置换类，简称<span class="math">\(K\)</span>不动置换类。</p>
 <p><span class="math">\(E_k\)</span>(等价类)：设<span class="math">\(G\)</span>是<span class="math">\(1\dots n\)</span>的置换群。若<span class="math">\(K\)</span>是<span class="math">\(1\dots n\)</span>中某个元素，<span class="math">\(K\)</span>在<span class="math">\(G\)</span>作用下的轨迹，记作<span class="math">\(E_k\)</span>。即<span class="math">\(K\)</span>在<span class="math">\(G\)</span>的作用下所能变化成的所有元素的集合。这个时候有：<span class="math">\(|E_k|*|Z_k|=|G|\)</span>成立<span class="math">\((k=1,2,.....n)\)</span>。</p>
-<p><span class="math">\(C(\pi)\)</span>：对于一个置换<span class="math">\(\pi \subset G\)</span>,及<span class="math">\(a\subset X\)</span>，若<span class="math">\(\pi(a)=a\)</span>，则称<span class="math">\(a\)</span>为<span class="math">\(\pi\)</span>的不动点。<span class="math">\(\pi\)</span>的不动点的全体记为<span class="math">\(C(\pi)\)</span>。例如<span class="math">\(\pi=(123)(3)(45)(6)(7), X=\{1,2,3,4,5,6,7\}\)</span>;那么<span class="math">\(C(\pi)=\{3,6,7\}\)</span>共<span class="math">\(3\)</span>个元素。</p>
+<p><span class="math">\(C(\pi)\)</span>：对于一个置换<span class="math">\(\pi \in G\)</span>,及<span class="math">\(a\in X\)</span>，若<span class="math">\(\pi(a)=a\)</span>，则称<span class="math">\(a\)</span>为<span class="math">\(\pi\)</span>的不动点。<span class="math">\(\pi\)</span>的不动点的全体记为<span class="math">\(C(\pi)\)</span>。例如<span class="math">\(\pi=(123)(3)(45)(6)(7), X=\{1,2,3,4,5,6,7\}\)</span>;那么<span class="math">\(C(\pi)=\{3,6,7\}\)</span>共<span class="math">\(3\)</span>个元素。</p>
 <p><strong>Burnside引理</strong>：</p>
-<p><span class="math">\[L = \frac{1}{|G|}*(Z_1+Z_2+Z_3+Z_4+\dots+Z_k)\]</span> <span class="math">\[L = \frac{L1}{|G|}*(C(\pi_1)+C(\pi_2)+C(\pi_3)+\dots+C(\pi_n))\]</span> (其中<span class="math">\(k\subset X,\pi \subset G\)</span>)。</p>
+<p><span class="math">\[L = \frac{1}{|G|}*(Z_1+Z_2+Z_3+Z_4+\dots+Z_k)\]</span> <span class="math">\[L = \frac{L1}{|G|}*(C(\pi_1)+C(\pi_2)+C(\pi_3)+\dots+C(\pi_n))\]</span> (其中<span class="math">\(k\in X,\pi \in G\)</span>)。</p>
 <p><strong>Polya定理</strong>：</p>
 <p>设<span class="math">\(G=\{\pi_1，\pi_2，\pi_3, \dots, \pi_n\}\)</span>是<span class="math">\(X=\{a_1，a_2，a_3, \dots, a_n\}\)</span>上一个置换群，用<span class="math">\(m\)</span>中颜色对<span class="math">\(X\)</span>中的元素进行涂色，那么不同的涂色方案数为： <span class="math">\[\frac{1}{|G|}*(m^C(\pi_1)+m^C(\pi_2)+m^C(\pi_3)+\dots+m^C(\pi_k))\]</span>其中<span class="math">\(C(\pi_k)\)</span>为置换 <span class="math">\(\pi_k\)</span> 的循环节的个数。</p>
 <h2 id="polya定理求循环节个数">polya定理求循环节个数</h2>
