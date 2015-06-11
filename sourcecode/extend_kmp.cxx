@@ -11,18 +11,24 @@ using namespace std;
 void extendKmp(char T[], char S[], int next[], int extend[]) {
     int slen = strlen(S), tlen = strlen(T), a = 0;
     int len = min(slen, tlen);
-    while(a < len && S[a] == T[a]) {
+
+    while (a < len && S[a] == T[a]) {
         a++;
     }
+
     extend[0] = a; a = 0;
-    for(int k = 1; k <= slen; ++k) {
+
+    for (int k = 1; k <= slen; ++k) {
         int p = a+extend[a]-1;
         int l = next[k-a];
-        if(k+l-1 >= p) {
+
+        if (k+l-1 >= p) {
             int j = p-k+1 > 0 ? p-k+1 : 0;
-            while(j+k < slen && j < tlen && S[j+k] == T[j]) {
+
+            while (j+k < slen && j < tlen && S[j+k] == T[j]) {
                 ++j;
             }
+
             extend[k] = j;
             a = k;
         }
@@ -38,14 +44,17 @@ void extendKmp(char T[], char S[], int next[], int extend[]) {
  */
 void extendKmpLYQ(char pattern[], char str[], int next[], int extend[]) {
     int a(0), p(0), pLen(strlen(pattern)), sLen(strlen(str));
-    for(int i = 0, j = -1; i < sLen; ++i, --j) {
-        if(j < 0 || i + next[i-a] >= p) {
-            if(j < 0) {
+
+    for (int i = 0, j = -1; i < sLen; ++i, --j) {
+        if (j < 0 || i + next[i-a] >= p) {
+            if (j < 0) {
                 j = 0, p = i;
             }
-            while(p < sLen && j < pLen && str[p] == pattern[j]) {
+
+            while (p < sLen && j < pLen && str[p] == pattern[j]) {
                 ++p, ++j;
             }
+
             extend[i] = j, a = i;
         }
         else {
@@ -54,12 +63,11 @@ void extendKmpLYQ(char pattern[], char str[], int next[], int extend[]) {
     }
 }
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char* argv[]) {
     int extend[1000] = {0}, next[10000] = {0};
     char S[1000] = "abcdbcdedbcd";
     char T[1000] = "bcded";
-    
+
     /**
     extendKmp(T, T, next, next);
     extendKmp(T, S, next, extend);
@@ -68,7 +76,7 @@ int main(int argc, char *argv[])
     extendKmpLYQ(T, T, next, next);
     extendKmpLYQ(T, S, next, extend);
 
-	return 0;
+    return 0;
 }
 
 /* vim: set ts=4, sw = 4 */

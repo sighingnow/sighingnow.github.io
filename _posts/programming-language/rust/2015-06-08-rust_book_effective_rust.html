@@ -1,0 +1,183 @@
+---
+title: Rust-Book Effective Rust
+author: He Tao
+date: 2015-06-05
+tags: Rust
+category: 编程语言
+layout: post
+---
+
+<h2 id="the-stack-and-the-heap">The Stack and the Heap</h2>
+<p>栈内存访问比堆内存访问快，局部变量存放在栈上。</p>
+<p>Box: A pointer type for heap allocation.可以使用<code>Box&lt;T&gt; type</code>来申请对内存空间。例如：</p>
+<pre class="sourceCode rust"><code class="sourceCode rust"><span class="kw">fn</span> main() {
+    <span class="kw">let</span> x = Box::new(<span class="dv">5</span>);
+    ley y = <span class="dv">42</span>;
+}</code></pre>
+<p><code>Box</code>分配的堆内存资源可以使用<code>Drop</code>来释放。Rust没有垃圾回收(GC)机制。</p>
+<p>Rust使用<a href="http://www.canonware.com/jemalloc/">jemalloc</a>来进行内存分配，</p>
+<h2 id="testing">Testing</h2>
+<p>使用<code>test</code>属性来表明一个函数是测试函数。运行<code>cargo test</code>将会运行项目中所有的测试用例(具有<code>test</code>属性的)。例子：</p>
+<pre class="sourceCode rust"><code class="sourceCode rust"><span class="ot">#[</span>test<span class="ot">]</span>
+<span class="kw">fn</span> it_works() {
+    <span class="co">// ...</span>
+}</code></pre>
+<p>在测试函数中，可以使用<code>assert</code>来判断变量的值是否符合预期。</p>
+<pre class="sourceCode rust"><code class="sourceCode rust"><span class="ot">#[</span>test<span class="ot">]</span>
+<span class="kw">fn</span> it_works() {
+    <span class="co">// ...</span>
+    <span class="ot">assert!</span>(<span class="kw">false</span>);
+}</code></pre>
+<p>注意，此处的<code>assert!</code>也是一个宏(Macro)，跟<code>println!</code>一样。<code>assert</code>用于检查一个逻辑值是否为真，此外，还有<code>assert_eq!</code>来用来检查两个变量是否相等，等等。</p>
+<h2 id="conditional-compilation">Conditional Compilation</h2>
+<p>条件编译，Rust使用<code>#[cfg]</code>属性来控制条件编译选项。例如：</p>
+<pre><code>#[cfg(all(unix, target_pointer_width = &quot;32&quot;))]</code></pre>
+<p>也可以直接在<code>Cargo.toml</code>中通过参数的方式来控制这些条件编译选项的值。</p>
+<pre><code>[features]
+# no features by default
+default = []
+# The “secure-password” feature depends on the bcrypt package.
+secure-password = [&quot;bcrypt&quot;]</code></pre>
+<p>还可以直接通过给<code>rustc</code>命令传递参数的方式来进行控制。类似于gcc通过<code>-D</code>选项来控制宏定义及其值。</p>
+<pre><code>--cfg feature=&quot;${feature_name}&quot;</code></pre>
+<h2 id="rust-documentation">Rust Documentation</h2>
+<p>Rust允许如下的注释方式：</p>
+<ol style="list-style-type: decimal">
+<li><code>/*....*/</code></li>
+<li><code>//</code></li>
+<li><code>///</code></li>
+</ol>
+<p>其中，第三种方式称为<code>Rust Doc</code>，可以使用Markdown的语法。可以使用<code>rustdoc</code>命令来生成文档。</p>
+<p>文档格式遵循<a href="https://github.com/rust-lang/rfcs/blob/master/text/0505-api-comment-conventions.md">RFC 505</a>标准。</p>
+<p>此外，还可以使用<code>doc</code>属性(<code>doc</code> attributes)。例如：</p>
+<pre class="sourceCode rust"><code class="sourceCode rust"><span class="co">/// this</span>
+
+<span class="ot">#[</span>doc<span class="ot">=</span><span class="st">&quot;this&quot;</span><span class="ot">]</span></code></pre>
+<p>等价于下面的写法：</p>
+<pre class="sourceCode rust"><code class="sourceCode rust"><span class="co">//! this</span>
+
+#![doc=<span class="st">&quot;/// this&quot;</span>]</code></pre>
+<h2 id="iterators">Iterators</h2>
+<p>Iterators, 迭代器，几乎所有的现代编程语言里都直接提供了原生的对迭代器和迭代器模式的支持。</p>
+<pre class="sourceCode rust"><code class="sourceCode rust"><span class="kw">for</span> i in <span class="dv">1.</span>.<span class="dv">10</span> {
+    <span class="ot">println!</span>(<span class="st">&quot;{}&quot;</span>, i);
+}</code></pre>
+<p>其中，1..10将会生成一个<code>1,2,3,4,5,6,7,8,9</code>的迭代器。如果给出的上界小于下界，将会返回一个空迭代器。</p>
+<pre class="sourceCode rust"><code class="sourceCode rust"><span class="kw">let</span> <span class="kw">mut</span> range = <span class="dv">1.</span>.<span class="dv">10</span>;
+<span class="kw">loop</span> {
+    <span class="kw">match</span> range.next() {
+        <span class="kw">Some</span>(x) =&gt; { <span class="ot">println!</span>(<span class="st">&quot;{}&quot;</span>, x); },
+        <span class="kw">None</span> =&gt; { <span class="kw">break</span>; }
+    }
+}</code></pre>
+<p><code>next</code> returns an <code>Option&lt;i32&gt;</code>, in this case, which will be <code>Some(i32)</code> when we have a value and <code>None</code> once we <strong>run out</strong>. If we get <code>Some(i32)</code>, we print it out, and if we get <code>None</code>, we break out of the loop.</p>
+<h2 id="consumers">Consumers</h2>
+<h3 id="collect">collect()</h3>
+<pre><code>let one_to_one_hundred : Vec&lt;i32&gt; = (1..101).collect();
+let one_to_one_hundred = (1..101).collect::&lt;Vec&lt;i32&gt;&gt;();
+let one_to_one_hundred = (1..101).collect::&lt;Vec&lt;_&gt;&gt;();</code></pre>
+<p><code>collect()</code>可以自动类型推断。</p>
+<h3 id="find">find()</h3>
+<pre><code>let a = (0..100).find(|x| *x &gt; 50);</code></pre>
+<h3 id="fold">fold()</h3>
+<pre><code>let sum = (1..4).fold(0, |sum, x| sum + x);</code></pre>
+<p>fold() is a consumer that looks like this: fold(base, |accumulator, element| …)</p>
+<h3 id="iterators-1">Iterators</h3>
+<pre class="sourceCode rust"><code class="sourceCode rust"><span class="kw">let</span> nums = <span class="ot">vec!</span>[<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>];
+<span class="kw">for</span> n in nums.iter() {
+    <span class="ot">println!</span>(<span class="st">&quot;{}&quot;</span>, n);
+}</code></pre>
+<h3 id="iterator-adapters">Iterator adapters</h3>
+<pre><code>(1..100).map(|x| println!(&quot;{}&quot;, x));</code></pre>
+<p>跟Python 3中的<code>map</code>类似，此处并不会直接执行。</p>
+<blockquote>
+<p>iterator adaptors are lazy and do nothing unless consumed.</p>
+</blockquote>
+<pre><code>(1..100).map(|x| println!(&quot;{}&quot;, x)).collect::&lt;Vect&lt;_&gt;&gt;();</code></pre>
+<p>只有使用其结果时，才会执行。</p>
+<pre class="sourceCode rust"><code class="sourceCode rust"><span class="kw">for</span> i in (<span class="dv">1.</span>.<span class="dv">10</span>).take(<span class="dv">5</span>) { <span class="co">// (1..).take(5)</span>
+    <span class="ot">println!</span>(<span class="st">&quot;{}&quot;</span>, i);
+}</code></pre>
+<p>将会只输出迭代器的前5项的值。</p>
+<p><code>filter()</code> is an adapter that takes a closure as an argument. This closure returns true or false. The new iterator <code>filter()</code> produces only the elements that that closure returns true for:</p>
+<pre class="sourceCode rust"><code class="sourceCode rust"><span class="kw">for</span> i in (<span class="dv">1.</span>.<span class="dv">100</span>).filter(|&amp;x| x % <span class="dv">2</span> == <span class="dv">0</span>) {
+    <span class="ot">println!</span>(<span class="st">&quot;{}&quot;</span>, i);
+}</code></pre>
+<p>一个更复杂的filter的例子：</p>
+<pre class="sourceCode rust"><code class="sourceCode rust">(<span class="dv">1.</span>.<span class="dv">1000</span>).filter(|&amp;x| x%<span class="dv">2</span> == <span class="dv">0</span>)
+         .filter(|&amp;x| x%<span class="dv">3</span> == <span class="dv">0</span>)
+         .take(<span class="dv">5</span>)
+         .collect::&lt;Vec&lt;<span class="kw">i32</span>&gt;&gt;();</code></pre>
+<h2 id="concurrency">Concurrency</h2>
+<p>多线程安全：</p>
+<ol style="list-style-type: decimal">
+<li>内存安全，没有数据竞争</li>
+<li>Rust的类型系统</li>
+</ol>
+<p>两个traits: <code>Send</code>和<code>Sync</code></p>
+<h4 id="send"><code>Send</code></h4>
+<p>The first trait we’re going to talk about is <code>Send</code>. When a type <code>T</code> implements <code>Send</code>, <strong>it indicates to the compiler that something of this type is able to have ownership transferred safely between threads</strong>.</p>
+<p>This is important to enforce certain restrictions. For example, if we have a channel connecting two threads, we would want to be able to send some data down the channel and to the other thread. Therefore, we’d ensure that <code>Send</code> was implemented for that type.</p>
+<p>In the opposite way, if we were wrapping a library with FFI that isn’t threadsafe, we wouldn’t want to implement <code>Send</code>, and so the compiler will help us enforce that it can’t leave the current thread.</p>
+<p>通过类型来控制线程间的数据共享（线程间的所有权ownership切换）。</p>
+<h4 id="sync"><code>Sync</code></h4>
+<p>The second of these traits is called <code>Sync</code>. When a type <code>T</code> implements <code>Sync</code>, <strong>it indicates to the compiler that something of this type has no possibility of introducing memory unsafety when used from multiple threads concurrently.</strong></p>
+<p>For example, sharing immutable data with an atomic reference count is threadsafe. Rust provides a type like this, <code>Arc&lt;T&gt;</code>, and it implements <code>Sync</code>, so it is safe to share between threads.</p>
+<p>正是这两种模型为线程间的数据安全提供了保障。</p>
+<h3 id="threads">Threads</h3>
+<p>使用线程的例子：</p>
+<pre class="sourceCode rust"><code class="sourceCode rust"><span class="kw">fn</span> main() {
+    thread::spawn(|| {
+        <span class="ot">println!</span>(<span class="st">&quot;abcde&quot;</span>);
+    });
+    <span class="co">// thread::sleep_ms(100);</span>
+}</code></pre>
+<blockquote>
+<p>The <code>thread::spawn()</code> method accepts a closure, which is executed in a new thread. It returns a handle to the thread, that can be used to wait for the child thread to finish and extract its result.</p>
+</blockquote>
+<pre class="sourceCode rust"><code class="sourceCode rust"><span class="kw">fn</span> main() {
+    <span class="co">/**</span>
+<span class="co">    thread::spawn(|| {</span>
+<span class="co">        println!(&quot;abcde&quot;);</span>
+<span class="co">    }).join();</span>
+<span class="co">    **/</span>
+    <span class="kw">let</span> handle = thread::spawn(|| {
+        <span class="st">&quot;abcde&quot;</span>
+    });
+    <span class="ot">println!</span>(<span class="st">&quot;{}&quot;</span>, handle.join().unwrap());
+}</code></pre>
+<p>Rust在多线程方面的优势：</p>
+<blockquote>
+<p>Many languages have the ability to execute threads, but it’s wildly unsafe. There are entire books about how to prevent errors that occur from shared mutable state. Rust helps out with its type system here as well, by preventing data races at compile time. Let’s talk about how you actually share things between threads.</p>
+</blockquote>
+<h3 id="safe-shared-mutable-state">Safe Shared Mutable State</h3>
+<blockquote>
+<p>Shared mutable state is the root of all evil. Most languages attempt to deal with this problem through the ‘mutable’ part, but Rust deals with it by solving the ‘shared’ part.</p>
+</blockquote>
+<p>Rust的所有权机制<code>ownership system</code>可以有效地防止指针错用、消除数据竞争。</p>
+<p>在Rust中，如下代码将会直接编译失败：</p>
+<pre class="sourceCode rust"><code class="sourceCode rust"><span class="kw">use</span> std::thread;
+<span class="kw">fn</span> main() {
+    <span class="kw">let</span> <span class="kw">mut</span> data = <span class="ot">vec!</span>[<span class="dv">1u32</span>, <span class="dv">2</span>, <span class="dv">3</span>];
+    <span class="kw">for</span> i in <span class="dv">0.</span>.<span class="dv">3</span> {
+        thread::spawn(move || {
+            data[i] += <span class="dv">1</span>;
+        });
+    }
+    thread::sleep_ms(<span class="dv">50</span>);
+}</code></pre>
+<p>因为此处有三个线程会共享<code>data</code>,也就是说，<code>data</code>将会有三个<code>owner</code>。</p>
+<!---------------------------------------------
+Rust书中代码和叙述与实际编译、运行情况不符。
+---------------------------------------------->
+<h3 id="channels">Channels</h3>
+<h3 id="panics">Panics</h3>
+<p>A <code>panic!</code> will crash the currently executing thread. You can use Rust’s threads as a simple isolation mechanism:</p>
+<pre class="sourceCode rust"><code class="sourceCode rust"><span class="kw">use</span> std::thread;
+<span class="kw">let</span> result = thread::spawn(move || {
+    <span class="ot">panic!</span>(<span class="st">&quot;oops!&quot;</span>);
+}).join();
+<span class="ot">assert!</span>(result.is_err());</code></pre>
+<p>Our <code>Thread</code> gives us a <code>Result</code> back, which allows us to check if the thread has panicked or not.</p>
+<p><em>注</em>: 上述代码摘自Rust Book.</p>
+<!---------------------------links------------------------------>
