@@ -1,0 +1,384 @@
+---
+title: Scala 公开课笔记
+author: He Tao
+date: 2015-06-17
+tag: [Scala]
+category: 编程语言
+layout: post
+---
+
+<p>Coursera上的瑞士洛桑理工大学Scala函数式编程原理(Functional Programming Principles in Scala)课程笔记。</p>
+<p>课程链接：<a href="https://class.coursera.org/progfun-005" class="uri">https://class.coursera.org/progfun-005</a></p>
+<h2 id="getting-started">Getting Started</h2>
+<p>Scala开发环境配置相关的几点经验：</p>
+<ol style="list-style-type: decimal">
+<li>解决Scala编译太慢的问题：使用sbt构建，保持一个运行sbt的console。也就是说，让一个JVM常驻内存，可以显著提升编译效率。</li>
+<li><p>sbt解决依赖的过程中出现sha1 error: 在build.sbt中增加如下内容：</p>
+<pre><code>checksums in update := Nil</code></pre>
+<p>或者在sbtconfig.txt中增加如下内容，禁用全局sha1 check:</p>
+<pre><code>-Dsbt.ivy.checksums=&quot;&quot; # 默认值为&quot;md5, sha1&quot;</code></pre></li>
+<li><p>自定义sbt的缓存位置: 在sbtconfig.txt中增加如下内容：</p>
+<pre><code>-Dsbt.ivy.home=d:/Java/sbt/
+-Dsbt.boot.directory=d:/Java/sbt/boot/</code></pre></li>
+</ol>
+<h2 id="week-1-functions-evaluations">Week 1: Functions &amp; Evaluations</h2>
+<ol style="list-style-type: decimal">
+<li><p>三种编程范式(Programming Paradigms)</p>
+<ul>
+<li>impreative programming</li>
+<li>functional programming</li>
+<li>logic programming</li>
+</ul></li>
+<li><p>命令式编程受限于冯·诺依曼(Von Neumann)体系结构。</p></li>
+<li><p>不可变类型理论(Theories without Mutation)</p></li>
+<li><p>三个要点：将精力集中于定义运算符，最小化状态改变，将运算符视为函数。</p></li>
+<li><p>REPL：Read-Eval-Print Loop</p></li>
+</ol>
+<p>求值过程：从左至右求值，如果有函数，先从左至右对参数求值，再将参数的值带入。</p>
+<p>带入模型(The substitution model)是在lambda演算中形式化，是Functional Programming的基础(foundation)。</p>
+<p>终止问题：</p>
+<pre><code>def loop: Int = loop</code></pre>
+<p>这个求值过程永远不会终止。</p>
+<blockquote>
+<p>The interpreter reduces function arguments to values before rewriting the function application.</p>
+</blockquote>
+<ol start="6" style="list-style-type: decimal">
+<li>两种求值策略(evaluation strategy)：Call-by-Name, Call-by-Value</li>
+</ol>
+<p>求值策略与Subsitution Model.</p>
+<p>Call-by-value has the advantage that it evaluates every function argument only once.</p>
+<p>Call-by-name has the advantage that a function argument is not evaluated if the corresponding parameter is unused in the evaluation of the function body.</p>
+<p>由于两种求值策略的区别，某些求值序列可能在一种策略下会终止，在另外一种求值策略下并不会终止。</p>
+<p>例如：</p>
+<pre><code>def loop(): Int = loop
+def func(a:Int, b:Int) = 1</code></pre>
+<p>求值:</p>
+<pre><code>func(1, loop)</code></pre>
+<p>如果是CBV，参数的求值过程不会终止，而如果是CBN，只有在用到参数时才会对参数求值，因此这个求值过程会直接返回1，而不会对参数loop求值。</p>
+<p>只有在以下情况下两种策略会返回相同的值：</p>
+<blockquote>
+<p>the reduced expression consists of pure functions, and both evaluations terminate.</p>
+</blockquote>
+<p>在Scala中，一般都是Call-by-Value, 如果函数的参数用<code>=&gt;</code>来表示类型，那么该参数会是Call-by-Name。</p>
+<p>例如：</p>
+<pre><code>def func(x: Int, y: =&gt; Int) = 1</code></pre>
+<p>对于这个函数定义，x是CBV，而y是CBN。<code>func(1, loop)</code>能够终止，因为并不需要对loop进行求值。</p>
+<ol start="7" style="list-style-type: decimal">
+<li>语句块和词法作用域(Blocks and Lexical Scope)</li>
+</ol>
+<p>Scala允许函数嵌套。例如：</p>
+<pre class="sourceCode scala"><code class="sourceCode scala"><span class="co">// Square roots with Newton’s method</span>
+<span class="kw">def</span> <span class="fu">sqrt</span>(x: Double) = {
+  <span class="kw">def</span> <span class="fu">sqrtIter</span>(guess: Double, x: Double): Double =
+    <span class="kw">if</span> (<span class="fu">isGoodEnough</span>(guess, x)) guess
+    <span class="kw">else</span> <span class="fu">sqrtIter</span>(<span class="fu">improve</span>(guess, x), x)
+  <span class="kw">def</span> <span class="fu">improve</span>(guess: Double, x: Double) =
+    (guess + x / guess) / <span class="dv">2</span>
+  <span class="kw">def</span> <span class="fu">isGoodEnough</span>(guess: Double, x: Double) =
+    <span class="fu">abs</span>(<span class="fu">square</span>(guess) - x) &lt; <span class="fl">0.001</span>
+  <span class="fu">sqrtIter</span>(<span class="fl">1.0</span>, x)
+}</code></pre>
+<p>Scala中的Block:</p>
+<pre class="sourceCode scala"><code class="sourceCode scala">{
+  <span class="kw">var</span> x = <span class="fu">f</span>(<span class="dv">3</span>)
+  x*x
+}</code></pre>
+<p>对于Block，Scala中变量和函数的可见性如下：</p>
+<blockquote>
+<p>The definitions inside a block are only visible from within the block.</p>
+</blockquote>
+<blockquote>
+<p>The definitions inside a block shadow definitions of the same names outside the block.</p>
+</blockquote>
+<blockquote>
+<p>Deﬁnitions of outer blocks are visible inside a block unless they are shadowed.</p>
+</blockquote>
+<ol start="8" style="list-style-type: decimal">
+<li>尾递归(Tail Recursion)</li>
+</ol>
+<p>Implementation Consideration: If a function calls itself as its last action, the function’s stack frame can be reused. This is called tail recursion.</p>
+<p>在Scala中，只有对当前函数的直接递归调用能够被尾递归优化。使用<code>@tailrec</code>注解表明当前函数存在尾递归。如果对一个不是尾递归实现的函数使用<code>@tailrec</code>注解，将会产生错误。</p>
+<pre class="sourceCode scala"><code class="sourceCode scala">@tailrec
+<span class="kw">def</span> <span class="fu">gcd</span>(a:Int, b:Int): Int = {
+  <span class="kw">if</span> (b == <span class="dv">0</span>) a <span class="kw">else</span> <span class="fu">gcd</span>(b, a % b)
+}
+
+<span class="co">// tail recursion version of factorial function.</span>
+<span class="kw">def</span> <span class="fu">factorial</span>(n: Int): Int = {
+  @tailrec
+  <span class="kw">def</span> <span class="fu">factorial_i</span>(acc: Int, n: Int): Int = {
+    <span class="kw">if</span>(n == <span class="dv">0</span>) acc
+    <span class="kw">else</span> <span class="fu">factorial_i</span>(acc*n, n<span class="dv">-1</span>)
+  }
+  <span class="fu">factorial_i</span>(<span class="dv">1</span>, n)
+}</code></pre>
+<h2 id="week-2-higher-order-functions">Week 2: Higher Order Functions</h2>
+<ol style="list-style-type: decimal">
+<li>Functional languages treat functions as <em>ﬁrst-class</em> values.</li>
+</ol>
+<p>在Functional Programming中，函数可以被当成一个参数，也可以作为返回值。</p>
+<p>高阶函数的定义：</p>
+<blockquote>
+<p>Functions that take other functions as parameters or that return functions as results are called higher order functions.</p>
+</blockquote>
+<p>使用高阶函数的例子：</p>
+<pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">def</span> <span class="fu">sum</span>(f: Int=&gt;Int, a: Int, b: Int) {
+  <span class="kw">if</span>(a &gt; <span class="dv">0</span>) <span class="dv">0</span>
+  <span class="kw">else</span> <span class="fu">f</span>(a) + <span class="fu">sum</span>(f, a<span class="dv">+1</span>, b)
+}
+
+<span class="kw">def</span> <span class="fu">id</span>(x:Int): Int   = x
+<span class="kw">def</span> <span class="fu">cube</span>(x:Int): Int = x*x*x
+<span class="kw">def</span> <span class="fu">fact</span>(x:Int): Int = <span class="kw">if</span>(x==<span class="dv">1</span>) <span class="dv">1</span> <span class="kw">else</span> x*<span class="fu">fact</span>(x<span class="dv">-1</span>)
+
+<span class="kw">def</span> <span class="fu">sumId</span>(a, b)   = <span class="fu">sum</span>(id, a, b)
+<span class="kw">def</span> <span class="fu">sumCube</span>(a, b) = <span class="fu">sum</span>(cube, a, b)
+<span class="kw">def</span> <span class="fu">sumFact</span>(a, b) = <span class="fu">sum</span>(fact, a, b)</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li><p>在Scala中，函数也是一种类型。例如<code>Int=&gt;Int</code>表示的就是参数类型为一个<code>Int</code>, 返回值也是<code>Int</code>的函数的类型。</p></li>
+<li><p>匿名函数(Anonymous Functions)</p></li>
+</ol>
+<p>One can therefore say that anonymous functions are <em>syntactic suger</em></p>
+<p>另一种构造匿名函数方法：</p>
+<pre><code>{ def f(???) = ???; f }</code></pre>
+<p>例如：</p>
+<pre><code>List.range(0, 10).map({def f(a) = println(a+1); f})</code></pre>
+<p>等价于：</p>
+<pre><code>List.range(0, 10).map(a:Int =&gt; println(a+1))</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li>Functions Returning Functions</li>
+</ol>
+<p>Scala中，函数可以将一个函数作为参数，也可以将一个函数作为返回值。如下例：</p>
+<pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">object</span> progfun {
+  <span class="kw">def</span> <span class="fu">sum</span>(f: Int=&gt;Int): (Int, Int) =&gt; Int = {
+    <span class="kw">def</span> <span class="fu">sum_i</span>(a:Int, b:Int): Int = {
+      <span class="kw">if</span>(a &gt; b) <span class="dv">0</span>
+      <span class="kw">else</span> <span class="fu">f</span>(a) + <span class="fu">sum_i</span>(a<span class="dv">+1</span>, b)
+    }
+    sum_i
+  }                              <span class="co">//&gt; sum: (f: Int =&gt; Int)(Int, Int) =&gt; Int</span>
+  <span class="fu">sum</span>(x =&gt; x*x*x)(<span class="dv">1</span>,<span class="dv">3</span>)           <span class="co">//&gt; res0: Int = 36</span>
+}</code></pre>
+<ol start="5" style="list-style-type: decimal">
+<li>Multiple Parameter Lists</li>
+</ol>
+<p>Scala在定义函数时，可以有一个参数列表，也可以有多个参数列表。如下例：</p>
+<pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">def</span> <span class="fu">sum</span>(f: Int =&gt; Int)(a: Int, b: Int): Int = {
+  <span class="kw">if</span>(a &gt; b) <span class="dv">0</span> <span class="kw">else</span> <span class="fu">f</span>(a) + <span class="fu">sum</span>(f)(a<span class="dv">+1</span>, b)
+}                                <span class="co">//&gt; sum: (f: Int =&gt; Int)(a: Int, b: Int)Int</span>
+
+
+<span class="co">// application</span>
+<span class="fu">sum</span>(a =&gt; a*a*a)(<span class="dv">2</span>,<span class="dv">4</span>)             <span class="co">//&gt; res0: Int = 99</span></code></pre>
+<p>这也是Scala的一个语法糖(syntactic suger)的例子。</p>
+<ol start="6" style="list-style-type: decimal">
+<li>Carrying</li>
+</ol>
+<p>By repeating the process n times</p>
+<pre><code>def f(args1):::(argsn 1)(argsn) = E</code></pre>
+<p>is shown to be equivalent to</p>
+<pre><code>def f = (args1 ) (args2 ) :::(argsn ) E):::))</code></pre>
+<p>This style of definition and function application is called currying, named for its instigator, Haskell Brooks Curry (1900-1982), a twentieth century logician.</p>
+<p>Conceptually, currying is a fairly simple idea. Wikipedia defines it as follows:</p>
+<p>In computer science, currying, invented by Moses Schönfinkel and Gottlob Frege, is the technique of transforming a function that takes multiple arguments into a function that takes a single argument (the other arguments having been specified by the curry).</p>
+<p>For example, in Scala, we can write:</p>
+<pre><code>def add(x: Int, y: Int) = x + y
+add(1, 2)   // 3
+add(7, 3)   // 10</code></pre>
+<p>And after currying:</p>
+<pre><code>def add(x: Int) = (y: Int) =&gt; x + y
+add(1)(2)   // 3
+add(7)(3)   // 10</code></pre>
+<p>You can also use the following syntax to define a curried function:</p>
+<pre><code>def add(x: Int)(y: Int) = x+y
+add(1)(2)
+add(7)(3)</code></pre>
+<p>使用Scala Function包中的uncurried函数可以得到一个函数的普通版本。例如：</p>
+<pre><code>def sum(a: Int)(b: Int) = a+b
+def normalSum = Function.uncurried(sum)
+println(sum(1)(2))
+println(normalSum(1, 2))</code></pre>
+<ol start="7" style="list-style-type: decimal">
+<li><p>Scala中的<code>=&gt;</code>是右结合。例如：</p>
+<p>Int =&gt; Int =&gt; Int</p></li>
+</ol>
+<p>等价于：</p>
+<pre><code>Int =&gt; (Int =&gt; Int)</code></pre>
+<ol start="8" style="list-style-type: decimal">
+<li>使用Currying来实现一个简单的mapReduce：</li>
+</ol>
+<pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">def</span> <span class="fu">mapReduce</span>(f:Int=&gt;Int,combine:(Int,Int)=&gt;Int, zero:Int)(a:Int,b:Int):Int = 
+  <span class="kw">if</span>(a &gt; b) zero
+  <span class="kw">else</span> <span class="fu">combine</span>(<span class="fu">f</span>(a), <span class="fu">mapReduce</span>(f, combine, zero)(a<span class="dv">+1</span>, b))</code></pre>
+<p>上面的</p>
+<pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">def</span> <span class="fu">sum</span>(f: Int =&gt; Int)(a: Int, b: Int): Int = {
+  <span class="kw">if</span>(a &gt; b) <span class="dv">0</span> <span class="kw">else</span> <span class="fu">f</span>(a) + <span class="fu">sum</span>(f)(a<span class="dv">+1</span>, b)
+}</code></pre>
+<p>可以改成mapReduce的写法：</p>
+<pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">def</span> <span class="fu">sum_mr</span>(f: Int=&gt;Int)(a: Int, b: Int): Int = <span class="fu">mapReduce</span>(f, (x, y)=&gt;x+y, <span class="dv">0</span>)(a, b)</code></pre>
+<ol start="9" style="list-style-type: decimal">
+<li><p>在Scala中应该注意：一个函数能够找到（调用）定义在他下边的函数当且仅当这两个函数之间没有求值表达式。</p></li>
+<li><p>Types in Scala</p></li>
+</ol>
+<p>Scala中的几种数据类型：</p>
+<ul>
+<li>A numeric type: Int, Double, Float, Char, Byte, Long</li>
+<li>The Boolean type with the values true and false.</li>
+<li>The String type.</li>
+<li>A function type, like Int =&gt; Int, (Int, Int) =&gt; Int</li>
+</ul>
+<ol start="11" style="list-style-type: decimal">
+<li>Class</li>
+</ol>
+<p>Class可以用来定义新的数据类型。例如，使用Scala按照如下方式来定义分数：</p>
+<pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">class</span> <span class="fu">Rational</span>(x: Int, y: Int) {
+  <span class="kw">def</span> numer = x
+  <span class="kw">def</span> denom = y
+}</code></pre>
+<p>This definition introduces two entities:</p>
+<ul>
+<li>A new type, named Rational.</li>
+<li>A constructor Rational to create elements of this type.</li>
+</ul>
+<ol start="12" style="list-style-type: decimal">
+<li>Object</li>
+</ol>
+<blockquote>
+<p>We call the elements of a class type objects.</p>
+</blockquote>
+<p>如何创建对象：</p>
+<pre><code>new Rational(1, 2)</code></pre>
+<ol start="13" style="list-style-type: decimal">
+<li>Methods</li>
+</ol>
+<p>类的方法相关的示例：</p>
+<pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">class</span> <span class="fu">Rational</span>(x: Int, y: Int) {
+  <span class="kw">def</span> numer = x
+  <span class="kw">def</span> denom = y
+  <span class="kw">def</span> <span class="fu">add</span>(that: Rational) =
+    <span class="kw">new</span> <span class="fu">Rational</span>(numer*that.<span class="fu">denom</span> + that.<span class="fu">numer</span>*denom,
+        denom*that.<span class="fu">denom</span>)
+  <span class="kw">def</span> neg: Rational = <span class="kw">new</span> <span class="fu">Rational</span>(-numer, -denom)
+  <span class="kw">override</span> <span class="kw">def</span> <span class="fu">toString</span>(): String = numer + <span class="st">&quot;/&quot;</span> + denom
+}</code></pre>
+<p>此处的<code>toStirng</code>方法是覆盖Object类的方法，因此，需要显式地加上一个<code>override</code>，否则将会出现编译错误。这个<code>toString</code>函数也可以简单地写成：</p>
+<pre><code>override def toString = numer + &quot;/&quot; + denom</code></pre>
+<p>这也体现出了Scala语言本身语法的灵活性。</p>
+<ol start="14" style="list-style-type: decimal">
+<li>值得注意的是，上述的Scala代码编译后得到的class文件反编译为java文件是这样的：</li>
+</ol>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> Rational
+{
+  <span class="kw">private</span> <span class="dt">final</span> <span class="dt">int</span> x;
+  <span class="kw">private</span> <span class="dt">final</span> <span class="dt">int</span> y;
+
+  <span class="kw">public</span> <span class="dt">int</span> <span class="fu">numer</span>()
+  {
+    <span class="kw">return</span> <span class="kw">this</span>.<span class="fu">x</span>;
+  }
+
+  <span class="kw">public</span> <span class="dt">int</span> <span class="fu">denom</span>()
+  {
+    <span class="kw">return</span> <span class="kw">this</span>.<span class="fu">y</span>;
+  }
+
+  <span class="kw">public</span> Rational <span class="fu">add</span>(Rational that)
+  {
+    <span class="kw">return</span> <span class="kw">new</span> <span class="fu">Rational</span>(<span class="fu">numer</span>() * that.<span class="fu">denom</span>() + that.<span class="fu">numer</span>() * <span class="fu">denom</span>(), 
+      <span class="fu">denom</span>() * that.<span class="fu">denom</span>());
+  }
+
+  <span class="kw">public</span> String <span class="fu">toString</span>()
+  {
+    <span class="kw">return</span> <span class="kw">new</span> StringBuilder().<span class="fu">append</span>(<span class="fu">numer</span>())
+                              .<span class="fu">append</span>(<span class="st">&quot;/&quot;</span>)
+                              .<span class="fu">append</span>(BoxesRunTime.<span class="fu">boxToInteger</span>(<span class="fu">denom</span>()))
+                              .<span class="fu">toString</span>();
+  }
+}</code></pre>
+<p>另外，我发现</p>
+<pre><code>def gcd(a: Int, b: Int): Int = if(b == 0) a else gcd(b, a%b)</code></pre>
+<p>对应的java代码是这样的：</p>
+<pre><code>private int gcd(int a, int b)
+{
+    for (;;)
+    {
+        if (b == 0) {
+            return a;
+        }
+        b = a % b;a = b;
+    }
+}</code></pre>
+<p>可见，Scala编译器对于递归的优化做得相当不错。</p>
+<ol start="15" style="list-style-type: decimal">
+<li><p>Data Abstraction: This ability to choose diﬀerent implementations of the data without affecting clients is called data abstraction.</p></li>
+<li><p>Self Reference：Scala中也有与Java对应的this的概念和语法。</p></li>
+<li><p>Preconditions: 定义类的构造方法的前置条件require</p></li>
+</ol>
+<p>在上面的分数的例子中，分母不能为0，可以使用require来做一下限制：</p>
+<pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">class</span> <span class="fu">Rational</span>(x: Int, y: Int) {
+  <span class="fu">require</span>(x != <span class="dv">0</span>, <span class="st">&quot;the denominator can&#39;t be zero.&quot;</span>)
+  <span class="kw">def</span> numer = x
+  <span class="kw">def</span> denom = y
+}</code></pre>
+<p>如果传入的参数y为0，将会产生一个IllegalArgumentException:</p>
+<pre><code>var t = new Rational(10, 0)</code></pre>
+<p>抛出异常：</p>
+<pre><code>java.lang.IllegalArgumentException: requirement failed: the denominator can&#39;t be zero.</code></pre>
+<p>关于require的详细解释如下：</p>
+<blockquote>
+<p>require is a predeﬁned function.</p>
+</blockquote>
+<blockquote>
+<p>It takes a condition and an optional message string.</p>
+</blockquote>
+<blockquote>
+<p>If the condition passed to require is false, an IllegalArgumentException is thrown with the given message string.</p>
+</blockquote>
+<ol start="18" style="list-style-type: decimal">
+<li>Assertions</li>
+</ol>
+<p>失败时同样是抛出一个java.lang.IllegalArgumentException。</p>
+<p>二者的区别：</p>
+<ul>
+<li>require is used to enforce a precondition on the caller of a function.</li>
+<li>assert is used as to check the code of the function itself.</li>
+</ul>
+<ol start="19" style="list-style-type: decimal">
+<li>构造函数示例：</li>
+</ol>
+<p>Scala中，直接使用this来定义构造函数。如下例：</p>
+<pre><code>def this(x: Int) = this(x, 1)</code></pre>
+<ol start="20" style="list-style-type: decimal">
+<li><p>Scala的求值模型为实参替换形参的求值模型(based on substitution)。</p></li>
+<li><p>操作符重载：</p></li>
+</ol>
+<p>重载+, -, *, /, &lt;, &gt;</p>
+<pre><code>def + (r: Rational) = new Rational(numer*r.denom + r.numer*denom,
+                                   denom*r.denom)</code></pre>
+<p>重载负号(-)</p>
+<p>符号是一个一元运算符(Unary operator)：</p>
+<pre><code>def unary_- : Rational = new Rational(-numer, denom)</code></pre>
+<p>注意，<code>-</code>和<code>:</code>之间的空格不能省略，否则会导致编译器认为<code>-:</code>是一个运算符。</p>
+<h2 id="week-3-data-and-abstraction">Week 3: Data and Abstraction</h2>
+<ol style="list-style-type: decimal">
+<li>Abstraction Classes, 抽象类。</li>
+</ol>
+<p>Abstraction classes can contain members which are missing an implementations. No instance of an abstract class can be created with the operator new.</p>
+<pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">abstract</span> <span class="kw">class</span> IntSet {
+  <span class="kw">def</span> <span class="fu">incl</span>(x: Int): IntSet
+  <span class="kw">def</span> <span class="fu">contains</span>(x: Int): Boolean
+}</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Class Extensions</li>
+</ol>
+<p>Scala中类支持继承，示例：</p>
+<pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">class</span> Empty <span class="kw">extends</span> IntSet {
+  <span class="kw">def</span> <span class="fu">incl</span>(x: Int): IntSet = ???
+  <span class="kw">def</span> <span class="fu">contains</span>(x: Int): Boolean = ???
+}</code></pre>
+<p>但，如果子类也是abstract修饰的，那么就可以不同实现父类的所有抽象方法。</p>
+<h2 id="week-4-types-and-pattern-matching">Week 4: Types and Pattern Matching</h2>
+<h2 id="week-5-lists">Week 5: Lists</h2>
+<h2 id="week-6-collections">Week 6: Collections</h2>
+<h2 id="week-7-lazy-evaluation">Week 7: Lazy Evaluation</h2>

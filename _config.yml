@@ -1,12 +1,12 @@
 title:            He Tao
 description:      He Tao's personal page.
-url:              http://he-tao.github.io # Site url.
+url:              http://sighingnow.github.io # Site url.
 signoff:          He Tao # Your name.
 disqus_shortname: he-tao  # disqus comment thread for post header options. ( leave blank if unwanted. )
 
 links:
   - name:         Blog
-    url:          http://he-tao.github.io
+    url:          http://sighingnow.github.io
   - name:         Category
     url:          /categories
   - name:         Tag
@@ -14,7 +14,7 @@ links:
   - name:         Email
     url:          mailto:he-tao@buaa.edu.cn
   - name:         GitHub
-    url:          http://github.com/He-Tao
+    url:          http://github.com/sighingnow
     external:     true
   - name:         About
     url:          /about
@@ -24,10 +24,10 @@ social:
     url:          https://plus.google.com/u/0/112661429129878562674/posts
     external:     true
   - name:         Github
-    url:          https://github.com/He-Tao
+    url:          https://github.com/sighingnow
     external:     true
   - name:         Atom feed
-    url:          http://he-tao.github.io/feed.xml
+    url:          http://sighingnow.github.io/feed.xml
 
 highlighter:      pygments
 permalink:        none
