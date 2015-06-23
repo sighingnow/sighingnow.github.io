@@ -1,6 +1,15 @@
-<footer>
-<p>Proudly powered by <a href="http://jekyllrb.com/" class="muted">Jekyll</a> and Theme by <a href="http://github.com/muan/scribble" class="muted">Scribble theme</a>.</p>
-<p>Generated with <a href="https://pages.github.com/" class="muted">Github Pages</a>, thanks!</p>
-<br />
-<img src="/images/scribble2.png" alt="scribble" />
+<footer class="row">
+      <div class="col-ms-12 text-center">
+            <hr/>
+            {% if site.footersvg == 'true' %}
+                  <div>{% include svg-icons.html %}</div>
+            {% endif %}
+            &copy; {{ site.time | date: '%Y' }} - {{site.author}}. All rights reserved.<br/>
+            Built using 
+            {% if page.theme And page.theme != "" And page.theme != nil %}
+            <a class="{{page.theme}}-link" href="http://jekyllrb.com/">Jekyll</a>
+            {% else %}
+            <a href="http://jekyllrb.com/">Jekyll</a>
+            {% endif %} and Theme proudly powered by <a href="https://github.com/olakara/JekyllMetro">JekyllMetro</a> 
+      </div>
 </footer>

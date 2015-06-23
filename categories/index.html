@@ -1,0 +1,51 @@
+---
+layout: page
+title: Categories
+description: A page with tag cloud and display of articles category wice
+theme: red
+---
+    <div class="row">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-8">
+            <section class="tags">
+                <ul class="nav nav-pills">
+                    {% for category in site.categories %}
+                    <li class="red" style="margin:5px">
+                        <a href="#{{ category | first}}"> {{ category | first }}&nbsp;<span class="badge">{{ category | last | size}}</span></a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </section>
+        
+        </div>
+        <div class="col-md-2">
+        </div>
+    </div>
+    <hr/>
+    <div class="row">
+        <div class="col-md-12">
+            <section>
+            {% capture category %}
+                {% for category in site.categories %}
+                    {{ category[0] }}
+                {% endfor %}
+            {% endcapture %}
+            
+            {% assign sortedcategories = category | split:' ' | sort %}
+            
+            {% for category in sortedcategories %}
+                <h3 id="{{category}}">{{category}}</h3>
+                <ul>
+                    {% for post in site.posts %}
+                        {% for ocategory in post.categories %}
+                            {% if category == ocategory %}
+                                <li class="alink"><a href="{{ post.url }}" class="red-link">{{ post.date | date: "%Y-%m-%d" }} -- {{ post.title }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}    
+                </ul>
+            {% endfor %}
+            </section>
+        </div>
+    </div>

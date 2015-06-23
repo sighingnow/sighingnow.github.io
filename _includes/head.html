@@ -1,24 +1,78 @@
-<link href='/images/fav.png' rel='shortcut icon'>
-<link href='/stylesheets/style.css' rel='stylesheet' type='text/css' />
-<link href='/stylesheets/syntax.css' rel='stylesheet' type='text/css' />
-<link href='/stylesheets/responsive.css' rel='stylesheet' type='text/css' />
-<!-- - -->
-<script src='/javascripts/jquery.js' type='text/javascript'></script>
-<script src='/javascripts/pd.js' type='text/javascript'></script>
-<script src='/javascripts/basics.js' type='text/javascript'></script>
-<script src="/javascripts/jsapi" type="text/javascript"></script><!--https://www.google.com/jsapi-->
-<!-- - -->
-<meta content='width=device-width, initial-scale=1.0, user-scalable=no' name='viewport'>
-<meta content='text/html; charset=utf-8' http-equiv='content-type' />
-<meta content="http://muan.co/images/og.png" property="og:image" />
-<meta content="{{ site.facebook_appid }}" property="fb:app_id" />
-{% if page.date %}
-  <meta content='{{ site.url }}{{ page.url }}' property='og:url' />
-  <meta content="{{ page.content | strip_html | strip_newlines | truncate: 120 }}" property='og:description' />
-  <meta content="article" property="og:type" />
-{% else %}
-  <meta content='{{ site.url }}' property='og:url' />
-  <meta content="{{ site.description }}" property='og:description' />
-  <meta content="blog" property="og:type" />
-{% endif %}
-<!-- - -->
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta charset="UTF-8">
+  {% if page.description %}
+	<meta name="description" content="{{page.description}}">
+  {% else %}
+  <meta name="description" content="{{site.description}}">
+  {% endif %}
+	<meta name="author" content="{{site.author}}">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    {% if page.title == "Home" %}
+      {{ site.title }} &middot; {{ site.tagline }}
+    {% else %}
+      {{ page.title }} &middot; {{ site.title }}
+    {% endif %}
+  </title>
+
+  {% if page.path contains '_posts' %}
+  <!-- Twitter Card data -->
+  <meta name="twitter:card" value="summary">
+  <!-- Open Graph data -->
+  <meta property="og:title" content="{{page.title}}" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="{{page.url}}" />
+  <meta property="og:description" content="{{page.description}}" />
+  {% endif %}
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="{{site.url}}/assets/css/bootstrap.css">
+  <link rel="stylesheet" href="{{site.url}}/assets/css/app.css">
+  <link rel="stylesheet" href="{{site.url}}/assets/css/github.css">
+
+  <script src="/assets/js/all.js"></script>
+  <script src="/assets/js/app.js"></script>
+  <script src="/assets/js/jekyll-search.js"></script>
+
+
+  {% if page.title == "Home" %}
+  <!-- Add background-image -->
+    <script>
+
+    var backgroundImage = [];
+
+    backgroundImage[0]='bcg1.jpg';
+    backgroundImage[1]='bcg2.jpg';
+    backgroundImage[2]='bcg3.jpg';
+    backgroundImage[3]='bcg4.jpg';
+
+    var random=Math.floor(Math.random()*4);
+    document.write("<style>body {background: url("+"/assets/images/"+backgroundImage[random]+") no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;color:#fff;background-color:#333;}</style>")
+    
+    </script>
+  <link rel="stylesheet" href="{{site.url}}/assets/css/bcg.css">
+  <link rel="stylesheet" href="{{site.url}}/assets/css/MetroJs.min.css">
+  {% endif %}
+
+  {% if page.bloghome == true %}
+  <style type="text/css">
+        a,a:hover,a:focus {
+          color:#DC572E;
+        }
+  </style>
+  {% endif %}
+
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
+
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="128x128" href="{{site.url}}/assets/images/favicon-128.png">
+  <link rel="shortcut icon" href="{{site.url}}/assets/images/favicon-16.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml">
+</head>

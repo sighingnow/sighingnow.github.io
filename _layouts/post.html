@@ -1,31 +1,50 @@
-<html>
-  <head>
-    <meta content='{{ page.title }} - {{ site.title }}' property='og:title' />
-    <title>{{ page.title }} - {{ site.title }}</title>
-    {% include head.html %}
-  </head>
-  <body>
-    {% include header.html %}
-    <div id='container'>
-      {% include links.html %}
-      {% include pages.html %}
-      <div class="content">
-        <section class='post'>
-          <h1 class="upcase">
-            {{ page.title }}<br />
-            <div class='date'>{{ page.date | date: "%B %d, %Y" }}</div>
-          </h1>
-          {{ content }}
-          <!--{% include signoff.html %}-->
+---
+layout: master
+---
 
-        </section>
+<div class="container-fluid">
+  <div class="row">
+    <div class="hidden-xs col-md-2 col-sm-3 blue sidebar">
+      {% include sidemenu.html %}
+    </div> <!-- Side column -->
+    <div class="col-md-10 col-sm-9 col-md-offset-2 col-sm-offset-3">
+      <article class="col-md-12 col-xs-12 justified">
+        <h1 class="post-title">{{ page.title }}</h1>
+        <div class="publish-tag">
+          <span class="fa fa-calendar"></span>&nbsp;Published On {{ page.date | date: "%B %d, %Y" }}
+        </div>
+        {{ content }}
+        <br/>
+        <span class="fa fa-tag"></span>Tags:
+        {% if page.tags %}
+          {% for tag in page.tags %}		
+            <a href="/tags#{{tag}}"><span class="label label-primary">{{tag}}</span></a>
+          {% endfor %}
+        {% else %}  
+          None
+        {% endif %}
+        <br/><br/>
+        {% include disqus_comments.html %}
+      </article> 
+      
+      <div class="row">
+        <div class="col-sm-6 col-xs-6 text-left">
+       	{% if page.previous.url %}
+        	<a class="btn btn-blue" href="{{page.previous.url}}">← Previous</a>
+        {% else %}
+        	<span class="btn btn-blue disabled">← Previous</span>
+        {% endif %}
+        </div>
+        <div class="col-sm-6 col-xs-6 text-right">
+        {% if page.next.url %}
+        	<a class="btn btn-blue" href="{{page.next.url}}">Next →</a>
+        {% else %}
+        	<span class="btn btn-blue disabled">Next →</span>
+        {% endif %} 
+        </div>
       </div>
-
-      {% include share.html %}
-      {% include disqus.html %}
-      {% include social.html %}
-    </div>
-    {% include footer.html %}
-  </body>
-  {% include mathjax.html %}
-</html>
+      
+      {% include footer.html %}  
+    </div> <!-- content area column -->
+  </div> <!-- row  -->
+</div> <!-- container -->

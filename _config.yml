@@ -1,37 +1,76 @@
-title:            He Tao
-description:      He Tao's personal page.
-url:              http://sighingnow.github.io # Site url.
-signoff:          He Tao # Your name.
-disqus_shortname: he-tao  # disqus comment thread for post header options. ( leave blank if unwanted. )
-
-links:
-  - name:         Blog
-    url:          http://sighingnow.github.io
-  - name:         Category
-    url:          /categories
-  - name:         Tag
-    url:          /tags
-  - name:         Email
-    url:          mailto:he-tao@buaa.edu.cn
-  - name:         GitHub
-    url:          http://github.com/sighingnow
-    external:     true
-  - name:         About
-    url:          /about
-
-social:
-  - name:         Google+
-    url:          https://plus.google.com/u/0/112661429129878562674/posts
-    external:     true
-  - name:         Github
-    url:          https://github.com/sighingnow
-    external:     true
-  - name:         Atom feed
-    url:          http://sighingnow.github.io/feed.xml
-
-highlighter:      pygments
-permalink:        none
+# Configurations
 markdown:         redcarpet
 redcarpet:
-  extensions:
-    - smart
+  extensions: ["no_intra_emphasis", "fenced_code_blocks", "autolink", "tables", "strikethrough", "superscript", "with_toc_data"]
+markdown_ext:  markdown,mkdown,mkdn,mkd,md
+highlighter: pygments
+
+# Permalinks
+permalink:        none
+
+excerpt_separator: "<!--more-->"
+
+# Setup
+title:            'Sighingnow'
+tagline:          "Sighingnow's blog" 
+description:      "Sighingnow's homepage using Jekyll Metro"
+url:              'http://sighingnow.github.io'
+baseurl:          ''
+
+# Navigation
+navigation:
+- text: About
+  url: /about/
+- text: Resume
+  url: /resume/
+- text: Blog
+  url: /blog/
+# - text: Projects
+#   url: /projects/
+- text: Archive
+  url : /archive/
+# - text: Categories
+#   url: /categories/
+- text: Tags
+  url: /tags/
+
+# Author Details
+author:         'Sighingnow'
+
+#Social Media links
+linkedin:       'https://www.linkedin.com/pub/%E6%B6%9B-%E4%BD%95/bb/868/732'
+twitter:        'https://twitter.com/sighingnow'
+github:         'https://github.com/sighingnow'
+gplus:          'https://plus.google.com/102570111351055130345/'
+
+# Google Analytics
+gahandler: '' # 'UA-52149651-1'
+
+#if footer-links-visible is 'true' the svg-icons will be shown top on the copy right.
+#else the svg icons will not exist
+footersvg: 'true'
+
+footer-links:
+  dribbble:
+  email: sighingnow@gmail.com
+  facebook:
+  flickr:
+  github: sighingnow
+  instagram:
+  linkedin: pub/%E6%B6%9B-%E4%BD%95/bb/868/732
+  pinterest: sighingnow
+  rss: /feed.xml # just type anything here for a working RSS icon, make sure you set the "url" above!
+  google: 102570111351055130345
+  twitter: sighingnow
+  stackoverflow: users/3767761/he-tao #users/4388898/peter-zhu # your stackoverflow profile, e.g. "users/50476/bart-kiers"
+
+# Disqus
+disqushandler: 'he-tao'
+
+# Blog Configurations
+paginate: 10 # Posts per page on the blog index
+paginate_path: '/blog/page:num'
+destination: ./_site
+
+# Custom vars
+version:          0.8

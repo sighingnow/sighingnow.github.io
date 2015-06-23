@@ -1,7 +1,8 @@
-He-Tao.github.io
-================
+# Sighingnow
 
-个人博客
+Is't my homepage site: [http://sighingnow.github.io](http://sighingnow.github.io).
 
-[http://sighingnow.github.io](http://sighingnow.github.io)
+## License
+
+Open sourced under the [MIT license](LICENSE).
 
