@@ -19,13 +19,14 @@ Familiar with basic algorithm, such as search, greedy, dynamic programming, grap
 **Experience in Web Application Development:** 
 Building and Supporting an applications using Django framework. Developing UI using BootStrap and jQuery.
 
-<!-- Skills and Interesting-->
+<!-- Skills and Interests -->
+<hr />
 <section class="row">
 	<header class="col-md-2">
-		<h3 style="text-transform:uppercase;color:gray">Skills and Interesting</h3>
+		<h3 style="text-transform:uppercase;color:gray">Skills and Interests</h3>
 	</header>
 	<div class="col-md-6">
-		<ul class="list-group">
+		<ul>
 			<h3><strong>Programming</strong></h3>
 			<li class="list-group-item">C/C++</li>
 			<li class="list-group-item">C#</li>
@@ -34,21 +35,21 @@ Building and Supporting an applications using Django framework. Developing UI us
 			<li class="list-group-item">JavaScript and Node.js</li>
 			<li class="list-group-item">Python(Web Development and Scientific Computation)</li>
 		</ul>
-		<ul class="list-group">
+		<ul>
 			<h3><strong>Specialties</strong></h3>
 			<li class="list-group-item">.Net and CLR Technologies</li>
 			<li class="list-group-item">Operating System and System Programming</li>
 			<li class="list-group-item">Functional Programming and Programming Language Theory</li>
-			<li class="list-group-item">Compiler Technology and Implements</li>
+			<li class="list-group-item">Compiler Technology and Implementation</li>
 			<li class="list-group-item">Java Virtual Machine Technology</li>
-			<li class="list-group-item">Algorithm Design, Analysis and Implements</li>
+			<li class="list-group-item">Algorithm Design, Analysis and Implementation</li>
 			<li class="list-group-item">Basic Machine Learning Algorithm and BigData Technology</li>
 		</ul>
 	</div>
 </section>
-<hr/>
 
 <!-- Education -->
+<hr />
 <section class="row">
 	<header class="col-md-2">
 		<h3 style="text-transform:uppercase;color:gray">Education</h3>
@@ -63,19 +64,24 @@ Building and Supporting an applications using Django framework. Developing UI us
 		</ul>
 	</div>
 </section>
-<hr/>
 
-<!-- Work Experience -->
+<!-- Experience -->
+<hr />
 <section class="row">
 	<header class="col-md-2">
-		<h3 style="text-transform:uppercase;color:gray">Work Experience</h3>
+		<h3 style="text-transform:uppercase;color:gray">Experience</h3>
 	</header>
 	<div class="col-md-9">
 		<ul>
 			<li>
-				<h4>Computer Teaching Experiment Center</h4>
-				<h5>December 2006 - December </h5>
-				<p>Worked as Project Trainee & later Software Engineer</p>
+				<h4>Assistant teacher.</h4>
+				<h5>September 2014 - January 2015, SCSE, BUAA</h5>
+				<p>Worked as assistant teacher of <i>Introduction to Computational Thinking</i> for Non-Computer students.</p>
+			</li>
+			<li>
+				<h4>Website development and maintain</h4>
+				<h5>April 2014 - September 2014, Computer Teaching Experiment Center, BUAA</h5>
+				<p>Worked for developing the teaching experiment platform and maintain the website.</p>
 			</li>
 		</ul>
 	</div>
@@ -83,6 +89,7 @@ Building and Supporting an applications using Django framework. Developing UI us
 
 <!-- Projects -->
 <!--
+<hr />
 <section class="row">
 	<header class="col-md-2">
 		<h3 style="text-transform:uppercase;color:gray">Projects</h3>
@@ -96,10 +103,11 @@ Building and Supporting an applications using Django framework. Developing UI us
 </section>
 -->
 
-<!-- Award -->
+<!-- Honors AND Awards -->
+<hr />
 <section class="row">
 	<header class="col-md-2">
-		<h3 style="text-transform:uppercase;color:gray">Award</h3>
+		<h3 style="text-transform:uppercase;color:gray">Honors AND Awards</h3>
 	</header>
 	<div class="col-md-9">
 		<ul>
@@ -110,15 +118,31 @@ Building and Supporting an applications using Django framework. Developing UI us
 			</li>
 			<li>
 				<h4>First Prize in the 2048 AI Programming Contest.</h4>
-				<h5>June 20th, 2014</h5>
+				<h5>June 2014</h5>
 				<p>Design and implements an AI algorithm to play 2048 game.</p>
 			</li>
 			<li>
 				<h4>Third Prize in the 24th "Feng Ru Cup" Competition of Innovation</h4>
-				<h5>May 20th, 2014</h5>
+				<h5>May 2014</h5>
 				<p>The 24th Beihang University "Feng Ru Cup" Student Academic Scientific and Technological Works Competition.</p>
 			</li>
 		</ul>
 	</div>
 </section>
+
+<!-- Academic Publish -->
+<!--
+<hr />
+<section class="row">
+	<header class="col-md-2">
+		<h3 style="text-transform:uppercase;color:gray">Academic Publish</h3>
+	</header>
+	<div class="col-md-9">
+		<ul>
+			<li>
+			</li>
+		</ul>
+	</div>
+</section>
+-->
 

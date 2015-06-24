@@ -504,8 +504,32 @@ class Empty extends IntSet {
 
 但，如果子类也是abstract修饰的，那么就可以不同实现父类的所有抽象方法。
 
+3. 直接定义object：全局唯一的类的实例(singleton object)。例如上面的例子里的`Empty`类的实例都是相同的。可以写成：
 
+```scala
+object Empty extends IntSet {
+  def incl(x: Int): IntSet = new NonEmpty(x, Empty, Empty)
+  def contains(x: Int): Boolean = false
+}
+```
 
+但是，使用object继承一个class时，这个class不能有未实现的方法。
+
+这种object会在第一次引用时被创建，不能使用`new`来创建实例。
+
+main函数：
+
+```scala
+object Hello {
+  def main(args: Array[String]) = println("hello scala.")
+}
+```
+
+4. Dynamic Binding
+
+> Object-oriented languages(including Scala) implement dynamic method dispatch. This means that the code invoked by a method call depends on the runtime type of the object that contains the method.
+
+> Dynamic dispatch of methods is analogous to calls to higher-order functions.
 
 Week 4: Types and Pattern Matching
 ----------------------------------
