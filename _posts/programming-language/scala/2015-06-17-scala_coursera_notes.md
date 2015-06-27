@@ -531,8 +531,114 @@ object Hello {
 
 > Dynamic dispatch of methods is analogous to calls to higher-order functions.
 
+5. Package
+
+Scala中import的三种语法：
+
+```scala
+import A.func
+import A.{func1, func2}
+import a._  // 导入整个包里的所有内容
+```
+
+6. Traits
+
+> In Java, as well as in Scala, a class can only have one superclass. But what if a class has several natural supertypes to which it
+conforms or from which it wants to inherit code? Here, you could use traits.
+
+Wikipedia上关于Traits的解释：[https://en.wikipedia.org/wiki/Trait_(computer_programming)](https://en.wikipedia.org/wiki/Trait_(computer_programming))。
+
+A trait represents a collection of methods, that can be used to extend the functionality of a class.
+
+Scala中实现trait的语法：
+
+    class A extends TA with TB with TC
+
+表示类A继承并且实现了trait TA, TB, TC。多继承时，多个父级trait之间用`with`连接。
+
+Traits不能有参数。Traits仅仅是一系列方法的集合。
+
+> Traits resemble interfaces in Java, but are more powerful because they can contains ﬁelds and concrete methods.
+
+Traits中的方法可以有默认实现(default implementations)。
+
+7. Top Types in Scala
+
++ Any: the base type of all types, Methods: ‘==‘, ‘!=‘, ‘equals‘, ‘hashCode, ‘toString‘
++ AnyRef: The base type of all reference types, Alias of ‘java.lang.Object‘
++ AnyVal: The base type of all primitive types
+
+Scala的类型继承关系图：
+
+![]({{site.url}}/resource/scala_coursera_notes/scala_class_hierarchy.png)
+
+8. Nothing
+
+> Nothing is at the bottom of Scala's type hierarchy. It's a subtype of every other type. There is no value of type Nothing.
+
+Nothing的两个用途：
+
++ To signal abnormal termination
++ As an element type of empty collections (see next session), 例如：Set[Nothing]
+
+```
+def func(): Nothing = throw new Exception("Nothing.")
+```
+
+9. Scala.Null
+
+`Scala.Null` is a subtype of every other type. The type of `null` is `Scala.Null`.
+
+10. 多态(Polymorphism)
+
+Polymorphism means that a function type comes "in many forms". In programming it means that:
+
++ the function can be applied to arguments of many types.
++ the type can have instances of many types.
+
+Two principal forms of polymorphism:
+
++ subtyping: instances of a subclass can be passed to a base class.
++ generics: instances of a function or class are created by type parameterization.
+
+11. 参数化(Parametrization): Type parameterization means that classes as well as methods can now have types as parameters.
+
+在Scala中，类和函数都可以拥有泛型参数。
+
+```scala
+class A[T](ae: T) {
+  def e = ae
+}
+
+def func[T](e: T) = println(e)
+```
+
+12. type erasure
+
+Type parameters do not affect evaluation in Scala. We can assume that all type parameters and type arguments are removed before evaluating the program.
+
++ Languages that use type erasure include: Java, Scala, Haskell, ML, OCaml.
++ Languages that keep the type parameters around at run time: C++, C#, F#.
+
 Week 4: Types and Pattern Matching
 ----------------------------------
+
+1. Functions as Objects
+
+In fact function values are treated as objects in Scala. Functions are objects with apply methods.
+
+例如Scala.Function, Scala.Function1, etc.
+
+```scala
+package scala
+trait Function1[A, B] {
+  def apply(x: A): B
+}
+```
+
+2. Expansion of Function Values
+
+An anonymous 
 
 Week 5: Lists
 --------------
@@ -542,9 +648,6 @@ Week 6: Collections
 
 Week 7: Lazy Evaluation
 -----------------------
-
-
-
 
 
 

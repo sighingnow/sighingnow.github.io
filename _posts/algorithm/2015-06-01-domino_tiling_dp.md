@@ -112,7 +112,7 @@ return dp[h%2][(1<<w)-1];
 
 还可以进一步压缩空间：
 
-```
+```cpp
 long long dp[2][1<<maxw] = {{0}};
 dp[0][(1<<w)-1] = 1;
 for(int i = 0; i < h; ++i) {
