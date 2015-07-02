@@ -9,7 +9,7 @@ layout: post
 
 Coursera上的瑞士洛桑理工大学Scala函数式编程原理(Functional Programming Principles in Scala)课程笔记。
 
-课程链接：[https://class.coursera.org/progfun-005](https://class.coursera.org/progfun-005)
+课程链接：[Functional Programming Principles in Scala](https://class.coursera.org/progfun-005)
 
 Getting Started
 ---------------
@@ -151,6 +151,8 @@ def factorial(n: Int): Int = {
   factorial_i(1, n)
 }
 ```
+
+9. Scala中，函数没有返回值时，默认返回`Unit`。
 
 Week 2: Higher Order Functions
 ------------------------------
@@ -546,7 +548,7 @@ import a._  // 导入整个包里的所有内容
 > In Java, as well as in Scala, a class can only have one superclass. But what if a class has several natural supertypes to which it
 conforms or from which it wants to inherit code? Here, you could use traits.
 
-Wikipedia上关于Traits的解释：[https://en.wikipedia.org/wiki/Trait_(computer_programming)](https://en.wikipedia.org/wiki/Trait_(computer_programming))。
+Wikipedia上关于Traits的解释：[Trait_(computer_programming)](https://en.wikipedia.org/wiki/Trait_(computer_programming))。
 
 A trait represents a collection of methods, that can be used to extend the functionality of a class.
 
@@ -638,7 +640,51 @@ trait Function1[A, B] {
 
 2. Expansion of Function Values
 
-An anonymous 
+匿名函数(Anonymous Function)
+
+    (x: Int) => x * x
+
+展开后的形式为：
+
+    {
+      class AnonFun extends Function1[Int, Int] {
+        def apply(x: Int) = x * x
+      }
+      new AnonFun
+    }
+
+再举一个相关的例子：
+
+```scala
+import scala.Function1
+
+object progfun {
+  println("Welcome to the Scala worksheet")       //> Welcome to the Scala worksheet
+  val f = new Function1[Int, Int] {
+    def apply(x: Int) = x * x
+  }                                               //> f  : Int => Int = <function1>
+  f.apply(7)                                      //> res0: Int = 49
+
+  object One {
+    def apply() = println("no arg")
+    def apply(x: Int) = println("one arg")
+    def apply(x: Int, y: Int) = println("two args")
+  }
+  One()                                           //> no arg
+  One(1)                                          //> one arg
+  One(1, 2)                                       //> two args
+}
+```
+
+3. `Function1`的定义如下：`trait Function1[-T1, +R] extends AnyRef`。
+
+4. A pure object-oriented language is one in which every value is an object. If the language is based on classes, this means that the type of each value is a class.
+
+5. 在Scala中，任何数据类型都可以用类表达出来。
+
+6. Polymorphism: 多态：两个方面：子类型、泛型。
+
+7. Type Bounds and 
 
 Week 5: Lists
 --------------
