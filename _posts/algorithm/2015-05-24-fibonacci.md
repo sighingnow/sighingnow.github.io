@@ -92,6 +92,8 @@ $$ \sum_{i=1}^n {f(i)*(-1)^i} = (-1)^n * (f(n+1)-f(n))+1 $$
 常用的还有下列结论：
 
 $$ f(n+m) = f(n+1)*f(m) + f(n)*f(m-1) $$
+$$ f(2*n+1) = f(n+1)^2 + f(n)^2 $$
+$$ f(2*n) = 2f(n)f(n+1) - f(n)^2 $$
 $$ f(n)^2 = (-1)^{n+1} + f(n-1)*f(n+1) $$
 
 由上式稍作变换，便有$$ f(m-1)^2\ mod\ f(m) = (-1)^m $$
@@ -180,6 +182,34 @@ long long multiply(long long a, long long b) {
 
 题目Accept代码：[PREV_29.cpp](/sourcecode/PREV_29.cpp)
 
+Fibonacci另一种快速算法
+--------------------
+
+在[http://www.zhihu.com/question/29215494][5]看到了另一种基于分治的Fibonacci数列第n项的方法：
+
+```c
+double Fibonacci(int n){
+    double x = 1.0, y = 1.0, a = 0, b = 1.0,t;
+    while (n>0)
+    {
+        if (n & 1){
+            t = a*x + b*y;
+            a = x*(b - a) + a*y;
+            b = t;
+        }
+        t = 2 * x*y - x*x;
+        y = x*x + y*y;
+        x = t;
+        n >>= 1;
+    }
+    return a;
+}
+```
+
+关于该算法的解释如下图所示：
+
+![][4]
+
 参考
 ----
 
@@ -192,5 +222,5 @@ long long multiply(long long a, long long b) {
 [1]: http://lx.lanqiao.org/problem.page?gpid=T121
 [2]: http://blog.csdn.net/acdreamers/article/details/21822165
 [3]: http://blog.csdn.net/acdreamers/article/details/23039571
-
-
+[4]: {{site.url}}/resource/fibonacci/fibonacci-www.zhihu.com.png
+[5]: http://www.zhihu.com/question/29215494
