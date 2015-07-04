@@ -298,12 +298,12 @@ namespace Delegate
 }
 ```
 
-Action<T>和Func<T>委托
+`Action<T>`和`Func<T>`委托
 ---------------------
 
-Action<T>和Func<T>委托进一步简化了委托的定义,而不用显式声明自定义委托。
+`Action<T>`和`Func<T>`委托进一步简化了委托的定义,而不用显式声明自定义委托。
 
-泛型Action<T>委托表示引用一个void返回类型的方法，这个委托类存在不同的变体，最多可传递16种不同的参数类型。
+泛型`Action<T>`委托表示引用一个void返回类型的方法，这个委托类存在不同的变体，最多可传递16种不同的参数类型。
 
 ```cs
 Action<int> f = delegate(int arg)
@@ -313,7 +313,7 @@ Action<int> f = delegate(int arg)
 f.Invoke(10);
 ```
 
-Func<T>允许调用带返回类型的方法，与Action<T>类似，也定义了不同的变体，最多也可传递16种不同的参数类型和一个返回类型。
+`Func<T>`允许调用带返回类型的方法，与`Action<T>`类似，也定义了不同的变体，最多也可传递16种不同的参数类型和一个返回类型。
 
 ```cs
 Func<int, int> f = delegate(int arg)
@@ -326,20 +326,20 @@ Console.WriteLine(f.Invoke(10));
 
 `Func<T>`的类型参数列表中**最后一个**类型为返回值的类型。
 
-Predicate<T>委托
+`Predicate<T>`委托
 ----------------
 
-Predicate<T>委托是C#类库中另一个常用的匿名委托，其定义如下:
+`Predicate<T>`委托是C#类库中另一个常用的匿名委托，其定义如下:
 
     public delegate bool Predicate<T>(T obj);
 
-此委托引用一个返回bool 值的方法，在实际开发中，通常使用Predicate<T>委托变量引用一个“判断条件函数”，在判断条件函数内部书写代码表明函数参数所引用的对象应满足的条件，条件满足时，函数返回true.
+此委托引用一个返回bool 值的方法，在实际开发中，通常使用`Predicate<T>`委托变量引用一个“判断条件函数”，在判断条件函数内部书写代码表明函数参数所引用的对象应满足的条件，条件满足时，函数返回true.
 
-例如，在类库中，List<T> 里面的Find方法，定义如下：
+例如，在类库中，`Array<T>` 里面的Find方法，定义如下：
 
     public T Find(Predicate<T> match);
 
-一个使用Predicate<T>委托的例子：
+一个使用`Predicate<T>`委托的例子：
 
 ```cs
 using System;
@@ -398,9 +398,9 @@ namespace SharpWork
 }
 ```
 
-上文中使用Predicate<T>委托的例子可以直接改成使用Lambda的例子：
+上文中使用`Predicate<T>`委托的例子可以直接改成使用Lambda的例子：
 
-```
+```cs
 using System;
 using System.Drawing;
 

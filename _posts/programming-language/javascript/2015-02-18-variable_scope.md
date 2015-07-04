@@ -1,5 +1,5 @@
 ---
-title: Javascript 变量作用域与闭包
+title: Javascript 变量作用域
 author: He Tao
 date: 2015-02-18
 tag: Javascript
