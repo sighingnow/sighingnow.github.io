@@ -16,7 +16,7 @@ C#委托与函数指针
 
 委托是安全封装方法的类型，类似于 C 和 C++ 中的函数指针。
 
-```cs
+```csharp
 class Program
 {
     delegate void pFunc(int x);
@@ -55,7 +55,7 @@ C#中的委托类型
 
 例如，如果创建方法所需的系统开销是不必要的，则指定代码块（而不是委托）可能非常有用。 启动新线程即是一个很好的示例。 无需为委托创建更多方法，线程类即可创建一个线程并且包含该线程执行的代码。
 
-```cs
+```csharp
 void StartThread() 
 { 
     System.Threading.Thread t = new System.Threading.Thread (delegate() 
@@ -71,7 +71,7 @@ void StartThread()
 
 一次委托调用多个方法，通过+和-运算符实现多播的增加或减少。多播委托包含已分配委托的列表。在调用多播委托时，它会按顺序调用列表中的委托。只能合并相同类型的委托。一个多播委托的例子：
 
-```cs
+```csharp
 using System;
 
 namespace SharpWork
@@ -114,9 +114,11 @@ Observer设计模式是为了定义对象间的一种一对多的依赖关系，
 1. Subject：监视对象，它往往包含着其他对象所感兴趣的内容。会不断把数据发给监视它的对象。
 2. Observer：监视者，它监视Subject，当Subject中的某件事发生的时候，会告知Observer，而Observer则会采取相应的行动。
 
-假设我们有个高档的热水器，我们给它通上电，当水温超过95度的时候：1、扬声器会开始发出语音，告诉你水的温度；2、液晶屏也会改变水温的显示，来提示水已经快烧开了。现在需要写个程序来模拟这个烧水的过程。
+假设我们有个高档的热水器，我们给它通上电，当水温超过95度的时候：
+1. 扬声器会开始发出语音，告诉你水的温度；
+2. 液晶屏也会改变水温的显示，来提示水已经快烧开了。
 
-在本范例中，热水器就是一个监视对象，它包含的其他对象所感兴趣的内容，就是 temprature字段，当这个字段的值快到100时，会不断把数据发给监视它的对象。Observer有警报器和显示器，它们采取的行动分别是发出警报和显示水温。
+现在需要写个程序来模拟这个烧水的过程。在本范例中，热水器就是一个监视对象，它包含的其他对象所感兴趣的内容，就是 temprature字段，当这个字段的值快到100时，会不断把数据发给监视它的对象。Observer有警报器和显示器，它们采取的行动分别是发出警报和显示水温。
 
 在本例中，事情发生的顺序应该是这样的：
 
@@ -126,7 +128,7 @@ Observer设计模式是为了定义对象间的一种一对多的依赖关系，
 
 具体实现代码：
 
-```cs
+```csharp
 /*
  * Created by SharpDevelop.
  * User: He Tao
@@ -207,7 +209,7 @@ namespace Delegate
 
 按照这一个规范，将上述代码改下为如下形式：
 
-```cs
+```csharp
 /*
  * Created by SharpDevelop.
  * User: He Tao
@@ -305,7 +307,7 @@ namespace Delegate
 
 泛型`Action<T>`委托表示引用一个void返回类型的方法，这个委托类存在不同的变体，最多可传递16种不同的参数类型。
 
-```cs
+```csharp
 Action<int> f = delegate(int arg)
 {
     Console.WriteLine(arg);
@@ -315,7 +317,7 @@ f.Invoke(10);
 
 `Func<T>`允许调用带返回类型的方法，与`Action<T>`类似，也定义了不同的变体，最多也可传递16种不同的参数类型和一个返回类型。
 
-```cs
+```csharp
 Func<int, int> f = delegate(int arg)
 {
     Console.WriteLine(arg);
@@ -341,7 +343,7 @@ Console.WriteLine(f.Invoke(10));
 
 一个使用`Predicate<T>`委托的例子：
 
-```cs
+```csharp
 using System;
 using System.Drawing;
 
@@ -379,7 +381,7 @@ Lambda表达式
 
 前文中提到了如何通过命名方法和匿名方法创建委托(delegate)，接下来给出一个使用Lambda表达式来创建委托的例子：
 
-```cs
+```csharp
 using System;
 
 namespace SharpWork
@@ -400,7 +402,7 @@ namespace SharpWork
 
 上文中使用`Predicate<T>`委托的例子可以直接改成使用Lambda的例子：
 
-```cs
+```csharp
 using System;
 using System.Drawing;
 
