@@ -46,11 +46,11 @@ JavaScript中的闭包
 
 ```js
 function f(){
-　　　　var n=999;
-　　　　function g(){
-　　　　　　return (n++); 
-　　　　}
-　　　　return g;
+    var n=999;
+    function g(){
+        return (n++); 
+    }
+    return g;
 }
 ```
 
@@ -91,7 +91,7 @@ function f() {
         return n; 
     }
     n += 1;
-　　　　return g;
+    return g;
 }
 
 console.log(f()());

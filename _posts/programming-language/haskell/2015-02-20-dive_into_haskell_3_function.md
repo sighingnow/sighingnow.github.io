@@ -228,11 +228,11 @@ qsort (x:xs) = qsort(filter (< x) xs) ++ [x] ++ qsort(filter (>=x) xs)
 
 ```python
 def qsort(a):
-if a == []:
-    return []
-return qsort(list(filter(lambda e:e<a[0], a[1:]))) \
-        + [a[0]] \
-        + qsort(list(filter(lambda e:e>=a[0], a[1:])))
+    if a == []:
+        return []
+    return qsort(list(filter(lambda e:e<a[0], a[1:]))) \
+            + [a[0]] \
+            + qsort(list(filter(lambda e:e>=a[0], a[1:])))
 ```
 
 由此不难看出列表推导(List Comprehension)和递归(Recursive)的威力。
