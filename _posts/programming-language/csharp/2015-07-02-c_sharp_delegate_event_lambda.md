@@ -2,7 +2,7 @@
 title: C# 委托、事件与Lambda表达式
 author: He Tao
 date: 2015-07-02
-tags: [C Sharp]
+tags: [CSharp]
 category: 编程语言
 layout: post
 ---
