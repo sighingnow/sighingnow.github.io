@@ -150,7 +150,7 @@ void gotoxy(int x, int y) {
 
 同样，也可以通过输出控制符来控制输出字符的颜色，用法如下：
 
-+ Esc[Ps;Psm 设置图形模式(Set Graphics Mode)。第一个Ps的值为背景色的值，第二个Ps的值为前景色的值。
++ Esc[Ps;Psm 设置图形模式(Set Graphics Mode)。第一个Ps的值为前景色的值，第二个Ps的值为背景色的值。
 
 背景色的颜色值范围为`40~49`，前景色的颜色值范围为`30-39`，具体颜色值如下：
 
@@ -164,6 +164,8 @@ void gotoxy(int x, int y) {
 | purple     | 45         | 35         |
 | deep green | 46         | 36         |
 | white      | 47         | 37         |
+
+例如，`echo -e "\e[1;42m"`表示将背景色设置为green，而`echo -e "\e[1;32m`表示将前景色设置为green.
 
 ### 其他转义序列控制
 

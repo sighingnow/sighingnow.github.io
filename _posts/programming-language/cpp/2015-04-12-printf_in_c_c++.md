@@ -114,6 +114,29 @@ C/C++中的格式化IO操作（输入、输出）使用非常灵活，但C/C++�
 
 可见，格式化输入/输出时，**`+`和`-`之间有着很大的区别！**
 
+转义序列
+-------
+
+Table of escape sequences
+
+| Escape sequence   | Hex value in ASCII  | Character represented                                                                         |
+|-------------------|:-------------------:|-----------------------------------------------------------------------------------------------|
+| `\a`              | 07                  | Alarm (Beep, Bell)                                                                            |
+| `\b`              | 08                  | Backspace                                                                                     |
+| `\f`              | 0C                  | Formfeed                                                                                      |
+| `\n`              | 0A                  | Newline (Line Feed); see notes below                                                          |
+| `\r`              | 0D                  | Carriage Return                                                                               |
+| `\t`              | 09                  | Horizontal Tab                                                                                |
+| `\v`              | 0B                  | Vertical Tab                                                                                  |
+| `\\`              | 5C                  | Backslash                                                                                     |
+| `\'`              | 27                  | Single quotation mark                                                                         |
+| `\"`              | 22                  | Double quotation mark                                                                         |
+| `\?`              | 3F                  | Question mark                                                                                 |
+| `\nnn`            | any                 | The character whose numerical value is given by nnn interpreted as an **octal number**        |
+| `\xhh`            | any                 | The character whose numerical value is given by hh interpreted as a **hexadecimal number**    |
+
+Each escape sequence in the above table maps to a single character, including \n. This is despite the fact that the platform may use more than one character to denote a newline, such as the MS-DOS/Windows CR-LF sequence, 0x0d 0x0a. The translation from 0x0a to 0x0d 0x0a on MS-DOS and Windows occurs when the character or string is written out to a file or to the console, but \n only creates a single character within the memory of the program itself.
+
 参考
 ----
 
@@ -121,11 +144,6 @@ C/C++中的格式化IO操作（输入、输出）使用非常灵活，但C/C++�
 
 1. [cplusplus: scanf](http://www.cplusplus.com/reference/cstdio/scanf/)
 2. [cplusplus: printf](http://www.cplusplus.com/reference/cstdio/printf/)
-
-
-
-
-
-
+3. [Escape sequences in C](https://en.wikipedia.org/wiki/Escape_sequences_in_C)
 
 

@@ -2,7 +2,7 @@
 title: 正则表达式检测质数
 author: He Tao
 date: 2015-07-10
-tags: [Regular, Compiler]
+tags: [Regular]
 category: 编译原理
 layout: post
 ---

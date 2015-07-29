@@ -137,12 +137,12 @@ JNI的数据类型
 JNI中定义的数据类型如下表所示：
 
 
-| Type      | Description                                                        |  
+| Type      | Description                                                        |
 |-----------|--------------------------------------------------------------------|
 | jboolean  | Holds a Java programming language boolean. Unsigned 8 bits.        |
 | jint      | Holds a Java programming language int. Signed 32 bits.             |
 | jlong     | Holds a Java programming language long. Signed 64 bits.            | 
-| jfloat    | Holds a Java programming language float. 32 bits.                  |  
+| jfloat    | Holds a Java programming language float. 32 bits.                  |
 | jdouble   | Holds a Java programming language double. 64 bits.                 |
 | jobject   | Holds a Java programming language object.                          |
 | jclass    | Holds a Java programming language class.                           |

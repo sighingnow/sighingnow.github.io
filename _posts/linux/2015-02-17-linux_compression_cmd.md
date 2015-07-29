@@ -103,6 +103,7 @@ Main operation mode:
 15. .tar.xz 格式
 
         解压：xz -d filename.tar.xz
+             tar -xvf filename.tar
         压缩：xz -Z FileDir
 
 16. .lzma格式
@@ -110,8 +111,4 @@ Main operation mode:
         解压：lzma -d filename.lzma
         压缩: lzma -k FileDir
 
-17. .tar.xz格式
-
-        解压：xz -d filename.tar.xz
-             tar -xvf filename.tar
 

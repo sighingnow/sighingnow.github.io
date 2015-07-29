@@ -682,9 +682,50 @@ object progfun {
 
 5. 在Scala中，任何数据类型都可以用类表达出来。
 
-6. Polymorphism: 多态：两个方面：子类型、泛型。
+```scala
+object progfun {
+  class Int {
+    def + (that: Int): Int
+    def - (that: Int): Int
+    def * (that: Int): Int
+    def / (that: Int): Int
+    // ...
+  }
+}
+```
 
-7. Type Bounds and 
+6. Polymorphism: 多态：两个方面：子类型(Subtyping)、泛型(generics)。
+
+7. Type Bounds and Variance
+
+    + Type Bounds: subject the type parameters to sub type constraints.
+    + Variance: defines how parameterized types behave under sub typing.
+
+8. Generally, the notation
+
+    + `S <: T` means: S is a subtype of T. (upper bound)
+    + `S >: T` means: S is a supertype of T, or T is a subtype of S. (lower bound)
+    + `[S >: T <: R]` means: S is a subtype of T, and S is a subtype of R. It would restrict S any type on the interval between T and R. (mixed bound)
+
+9. The Liskov Substitution Principle
+
+Substitutability is a principle in object-oriented programming. It states that, in a computer program, if S is a subtype of T, then objects of type T may be replaced with objects of type S without altering any of the desirable properties of that program (correctness, task performed, etc.).  More formally, the Liskov substitution principle (LSP) is a particular definition of a subtyping relation, called (strong) behavioral subtyping, that was initially introduced by Barbara Liskov in a 1987 conference keynote address entitled Data abstraction and hierarchy.
+
+In Scala, If `A <: B`, then everything one can to do with a value of type B one should also be able to do with a value of type A.
+
+10. Say `C[T]` is a parameterized type and A, B are types such that `A <: B`. In general, there are three possible relationships between C[A] and C[B]:
+
+    + `C[A] <: C[B]`:   C is **covariant**
+    + `C[A] >: C[B]`:   C is **contravariant**
+    + neither C[A] or C[B] is a subtype of the other:   C is **nonvariant**
+
+Scala lets you declare the variance of a type by annotating the type parameter:
+
++ class C[+A] { ... }         C is **covariant**
++ class C[-A] { ... }         C is **contravariant**
++ class C[A] { ... }          C is **novariant**
+
+
 
 Week 5: Lists
 --------------
