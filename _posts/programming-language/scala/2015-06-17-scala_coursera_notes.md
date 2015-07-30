@@ -715,9 +715,9 @@ In Scala, If `A <: B`, then everything one can to do with a value of type B one 
 
 10. Say `C[T]` is a parameterized type and A, B are types such that `A <: B`. In general, there are three possible relationships between C[A] and C[B]:
 
-    + `C[A] <: C[B]`:   C is **covariant**
-    + `C[A] >: C[B]`:   C is **contravariant**
-    + neither C[A] or C[B] is a subtype of the other:   C is **nonvariant**
+    + `C[A] <: C[B]`:   C is **covariant**(co-variant)
+    + `C[A] >: C[B]`:   C is **contravariant**(contra-variant)
+    + neither C[A] or C[B] is a subtype of the other:   C is **nonvariant**(non-variant)
 
 Scala lets you declare the variance of a type by annotating the type parameter:
 
@@ -725,17 +725,187 @@ Scala lets you declare the variance of a type by annotating the type parameter:
 + class C[-A] { ... }         C is **contravariant**
 + class C[A] { ... }          C is **novariant**
 
+11. Variance check.
 
+Rules:
+
++ covariant type parameters can only appear in method results.
++ contravariant type parameters can only appear in method parameters.
++ invariant type parameters can appear anywhere.
+
+A problematic example:
+
+```scala
+trait List[+T] {
+  def isEmpty = false
+  def prepend(elem: T): List[T] = new Cons(elem, this)
+}
+
+class Cons[T](val head: T, val tail: List[T]) extends List[T] {
+  override def isEmpty: Boolean = false
+}
+
+object Nil extends List[Nothing] {
+  override def isEmpty: Boolean = true
+}
+```
+
+In function `prepend`, covariant type parameter `T` is used in method parameters, then, the compiler will report a error:
+
+**`covariant type T occurs in contravariant position in type T of value elem`**
+
+How to correct it, make it variance-correct ? The answer is that use lower bounds:
+
+```scala
+trait List[+T] {
+  def isEmpty = false
+  def prepend[U >: T](elem: U): List[U] = new Cons(elem, this)
+}
+```
+
+More, the method `prepend` **violates LSP** (Liskov Substitution Principle). If `xs` is a list of type `List[NonEmpty]`, when we call `xs.prepend(Empty)`, it would lead to a type error. `xs.prepend` requires a `NonEmpty` object, and found `Empty`, but, `List[NonEmpty]` is also a subtype of `List[IntSet]`. so, it's problematic.
+
+**We can see that the variance checking rules was actually invented to prevent mutable operations in covariant class, also rules out something which doesn't involve any mutability at all.**
+
+Covariant type parameters may appear in lower bounds of method type parameters, and contravariant type parameters may appear in upper bounds of method.
+
+12. Pattern Matching
+
+**Pattern Matching** is a generalization of `switch` from C/Java to class hierarchies.
+
+13. Match Syntax:
+
++ `match` is followed by a sequence of cases, `pat => expr`.
++ Each case associates an expression expr with a pattern pat.
++ A MatchError exception is thrown if no pattern matches the value of the selector.
+
+```
+e match { case p1 => e1 ... case pn => en }
+```
+
+Patterns are constructed from:
+
++ constructors, e.g. `Number`, `Sum`(case class),
++ variables, e.g. n, `e1`, `e2`,
++ wildcard patterns `_`, **Important**
++ constants, e.g. `1`, `true`.
+
+```scala
+object Progfun {
+  def func() = {
+    val d = 1;
+    d match {
+      case 1 => "abcd"
+      case 2 => "efgh"
+      case _ => "catch default value."
+    }
+  }
+  def main(args: Array[String]) = {
+    println(func())
+  }
+}
+```
+
+在这个例子中，`match`匹配到`1`之后，`func`函数直接返回`"abcd"`，不会接着运行后面的语句，不需要`break`。
 
 Week 5: Lists
 --------------
 
+1. Higher-Order List Functions
+
+2. Map and Filter
+
+3. Equational Proof on Lists
+
 Week 6: Collections
 -------------------
 
+1. Generate Pairs
+
+The Law is that:
+
+```scala
+xs flatMap f = (xs map f).flatten
+```
+
+2. The difference between `map` and `flatMap`: flatMap works applying a function **that returns a sequence for each element in the list**, and **flattening** the results into the original list.
+
+For Example:
+
+```scala
+object progfun {
+  val x = 1 until 3
+  def f(x: Int) = List(x-1, x, x+1)
+  x map (f)
+  x flatMap f
+}
+```
+
+在Scala Worksheet中的运行结果：
+
+```
+res0: [List[Int]] = Vector(List(0, 1, 2), List(1, 2, 3))
+res1: [Int] = Vector(0, 1, 2, 1, 2, 3)
+```
+
+3. For-Expression
+
+```scala
+for (p <- persons if p.age > 20) yield p.name
+```
+
+is equivalent to
+
+```scala
+persons filter (p => p.age > 20) map (p => p.name)
+```
+
+```scala
+object progfun {
+  for {
+    i <- 1 until 4
+    j <- 1 until i
+    if i + j < 6
+  } yield (i, j)
+}
+```
+
+的运行结果为：
+
+```
+res0: [(Int, Int)] = Vector((2,1), (3,1), (3,2))
+```
+
+Higher-order functions such as map, flatMap or filter provide powerful constructs for manipulating lists, but sometimes the level of abstraction required by these function make the program difficult to understand.
+
+In this case, Scala's for expression notation can help.
+
+4. Translation of For
+
+The syntax of for is closely related to the higher-order functions `map`, `flatMap` and `filter`. These functions can all be defined in terms of for:
+
+```scala
+def mapFun[T, U](xs: List[T], f: T => U): List[U] =
+  for (x <- xs) yield f(x)
+def flatMap[T, U](xs: List[T], f: T => Iterable[U]): List[U] = 
+  for (x <- xs; y <- f(x)) yield y
+def filter[T](xs: List[T], p: T => Boolean): List[T] =
+  for (x <- xs if p(x)) yield x
+```
+
+5. `Filter` and `withFilter`
+
+From the scala docs:
+
+> Note: the difference between c filter p and c withFilter p is that the former creates a new collection, whereas the latter only restricts the domain of subsequent map, flatMap, foreach, and withFilter operations.
+
+So filter will take the original collection and produce a new collection, but withFilter will non-strictly (ie. lazily) pass unfiltered values through to later map/flatMap/withFilter calls, saving a second pass through the (filtered) collection. Hence it will be more efficient when passing through to these subsequent method calls.
+
+In fact, withFilter is specifically designed for working with chains of these methods, which is what a for comprehension is de-sugared into. No other methods (such as forall/exists) are required for this, so they have not been added to the FilterMonadic return type of withFilter.
+
+6. `for` and database. Similar ideas underly Microsoft's LINQ.
+
 Week 7: Lazy Evaluation
 -----------------------
-
-
 
 
