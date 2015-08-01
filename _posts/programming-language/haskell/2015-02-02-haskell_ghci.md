@@ -1,5 +1,5 @@
 ---
-title: Dive Into Haskell(1) GHCi
+title: Haskell GHCi使用
 author: He Tao
 date: 2015-02-02
 tags: [Haskell]
@@ -58,8 +58,8 @@ GHCi 使用
     - `toIntegral`函数可以将其他类型的数(如：浮点数)转换成整数。
     - 类似的函数还有：`fromInteger`,`toInteger`。
 
-+ GHCi 中不能用 % 进行取模运算。
-+ GHCi 中，用`/=`表达不等号。举例：
++ GHCi 中，**不能用 % 进行取模运算**。
++ GHCi 中，**用`/=`表达不等号**。举例：
 
         Prelude> 10 /= 20
         True
@@ -135,4 +135,42 @@ GHCi 自动补全
 
 在GHCi中输入命令时，输入命令的前几个字符后，按`Tab`键便可以补全命令。如果有多个相匹配的命令，GHCi会在下一行列出这些命令。如果只有一个，会直接补全。
 
+Haskell注释语法
+--------------
 
++ 单行注释： `-- xxx`
++ 多行注释： `{-- xxx --}`
+
+GHC Profiler
+------------
+
+运行Haskell程序时加上`+RTS -s`参数，可以得到profiler统计结果。
+
+```
+500000500000
+      80,084,528 bytes allocated in the heap
+          11,696 bytes copied during GC
+          42,680 bytes maximum residency (2 sample(s))
+          18,760 bytes maximum slop
+               1 MB total memory in use (0 MB lost due to fragmentation)
+
+                                    Tot time (elapsed)  Avg pause  Max pause
+  Gen  0       152 colls,     0 par    0.00s    0.00s     0.0000s    0.0001s
+  Gen  1         2 colls,     0 par    0.00s    0.00s     0.0002s    0.0003s
+
+  INIT    time    0.00s  (  0.00s elapsed)
+  MUT     time    0.03s  (  0.04s elapsed)
+  GC      time    0.00s  (  0.00s elapsed)
+  EXIT    time    0.00s  (  0.00s elapsed)
+  Total   time    0.05s  (  0.04s elapsed)
+
+  %GC     time       0.0%  (4.5% elapsed)
+
+  Alloc rate    2,562,704,896 bytes per MUT second
+
+  Productivity 100.0% of total user, 123.3% of total elapsed
+```
+
+使用`+RTS -S`(大写的`S`)选项可以输出GC的Trace。
+
+使用GHC编译时加上`-rtsopts`选项有助于生成更好的Profiler报告。

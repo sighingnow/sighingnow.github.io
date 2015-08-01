@@ -1,5 +1,5 @@
 ---
-title: Dive Into Haskell(5) 基本输入与输出(Basic IO)
+title: Haskell 基本输入与输出(Basic IO)
 author: He Tao
 date: 2015-03-22
 tag: [Haskell]
@@ -80,7 +80,7 @@ main = do
 
     "1234567"
 
-在Haskell中，`return`记号可以用来构造一个IO Action，并且，与C、Java、Python等语言不同，`return`不会终止函数的运行，`return`语句仅仅是构造了一个IO Action而已。在上例中，`return`构造的`IO String`类型的值与`getLine`函数的`IO String`类型的返回值具有一样的特征（例如都可以用`<-`记号来取得IO Action的值）。
+在Haskell中，`return`记号可以用来构造一个IO Action，并且，**与C、Java、Python等语言不同，`return`不会终止函数的运行，`return`语句仅仅是构造了一个IO Action而已**。在上例中，`return`构造的`IO String`类型的值与`getLine`函数的`IO String`类型的返回值具有一样的特征（例如都可以用`<-`记号来取得IO Action的值）。
 
 组合IO
 -------
@@ -175,3 +175,155 @@ main = do
 + `renameDirectory`: 重命名目录，
 + `removeDirectoryRecursive`: 递归地删除目录。
 
+sequence
+--------
+
+`sequence` 接受一串 I/O action，并回传一个会依序执行他们的 I/O action。运算的结果是包在一个 I/O action 的一连串 I/O action 的运算结果。他的 type signature 是 `sequence :: [IO a] -> IO [a]`
+
+```haskell
+main :: IO()
+main = do
+    rs <- sequence [getLine, getLine, getLine]
+    print rs
+```
+
+就等价于：
+
+```haskell
+main :: IO()
+main = do
+    a <- getLine
+    b <- getLine
+    c <- getLine
+    print [a,b,c]
+```
+
+
+when
+----
+
+这函数定义在 `Control.Monad` 中。`when`在一个 do block 中看起来就像一个控制流程的 statement，但实际上他的确是一个普通的函数。
+
+他接受一个 boolean 值跟一个 I/O action。如果 boolean 值是 True，便回传我们传给他的 I/O action。如果 boolean 值是 False，便回传 return ()，即什么都不做的 I/O action。
+
+```haskell
+import Control.Monad
+
+main :: IO()
+main = do
+    c <- getChar
+    when (c /= ' ') $ do
+        putChar c
+        main
+```
+
+mapM
+-----
+
+`mapM` 接受一个函数跟一个串列，将对串列用函数 `map` 然后 `sequence` 结果。`mapM_` 也作同样的事，只是他把运算的结果丢掉而已。在不关心 I/O action 结果的情况下，`mapM_` 是最常被使用的。
+
+`map print [1,2,3,4]` 这个动作并不会产生一个 I/O action，而是一串 I/O action，就像是 `[print 1, print 2, print 3, print 4]`。如果我们将一串 I/O action 变成一个 I/O action，我们必须用 `sequence`:
+
+    sequence $ map print [1,2,3,4]
+
+等价于：
+
+    mapM print [1,2,3,4]
+
+如果忽略结果，使用：
+
+    mapM_ print [1,2,3,4]
+
+interact
+--------
+
+`interact` 接受一个 `String -> String` 的函数，并回传一个 I/O action。那个 I/O action 会读取一些输入(直到读到EOF)，调用提供的函数，然后把函数的结果打印出来。
+
+能应用 `interact` 的情况有几种，像是从输入 pipe 读进一些内容，然后丢出一些结果的程序；或是从用户获取一行一行的输入，然后丢回根据那一行运算的结果，再拿取另一行。
+
+```haskell
+import Control.Monad
+import System.IO
+
+main :: IO()
+main = interact reverseLine
+
+reverseLine :: String -> String
+reverseLine contents = unlines (map (\s -> reverse s) (lines contents))
+
+-- point-free style:
+-- reverseLine = unlines . map reverse . lines
+```
+
+这段程序的作用在于每读入一行就reverse，然后输出。
+
+`lines`和`unlines`的用法： 例如有字符串`"short\nlooooooooooooooong\nshort again"`。这字串有三行。用 `lines` 把字串分成 `["short", "looooooooooooooong", "short again"]`，并返回结果。最后用 `unlines` 把这些字串用换行接起来，形成 `"short\nlooooooooooooooong\nshort again"`。
+
+命令行参数
+---------
+
+在 `System.Environment` 模块当中有两个 I/O actions: 
+
++ `getArgs`，他的 type 是 `getArgs :: IO [String]`，他是一个拿取命令行引数的 I/O action，并把结果放在包含的一个串列中。
++ `getProgName` 的型态是 `getProgName :: IO String`，他则是一个 I/O action 包含了程序的名称。
+
+```haskell
+import System.IO
+import System.Environment
+
+main :: IO()
+main = do
+    args <- getArgs
+    progName <- getProgName
+    mapM_ print args
+    print progName
+```
+
+随机数(Random)
+-------------
+
+Haskell 是一个纯粹函数式语言。代表任何东西都具有 **referential transparency**。那代表你喂给一个函数相同的参数，不管怎么调用都是回传相同的结果。在 `System.Random` 模块中，包含生成随机数所需要的函数：
+
+    random :: (RandomGen g, Random a) => g -> (a, g)
+
+接受一个 random generator ，然后回传一个随机值以及一个新的 random generator。
+
+在 `System.Random` 中有一个很酷的型态，叫做 `StdGen`， 是 `RandomGen` 的一个 instance。 要自己做一个 random generator，要使用 `mkStdGen` 这个函数。他的型态是 `mkStdGen :: Int -> StdGen`, 接受一个整数(随机数种子)，然后根据这个整数会给一个 random generator。
+
+生成随机数的代码：
+
+    random (mkStdGen 100)
+
+由于 random 函数会回传 Random typeclass 中任何一种型态，所以我们必须告诉 Haskell 我们是要哪一种型态。需要回传 random value 跟 random generator 的一个 pair
+
+    ghci> random (mkStdGen 100) :: (Int, StdGen)
+    (-1352021624,651872571 1655838864)
+
+有一个函数叫 `randoms`，他接受一个 generator 并回传一个无穷串行。
+
+    take 5 $ randoms (mkStdGen 11) :: [Int]
+    take 5 $ randoms (mkStdGen 11) :: [Bool]
+
+`randoms` 不另外多回传一个新的 generator, `randoms`的**一个实现**:
+
+    randoms' :: (RandomGen g, Random a) => g -> [a]
+    randoms' gen = let (value, newGen) = random gen in value:randoms' newGen
+
+对于同样的`SteGen`, 程序永远都会回传同样的乱数。这在真实世界中的程序是不能接受的。`System.Random` 要提供 `getStdGen` 这个 I/O action，他的型态是 `IO StdGen`。当你的程序执行时，他会跟系统要一个 random generator，并存成一个 global generator。getStdGen 会替你拿那个 global random generator 并把他绑定到某个名称上。
+
+```haskell
+import System.Random
+
+main = do
+    gen <- getStdGen
+    putStr $ take 20 (randomRs (1, 10) gen) -- randomRs: produce random number in specific range.
+```
+
+Exceptions
+----------
+
+当一个 exception 被丢出的时候，控制流程就会跳到我们做一些清理动作的地方，做完清理后 exception 被重新丢出，这样一些处理错误的代码可以完成他们的工作。 Haskell 有一个很棒的型态系统。Algebraic data types 允许像是 `Maybe` 或 `Either` 这种型态，我们能用这些型态来代表一些可能有或没有的结果。
+
+**pure code 能丢出 Exception，但 Exception 只能在 I/O section 中被接到（也就是在 main 的 do block 中）这是因为在 pure code 中你不知道什么东西什么时候会被 evaluate。因为 lazy 特性的缘故，程序没有一个特定的执行顺序，但 I/O code 有。**
+
+要这样使用 Exception，我们必须使用 `System.IO.Error` 中的 `catch` 函数。他的型态是 `catch :: IO a -> (IOError -> IO a) -> IO a`。他接受两个参数，第一个是一个 I/O action。像是他可以接受一个打开文件的 I/O action。第二个是 handler。

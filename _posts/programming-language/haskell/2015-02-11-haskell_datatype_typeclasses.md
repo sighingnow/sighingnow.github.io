@@ -1,5 +1,5 @@
 ---
-title: Dive Into Haskell(2) 数据类型和类型类(Typeclasses)
+title: Haskell 数据类型和类型类(Typeclasses)
 author: He Tao
 date: 2015-02-11
 tags: [Haskell]

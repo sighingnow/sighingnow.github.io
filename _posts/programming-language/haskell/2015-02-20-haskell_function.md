@@ -1,5 +1,5 @@
 ---
-title: Dive Into Haskell(3) 函数
+title: Haskell 函数
 author: He Tao
 date: 2015-02-20
 tags: [Haskell]
@@ -238,10 +238,4 @@ def qsort(a):
 由此不难看出列表推导(List Comprehension)和递归(Recursive)的威力。
 
 在使用递归来求解问题的时候，一定要注意边界条件，例如上例中的List为空的情形。
-
-
-
-
-
-
 

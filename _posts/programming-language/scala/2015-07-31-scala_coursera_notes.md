@@ -1,7 +1,7 @@
 ---
 title: Scala 公开课笔记
 author: He Tao
-date: 2015-06-17
+date: 2015-07-31
 tag: [Scala]
 category: 编程语言
 layout: post
@@ -397,20 +397,24 @@ public class Rational
 
 另外，我发现
 
-    def gcd(a: Int, b: Int): Int = if(b == 0) a else gcd(b, a%b)
+```scala
+def gcd(a: Int, b: Int): Int = if(b == 0) a else gcd(b, a%b)
+```
 
 对应的java代码是这样的：
 
-    private int gcd(int a, int b)
+```java
+private int gcd(int a, int b)
+{
+    for (;;)
     {
-        for (;;)
-        {
-            if (b == 0) {
-                return a;
-            }
-            b = a % b;a = b;
+        if (b == 0) {
+            return a;
         }
+        b = a % b;a = b;
     }
+}
+```
 
 可见，Scala编译器对于递归的优化做得相当不错。
 
@@ -642,16 +646,20 @@ trait Function1[A, B] {
 
 匿名函数(Anonymous Function)
 
-    (x: Int) => x * x
+```scala
+(x: Int) => x * x
+```
 
 展开后的形式为：
 
-    {
-      class AnonFun extends Function1[Int, Int] {
-        def apply(x: Int) = x * x
-      }
-      new AnonFun
-    }
+```scala
+{
+  class AnonFun extends Function1[Int, Int] {
+    def apply(x: Int) = x * x
+  }
+  new AnonFun
+}
+```
 
 再举一个相关的例子：
 
@@ -721,9 +729,9 @@ In Scala, If `A <: B`, then everything one can to do with a value of type B one 
 
 Scala lets you declare the variance of a type by annotating the type parameter:
 
-+ class C[+A] { ... }         C is **covariant**
-+ class C[-A] { ... }         C is **contravariant**
-+ class C[A] { ... }          C is **novariant**
++ `class C[+A] { ... }`         C is **covariant**
++ `class C[-A] { ... }`         C is **contravariant**
++ `class C[A] { ... }`          C is **novariant**
 
 11. Variance check.
 
@@ -779,7 +787,7 @@ Covariant type parameters may appear in lower bounds of method type parameters, 
 + Each case associates an expression expr with a pattern pat.
 + A MatchError exception is thrown if no pattern matches the value of the selector.
 
-```
+```scala
 e match { case p1 => e1 ... case pn => en }
 ```
 
@@ -808,6 +816,49 @@ object Progfun {
 
 在这个例子中，`match`匹配到`1`之后，`func`函数直接返回`"abcd"`，不会接着运行后面的语句，不需要`break`。
 
+14. Using `case class` in Lambda expressions.
+
+Something, we need to construct a complex data structure(link tuple) as Lambda's parameter, we can use `case` here:
+
+```scala
+List(('a', 97), ('b', 98), ('c', 99)) map ({ case (c, i) => println(c + " " + String.valueOf(i)) })
+                                                  //> a 97
+                                                  //| b 98
+                                                  //| c 99
+                                                  //| res1: List[Unit] = List((), (), ())
+```
+
+If we simply use `map((c, i) => println(c + " " + String.valueOf(i)))`, we will get a error report and suggestion from Scala compiler:
+
+```
+Multiple markers at this line
+- missing parameter type
+- missing parameter type Note: The expected type requires a one-argument function accepting a 2-Tuple.
+```
+
+Suggestion from compiler:
+
+> **Consider a pattern matching anonymous function, `{ case (c, i) =>  ... }`**
+
+15. How does a case class differ from a normal class?
+
+1. You can do pattern matching on it,
+2. You can construct instances of these classes **without using the `new` keyword**,
+3. All constructor arguments are accessible from outside using automatically generated accessor functions,
+4. The `toString` method is automatically redefined to print the name of the case class and all its arguments,
+5. The `equals` method is automatically redefined to compare two instances of the same case class structurally rather than by identity.
+6. The `hashCode` method is automatically redefined to use the hashCodes of constructor arguments.
+
+Most of the time you declare a class as a case class because of point 1, i.e. to be able to do pattern matching on its instances. But of course you can also do it because of one of the other points.
+
+**Case classes** can be seen as plain and __immutable data-holding objects__ that should exclusively depend on their constructor arguments. This functional concept allows us to
+
++ use a compact initialisation syntax (`Node(1, Leaf(2), None)`)
++ decompose them using pattern matching
++ have equality comparisons implicitly defined
+
+In combination with inheritance, case classes are used to mimic(模仿) **algebraic datatypes**.
+
 Week 5: Lists
 --------------
 
@@ -816,6 +867,30 @@ Week 5: Lists
 2. Map and Filter
 
 3. Equational Proof on Lists
+
+4. List.groupBy
+
+```
+def groupBy[K](f: (A) ⇒ K): Map[K, List[A]]
+```
+
+> Partitions this traversable collection into a map of traversable collections according to some discriminator function.
+
+> Note: this method is not re-implemented by views. This means when applied to a view it will always force the view and return a new traversable collection.
+
+Example:
+
+```scala
+object progfun {
+  "abcd".groupBy(x => x)    //> res0: scala.collection.immutable.Map[Char,String] = 
+                            //|   Map(b -> b, d -> d, a -> a, c -> c)
+
+  "abcdaa".groupBy(x => x)  //> res0: scala.collection.immutable.Map[Char,String] = 
+                            //| Map(b -> b, d -> d, a -> aaa, c -> c)
+}
+```
+
+Push all elements which having the same result of `f: param => retval` to a same group, and build a map (retval -> group). Then, build all maps to a List. 
 
 Week 6: Collections
 -------------------
@@ -908,4 +983,80 @@ In fact, withFilter is specifically designed for working with chains of these me
 Week 7: Lazy Evaluation
 -----------------------
 
+1. Proof the implementations.
+
+> What does it mean to prove the correctness of this implementation?
+
+> One way to define and show the correctness of an implementation consists of proving the laws that it respects.
+
+(From Martin Odersky's slides)
+
+2. Stream
+
+Streams are similar to lists, but their tail is evaluated **only on demand**.
+
+```scala
+lazy val fibs: Stream[Int] = 0 #:: 1 #:: fibs.zip(fibs.tail).map { n => n._1 + n._2 }
+fibs take 10 foreach println
+```
+
+3. Stream Cons Operator
+
+```scala
+#:: xs == Stream.cons(x, xs)
+```
+
+4. Lazy Evaluation
+
+Lazy Evaluation: do thing as late as possible and never do then twice.
+
+> The proposed implementation suffers from a serious potential performance problem: If tail is called several times, the corresponding stream will be recomputed each time.
+
+> This problem can be avoided by storing the result of the first evaluation of tail and re-using the stored result instead of recomputing tail.
+
+> In a purely functional language an expression produces the same result each time it is evaluated.
+
+5. Evaluation Strategies
+
+    + lazy evaluation
+    + by-name evaluation: everything is recomputed
+    + strict evaluation: normal parameters and `val` definitions.
+
+6. Infinite Streams
+
+```scala
+def from(n: Int): Stream[Int] = n #:: from(n+1)
+val ints = from(0)
+ints take 10 foreach println
+
+val t = 
+
+```
+
+7. The Sieve of Eratosthenes
+
+The Sieve of Eratosthenes is an ancient technique to calculate prime
+numbers.
+
+```scala
+def from(n: Int): Stream[Int] = n #:: from(n+1)
+def sieve(s: Stream[Int]): Stream[Int] = 
+  s.head #:: sieve(s.tail filter (_ % s.head != 0))
+val primes = sieve(from(2))
+```
+
+8. Conclusion
+
+Functional programming provides a coherent set of notations and methods based on
+
++ higher-order functions,
++ case classes and pattern matching,
++ immutable collections,
++ absence of mutable state,
++ flexible evaluation strategies: `strict/lazy/by name`.
+
+The End
+-------
+
+Finish this course. 2015-07-31, at Beihang University.
 

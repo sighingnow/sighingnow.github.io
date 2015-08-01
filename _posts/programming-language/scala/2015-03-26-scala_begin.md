@@ -1,7 +1,7 @@
 ---
 title: Scala 入门笔记
 author: He Tao
-date: 2015-03-28
+date: 2015-03-26
 tag: [Scala]
 category: 编程语言
 layout: post
@@ -134,8 +134,6 @@ class Person(id: Integer, name: String) {
 
 同样，在类中也可以定义类的方法和属性，只是在这一点上Scala更多地具有函数式编程的特点。在这一点上，Scala的语法与Haskell的**“绑定”**类似。举例：
 
-
-
 ```scala
 class Person(id: Integer, name: String) {
   def aid = id
@@ -144,8 +142,5 @@ class Person(id: Integer, name: String) {
   def getName(pname: String) = name
 }
 ```
-
-实例化类得到对象并调用类的方法，操作(读/写)类的属性：
-
 
 
