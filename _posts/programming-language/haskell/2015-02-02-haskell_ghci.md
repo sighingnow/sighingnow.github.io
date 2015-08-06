@@ -141,13 +141,30 @@ Haskell注释语法
 + 单行注释： `-- xxx`
 + 多行注释： `{-- xxx --}`
 
+在GHCi中定义函数
+---------------
+
+在GHCi提供的交互式环境下，也可以定义具有显式类型声明(explicit type declarations)的函数。
+
+例子：
+
+```haskell
+numUniques :: (Eq a) => [a] -> Int  
+numUniques = length . nub
+```
+
+在GHCi中可以写成是：
+
+```haskell
+let numUniques' :: (Eq a) => [a] -> Int; numUniques' = length . nub
+```
+
 GHC Profiler
 ------------
 
 运行Haskell程序时加上`+RTS -s`参数，可以得到profiler统计结果。
 
 ```
-500000500000
       80,084,528 bytes allocated in the heap
           11,696 bytes copied during GC
           42,680 bytes maximum residency (2 sample(s))

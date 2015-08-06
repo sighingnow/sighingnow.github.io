@@ -408,3 +408,14 @@ main = do
 
     1234.0
 
+Standard classes
+----------------
+
+Haskell的类型继承图：
+
+![Haskell Classes][]
+
+
+<!---------------------------links--------------------------------->
+
+[1]: {{site.url}}/resource/haskell_datatype_typeclasses/haskell-classes.png
