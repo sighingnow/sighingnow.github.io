@@ -83,7 +83,7 @@ HTML 5中的`video`标签支持通过`control`属性供添加播放、暂停和�
 <video controls="controls" width="800" height="480">
     Your browser does not support the video tag.
     <source src="{{site.url}}/resource/web_video_background/polina.webm" type="video/webm">
-    <source src="{{site.url}}/resource/web_video_background/mp4.webm" type="video/mp4">
+    <source src="{{site.url}}/resource/web_video_background/polina.mp4" type="video/mp4">
 </video>
 
 在网页上显示内容

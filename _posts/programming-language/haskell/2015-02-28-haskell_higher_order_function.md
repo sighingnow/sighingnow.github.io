@@ -208,7 +208,7 @@ Dollar and Dot Notation
 
 也就是：
 
-    (f .g) = \x -> f(g x)
+    (f . g) = \x -> f(g x)
 
 f 的参数类型必须与 g 的回传类型相同。所以得到的组合函数的参数类型与 g 相同，回传类型与 f 相同。
 

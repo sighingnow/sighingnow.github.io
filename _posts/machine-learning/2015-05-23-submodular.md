@@ -22,6 +22,7 @@ $f(A)=|A|$ 表示集合A的个数，那么：
 $$f(A+e)-f(A)>=f(B+e)-f(B)$$
 例如$e={3,4,5}$。
 
+<!--more-->
 
 离散优化问题(Discrete Optimization Problems)
 ------------------

@@ -1,7 +1,7 @@
 ---
 title: OpenGL Shader
 author: He Tao
-date: 2015-08-06
+date: 2015-08-07
 tag: OpenGL
 category: Graphics
 layout: post
@@ -138,7 +138,12 @@ Shader的代码
 
 多个shader对象链接在一起形成最终的shader，但是对每种类型shader(VS,GS,FS)来说,代码中只能有一个main函数，这个函数作为该shader的执行入口点，例如，我们能够创建一个shader库文件，其中包含计算光照的一些函数，然后把它链接到没有main函数的shader中去。
 
-最后，`gl_Position`用来改变顶点位置。
+最后，`gl_Position`(XYZW)是OpenGL Shader的一个内置的变量，用来改变顶点位置。
+
++ W = 0 means a vector.
++ W != 0 means a point.
+
+> In homogeneous coordinates, points have a w of 1 and vectors have a w of 0. So a point minus a point is a vector and so on. Note that valid values for w are just 0 and 1, so it doesn't make sense to add a point and a point.
 
 片元shader的代码：
 
@@ -150,6 +155,14 @@ Shader的代码
     }
 
 片元shader的功能就是输出片元最终的颜色值。输出颜色最终通过宣布的out变量FragColor来完成，FragColor向量的四个分量分别表示R,G,B,A值，该值最终被写入framebuffer。`vec4(1.0, 0.0, 0.0, 1.0)`表示指定颜色为红色。
+
+这儿也可以不指定输出，直接使用OpenGL Shader的一个内置的变量`gl_FragColor`(RGBA)。
+
+    #version 400
+    void main()
+    {
+        gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+    }
 
 一致变量(Uniform Variables)
 --------------------------
@@ -179,7 +192,7 @@ GLUT不会重复调用我们的渲染函数，只有发生一些特殊事件的�
         gl_Position = vec4(gScale * Position.x, gScale * Position.y, Position.z, 1.0);
     }"
 
-通过查询shader程序对象，我们能够得到uniform变量的位置，该位置和该uniform变量在shader代码中的位置一致。在shader内部访问uniform变量都是通过这个索引来实现的，应用程序则是通过`glGetUniformLocation`函数来访问相应的uniform变量，函数的参数为shader程序句柄以及uniform变量名字。函数调用成功，则会返回索引值，失败的话返回-1。
+**uniform变量在着色器中是只读的，它的值只能在着色器之外（我们的应用中）进行修改。uniform变量无法手动绑定，只能由程序对象在链接时自动绑定到uniform索引。之后，使用OpenGL函数glGetUniformLocation(programObject, name)获取绑定的uniform索引。**通过查询shader程序对象，我们能够得到uniform变量的位置，该位置和该uniform变量在shader代码中的位置一致。在shader内部访问uniform变量都是通过这个索引来实现的，应用程序则是通过`glGetUniformLocation`函数来访问相应的uniform变量，函数的参数为shader程序句柄以及uniform变量名字。函数调用成功，则会返回索引值，失败的话返回-1。
 
     GLuint gScaleLocation = glGetUniformLocation(ShaderProg, "gScale");
     assert(gScaleLocation != 0xFFFFFFFF);

@@ -61,17 +61,17 @@ Test data: adult.test
 Ans: error: 0.221792
 properties = ['age',
               'type_employer',
-              'fnlwgt',
-              'education',
+              'fnlwgt',
+              'education',
               'euucation_num',
-              'marital',
-              'occupation',
-              'relationship',
-              'race',
+              'marital',
+              'occupation',
+              'relationship',
+              'race',
               'capital_gain',
               'capital_loss',
               'hr_per_week',
-              'country']
+              'country']
 '''
 import sqlite3
 
@@ -85,71 +85,71 @@ conn = sqlite3.connect('adult.db')
 point = conn.cursor()
 
 def main():
-    learn()
-    test()
-    conn.close()
+    learn()
+    test()
+    conn.close()
 
 def test():
-    sql = 'select * from test_data'
-    correct = 0
-    cnt0 = 0
-    cnt1 = 0
-    wrong = 0
-    for row in point.execute(sql):
-        if row[15] == 1:
-            cnt1 += 1
-        else:
-            cnt0 += 1
-        if classify(row) == row[15]:
-            correct += 1
-        else:
-            wrong += 1
-    print('correct: %d, wrong: %d, total: %d' %(correct, wrong, correct+wrong))
-    print('correct rate: %f' %(correct/(correct+wrong)))
-    print('correct rate: %f' %(wrong/(correct+wrong)))
-    
+    sql = 'select * from test_data'
+    correct = 0
+    cnt0 = 0
+    cnt1 = 0
+    wrong = 0
+    for row in point.execute(sql):
+        if row[15] == 1:
+            cnt1 += 1
+        else:
+            cnt0 += 1
+        if classify(row) == row[15]:
+            correct += 1
+        else:
+            wrong += 1
+    print('correct: %d, wrong: %d, total: %d' %(correct, wrong, correct+wrong))
+    print('correct rate: %f' %(correct/(correct+wrong)))
+    print('correct rate: %f' %(wrong/(correct+wrong)))
+
 def classify(data):
-    data = list(data)
-    p = [0.0, 0.0]
-    data[3] = int(data[3]/50000)
-    nodata = 0
-    for i in [0, 1]:
-        for j in feature:
-            ans = 1.0
-            rate = probability[i][j].get(data[j])
-            if rate == None: # imcomplete data.
-                rate = 1.0
-                nodata += 1
-            ans *= rate
-        p[i] = ans * total[i]
-    if p[0] > p[1]:
-        return 0
-    else:
-        return 1
+    data = list(data)
+    p = [0.0, 0.0]
+    data[3] = int(data[3]/50000)
+    nodata = 0
+    for i in [0, 1]:
+        for j in feature:
+            ans = 1.0
+            rate = probability[i][j].get(data[j])
+            if rate == None: # imcomplete data.
+                rate = 1.0
+                nodata += 1
+                ans *= rate
+        p[i] = ans * total[i]
+    if p[0] > p[1]:
+        return 0
+    else:
+        return 1
 
 def learn():
-    sql = 'select * from adult'
-            
-    for row in point.execute(sql):
-        row = list(row) # transfer from tuple to list
-        type = row[15]
-        cnt[type] += 1
-        row[3] = int(row[3]/50000)
-        for i in range(1, 15):
-            if frequency[type][i].get(row[i]):
-                frequency[type][i][row[i]] += 1
-            else:
-                frequency[type][i][row[i]] = 1
-    
-    total[0] = cnt[0] / (cnt[0]+cnt[1])
-    total[1] = cnt[1] / (cnt[0]+cnt[1])
-    for type in range(0, 2):
-        for i in range(1, 16):
-            for (u, v) in frequency[type][i].items():
-                probability[type][i][u] = v / cnt[type]
-            
+    sql = 'select * from adult'
+
+    for row in point.execute(sql):
+        row = list(row) # transfer from tuple to list
+        type = row[15]
+        cnt[type] += 1
+        row[3] = int(row[3]/50000)
+        for i in range(1, 15):
+            if frequency[type][i].get(row[i]):
+                frequency[type][i][row[i]] += 1
+            else:
+                frequency[type][i][row[i]] = 1
+
+    total[0] = cnt[0] / (cnt[0]+cnt[1])
+    total[1] = cnt[1] / (cnt[0]+cnt[1])
+    for type in range(0, 2):
+        for i in range(1, 16):
+            for (u, v) in frequency[type][i].items():
+                probability[type][i][u] = v / cnt[type]
+
 if __name__ == '__main__':
-    main() 
+    main() 
 ```
 
 测试用数据来自[UCI Machine Learning Repository](http://archive.ics.uci.edu/ml/datasets/Adult)。
