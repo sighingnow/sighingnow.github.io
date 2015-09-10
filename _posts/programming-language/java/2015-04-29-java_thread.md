@@ -2,7 +2,7 @@
 title: Java 多线程
 author: He Tao
 date: 2015-04-29
-tag: [Java]
+tag: [Java, 并发模型]
 category: 编程语言
 layout: post
 ---
@@ -136,9 +136,9 @@ Integer result = task.get();
 ExecutorService还可以取消(cancel)一个Task(FutureTask)。
 
 简单的线程同步
----------------
+-------------
 
-通常使用`synchronized`关键字来进行线程间的同步。`synchronized`有两种用法：修饰方法和修饰代码块。
+Java提供了强制原子性的内置锁机制：synchronized块。一个synchronized块有两部分：所对象的引用以及这个锁保护的代码块。内置锁在Java中扮演了互斥锁(mutex)的角色。**内置锁匙可重入的(Reentrant)**。通常使用`synchronized`关键字来进行线程间的同步。`synchronized`有两种用法：修饰方法和修饰代码块。
 
 ### 修饰方法
 
@@ -221,12 +221,12 @@ class KK extends Thread {
 
 `wait`, `notify`, `notifyAll`，`join`是常用的线程控制调度方法。
 
-对象安全和`volatile`
---------------------
+共享对象可见性和`volatile`
+-----------------------
 
-`volatile`是一个声明，`volatile`关键字表示内存可见，`volatile`声明的变量不会被copy到线程的本地内存(**缓存、缓冲区、寄存器，Cache等**)中，而是直接在主存上进行操作。每次使用前从主存中读取新值，修改后立即写入主存，这用于防止线程间因寄存器和缓存引起的肮脏数据的读取和使用。
+一种常见的错误观念认为只有写入共享变量是才需要同步，其实并非如此。`volatile`是一个声明，`volatile`关键字表示内存可见，`volatile`声明的变量不会被copy到线程的本地内存(**缓存、缓冲区、寄存器，Cache等**)中，而是直接在主存上进行操作。每次使用前从主存中读取新值，修改后立即写入主存，这用于防止线程间因寄存器和缓存引起的肮脏数据的读取和使用。
 
-进一步的，JVM的规范里并没有要求`volatile`关键字修饰的变量一定不能被copy到线程的本地内存中，而是要求对其读写需要遵循`happens-before`语义，类似于互斥锁。同时，`volatile`还涉及到编译器的指令重排和CPU的重排序等等（影响变量之间的访问顺序）。
+进一步的，JVM的规范里并没有要求`volatile`关键字修饰的变量一定不能被copy到线程的本地内存中，而是要求对其读写需要遵循`happens-before`语义，类似于互斥锁。同时，`volatile`**还涉及到编译器的指令重排和CPU的重排序等等**（影响变量之间的访问顺序）。
 
 有些时候，可能一个线程只需要**读**一个变量的值，这时也有可能需要使用`volatile`的方式来防止出现同步错误。但需要注意的是，`volatile`不能和`final`一起共同修饰一个变量，因为`final`变量是不可改的。
 
@@ -270,9 +270,6 @@ class AA implements Runnable {
 
 在这里面，可以配合使用Condition完成较复杂的线程管理和调度。在[Java多线程之Condition接口的实现](http://blog.csdn.net/huang_xw/article/details/7090122)一文中，作者使用`Condition/Lock`机制来实现了经典的“生产者-消费者”调度模型。在很多情景下，Condition提供了一种更加高效的、更有针对性的线程调度和同步方式。
 
-ReentrantLock深究
------------------
-
 BlockingQueue的使用
 -------------------
 
@@ -292,13 +289,21 @@ BlockingQueue提供的方法主要有：
 
 根据不同的需要BlockingQueue有4种具体实现：
 
-1. `ArrayBlockingQueue`：规定大小的BlockingQueue，其构造函数必须带一个int参数来指明其大小。其所含的对象是以FIFO（先入先出）顺序排序的。
+1. `ArrayBlockingQueue`
 
-2. `LinkedBlockingQueue`：大小不定的BlockingQueue，若其构造函数带一个规定大小的参数，生成的BlockingQueue有大小限制。若不带大小参数，所生成的BlockingQueue的大小由Integer.MAX_VALUE来决定。其所含的对象是以FIFO（先入先出）顺序排序的。LinkedBlockingQueue和ArrayBlockingQueue比较起来，它们背后所用的数据结构不一样，导致LinkedBlockingQueue的数据吞吐量要大于ArrayBlockingQueue，但在线程数量很大时其性能的可预见性低于ArrayBlockingQueue。
+规定大小的BlockingQueue，其构造函数必须带一个int参数来指明其大小。其所含的对象是以FIFO（先入先出）顺序排序的。
 
-3. `PriorityBlockingQueue`：类似于LinkedBlockingQueue，但其所含对象的排序不是FIFO，而是依据对象的自然排序顺序或者是构造函数所带的Comparator决定的顺序。
+2. `LinkedBlockingQueue`
 
-4. `SynchronousQueue`：特殊的BlockingQueue，对其的操作必须是放和取交替完成的。
+大小不定的BlockingQueue，若其构造函数带一个规定大小的参数，生成的BlockingQueue有大小限制。若不带大小参数，所生成的BlockingQueue的大小由Integer.MAX_VALUE来决定。其所含的对象是以FIFO（先入先出）顺序排序的。LinkedBlockingQueue和ArrayBlockingQueue比较起来，它们背后所用的数据结构不一样，导致LinkedBlockingQueue的数据吞吐量要大于ArrayBlockingQueue，但在线程数量很大时其性能的可预见性低于ArrayBlockingQueue。
+
+3. `PriorityBlockingQueue`
+
+类似于LinkedBlockingQueue，但其所含对象的排序不是FIFO，而是依据对象的自然排序顺序或者是构造函数所带的Comparator决定的顺序。
+
+4. `SynchronousQueue`
+
+特殊的BlockingQueue，对其的操作必须是放和取交替完成的。
 
 BlockingQueue特别适用于线程间共享缓冲区的场景。BlockingQueue的四种实现也能够满足大多数的缓冲区调度需求。
 
@@ -412,7 +417,7 @@ try {
 } catch (InterruptedException | ExecutionException e) {  
     e.printStackTrace();  
 }
-return result
+return result;
 ```
 
 ### 异步执行Task
@@ -436,7 +441,7 @@ public boolean allDone(List<SubTask> tasks) {
 
 ### invoke与fork差异
 
-这两个方法有很大的区别，当使用同步方法，调用这些方法（比如：invokeAll()方法）的任务将被阻塞，直到提交给池的任务完成它的执行。这允许ForkJoinPool类使用work-stealing算法，分配一个新的任务给正在执行睡眠任务的工作线程。反之，当使用异步方法（比如：fork()方法），这个任务将继续它的执行，所以ForkJoinPool类不能使用work-stealing算法来提高应用程序的性能。在这种情况下，只有当你调用join()或get()方法来等待任务的完成时，ForkJoinPool才能使用work-stealing算法。
+这两个方法有很大的区别，当使用同步方法，调用这些方法（比如：invokeAll()方法）的任务将被阻塞，直到提交给线程池的任务完成它的执行。这允许ForkJoinPool类使用work-stealing算法，分配一个新的任务给正在执行睡眠任务的工作线程。反之，当使用异步方法（比如：fork()方法），这个任务将继续它的执行，所以ForkJoinPool类不能使用work-stealing算法来提高应用程序的性能。在这种情况下，只有当你调用join()或get()方法来等待任务的完成时，ForkJoinPool才能使用work-stealing算法。
 
 ### Work-stealing
 
@@ -450,7 +455,7 @@ public boolean allDone(List<SubTask> tasks) {
 Disruptor机制
 -------------
 
-单核情形下提高CPU利用率
+单核情形下提高CPU利用率。
 
 参考
 ----
@@ -467,6 +472,4 @@ Disruptor机制
 10. [Java线程之fork/join框架](http://blog.csdn.net/andycpp/article/details/8903155)
 11. [Java中不同的并发实现的性能比较](http://it.deepinmind.com/%E5%B9%B6%E5%8F%91/2015/01/22/forkjoin-framework-vs-parallel-streams-vs-executorservice-the-ultimate-benchmark.html)
 12. [Java并发的四种风味：Thread、Executor、ForkJoin和Actor](http://www.importnew.com/14506.html)
-
-
 

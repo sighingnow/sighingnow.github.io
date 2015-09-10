@@ -131,7 +131,7 @@ Shader的代码
         gl_Position = vec4(0.5 * Position.x, 0.5 * Position.y, Position.z, 1.0);
     }
 
-`#version 400`表示使用4.0版本的GLSL（If the compiler does not support it it will emit an error）。layout (location = 0)在顶点buffer和顶点属性名字之间创建了一个绑定关系，属性名字是Position，属性值是一个三维坐标向量。location指定该属性在顶点buffer中的位置，我们必须要让编译器知道，顶点的那个属性和顶点buffer中的那个位置对应起来。通常有2种方法：
+`#version 400`表示使用4.0版本的GLSL（If the compiler does not support it it will emit an error）。layout (location = 0)在顶点buffer和顶点属性名字之间创建了一个绑定关系，属性名字是Position，属性值是一个三维坐标向量。**location指定该属性在顶点buffer中的位置**，我们必须要让编译器知道，顶点的那个属性和顶点buffer中的那个位置对应起来。通常有2种方法：
 
 + 例如在shader中指定的location = 0，在这种情况下，在cpp源代码中通过硬编码的方式，指定shader属性，比如glVertexAttributePointer(0)
 + 在shader代码中简单声明in vec3 Position，在应用程序中，通过函数glGetAttribLocation在运行时查找属性位置，这时我们要利用glGetAttribLocation的返回值，而不是硬编码。

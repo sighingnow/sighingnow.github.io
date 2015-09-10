@@ -150,7 +150,16 @@ def factorial(n: Int): Int = {
   }
   factorial_i(1, n)
 }
+
+// tail recursion version of Fibonacci sequence.
+// NOTE: need two accumulator.
+def fibonacci(n: Int, acc_first: Int, acc_second: Int): Int = {
+  if(n == 0) acc_first
+  else fibonacci(n-1, acc_second, acc_first + acc_second)
+}
 ```
+
+有这几个例子可以看到将满足一定条件的普通递归转化为尾递归的基本方法和技巧。
 
 9. Scala中，函数没有返回值时，默认返回`Unit`。
 
@@ -1000,6 +1009,15 @@ lazy val fibs: Stream[Int] = 0 #:: 1 #:: fibs.zip(fibs.tail).map { n => n._1 + n
 fibs take 10 foreach println
 ```
 
+Another example:
+
+```scala
+val nums = Stream.from(1)                       //> nums  : scala.collection.immutable.Stream[Int] = Stream(1, ?)
+nums.take(10).toList                            //> res0: List[Int] = List(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+```
+
+This is a common but important way to get a list of integers with variable length.
+
 3. Stream Cons Operator
 
 ```scala
@@ -1028,9 +1046,6 @@ Lazy Evaluation: do thing as late as possible and never do then twice.
 def from(n: Int): Stream[Int] = n #:: from(n+1)
 val ints = from(0)
 ints take 10 foreach println
-
-val t = 
-
 ```
 
 7. The Sieve of Eratosthenes

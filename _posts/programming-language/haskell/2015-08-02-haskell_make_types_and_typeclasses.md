@@ -222,12 +222,23 @@ instance Functor [] where
     fmap = map
 ```
 
-Maybe 作为一个 functor 的定义：
+Maybe 作为一个 Functor 的定义：
 
 ```haskell
 instance Functor Maybe where
     fmap f (Just x) = Just (f x)
     fmap f Nothing = Nothing
+```
+
+Either 作为Functor的定义：
+
+```haskell
+instance Functor (Either a) where
+    fmap f (Right x) = Right (f x)
+    fmap f (Left x) = Left x
+
+-- 从观察 fmap 的类型也可以知道，当他运作在 Either 上的时候，第一个类型参数必须固定，而第二个则可以改变。
+-- 而其中第一个参数正好就是 Left 用的。
 ```
 
 参考： [The functor design pattern][http://www.haskellforall.com/2012/09/the-functor-design-pattern.html]
@@ -246,7 +257,24 @@ kind 是类型的类型。
 
 一个 `*` 代表这个类型是具体类型。一个具体类型是没有任何类型参数，而值只能属于具体类型。而 `*` 的读法叫做 star 或是 type。
 
-当我们在写一般实用的 Haskell 程序时，你几乎不会碰到需要动到 kind 的东西，也不需要动脑去推敲 kind。通常只需要在定义 instance 时 partially apply 自己的 `* -> *` 或是 `*` 类型。
+当我们在写一般实用的 Haskell 程序时，几乎不会碰到需要动到 kind 的东西，也不需要动脑去推敲 kind。通常只需要在定义 instance 时 partially apply 自己的 `* -> *` 或是 `*` 类型。
+
+`type`,`data`与`newtype`
+------------------------
+
+type 关键字是让我们定义 type synonyms。他代表我们只是要给一个现有的类型另一个名字，假设我们这样做：
+
+    type String = [Char]
+
+newtype 关键字将现有的类型包成一个新的类型，**大部分是为了要让他们可以是特定 typeclass 的 instance 而这样做**。当我们使用 newtype 来包裹一个现有的类型时，这个类型跟原有的类型是分开的。如果我们将下面的类型用 newtype 定义：
+
+    newtype CharList = CharList { getCharList :: [Char] }
+
+我们不能用 `++` 来将 CharList 跟 [Char] 接在一起。我们也不能用 `++` 来将两个 CharList 接在一起，因为 `++` 只能套用在 list 上，而 CharList 并不是 list，尽管你会说他包含一个 list。但我们可以将两个 CharList 转成 list，将他们 `++` 然后再转回 CharList。当我们在 newtype 宣告中使用 record syntax 的时候，我们会得到将新的类型转成旧的类型的函数，也就是我们 newtype 的值构造子，以及一个函数将他的字段取出。**新的类型并不会被自动定义成原有类型所属的 typeclass 的一个 instance，所以我们必须自己来 derive 他们(使用`instance`实例化)**。
+
+实际上你可以将 newtype 想成是**只能定义一个构造子跟一个字段**的 `data` 声明，如果碰到这种情形，可以考虑使用 newtype。二者的一个区别在于 `newtype` 比较快速。如果你用 `data` 关键字来包一个类型的话，在你执行的时候会有一些包起来跟解开来的成本。但如果你用 `newtype` 的话，Haskell 会知道你只是要将一个现有的类型包成一个新的类型，你想要内部运作完全一样但只是要一个全新的类型而已。有了这个概念，Haskell 可以将包裹跟解开来的成本都去除掉。
+
+使用 data 关键字是为了定义自己的类型。他们可以在 algebraic data type 中放任意数量的构造子跟字段。
 
 
 <!--------------------------------------links-------------------------------->

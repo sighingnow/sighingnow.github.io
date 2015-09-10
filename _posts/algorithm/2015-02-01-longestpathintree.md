@@ -104,6 +104,8 @@ int main(int argc, char **argv) {
 }
 ```
 
+<!----------------------links---------------------->
+
 [1]: http://hihocoder.com/problemset/problem/1050
 [2]: http://hihocoder.com/problemset/problem/1050
 

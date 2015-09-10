@@ -45,6 +45,8 @@ PipeLine & PipeLine::PerspectiveProject(float ar, float alpha, float znear, floa
 }
 ```
 
+投影变换对应的矩阵称为**投影(projection)矩阵**。
+
 正交投影
 -------
 
@@ -104,6 +106,16 @@ PipeLine & PipeLine::PerspectiveProject(float ar, float alpha, float znear, floa
 当相机在屏幕中定位时，它首先会进行朝向的确定——旋转，然后进行位置的确定——平移。因此，当进行相机变换的时候，将世界坐标系中的坐标变换到相机坐标系中的坐标时，应该进行一个相机定位的逆定位。先做逆平移变换，再做逆旋转变换。
 
 关于相机变换矩阵的推导，参考了博文[推导相机变换矩阵][http://blog.csdn.net/popy007/article/details/5120158]。
+
+相机变换对应的矩阵称为**视图(view)矩阵**，也称为**观察矩阵**。
+
+数学运算库 `glm` 中包含了一个`lookUp`函数，可以根据`pos`, `target`和`up`三个向量来直接计算出相机变换矩阵：
+
+    glm::mat4 View = glm::lookAt(
+        glm::vec3(4,3,3), // Camera is at (4,3,3), in World Space
+        glm::vec3(0,0,0), // and looks at the origin
+        glm::vec3(0,1,0)  // Head is up (set to 0,-1,0 to look upside-down)
+    );
 
 摄像机控制
 ---------
@@ -229,6 +241,48 @@ static void MouseFunc(int button, int state, int x, int y)
     }
 }
 ```
+
+MVP变换矩阵
+---------
+
+M、V、P 分别指模型(model)，视图(view)和投影(projection)。MVP矩阵是模型、视图、以及投影变换三者结合起来的变换矩阵。变换顺序为：模型 -> 视图 -> 投影。变换方程表达：
+
+    MVP = model * view * projection
+
+    MVPTransform = model * view * projection * origin
+
+在实际编程中，可以使用`glm`库来方便地实现这些操作：
+
+```cpp
+    // Projection matrix : 45° Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
+    glm::mat4 Projection = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f);
+    // Camera matrix
+    glm::mat4 View       = glm::lookAt(
+        glm::vec3(4,3,3), // Camera is at (4,3,3), in World Space
+        glm::vec3(0,0,0), // and looks at the origin
+        glm::vec3(0,1,0)  // Head is up (set to 0,-1,0 to look upside-down)
+    );
+    // Model matrix : an identity matrix (model will be at the origin)
+    glm::mat4 Model      = glm::mat4(1.0f);  // Changes for each model !
+    // Our ModelViewProjection : multiplication of our 3 matrices
+    glm::mat4 MVP        = Projection * View * Model; // Remember, matrix multiplication is the other way around
+```
+
+深度缓冲（Z-Buffer）
+-----------------
+
+在OpenGL绘图过程中，我们会遇到这样的问题：一些理应被遮挡的面，因为绘制次序靠后，竟然变成可见的了。我们将用深度缓冲（Z-Buffer）算法解决它。
+
+该问题的解决方案是：在缓冲中存储每个片段的深度（即“Z”值）；并且每次绘制片段之前要比较当前与先前片段的深度值，看谁离摄像机更近。
+
+我们可以自己实现深度缓冲，但让硬件自动完成更简单：
+
+    // Enable depth test
+    glEnable(GL_DEPTH_TEST);
+    // Accept fragment if it closer to the camera than the former one
+    glDepthFunc(GL_LESS);
+
+问题解决了。
 
 参考
 ----
