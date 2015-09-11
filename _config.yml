@@ -53,7 +53,7 @@ footersvg: 'true'
 footer-links:
   dribbble:
   email: sighingnow@gmail.com
-  facebook:
+  facebook: sighingnow
   flickr:
   github: sighingnow
   instagram:
@@ -62,7 +62,7 @@ footer-links:
   rss: /feed.xml # just type anything here for a working RSS icon, make sure you set the "url" above!
   google: 102570111351055130345
   twitter: sighingnow
-  stackoverflow: users/3767761/he-tao #users/4388898/peter-zhu # your stackoverflow profile, e.g. "users/50476/bart-kiers"
+  stackoverflow: users/5080177/he-tao #users/4388898/peter-zhu # your stackoverflow profile, e.g. "users/50476/bart-kiers"
 
 # Disqus
 disqushandler: 'sighingnow'
