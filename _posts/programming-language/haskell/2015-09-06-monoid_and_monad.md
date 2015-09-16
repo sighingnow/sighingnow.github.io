@@ -10,6 +10,8 @@ layout: post
 
 Haskell 中 typeclass 是用来表示一个类型之间共有的行为，是一种 interface。当我们定义一个类型时，我们会想说他应该要支持的行为。也就是表现的行为是什么，并且要让他属于哪些 typeclass。
 
+<!--more-->
+
 Monoid typeclass
 ----------------
 
@@ -45,6 +47,8 @@ monoid的广泛是因为它的"简单": 一个集合, 一个满足结合律(**�
 其实是可以写成循环的，但是你这么写，他就不是一个尾递归函数。那要怎么办呢？我们需要加一个acc参数把他写成为递归的，但是实际上这么做我们是把右结合的加法改成了左结合的加法。那Haskell怎么知道加法可以这么做呢？当然他可以hardcode。那我们自己的运算怎么办呢？
 所以还会看到Haskell里面有一个type class叫做幺半群(monoid)（抽象代数: A monoid is an algebraic structure with a single, associative binary operation and an identity element. In other words, it is a unital semigroup.），**你声明了他，或许他就会帮你优化了**。
 很多抽象就是这么一点一点搞出来的。它不像我们写C++和C#，每一个抽象背后的代码都十分底层无比复杂，Haskell喜欢在一个抽象里面，改一点点东西做成一个新的抽象，当你得到了大量的抽象之后，你突然发现它可以用来解决现实问题了。所以你才会看到 Haskell 中有大量的这些你平时估计直接用不到的东西。
+
+因为monoid的mappend函数满足结合律，那么，使用fold函数将mappend应用到该类型的一个List上时，就可以采用分治的方法实现并行，提高效率。而正是因为monoid的代数形式，可以保证计算的正确性。
 
 semigroup(半群)
 --------------
