@@ -255,6 +255,18 @@ liftA3 :: Applicative f => (a -> b -> c -> d) -> f a -> f b -> f c -> f d
 liftA3 f a b c = f <$> a <*> b <*> c
 ```
 
+liftA系列函数的一个例子：
+
+> 读入两个整数，并返回这两个数组成的二元组：
+
+```haskell
+import Control.Applicative
+
+main :: IO ()
+main = do
+    tup <- liftA2 (,) (fmap read getLine) (fmap read getLine) :: IO (Int, Int)
+    print tup
+```
 
 Action 版本的 flip 的实现便是一个 litfA2 函数应用的例子：
 
