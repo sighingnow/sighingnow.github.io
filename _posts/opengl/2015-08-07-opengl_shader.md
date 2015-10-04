@@ -210,7 +210,7 @@ GLUT不会重复调用我们的渲染函数，只有发生一些特殊事件的�
 
 源代码：[OpenGL_Shader.cpp][4], [OpenGL_Uniform_Variable.cpp][5]
 
-<!--------------------------links---------------------->
+<!--links-->
 
 [1]: {{site.url}}/resource/opengl_shader/pipeline.jpg
 [2]: {{site.url}}/resource/opengl_shader/shader_pipeline.jpg

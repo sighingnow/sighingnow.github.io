@@ -109,7 +109,7 @@ JNIEXPORT jint JNICALL Java_com_dhdave_maker_Maker_DisplayMakerInfo
 /* vim: set ts=4, sw = 4 */
 ```
 
-使用MinGW编译C++文件，得到动态链接库。编译命令为：
+使用**MinGW**编译C++文件，得到动态链接库。编译命令为：
 
     g++ -shared -ID:/Java/jdk1.8.0_25/include -ID:/Java/jdk1.8.0_25/include/win32 -Wl,--add-stdcall-alias com_dhdave_maker_Maker.cpp -o Maker.dll
 
@@ -125,7 +125,11 @@ JNIEXPORT jint JNICALL Java_com_dhdave_maker_Maker_DisplayMakerInfo
 
 说明Java字节码在运行时成功载入了动态链接库并成功运行了其中的函数。
 
-在编译时一定要注意加上`-Wl,--add-stdcall-alias`选项，否则，可能会出现调用dll中的函数时找不到函数的错误。
+在编译时一定要注意加上`-Wl,--add-stdcall-alias`选项(MinGW环境)，否则，可能会出现调用dll中的函数时找不到函数的错误。
+
+    --add-stdcall-alias
+
+> If given, symbols with a stdcall suffix (@nn) will be exported as-is and also with the suffix stripped. [This option is specific to the i386 PE targeted port of the linker]
 
 运行时如果出现找不到dll的错误，可以通过制定`java.library.path`来解决。通过如下Java语句可以得到`java.library.path`的值：
 

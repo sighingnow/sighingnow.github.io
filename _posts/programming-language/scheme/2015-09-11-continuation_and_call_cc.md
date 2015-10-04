@@ -185,7 +185,7 @@ call/cc的实现
 1. [Wikipedia Continuation][1]
 2. [Call-with-current-continuation for C programmers][3]
 
-<!---------------------------links------------------>
+<!--links-->
 
 [1]: https://en.wikipedia.org/wiki/Continuation
 [2]: https://en.wikipedia.org/wiki/Call-with-current-continuation

@@ -213,7 +213,7 @@ ListLinePlot[{pis, chuds, mcs, primeps},
 ]
 ```
 
-<!---------------------------------------links-------------------------->
+<!--links-->
 
 [1]: https://en.wikipedia.org/wiki/Chudnovsky_algorithm
 [2]: http://reference.wolfram.com/language/tutorial/SomeNotesOnInternalImplementation.html

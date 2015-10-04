@@ -150,7 +150,7 @@ void *force(lazy *l) {
 1. [Potential problems with Concurrent Haskell][1]
 2. [How Lazy Evaluation Works in Haskell][3]
 
-<!---------------------------------links-------------------------->
+<!--links-->
 
 [1]: https://downloads.haskell.org/~ghc/0.29/docs/users_guide/user_86.html
 [2]: https://en.wikipedia.org/wiki/Graph_reduction

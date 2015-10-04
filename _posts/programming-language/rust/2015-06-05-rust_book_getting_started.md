@@ -46,7 +46,7 @@ Cargo manages three things:
 命令：`cargo build`, `cargo run`, `cargo new xxx`(创建新项目, 会自动创建git仓库(.git和.gitignore))。
 
 
-<!---------------------------------links------------------------------>
+<!--links-->
 
 [1]: https://github.com/toml-lang/toml
 

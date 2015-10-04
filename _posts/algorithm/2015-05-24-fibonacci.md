@@ -217,7 +217,7 @@ double Fibonacci(int n){
 2. [从蓝桥杯来谈Fibonacci数列][2]
 
 
-<!---------------------------links------------------------------->
+<!--links-->
 
 [1]: http://lx.lanqiao.org/problem.page?gpid=T121
 [2]: http://blog.csdn.net/acdreamers/article/details/21822165

@@ -276,7 +276,7 @@ TrustRank放法是另一种可行的反作弊策略。TrustRank的思想很直�
 4. Lawrence Page, Sergey Brin, Rajeev Motwani, Terry Winograd. The PageRank Citation Ranking: Bringing Order to the Web, 1998
 5. PageRank算法并行实现, http://blog.fens.me/algorithm-pagerank-mapreduce/
 
-<!------------------------------links-------------------------------->
+<!--links-->
 
 [1]: {{site.url}}/resource/pagerank_mapreduce_seo/pagerank-example.png
 [2]: {{site.url}}/resource/pagerank_mapreduce_seo/pagerankdemo.png

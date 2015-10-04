@@ -169,7 +169,7 @@ Final points
 2. [ECMA-262-3 in detail. Chapter 1. Execution Contexts.][3]
 3. [MDN文档. 闭包(Closures)][4]
 
-<!----------------------------links--------------------------------------->
+<!--links-->
 
 [1]: http://ejohn.org/apps/learn/
 [2]: http://stackoverflow.com/questions/111102/how-do-javascript-closures-work

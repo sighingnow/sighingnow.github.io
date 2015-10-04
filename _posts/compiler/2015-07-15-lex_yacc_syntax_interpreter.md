@@ -412,6 +412,6 @@ while(a) { a = a / 2; print a; }
 
 源代码下载： [Syntax-Tree.tar.gz][1]
 
-<!-----------------------------links-------------------------->
+<!--links-->
 
 [1]: {{site.url}}/resource/lex_yacc_interpreter/Syntax-Tree.tar.gz

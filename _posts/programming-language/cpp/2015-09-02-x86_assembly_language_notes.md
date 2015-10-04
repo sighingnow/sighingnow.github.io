@@ -348,7 +348,7 @@ call 指令的效果是将返回地址入栈，并跳转到被调用过程的起
 + 寄存器 `%ebx`, `%esi`, `%edi` 被划分为**被调用者保存**寄存器。
 
 
-<!-------------------------links---------------------->
+<!--links-->
 
 [1]: {{site.url}}/resource/x86_assembly_language_notes/register_naming.png
 

@@ -7,8 +7,8 @@ category: 编程语言
 layout: post
 ---
 
-
-Haskell 中 typeclass 是用来表示一个类型之间共有的行为，是一种 interface。当我们定义一个类型时，我们会想说他应该要支持的行为。也就是表现的行为是什么，并且要让他属于哪些 typeclass。
+Haskell 中 typeclass 是用来表示一个类型之间共有的行为，是一种 interface。
+当我们定义一个类型时，我们会想说他应该要支持的行为。也就是表现的行为是什么，并且要让他属于哪些 typeclass。
 
 <!--more-->
 
@@ -17,7 +17,13 @@ Monoid typeclass
 
 > A class for monoids (types with an associative binary operation that has an identity) with various general-purpose instances.
 
-`Monoid`的定义：
+Monoid，幺半群，顾名思义，指的是有幺元(单位元，Identity)的半群(semigroup)，而半群的定义如下:
+
+> Any semigroup S may be turned into a monoid simply by adjoining an element e not in S and defining e*e = e and e*s = s = s*e for all s \belongs S." Since there is no "Semigroup.
+
+From [Wiki-Monoid](http://en.wikipedia.org/wiki/Monoid)。
+
+Haskell中，`Monoid`的定义：
 
 ```
 class Monoid m where  
@@ -52,21 +58,12 @@ monoid的广泛是因为它的"简单": 一个集合, 一个满足结合律(**�
 
 因为monoid的mappend函数满足结合律，那么，使用fold函数将mappend应用到该类型的一个List上时，就可以采用分治的方法实现并行，提高效率。而正是因为monoid的代数形式，可以保证计算的正确性。
 
-semigroup(半群)
---------------
-
-From [Wiki-Monoid](http://en.wikipedia.org/wiki/Monoid):
-
-> Any semigroup S may be turned into a monoid simply by adjoining an element e not in S and defining e*e = e and e*s = s = s*e for all s \belongs S." Since there is no "Semigroup
-
 Monad
 ------
 
-Functor 是一个抽象概念，代表是一种可以被 map over 的值。Applicative Functor，代表一种带有 context 的型态，我们可以用函数操作他而且同时还保有他的 context。而Monoid呢 ？ 如果有一个具有 context 的值 m a，如何把他传给一个只接受普通值 a 为参数的函数，并回传一个具有 context 的值 ？我们需要一个这样的函数：
+Functor 是一个抽象概念，代表是一种可以被 map over 的值。Applicative Functor，代表一种带有 context 的型态，我们可以用函数操作他而且同时还保有他的 context。 而对于一个Monad，可以看作是支持 `>>=` 操作的 applicative functors，`>>=` 称为 `bind`。所谓 `bind`, 即把一个具有 context 的值 m a，传给一个只接受普通值 a 为参数的函数，并回传一个具有 context 的值的函数，并得到一个Monad。 `bind` 函数的表述如下：
 
     (>>=) :: (Monad m) => m a -> (a -> m b) -> m b
-
-Monad 可以看作是支持 `>>=` 操作的 applicative functors，`>>=` 称为 `bind`。
 
 > The Monad class defines the basic operations over a monad, a concept from a branch of mathematics known as category theory. 
 
@@ -90,7 +87,7 @@ class Monad m where
 
         m >>= return  ==  m
 
-+ Associativity
++ **Associativity**
 
         m >>= (\x -> k x >>= h)  ==  (m >>= k) >>= h
 
@@ -143,9 +140,6 @@ instance Monad [] where
 甚至是：
 
     [1..10] >>= (\x ‐> if odd x then [x*2] else [])
-
-
-
 
 一些实用的 Moandic functions
 ---------------------------
@@ -216,19 +210,63 @@ f >=> g     = \x -> f x >>= g
 
 其中，`(<=<)`函数与函数合成函数 `.`类似(`f . g x = f(g(x))`)。
 
-几种 Monad
-----------
-
-+ Writer Monad
-+ Reader Monad
-+ Difference Lists
-+ State Monad
-
 Functor, Applicative 和 Monad
 -----------------------------
 
 Functor, Applicative 和 Monad 本质上都代表着 Haskell 对于 non-deterministic 的情形的处理，以及如何将这些内容与 deterministic 的代码，也就是Haskell中的纯函数，建立起联系。
 
-与之对应，我们注意到 `fmap`函数的类型定义：
+与之对应，`fmap` 将普通函数作用在函子上，得到包含结果的函子，我们注意到 `fmap`函数的类型定义：
 
     fmap :: (Functor f) => (a -> b) -> f a -> f b
+
+Applicative Funtor中的`<*>`更进一步，将一个`f (a -> b)` 应用到一个functor上，然后返回包含结果的functor：
+
+    <*> :: (Functor f) => f (a -> b) -> f a -> f b
+
+Monad 中的 `>>=` 将一个以值为参数，monad为返回值的函数应用到对应类型的monad上，并得到包含结果的monad。
+
+函子具有恒值映射，`fmap` 的类型至签名也可以写成：
+
+    fmap :: (Functor f) => (a -> b) -> (f a -> f b)
+
+有`a -> b`函数，在列表上就有`[a] -> [b]` ，在树上就有`Tree a -> Tree a`。 有 `[a] -> [b]`，在列表上就有`[[a]] -> [[b]]`，依次类推。
+
+函子发现之后，Philip Wadler跳过了Applicative发现了Monad，Applicative Functor看作是计算时有副作用的Continuation。
+
+Monad在计算的时候，后一个计算问题可以用到前面的参数，也就是说各个计算之间不是互相独立的，而是有依赖关系的，`do`语句块是串行执行的。例如：
+
+```haskell
+main :: IO ()
+main = do
+    s <- getLine
+    t <- getLine
+    putStrLn $ s ++ t
+```
+
+对这段代码desugar之后的结果(GHC编译器时使用参数 `-ddump-ds`)呢？是这样的：
+
+```haskell
+main :: IO ()
+main = getLine >>= (\s -> getLine >>= (\t ->putStrLn (s ++ t)))
+```
+
+Monad通过>>=把各种计算串连起来，而对于中间结果的使用没有做任何限定，使用起来十分自由、也相当容易理解，因为大部分的计算都满足这种特性、STM、IO、Parser、Iteratee、State、Writer、Read等等。
+
+后来人们发现了比Monad更为一般的Applcative，Applicative是同一个范畴上的映射，其中的`pure`就是Monad的`return`(从一个值构造包含该值的函子)，`f (a -> b) -> f a -> f b`意思是说，即便我们这个容器`f`里是一个函数，我们还是可以将其应用到`f a`类型上，**计算`a`类型的值与应用这个函数两个过程是分离的**。
+
+在Monad之后，Applicative的出现正是由于抽象的需要。程序的抽象的粒度应当适当地小，这样更有利于模块化，可复用和适应变化。Haskell的逻辑是自底向上，而不是All-in-One。正如Haskell中有了Ord还需要Eq一样，对于抽象是要分层的。在工程实践中，例如Java的Collection的设计，OSI七层网络模型的设计等都是这个道理。有些时候我们不需要Monad，不需要把计算的各个结果在计算过程中混杂到一起，维护Context是需要成本的，这样也更有利于优化和抽象，同时，Applicative无上下文的依赖关系，也更容易做并发和并行。更进一步，Applicative和Monad都是自函子范畴上的一个幺半群，不同的是Applicative是自函子的水平方向的组合，Monad是自函子的垂直方向的组合。
+
+参考
+---
+
+1. [All about Monoids][1]
+2. [为什么haskell里需要monoid？][2]
+3. [All About Monad][3]
+
+
+<!--links-->
+
+[1]: http://comonad.com/reader/wp-content/uploads/2009/07/AllAboutMonoids.pdf
+[2]: http://www.zhihu.com/question/25406710/answer/30688149
+[3]: https://wiki.haskell.org/All_About_Monads
+

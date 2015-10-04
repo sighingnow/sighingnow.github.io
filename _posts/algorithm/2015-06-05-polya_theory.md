@@ -255,7 +255,7 @@ int main() {
 
 1. [polya 计数法，burnside定理][3]
 
-<!--------------------------------links------------------------>
+<!--links-->
 
 [1]: http://poj.org/problem?id=2409
 [2]: http://poj.org/problem?id=2154

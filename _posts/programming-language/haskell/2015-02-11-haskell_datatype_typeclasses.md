@@ -462,6 +462,6 @@ Haskell的类型继承图：
 ![Haskell Classes][1]
 
 
-<!---------------------------links--------------------------------->
+<!--links-->
 
 [1]: {{site.url}}/resource/haskell_datatype_typeclasses/haskell-classes.png

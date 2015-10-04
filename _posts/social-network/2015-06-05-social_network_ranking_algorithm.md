@@ -123,7 +123,7 @@ $$Score = log_{10}{z} + \frac{yt}{45000}$$
 2. [How Reddit ranking algorithms work][4]
 3. [Reddit’s empire is founded on a flawed algorithm][6]
 
-<!-------------------links------------------------>
+<!--links-->
 
 [1]: http://www.reddit.com
 [2]: http://www.zhihu.com

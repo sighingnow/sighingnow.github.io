@@ -299,7 +299,7 @@ _注_: 上述代码摘自Rust Book.
 
 
 
-<!---------------------------links------------------------------>
+<!--links-->
 
 [1]: http://www.canonware.com/jemalloc/
 [2]: http://www.cs.northwestern.edu/~pdinda/icsclass/doc/dsa.pdf

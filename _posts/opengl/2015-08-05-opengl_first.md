@@ -256,7 +256,7 @@ glEnd()
 
 代码：[gl_plot_rects.pyw][11]
 
-<!----------------------------------links--------------------------------->
+<!--links-->
 
 [1]: http://ogldev.atspace.co.uk/www/tutorial01/tutorial01.html
 [2]: http://freeglut.sourceforge.net/

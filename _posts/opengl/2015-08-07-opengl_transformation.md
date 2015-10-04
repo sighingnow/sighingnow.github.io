@@ -165,7 +165,7 @@ OpenGL中有一个坐标变换矩阵栈(ModelView)，栈顶就是当前坐标变
 完整代码链接：[translation.cpp][10]
 
 
-<!-------------------------------links---------------------------->
+<!--links-->
 
 [1]: {{site.url}}/resource/opengl_transformation/opengl_translation.jpg
 [2]: {{site.url}}/resource/opengl_transformation/opengl_rotation_z.png

@@ -614,7 +614,7 @@ Scheme提供了`call-with-input-file`和`call-with-output-file`过程，这些�
 
 Scheme的一个显著标志是它支持跳转或者**nonlocal control**。特别是Scheme允许程序控制跳转到程序的任意位置，相比之下条件语句和函数调用的限制要更多一些。Scheme的nonlocal control操作符是一个名为`call-with-current-continuation`的过程。
 
-<!---------------------------links-------------------------------------->
+<!--links-->
 
 [1]: http://ds26gte.github.io/tyscheme/index.html
 [2]: http://songjinghe.github.io/TYS-zh-translation/

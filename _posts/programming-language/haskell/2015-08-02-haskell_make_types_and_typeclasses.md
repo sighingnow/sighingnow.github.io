@@ -7,6 +7,12 @@ category: 编程语言
 layout: post
 ---
 
+代数数据类型(Algebraic Data Type)的定义：
+
+> In computer programming, particularly functional programming and type theory, an algebraic data type is a kind of **composite type**, i.e. a type formed by combining other types. Two common classes of algebraic type are product types—i.e. tuples and records—and sum types, also called tagged or disjoint unions or variant types.
+
+<!--more-->
+
 `data` 关键字和deriving（派生）
 ----------------------------
 
@@ -15,8 +21,6 @@ layout: post
     data Bool = False | True
 
 data 表示我们要定义一个新的类型。`=` 的左端标明类型的名称即 Bool，`=` 的右端就是值构造子 (Value Constructor)，它们明确了该类型可能的值。**类型名和值构造子的首字母必大写**。
-
-<!--more-->
 
 另一个例子：
 
@@ -276,8 +280,20 @@ newtype 关键字将现有的类型包成一个新的类型，**大部分是为�
 
 使用 data 关键字是为了定义自己的类型。他们可以在 algebraic data type 中放任意数量的构造子跟字段。
 
+抽象数据类型
+----------
 
-<!--------------------------------------links-------------------------------->
+**A general algebraic data type is a possibly recursive sum type of product types. Each constructor tags a product type to separate it from others, or if there is only one constructor, the data type is a product type**.
+
+Further, the parameter types of a constructor are the factors of the product type. A parameterless constructor corresponds to the empty product. If a datatype is recursive, the entire sum of products is wrapped in a recursive type, and each constructor also rolls the datatype into the recursive type.
+
+For Example:
+
+    data List a = Nil | Cons a (List a)
+
+
+
+<!--links-->
 
 [1]: http://www.haskellforall.com/2012/09/the-functor-design-pattern.html
-
+[2]: https://en.wikipedia.org/wiki/Type_theory

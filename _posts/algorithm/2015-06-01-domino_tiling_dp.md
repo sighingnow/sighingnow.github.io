@@ -124,7 +124,7 @@ for(int i = 0; i < h; ++i) {
 return dp[h%2][(1<<w)-1];
 ```
 
-<!------------------links----------------------->
+<!--links-->
 
 [1]: {{site.url}}/resource/domino_tiling_dp/pic_1.png
 [2]: {{site.url}}/resource/domino_tiling_dp/pic_2.png

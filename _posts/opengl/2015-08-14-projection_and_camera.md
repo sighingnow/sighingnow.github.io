@@ -291,7 +291,7 @@ M、V、P 分别指模型(model)，视图(view)和投影(projection)。MVP矩阵
 2. [OpenGL学习脚印: 投影矩阵的推导][10]
 3. [推导相机变换矩阵][11]
 
-<!--------------------------------------links----------------------------->
+<!--links-->
 
 [1]: {{site.url}}/resource/projection_and_camera/camera_ndc.png
 [2]: {{site.url}}/resource/projection_and_camera/perspective_projection_matrix_1.png

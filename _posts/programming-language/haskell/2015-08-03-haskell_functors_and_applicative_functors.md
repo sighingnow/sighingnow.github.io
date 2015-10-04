@@ -1,5 +1,5 @@
 ---
-title: Haskell Functors(函子)
+title: Haskell Functors(函子) 和 Applicative functors
 author: He Tao
 date: 2015-08-03
 tag: [Haskell]
@@ -216,7 +216,7 @@ instance Applicative ((->) r) where
     f <*> g = \x -> f x (g x)
 ```
 
-**当我们用 pure 将一个值包成 applicative functor 的时候，他产生的结果永远都会是那个值。**也就是最小的 context。那也是为什么对于 function 的 pure 实现来讲，他就是接受一个值，然后造一个函数永远回传那个值，不管传递了什么参数。如果你限定 pure 的类型至 `(->) r` 上，他就会是 `pure :: a -> (r -> a)`。将两个 applicative functor 传递给 <*> 可以产生一个新的 applicative functor，所以如果传递给他两个函数，我们能得到一个新的函数。值得注意的是这种语法的**求值顺序**：
+**当我们用 pure 将一个值包成 applicative functor 的时候，他产生的结果永远都会是那个值。** 也就是最小的 context。那也是为什么对于 function 的 pure 实现来讲，他就是接受一个值，然后造一个函数永远回传那个值，不管传递了什么参数。如果你限定 pure 的类型至 `(->) r` 上，他就会是 `pure :: a -> (r -> a)`。将两个 applicative functor 传递给 <*> 可以产生一个新的 applicative functor，所以如果传递给他两个函数，我们能得到一个新的函数。值得注意的是这种语法的**求值顺序**：
 
 ```haskell
 ghci> :t (+) <$> (+3) <*> (*100)  

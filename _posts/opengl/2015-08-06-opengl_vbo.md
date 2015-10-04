@@ -112,7 +112,7 @@ target可以是GL_ARRAY_BUFFER或者GL_ELEMENT_ARRAY_BUFFER等。size指定了�
 
 1. [Ogldev tutorial 02： Hello Dot!][2]
 
-<!-------------------------------links---------------------->
+<!--links-->
 
 [1]: {{site.url}}/resource/opengl_vbo/vbo_plot_lines.png
 [2]: http://ogldev.atspace.co.uk/www/tutorial02/tutorial02.html

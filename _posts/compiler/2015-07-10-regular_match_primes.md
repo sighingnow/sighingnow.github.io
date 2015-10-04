@@ -49,7 +49,7 @@ print([i for i in range(1, 101) if not re.compile(r'^1?$|^(11+?)\1+$').match('1'
 
 1. [A regular expression to check for prime numbers][2]
 
-<!-------------------------------links--------------------------->
+<!--links-->
 
 [1]: {{site.url}}/resource/regular_match_primes/pic1.png
 [2]: http://www.noulakaz.net/2007/03/18/a-regular-expression-to-check-for-prime-numbers/

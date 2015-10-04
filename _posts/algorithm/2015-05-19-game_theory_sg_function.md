@@ -254,7 +254,7 @@ int main(int argc, char **argv) {
 5. [博弈之翻硬币系列][7]
 
 
-<!------------------------------links----------------------------->
+<!--links-->
 
 [1]: http://acm.hdu.edu.cn/showproblem.php?pid=3032
 [2]: http://blog.csdn.net/qiankun1993/article/details/6765688

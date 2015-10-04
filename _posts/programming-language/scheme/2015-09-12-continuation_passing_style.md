@@ -362,7 +362,7 @@ CPS 的另一个重要的用途是用来实现 interprocedure analysing，例如
 2. [CPS Lecture][2]
 3. [Continuation-Passing Style (CS 6520, Spring 2002, The University of Utah)][3]
 
-<!-------------------------------------------------------links---------------------------->
+<!--links-->
 
 [1]: http://matt.might.net/articles/by-example-continuation-passing-style/
 [2]: https://cgi.soic.indiana.edu/~c311/lib/exe/fetch.php?media=cps-notes.scm

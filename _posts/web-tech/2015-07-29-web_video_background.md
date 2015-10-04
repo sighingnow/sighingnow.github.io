@@ -170,7 +170,7 @@ video.addEventListener('touchstart',function(e){e.preventDefault();video.play();
 
 1. [Create-Fullscreen-HTML5-Page-Background-Video][1]
 
-<!-----------------------links------------------------>
+<!--links-->
 
 [1]: http://demosthenes.info/blog/777/Create-Fullscreen-HTML5-Page-Background-Video
 [2]: {{site.url}}/resource/web_video_background/polina.webm
