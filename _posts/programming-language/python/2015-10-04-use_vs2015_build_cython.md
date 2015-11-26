@@ -1,7 +1,7 @@
 ---
 title: 使用 VS2015 编译 Cython 程序
 author: He Tao
-date: 2015-05-17
+date: 2015-10-04
 tag: Python
 category: 编程语言
 layout: post
@@ -9,6 +9,8 @@ layout: post
 
 Cython, C-Extensions for Python, 通过 Cython，可以把 Python代码编译到 C 语言代码，甚至在 Python 代码中混用 C 语言的 native 数据类型，
 进一步编译成动态链接库，从而极大地提升程序的运行效率。
+
+<!--more-->
 
 Hello world
 -----------

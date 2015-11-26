@@ -179,6 +179,9 @@ call/cc的实现
 
 [Call-with-current-continuation for C programmers][3] 一文介绍了C语言中的 setjump/longjump 机制与 continuation 的异同，并从更加 low-level 的方式阐述了大多数主流 Scheme 解释器的 call/cc 的实现细节。Continuation 操作程序控制流的原理与命令式语言中的`goto`有着本质的不同。[Parent pointer tree][4](也作Spaghetti stack)就是编译器中实现call/cc，进行垃圾回收的一种方法。
 
+在并发领域，Coroutine就是基于Continuation实现的。Continuation可认为是对PCB的抽象，其实它就是函数当前的执行栈，并且是实实在在可以被保存的东西，因此，很容易通过CPS来实现协程、non-local-return 等。
+
+
 参考
 ----
 

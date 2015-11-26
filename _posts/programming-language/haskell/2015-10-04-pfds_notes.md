@@ -16,8 +16,10 @@ C语言程序员学习数据结构往往很容易找到很多优秀的教科书�
 在 amortized functional data structure 中的基础性的作用，以及与可持久化(presistance)数据结构的联系，还有将 strict 和 lazy 两种求值策略组合在一起，以及 
 polymorphic recursion, higher-order 和 recursive modules.
 
-Chapter 1
----------
+<!--more-->
+
+Chapter 1: Introduction
+-----------------------
 
 > Programmers can use any language thry want, as long as it's imperative.   -- by Henry Ford.
 
@@ -36,6 +38,34 @@ Chapter 1
 > in some situation.
 
 严格(strict)求值与惰性(lazy)求值主要的表现实在对函数的参数的处理上。
+
+Chapter 2: Lazy Evaluation and $-Notation
+-----------------------------------------
+
+Two essential properties of lazy evaluation:
+
++ the evaluation of a given expression id delayed(suspended), until its result is neeeded.
++ the first time a suspended expression is evalated, the result is mmeoized, so that the next time it is needed, it can be looked up rather than recomputed.
+
+Primitives of lazy evaluation(delay and force):
+
+    type a susp
+    val delay: (unit -> a) -> a susp
+    val force: a susp -> a
+
+$-notation: import $-notation to make suspending an expression as syntactically lightweight as possible.
+
+    delay(e): `$_e`: to suspend the evaluation of some expression `e`.
+    force(e): evaluate and memoize the contents of `$_e` and return the result.
+
+function `take(ns, s)`: extract the first n element of a stream.
+
+    fun take(ns, s) = delay(fn() => case n of
+                                         0 => Nil
+                                         _ => case force s of
+                                                   Nil => Nil
+                                                   Cons (x, s') => Cons (x, take (n-1, s')))
+
 
 
 
