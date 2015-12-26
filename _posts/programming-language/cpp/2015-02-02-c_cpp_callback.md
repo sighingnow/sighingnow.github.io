@@ -57,10 +57,11 @@ int main(int argc, char *argv[])
 }
 ```
 
-在上例中，我们可以看到，在C/C++中可以直接将函数指针作为参数传参，并通过函数指针进行函数调用和传递参数，从而实现了回调函数。
+在上例中，我们可以看到，在C/C++中可以直接将函数指针作为参数传参，并通过函数指针进行函数调用和
+传递参数，从而实现了回调函数。
 
 回调函数与事件模型
-------------------
+---------------
 
 首先声明时间模型、回调函数和事件注册函数。
 
@@ -68,44 +69,59 @@ int main(int argc, char *argv[])
 // 事件模型声明
 struct Event;
 // 回调函数声明
-typedef void (*pEvent_cbF)(const struct Event *e, void *data);
+typedef void (*pEvent_cbF)(const struct Event *e, void *extra_data);
 // 事件注册函数声明
-void event_cbF_register(pEvent_cbF pf, void *data);
+void event_cbF_register(Event *e, pEvent_cbF callback, void *data);
 ```
 
-在事件调度器(event dispather)中，通常将回调函数放在结构体中。
+在事件调度器(event dispather)中，通常将回调函数放在结构体中。`trigger`函数供外部调用来触发
+事件，当时间发生时，会调用回调函数。
 
 ```cpp
 struct Event {
     pEvent_cbF callback;
     void *data;
+    void trigger() {
+        printf("Event occur!\n");
+        this->callback(this, nullptr);
+    }
+    void trigger(void *extra_data) {
+        printf("Event occur with extra data: %s\n", (const char *)extra_data);
+        this->callback(this, extra_data);
+    }
 };
 ```
 
 接下来，实现事件注册函数和回掉函数。
 
-```
+```cpp
 void event_cbF_register(Event *e, pEvent_cbF callback, void *data) {
     e->callback = callback;
     e->data = data;
 }
-void my_event_cbF(const struct Event *e, void *data) {
-    printf("my event callback function is called.\n");
-    printf("data: %s\n", (const char *)data);
-    printf("event data: %s\n", (const char *)(e->data));
-}
 
+void my_event_cbF(const struct Event *e, void *extra_data) {
+    printf("my event callback function is called.\n");
+    printf("event data: %s\n", (const char *)(e->data));
+    if (extra_data != nullptr) {
+        printf("extra data: %s\n", (const char *)(extra_data));
+    }
+}
 ```
 
-在main函数中测试：
+在 main 函数中创建事件，并通过 `trigger` 触发。测试：
 
 ```cpp
 int main(int argc, char *argv[])
 {
-    Event curtom_event;
-    char custom_data[15] = "Event occur !";
-    event_cbF_register(&curtom_event, &my_event_cbF, custom_data);
-    curtom_event.callback(&curtom_event, curtom_event.data);
+    Event custom_event;
+    char custom_data[50] = "Event message of custom_event.";
+    event_cbF_register(&custom_event, &my_event_cbF, custom_data);
+    custom_event.trigger();
+    
+    printf("\n");
+    char extra_data[50] = "Extra data when trigger custom_event.";
+    custom_event.trigger(extra_data);
 
     return 0;
 }
@@ -113,11 +129,16 @@ int main(int argc, char *argv[])
 
 运行上述程序，将获得如下输出：
 
-    ht@debian ~
-    $ ./callback
+```
+    Event occur!
     my event callback function is called.
-    data: Event occur !
-    event data: Event occur !
+    event data: Event message of custom_event.
+
+    Event occur with extra data: Extra data when trigger custom_event.
+    my event callback function is called.
+    event data: Event message of custom_event.
+    extra data: Extra data when trigger custom_event.
+```
 
 回调函数与异步非阻塞
 ---------------------
