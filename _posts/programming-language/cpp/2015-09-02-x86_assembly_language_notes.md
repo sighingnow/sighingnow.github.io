@@ -1,7 +1,7 @@
 ---
 title: X86汇编学习笔记
 author: He Tao
-date: 2015-05-31
+date: 2015-09-02
 tags: C/C++
 categories: 编程语言
 layout: post
@@ -94,7 +94,7 @@ leal指令可以用来描述普通的算术操作，例如：
 + idivl S
 + divl S
 
-有符号/无符号除法：`R[%dx] <- R[edx]:R[%eax] % S; R[%eax] <- R[edx]:R[%eax] / S;`
+有符号/无符号除法：`R[%edx] <- R[edx]:R[%eax] % S; R[%eax] <- R[edx]:R[%eax] / S;`
 
 + cltd
 
@@ -335,10 +335,48 @@ IA32 栈帧结构示意图：
 ### 转移控制指令
 
 + call: 过程调用
++ enter: 为新的过程准备栈帧。
 + leave: 为返回准备栈
 + ret: 从过程调用中返回
 
-call 指令的效果是将返回地址入栈，并跳转到被调用过程的起始处。ret 指令从栈中弹出地址，并跳转到这个位置。
+* call 指令的效果是将返回地址入栈，并跳转到被调用过程的起始处。ret 指令从栈中弹出地址，并跳转到这个位置。
+
+* enter的作用相当`push ebp`和`mov ebp, esp`。
+
+* leave的作用相当`mov esp, ebp`和`pop ebp`。
+
+Win32汇编中局部变量的使用方法可以解释一个很有趣的现象：在DOS汇编的时候，如果在子程序中的push指令和pop指令不配对，那么返回的时候ret指令从堆栈里得到的肯定是错误的返回地址，
+程序也就死掉了。但在Win32汇编中，push指令和pop指令不配对可能在逻辑上产生错误，却不会影响子程序正常返回，原因就是在返回的时候esp不是靠相同数量的push和pop指令来保持一致的，
+而是靠leave指令从保存在ebp中的原始值中取回来的，也就是说，即使把esp改得一塌糊涂也不会影响到子程序的返回，当然，“窍门”就在ebp，把ebp改掉，程序就玩完了
+
+### AT&T汇编的enter指令和leave指令
+
++ enter指令
+
+在AT&T汇编中，enter等效于以下汇编指令：
+
+    pushl %ebp        # 将%ebp压栈
+    movl %esp %ebp    # 将%esp保存到%ebp， 这两步是函数的标准开头
+
++ leave指令
+
+在AT&T汇编中，leave等效于以下汇编指令：
+
+    movl %ebp, %esp
+    popl %ebp
+
++ call指令
+
+在AT&T汇编中，call foo（foo是一个标号）等效于以下汇编指令：
+
+    pushl %eip
+    movl f, %eip
+
++ ret指令
+
+在AT&T汇编中，ret等效于以下汇编指令：
+
+    popl %eip
 
 ### 寄存器使用惯例
 
