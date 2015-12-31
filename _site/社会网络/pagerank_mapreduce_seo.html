@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <link href="http://sighingnow.github.io" rel="profile">
+  <meta charset="UTF-8">
+  
+  <meta name="description" content="Sighingnow's homepage using Jekyll Metro">
+  
+	<meta name="author" content="Sighingnow">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      PageRank的MapReduce化以及SEO分析 &middot; Sighingnow
+    
+  </title>
+
+  
+  <!-- Twitter Card data -->
+  <meta name="twitter:card" value="summary">
+  <!-- Open Graph data -->
+  <meta property="og:title" content="PageRank的MapReduce化以及SEO分析" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="/%E7%A4%BE%E4%BC%9A%E7%BD%91%E7%BB%9C/pagerank_mapreduce_seo.html" />
+  <meta property="og:description" content="" />
+  
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="http://sighingnow.github.io/assets/css/bootstrap.css">
+  <link rel="stylesheet" href="http://sighingnow.github.io/assets/css/app.css">
+  <link rel="stylesheet" href="http://sighingnow.github.io/assets/css/pandoc-tango.css">
+
+  <script src="/assets/js/all.js"></script>
+  <script src="/assets/js/app.js"></script>
+  <script src="/assets/js/jekyll-search.js"></script>
+
+
+  
+
+  
+
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
+
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="128x128" href="http://sighingnow.github.io/assets/images/favicon-128.png">
+  <link rel="shortcut icon" href="http://sighingnow.github.io/assets/images/favicon-16.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml">
+</head>
+
+  <body>
+                  <div class="navbar navbar-default visible-xs">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">Sighingnow</a>
+                </div>
+                <div class="navbar-collapse collapse navbar-responsive-collapse">
+                    <ul class="nav navbar-nav">
+                        
+                          <li>
+                            <a href="/about/">About</a>
+                          </li>
+                        
+                          <li>
+                            <a href="/resume/">Resume</a>
+                          </li>
+                        
+                          <li>
+                            <a href="/blog/">Blog</a>
+                          </li>
+                        
+                          <li>
+                            <a href="/archive/">Archive</a>
+                          </li>
+                        
+                          <li>
+                            <a href="/tags/">Tags</a>
+                          </li>
+                        
+                    </ul>
+                </div>
+            </div>
+
+      <div class="container-fluid">
+  <div class="row">
+    <div class="hidden-xs col-md-2 col-sm-3 blue sidebar">
+      <aside>
+  <div class="row">
+    <div class="col-md-12">
+    <br/>
+        
+        <h1 class="text-center" style="margin-top:0px"><a href="/blog" class="icon icon-back"></a></h1>
+        
+    </div>
+  </div>
+  <div class="row">
+      <div class="col-md-12">
+        <ul class="left-nav">
+        
+          
+          
+            <li class="left-nav-item">
+              <a href="/about/">About</a>
+            </li>
+          
+        
+          
+          
+            <li class="left-nav-item">
+              <a href="/resume/">Resume</a>
+            </li>
+          
+        
+          
+          
+            <li class="left-nav-item left-nav-selected">Blog</a>
+          
+        
+          
+          
+            <li class="left-nav-item">
+              <a href="/archive/">Archive</a>
+            </li>
+          
+        
+          
+          
+            <li class="left-nav-item">
+              <a href="/tags/">Tags</a>
+            </li>
+          
+        
+        </ul>
+    </div>
+  </div>
+</aside>
+
+    </div> <!-- Side column -->
+    <div class="col-md-10 col-sm-9 col-md-offset-2 col-sm-offset-3">
+      <article class="col-md-12 col-xs-12 justified">
+        <h1 class="post-title">PageRank的MapReduce化以及SEO分析</h1>
+        <div class="publish-tag">
+          <span class="fa fa-calendar"></span>&nbsp;Published On July 01, 2015
+        </div>
+        <p>摘要：PageRank是Google专有的算法，用于衡量特定网页相对于搜索引擎索引中的其他网页而言的重要程度。它由Larry Page和Sergey Brin在20世纪90年代后期发明。PageRank实现了将链接价值概念作为排名因素。PageRank算法在搜索引擎领域占据着重要的地位，而在当今互联网规模不断扩大的时代背景下，借助MapReudce框架等技术手段将PageRank算法并行化具有非常广泛的应用价值。同时，针对PageRank算法设计的SEO策略也对网站的发展有着重要的影响。本文将从PageRank算法的原理和背景出发，分析算法的实现思路，尝试将PageRank算法MapReduce化，同时，简要从PageRank算法本身出发，讨论SEO和反SEO的思路。</p>
+<p>关键词：搜索引擎, PageRank, MapReduce, SEO</p>
+<!--more-->
+<h2 id="一概述">一、概述</h2>
+<p>本文首先会讨论搜索引擎的核心难题，同时讨论早期搜索引擎关于结果页面重要性评价算法的困境，借此引出PageRank产生的背景。第二部分会详细讨论PageRank的思想来源、基础框架，并结合互联网页面拓扑结构讨论PageRank处理Dead Ends及平滑化的方法。第三部分讨论PageRank算法MapReduce化的思路和具体实现。最后将讨论对PageRank的SEO和反SEO的策略。</p>
+<h2 id="二背景">二、背景</h2>
+<p>从本质上说，搜索引擎是一个资料检索系统，搜索引擎拥有一个资料库（具体到这里就是互联网页面），用户提交一个检索条件（例如关键词），搜索引擎返回符合查询条件的资料列表。我们知道Web页面数量非常巨大，所以一个检索的结果条目数量也非常多，一个好的搜索引擎必须想办法将“质量”较高的页面排在前面。直观上也可以感觉出，在使用搜索引擎时，我们并不太关心页面是否够全，而很关心前一两页是否都是质量较高的页面，是否能满足我们的实际需求。</p>
+<p>在PageRank提出之前，已经有研究者提出利用网页的入链数量来进行链接分析计算，这种入链方法假设一个网页的入链越多，则该网页越重要。早期的很多搜索引擎也采纳了入链数量作为链接分析方法，对于搜索引擎效果提升也有较明显的效果。 PageRank除了考虑到入链数量的影响，还参考了网页质量因素，两者相结合获得了更好的网页重要性评价标准。</p>
+<p>PageRank算法在计算页面排名时基于以下两个假设：</p>
+<ul>
+<li>数量假设：如果一个网页被很多其他网页链接到的话说明这个网页比较重要，也就是pagerank值会相对较高；</li>
+<li>质量假设：如果一个pagerank值很高的网页链接到一个其他的网页，那么被链接到的网页的pagerank值会相应地因此而提高。</li>
+</ul>
+<p>如下图中的节点的链接关系和PageRank权值便能很好地反映出这个问题：</p>
+<figure>
+<img src="http://sighingnow.github.io/resource/pagerank_mapreduce_seo/pagerank-example.png" />
+</figure>
+<h2 id="三算法原理分析">三、算法原理分析</h2>
+<p>PageRank算法的原理非常简单，假设一个由只有4个页面组成的集合：A，B，C和D，PR为其PageRank值，初始时，每个节点的PR值都为1，L为其外链数目，那么，以节点A为例，其PR值可由如下公式计算：</p>
+<p><span class="math">\[PR(A)= \frac{PR(B)}{L(B)}+ \frac{PR(C)}{L(C)}+ \frac{PR(D)}{L(D)}\]</span></p>
+<p>最后，所有这些被换算为一个百分比再乘上一个系数d。并将1-d的权值均匀加给每个节点，得到下式：</p>
+<p><span class="math">\[PR(A)=\left( \frac{PR(B)}{L(B)}+ \frac{PR(C)}{L(C)}+ \frac{PR(D)}{L(D)} \right) d + \frac{1 - d}{N}\]</span></p>
+<p>一个页面的PageRank是由其他页面的PageRank计算得到。如果给每个页面一个初始PageRank值（非0），那么经过不断的重复计算，这些页面的PR值会趋向于稳定，也就是收敛的状态。</p>
+<p>一般来说，<span class="math">\[d=0.85\]</span>（这里的d被称为阻尼系数（damping factor），其意义是，在任意时刻，用户到达某页面后并继续向后浏览的概率。设置d值是为了为了处理那些“没有向外链接的页面”（这些页面就像“黑洞”会吞噬掉用户继续向下浏览的概率）带来的问题，该数值是根据上网者使用浏览器书签的平均频率估算而得。</p>
+<p>对于整个网络中的全部页面，每个页面的PageRank值可由下式表示：</p>
+<p><span class="math">\[ PageRank(p_i) = \frac{1-d}{N} + d \sum_{p_j \in M(p_i)}^{}{\frac{PageRank(p_j)}{L(p_j)}}\]</span></p>
+<p>其中，<span class="math">\(p_1, p_2, ..., p_N\)</span>是被研究的页面，<span class="math">\(M(p_i)\)</span>是链入<span class="math">\(p_i\)</span>页面的集合，<span class="math">\(L(p_j)\)</span>是<span class="math">\(p_j\)</span>链出页面的数量，而N是所有页面的数量。</p>
+<h2 id="四幂法计算pagerank">四、幂法计算PageRank</h2>
+<p>PageRank值是一个特殊矩阵中的特征向量。这个特征向量为：</p>
+<p><span class="math">\[ \mathbf{R} =
+\begin{bmatrix}
+PR(p_1) \\
+PR(p_2) \\
+\vdots \\
+PR(p_N)
+\end{bmatrix} \]</span></p>
+<p>PageRank 公式可以转换为求解<span class="math">\[\limits_{n \to \infty}{A^n X}\]</span>的值。 其中矩阵为<span class="math">\[ A=q × P + (1 一 q) * e e^t / N\]</span> P为概率转移矩阵，为n维的全1行列式。</p>
+<p>幂法计算过程如下：</p>
+<p>X设任意一个初始向量, 即设置初始每个网页的 PageRank值均。一般为1.</p>
+<pre><code>R = AX;
+while(true)(
+    if (|X-R|&lt;\eplison) { //如果最后两次的结果近似或者相同，返回R
+        return R;
+    }
+    else { // 否则继续迭代求解。
+        X = R;
+        R = A X;
+    }
+}</code></pre>
+<p>Larry Page和Sergey Brin两人从理论上证明了不论初始值如何选取，这种算法都保证了网页排名的估计值能收敛到他们的真实值。同时，他们还利用稀疏矩阵计算的技巧，大大的简化了计算量，使得网页数目的急剧增大不至于导致计算无法进行。</p>
+<p>幂法计算PageRank的R代码实现：</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#构建邻接矩阵</span>
+adjacencyMatrix&lt;-function(pages){
+  n&lt;-<span class="kw">max</span>(<span class="kw">apply</span>(pages,<span class="dv">2</span>,max))
+  A &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>,n,n)
+  for(i in <span class="dv">1</span>:<span class="kw">nrow</span>(pages)) A[pages[i,]$dist,pages[i,]$src]&lt;-<span class="dv">1</span>
+  A
+}
+
+<span class="co">#变换概率矩阵,考虑d的情况</span>
+dProbabilityMatrix&lt;-function(G,<span class="dt">d=</span><span class="fl">0.85</span>){
+  cs &lt;-<span class="st"> </span><span class="kw">colSums</span>(G)
+  cs[cs==<span class="dv">0</span>] &lt;-<span class="st"> </span><span class="dv">1</span>
+  n &lt;-<span class="st"> </span><span class="kw">nrow</span>(G)
+  delta &lt;-<span class="st"> </span>(<span class="dv">1</span>-d)/n
+  A &lt;-<span class="st"> </span><span class="kw">matrix</span>(delta,<span class="kw">nrow</span>(G),<span class="kw">ncol</span>(G))
+  for (i in <span class="dv">1</span>:n) A[i,] &lt;-<span class="st"> </span>A[i,] +<span class="st"> </span>d*G[i,]/cs
+  A
+}
+
+<span class="co">#直接计算矩阵特征值</span>
+calcEigenMatrix&lt;-function(G){
+  x &lt;-<span class="st"> </span><span class="kw">Re</span>(<span class="kw">eigen</span>(G)$vectors[,<span class="dv">1</span>])
+  x/<span class="kw">sum</span>(x)
+}</code></pre>
+<h2 id="六mapreduce化分析及实现">六、MapReduce化分析及实现</h2>
+<p>可以直接根据PageRank算法的简单公式： <span class="math">\[ Rv=alpha * Sigma(Rn/Nn)+ (1-apha)/N\]</span>来实现并行化，大概思路为：</p>
+<ul>
+<li>Mapper 的输入格式为：（节点，PageRank 值）-&gt;（该节点的外部链接节点列表）</li>
+<li><p>Mapper 的输出格式为：（节点） -&gt; （该节点的反向链接节点，反向节点的 PankRank 值/反向节点的外链个数）</p></li>
+<li>Reducer 的输入格式（Mapper 的计算输出）为：（节点） -&gt; （该节点的反向链接节点，反向节点的 PankRank 值/反向节点的外链个数）</li>
+<li><p>Reducer 的输出为：（节点， 新的 PageRank 值）</p></li>
+</ul>
+<p>使用Python实现这一算法：</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="co">#! /usr/bin/env python</span>
+<span class="co"># -*- coding = utf-8 -*-</span>
+
+__author__ = <span class="st">&#39;He Tao, hetao@buaa.edu.cn&#39;</span>
+
+<span class="kw">class</span> Node:
+    <span class="kw">def</span> <span class="ot">__init__</span>(<span class="ot">self</span>, <span class="dt">id</span>, pk):
+        <span class="ot">self</span>.<span class="dt">id</span> = <span class="dt">id</span>
+        <span class="ot">self</span>.pk = pk
+
+<span class="kw">def</span> pk_map(map_input):
+    map_output = {}
+    <span class="kw">for</span> node, outlinks in map_input.items():
+        <span class="kw">for</span> link in outlinks:
+            size = <span class="dt">len</span>(outlinks)
+            <span class="kw">if</span> link in map_output:
+                map_output[link]+=(<span class="dt">float</span>)(node.pk)/size
+            <span class="kw">else</span>:
+                map_output[link]=(<span class="dt">float</span>)(node.pk)/size
+    <span class="kw">return</span> map_output
+
+<span class="kw">def</span> pk_reduce(reduce_input):
+    <span class="kw">for</span> result in reduce_input:
+        <span class="kw">for</span> node,value in result.items():
+            node.pk += value
+
+<span class="kw">def</span> pk_clear(nodes):
+    <span class="kw">for</span> node in nodes:
+        node.pk = <span class="dv">0</span>
+
+<span class="kw">def</span> pk_last(nodes):
+    lastnodes = []
+    <span class="kw">for</span> node in nodes:
+        lastnodes.append(Node(node.<span class="dt">id</span>,node.pk))
+    <span class="kw">return</span> lastnodes
+
+<span class="kw">def</span> pk_diff(nodes,lastnodes):
+    diff=<span class="dv">0</span>
+    <span class="kw">for</span> i in <span class="dt">range</span>(<span class="dt">len</span>(nodes)):
+        <span class="dt">print</span>(<span class="st">&#39;node pk </span><span class="ot">%f</span><span class="st">, last node pk </span><span class="ot">%f</span><span class="st"> &#39;</span> % (nodes[i].pk, lastnodes[i].pk))
+        diff += <span class="dt">abs</span>(nodes[i].pk-lastnodes[i].pk)
+    <span class="kw">return</span> diff
+
+<span class="kw">def</span> pk_test():
+    <span class="co"># Initial</span>
+    node1 = Node(<span class="dv">1</span>, <span class="fl">0.25</span>)
+    node2 = Node(<span class="dv">2</span>, <span class="fl">0.25</span>)
+    node3 = Node(<span class="dv">3</span>, <span class="fl">0.25</span>)
+    node4 = Node(<span class="dv">4</span>, <span class="fl">0.25</span>)
+    nodes = [node1, node2, node3, node4]
+    threshold = <span class="fl">0.0001</span>
+    max_iters = <span class="dv">100</span>
+
+    <span class="kw">for</span> iter_count in <span class="dt">range</span>(max_iters):
+        iter_count += <span class="dv">1</span>
+        lastnodes = pk_last(nodes)
+        <span class="dt">print</span>(<span class="st">&#39;============ map count </span><span class="ot">%d</span><span class="st"> =================&#39;</span> % (iter_count))
+        in1 = {node1: [node2, node3, node4], node2: [node3, node4]}
+        in2 = {node3: [node1, node4], node4: [node2]}
+
+        mapout1 = pk_map(in1)
+        mapout2 = pk_map(in2)
+
+        <span class="kw">for</span> node, value in mapout1.items():
+            <span class="dt">print</span>(<span class="st">&#39;</span><span class="ot">%d</span><span class="st"> </span><span class="ot">%f</span><span class="st">&#39;</span>%(node.<span class="dt">id</span>, value))
+        <span class="kw">for</span> node, value in mapout2.items():
+            <span class="dt">print</span>(<span class="st">&#39;</span><span class="ot">%d</span><span class="st"> </span><span class="ot">%f</span><span class="st">&#39;</span>%(node.<span class="dt">id</span>, value))
+
+        <span class="dt">print</span>(<span class="st">&#39;============ reduce count </span><span class="ot">%d</span><span class="st"> =================&#39;</span> % (iter_count))
+
+        reducein = [mapout1, mapout2]
+        pk_clear(nodes)
+        pk_reduce(reducein)
+
+        <span class="kw">for</span> node in nodes:
+            <span class="dt">print</span>(<span class="st">&#39;</span><span class="ot">%d</span><span class="st"> </span><span class="ot">%f</span><span class="st">&#39;</span>%(node.<span class="dt">id</span>, node.pk))
+
+        diff = pk_diff(nodes,lastnodes)
+        <span class="kw">if</span> diff &lt; threshold:
+            <span class="kw">break</span>
+
+<span class="kw">if</span> <span class="ot">__name__</span> == <span class="st">&#39;__main__&#39;</span>:
+    pk_test()</code></pre>
+<p>程序模拟的构图为：</p>
+<figure>
+<img src="http://sighingnow.github.io/resource/pagerank_mapreduce_seo/pagerankdemo.png" />
+</figure>
+<p>模拟有两个节点参与计算，初始时PageRank的值都为0.25，使用的阈值为0.0001，最多迭代的次数为100次。</p>
+<p>程序仅仅迭代了15次就收敛到阈值，最终得到的结果为：</p>
+<pre><code>1 0.107138774577
+2 0.35712924859
+3 0.214296601128
+4 0.321435375705</code></pre>
+<p>这个数值不仅与简单的PageRank实现得到的结果相同，并且从直观上看，这个结果也与这四个节点构成的网络图相对应。</p>
+<p>此外，将矩阵迭代并行化可以很好滴实现PageRank算法的并行化，其MapReduce流程分解如下图所示：</p>
+<figure>
+<img src="http://sighingnow.github.io/resource/pagerank_mapreduce_seo/pagerankjob.png" />
+</figure>
+<h2 id="七seo以及反seo">七、SEO以及反SEO</h2>
+<p>本文的最后，将结合前文中对PageRank算法的分析来讨论针对这一页面排名算法的SEO优化策略以及防范措施。</p>
+<p>Google经常处罚恶意提高PageRank的行为，至于其如何区分正常的链接和不正常的链接仍然是个商业机密。但是在GOOGLE的链接方案(https://support.google.com/webmasters/answer/66356?hl=zh-Hans)中明确指出了那些行为将会受到惩罚。</p>
+<p>如果一个搜索引擎仅仅依靠关键词的频率来确定页面的排名，那么一个网页将有能力影响一个关键词的搜索结果。例如，在个人博客页面中通过一个隐藏的div标签来重复“世界杯”十万次，当有用户搜索欧洲杯时，该博客页面就能出现在搜索结果较靠前的位置。这种行为就叫做“Term Spam”。而PageRank算法与早期的传统搜索引擎相比很好地解决了这个问题。</p>
+<p>也有很多针对PageRank算法设计的Spam行为。PageRank主要靠内链数计算页面权重，并且，在PageRank算法中，一个页面会将权重均匀散播给被链接网站，所以除了内链数外，上游页面的权重也很重要。Spam PageRank的关键就在于想办法增加一些高权重页面的内链。首先，将页面分为以下四种类型:</p>
+<ol type="1">
+<li>目标页：目标页是spammer要提高rank的页面，这里就是个人博客首页。</li>
+<li>支持页：支持页是spammer能完全控制的页面，例如spammer自己建立的站点中页面。</li>
+<li>可达页：可达页是spammer无法完全控制，但是可以有接口供spammer发布链接的页面，例如天涯社区、知乎、新浪博客等等这种用户可发帖的社区或博客站。</li>
+<li>不可达页：这是那些spammer完全无法发布链接的网站，例如政府网站、百度首页等等。</li>
+</ol>
+<p>单纯通过支持页是没有办法spam的，因此需要尽量找一些rank较高的可达页去加上对个人博客首页的链接，例如在一些网络社区中发帖，帖文中贴出自己的链接。然后，再通过大量的支持页放大rank，具体做法是让每个支持页和目标页互链，且每个支持页只有一条链接。</p>
+<p>下图就是这样一个Spam拓扑图：</p>
+<figure>
+<img src="http://sighingnow.github.io/resource/pagerank_mapreduce_seo/pagerankspam.png" />
+</figure>
+<p>其中T是目标页，A是可达页，S是支持页。按照PageRank算法计算页面排名，最终的结果显示这个拓扑结构将会使得页面T的PageRank值放大约2.7倍！因此，这种策略在网页排名作弊中相当有效！</p>
+<p>接下来，需要分析搜索引擎是如何防止这种Spam行为的。</p>
+<p>一种方法是通过对网页的图拓扑结构分析找出可能存在的spam farm。但是随着Web规模越来越大，这种方法非常困难。</p>
+<p>TrustRank放法是另一种可行的反作弊策略。TrustRank的思想很直观：如果一个页面的普通rank远高于可信网页的topic rank，则很可能这个页面被spam了。所谓可信网页例如政府网站、新浪、网易门户首页等等。</p>
+<p>设一个页面普通rank为P，TrustRank为T，则定义网页的Spam Mass为：(P – T)/P。Spam Mass越大，说明此页面为spam目标页的可能性越大。</p>
+<h2 id="参考">参考</h2>
+<ol type="1">
+<li>Wikipedia about PageRank</li>
+<li>Andreas Paepcke, Sriram Raghavan. Junghoo Cho Hector Garcia - Molina, Searching the Web</li>
+<li>S.Brin, L.Page. The Anatomy of a Large-scale Hypertextual Web Search Engine Computer Networks and ISDN Systems</li>
+<li>Lawrence Page, Sergey Brin, Rajeev Motwani, Terry Winograd. The PageRank Citation Ranking: Bringing Order to the Web, 1998</li>
+<li>PageRank算法并行实现, http://blog.fens.me/algorithm-pagerank-mapreduce/</li>
+</ol>
+<!--links-->
+
+        <br/>
+        <span class="fa fa-tag"></span>Tags:
+        
+          		
+            <a href="/tags#PageRank"><span class="label label-primary">PageRank</span></a>
+          		
+            <a href="/tags#Algorithm"><span class="label label-primary">Algorithm</span></a>
+          
+        
+        <br/><br/>
+        <br/><br/><h3>Comments:</h3>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+  var disqus_shortname = 'sighingnow';
+
+  /* * * DON'T EDIT BELOW THIS LINE * * */
+  (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      </article> 
+      
+      <div class="row">
+        <div class="col-sm-6 col-xs-6 text-left">
+       	
+        	<a class="btn btn-blue" href="/algorithm/n_queens_puzzle.html">← Previous</a>
+        
+        </div>
+        <div class="col-sm-6 col-xs-6 text-right">
+        
+        	<a class="btn btn-blue" href="/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/c_sharp_delegate_event_lambda.html">Next →</a>
+         
+        </div>
+      </div>
+      
+      <footer class="row">
+      <div class="col-ms-12 text-center"><div id="clustrmaps-widget" style="margin-left: auto; margin-right: auto;"></div><script type="text/javascript">var _clustrmaps = {'url' : 'http://sighingnow.github.io', 'user' : 1175527, 'server' : '3', 'id' : 'clustrmaps-widget', 'version' : 1, 'date' : '2015-08-01', 'lang' : 'en', 'corners' : 'square' };(function (){ var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'http://www3.clustrmaps.com/counter/map.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);})();</script><noscript><a href="http://www3.clustrmaps.com/user/4e211efe7"><img src="http://www3.clustrmaps.com/stats/maps-no_clusters/sighingnow.github.io-thumb.jpg" alt="Locations of visitors to this page" /></a></noscript>
+
+</div>
+      <div class="col-ms-12 text-center">
+            <hr/>
+            
+                  <div>
+<a href="mailto:sighingnow@gmail.com"><svg width="40px" height="40px" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <path d="M0.224580688,30 C0.224580688,13.4314567 13.454941,0 29.7754193,0 C46.0958976,0 59.3262579,13.4314567 59.3262579,30 C59.3262579,46.5685433 46.0958976,60 29.7754193,60 C13.454941,60 0.224580688,46.5685433 0.224580688,30 Z M0.224580688,30" fill="#FFFFFF" sketch:type="MSShapeGroup"></path>
+    <path d="M35.0384324,31.6384006 L47.2131148,40.5764264 L47.2131148,20 L35.0384324,31.6384006 Z M13.7704918,20 L13.7704918,40.5764264 L25.9449129,31.6371491 L13.7704918,20 Z M30.4918033,35.9844891 L27.5851037,33.2065217 L13.7704918,42 L47.2131148,42 L33.3981762,33.2065217 L30.4918033,35.9844891 Z M46.2098361,20 L14.7737705,20 L30.4918033,32.4549304 L46.2098361,20 Z M46.2098361,20" id="Shape" fill="#333333" sketch:type="MSShapeGroup"></path>
+    <path d="M59.3262579,30 C59.3262579,46.5685433 46.0958976,60 29.7754193,60 C23.7225405,60 18.0947051,58.1525134 13.4093244,54.9827754 L47.2695458,5.81941103 C54.5814438,11.2806503 59.3262579,20.0777973 59.3262579,30 Z M59.3262579,30" id="reflec" fill-opacity="0.08" fill="#000000" sketch:type="MSShapeGroup"></path>
+</svg></a>
+<a href="http://facebook.com/sighingnow"><svg width="40px" height="40px" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <path d="M0.112290344,30 C0.112290344,13.4314567 13.3426506,0 29.663129,0 C45.9836073,0 59.2139676,13.4314567 59.2139676,30 C59.2139676,46.5685433 45.9836073,60 29.663129,60 C13.3426506,60 0.112290344,46.5685433 0.112290344,30 Z M0.112290344,30" fill="#3B5998" sketch:type="MSShapeGroup"></path>
+	<path d="M32.1341457,46.3196729 L32.1341457,29.9980891 L36.5657565,29.9980891 L37.1530406,24.3735809 L32.1341457,24.3735809 L32.141675,21.5584604 C32.141675,20.091502 32.2787707,19.3054722 34.351206,19.3054722 L37.1216686,19.3054722 L37.1216686,13.6803271 L32.6894304,13.6803271 C27.3655995,13.6803271 25.491749,16.4088187 25.491749,20.9972835 L25.491749,24.3742179 L22.1732173,24.3742179 L22.1732173,29.998726 L25.491749,29.998726 L25.491749,46.3196729 L32.1341457,46.3196729 Z M32.1341457,46.3196729" id="Path" fill="#FFFFFF" sketch:type="MSShapeGroup"></path>
+	<path d="M59.2139676,30 C59.2139676,46.5685433 45.9836073,60 29.663129,60 C23.6102502,60 17.9824147,58.1525134 13.2970341,54.9827754 L47.1572554,5.81941103 C54.4691534,11.2806503 59.2139676,20.0777973 59.2139676,30 Z M59.2139676,30" id="reflec" fill-opacity="0.08" fill="#000000" sketch:type="MSShapeGroup"></path>
+</svg></a>
+
+<a href="http://github.com/sighingnow"><svg width="40px" height="40px" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <path d="M0.336871032,30 C0.336871032,13.4314567 13.5672313,0 29.8877097,0 C46.208188,0 59.4385483,13.4314567 59.4385483,30 C59.4385483,46.5685433 46.208188,60 29.8877097,60 C13.5672313,60 0.336871032,46.5685433 0.336871032,30 Z M0.336871032,30" id="Github" fill="#333333" sketch:type="MSShapeGroup"></path>
+    <path d="M18.2184245,31.9355566 C19.6068506,34.4507902 22.2845295,36.0156764 26.8007287,36.4485173 C26.1561023,36.9365335 25.3817877,37.8630984 25.2749857,38.9342607 C24.4644348,39.4574749 22.8347506,39.62966 21.5674303,39.2310659 C19.7918469,38.6717023 19.1119377,35.1642642 16.4533306,35.6636959 C15.8773626,35.772144 15.9917933,36.1507609 16.489567,36.4722998 C17.3001179,36.9955141 18.0629894,37.6500075 18.6513541,39.04366 C19.1033554,40.113871 20.0531304,42.0259813 23.0569369,42.0259813 C24.2489236,42.0259813 25.0842679,41.8832865 25.0842679,41.8832865 C25.0842679,41.8832865 25.107154,44.6144649 25.107154,45.6761142 C25.107154,46.9004355 23.4507693,47.2457569 23.4507693,47.8346108 C23.4507693,48.067679 23.9990832,48.0895588 24.4396415,48.0895588 C25.3102685,48.0895588 27.1220883,47.3646693 27.1220883,46.0918317 C27.1220883,45.0806012 27.1382993,41.6806599 27.1382993,41.0860982 C27.1382993,39.785673 27.8372803,39.3737607 27.8372803,39.3737607 C27.8372803,39.3737607 27.924057,46.3153869 27.6704022,47.2457569 C27.3728823,48.3397504 26.8360115,48.1846887 26.8360115,48.6727049 C26.8360115,49.3985458 29.0168704,48.8505978 29.7396911,47.2571725 C30.2984945,46.0166791 30.0543756,39.2072834 30.0543756,39.2072834 L30.650369,39.1949165 C30.650369,39.1949165 30.6837446,42.3123222 30.6637192,43.7373675 C30.6427402,45.2128317 30.5426134,47.0792797 31.4208692,47.9592309 C31.9977907,48.5376205 33.868733,49.5526562 33.868733,48.62514 C33.868733,48.0857536 32.8436245,47.6424485 32.8436245,46.1831564 L32.8436245,39.4688905 C33.6618042,39.4688905 33.5387911,41.6768547 33.5387911,41.6768547 L33.5988673,45.7788544 C33.5988673,45.7788544 33.4186389,47.2733446 35.2190156,47.8992991 C35.8541061,48.1209517 37.2139245,48.1808835 37.277815,47.8089257 C37.3417055,47.4360167 35.6405021,46.8814096 35.6252446,45.7236791 C35.6157088,45.0178155 35.6567131,44.6059032 35.6567131,41.5379651 C35.6567131,38.470027 35.2438089,37.336079 33.8048426,36.4323453 C38.2457082,35.9766732 40.9939527,34.880682 42.3337458,31.9450695 C42.4383619,31.9484966 42.8791491,30.5737742 42.8219835,30.5742482 C43.1223642,29.4659853 43.2844744,28.1550957 43.3168964,26.6025764 C43.3092677,22.3930799 41.2895654,20.9042975 40.9014546,20.205093 C41.4736082,17.0182425 40.8060956,15.5675121 40.4961791,15.0699829 C39.3518719,14.6637784 36.5149435,16.1145088 34.9653608,17.1371548 C32.438349,16.3998984 27.0982486,16.4712458 25.0957109,17.3274146 C21.4005522,14.6875608 19.445694,15.0918628 19.445694,15.0918628 C19.445694,15.0918628 18.1821881,17.351197 19.1119377,20.6569598 C17.8961113,22.2028201 16.9902014,23.2968136 16.9902014,26.1963718 C16.9902014,27.8297516 17.1828264,29.2918976 17.6176632,30.5685404 C17.5643577,30.5684093 18.2008493,31.9359777 18.2184245,31.9355566 Z M18.2184245,31.9355566" id="Path" fill="#FFFFFF" sketch:type="MSShapeGroup"></path>
+    <path d="M59.4385483,30 C59.4385483,46.5685433 46.208188,60 29.8877097,60 C23.8348308,60 18.2069954,58.1525134 13.5216148,54.9827754 L47.3818361,5.81941103 C54.6937341,11.2806503 59.4385483,20.0777973 59.4385483,30 Z M59.4385483,30" id="reflec" fill-opacity="0.08" fill="#000000" sketch:type="MSShapeGroup"></path>
+</svg></a>
+
+<a href="http://linkedin.com/in/pub/%E6%B6%9B-%E4%BD%95/bb/868/732"><svg width="40px" height="40px" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <path d="M0.449161376,30 C0.449161376,13.4314567 13.6795217,0 30,0 C46.3204783,0 59.5508386,13.4314567 59.5508386,30 C59.5508386,46.5685433 46.3204783,60 30,60 C13.6795217,60 0.449161376,46.5685433 0.449161376,30 Z M0.449161376,30" fill="#007BB6" sketch:type="MSShapeGroup"></path>
+    <path d="M22.4680392,23.7098144 L15.7808366,23.7098144 L15.7808366,44.1369537 L22.4680392,44.1369537 L22.4680392,23.7098144 Z M22.4680392,23.7098144" id="Path" fill="#FFFFFF" sketch:type="MSShapeGroup"></path>
+    <path d="M22.9084753,17.3908761 C22.8650727,15.3880081 21.4562917,13.862504 19.1686418,13.862504 C16.8809918,13.862504 15.3854057,15.3880081 15.3854057,17.3908761 C15.3854057,19.3522579 16.836788,20.9216886 19.0818366,20.9216886 L19.1245714,20.9216886 C21.4562917,20.9216886 22.9084753,19.3522579 22.9084753,17.3908761 Z M22.9084753,17.3908761" id="Path" fill="#FFFFFF" sketch:type="MSShapeGroup"></path>
+    <path d="M46.5846502,32.4246563 C46.5846502,26.1503226 43.2856534,23.2301456 38.8851658,23.2301456 C35.3347011,23.2301456 33.7450983,25.2128128 32.8575489,26.6036896 L32.8575489,23.7103567 L26.1695449,23.7103567 C26.2576856,25.6271338 26.1695449,44.137496 26.1695449,44.137496 L32.8575489,44.137496 L32.8575489,32.7292961 C32.8575489,32.1187963 32.9009514,31.5097877 33.0777669,31.0726898 C33.5610713,29.8530458 34.6614937,28.5902885 36.5089747,28.5902885 C38.9297703,28.5902885 39.8974476,30.4634101 39.8974476,33.2084226 L39.8974476,44.1369537 L46.5843832,44.1369537 L46.5846502,32.4246563 Z M46.5846502,32.4246563" id="Path" fill="#FFFFFF" sketch:type="MSShapeGroup"></path>
+    <path d="M59.5508386,30 C59.5508386,46.5685433 46.3204783,60 30,60 C23.9471212,60 18.3192858,58.1525134 13.6339051,54.9827754 L47.4941264,5.81941103 C54.8060245,11.2806503 59.5508386,20.0777973 59.5508386,30 Z M59.5508386,30" id="reflec" fill-opacity="0.08" fill="#000000" sketch:type="MSShapeGroup"></path>
+</svg></a>
+<a href="http://pinterest.com/sighingnow"><svg width="40px" height="40px" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <path d="M0.883833675,30 C0.883833675,13.4314567 13.9008011,0 29.9580459,0 C46.0152907,0 59.0322581,13.4314567 59.0322581,30 C59.0322581,46.5685433 46.0152907,60 29.9580459,60 C13.9008011,60 0.883833675,46.5685433 0.883833675,30 Z M0.883833675,30" fill="#CB2027" sketch:type="MSShapeGroup"></path>
+    <path d="M17.5869165,25.6564894 C17.5869165,28.9590618 18.7986851,31.8971698 21.3976941,32.9920559 C21.8238696,33.1718356 22.2056087,32.9982405 22.3292037,32.5113638 C22.4151829,32.1744101 22.6185566,31.3243485 22.7092894,30.9703339 C22.8339179,30.4887888 22.7855546,30.3198854 22.441638,29.9001862 C21.692214,28.9880654 21.213335,27.8072348 21.213335,26.1346224 C21.213335,21.2820631 24.7318662,16.93792 30.3754877,16.93792 C35.3728188,16.93792 38.1183644,20.08865 38.1183644,24.2965188 C38.1183644,29.8330087 35.7438106,34.5057882 32.2186656,34.5057882 C30.2719407,34.5057882 28.8146355,32.8444787 29.2817337,30.8069754 C29.8410115,28.3745112 30.9244314,25.7492583 30.9244314,23.9934738 C30.9244314,22.4217342 30.1068028,21.1108139 28.4147084,21.1108139 C26.4245806,21.1108139 24.8259058,23.2351148 24.8259058,26.0808804 C24.8259058,27.8933925 25.4194926,29.1192214 25.4194926,29.1192214 C25.4194926,29.1192214 23.3828616,38.0231153 23.0259242,39.5824856 C22.3149428,42.6880041 22.9190703,46.4949407 22.9701204,46.8794518 C23.0000891,47.1072154 23.2838616,47.1613839 23.412417,46.9892816 C23.5959494,46.7421112 25.9661629,43.7227504 26.7720107,40.7057356 C26.9999795,39.8514088 28.0809192,35.427719 28.0809192,35.427719 C28.7274162,36.7002523 30.6170973,37.8211564 32.6266532,37.8211564 C38.6088176,37.8211564 42.6674052,32.1938169 42.6674052,24.6614098 C42.6674052,18.9658266 37.9920825,13.6613656 30.8861955,13.6613656 C22.0448112,13.6613656 17.5869165,20.2021053 17.5869165,25.6564894 Z M17.5869165,25.6564894" id="Path" fill="#FFFFFF" sketch:type="MSShapeGroup"></path>
+    <path d="M59.0322581,30 C59.0322581,46.5685433 46.0152907,60 29.9580459,60 C24.0027941,60 18.4657302,58.1525134 13.8559203,54.9827754 L47.170009,5.81941103 C54.3639732,11.2806503 59.0322581,20.0777973 59.0322581,30 Z M59.0322581,30" id="reflec" fill-opacity="0.08" fill="#000000" sketch:type="MSShapeGroup"></path>
+</svg></a>
+<a href="/feed.xml"><svg width="40px" height="40px" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <path d="M0.112290344,30 C0.112290344,13.4314567 13.3426506,0 29.663129,0 C45.9836073,0 59.2139676,13.4314567 59.2139676,30 C59.2139676,46.5685433 45.9836073,60 29.663129,60 C13.3426506,60 0.112290344,46.5685433 0.112290344,30 Z M0.112290344,30" fill="#E18F00" sketch:type="MSShapeGroup"></path>
+    <path d="M26.5147755,38.7571296 C26.5147755,36.8192934 24.9575021,35.2291656 23.0297047,35.2291656 C21.1094331,35.2291656 19.5492775,36.8192934 19.5492775,38.7571296 C19.5492775,40.7052068 21.1094331,42.277616 23.0297047,42.277616 C24.957422,42.277616 26.5146954,40.7052881 26.5147755,38.7571296 Z M36.8075433,42.2700571 C36.8075433,32.6055847 29.062648,24.7442705 19.5492775,24.7442705 L19.5492775,29.8318017 C22.8128986,29.8318017 25.8817303,31.1272145 28.1920609,33.4740429 C30.4999895,35.8159133 31.7732853,38.9454513 31.7732853,42.2701384 L36.8075433,42.2700571 Z M45.6871482,42.2675375 C45.6871482,27.6346878 33.9604014,15.722384 19.5492775,15.722384 L19.5492775,20.8123535 C31.186916,20.8123535 40.660496,30.438869 40.660496,42.2673749 L45.6871482,42.2675375 Z M45.6871482,42.2675375" id="Path" fill="#FFFFFF" sketch:type="MSShapeGroup"></path>
+    <path d="M59.2139676,30 C59.2139676,46.5685433 45.9836073,60 29.663129,60 C23.6102502,60 17.9824147,58.1525134 13.2970341,54.9827754 L47.1572554,5.81941103 C54.4691534,11.2806503 59.2139676,20.0777973 59.2139676,30 Z M59.2139676,30" id="reflec" fill-opacity="0.08" fill="#000000" sketch:type="MSShapeGroup"></path>
+</svg></a>
+<a href="http://twitter.com/sighingnow"><svg width="40px" height="40px" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <path d="M0,30 C0,13.4314567 13.4508663,0 30.0433526,0 C46.6358389,0 60.0867052,13.4314567 60.0867052,30 C60.0867052,46.5685433 46.6358389,60 30.0433526,60 C13.4508663,60 0,46.5685433 0,30 Z M0,30" fill="#4099FF" sketch:type="MSShapeGroup"></path>
+    <path d="M29.2997675,23.8879776 L29.3627206,24.9260453 L28.3135016,24.798935 C24.4943445,24.3116787 21.1578281,22.6592444 18.3249368,19.8840023 L16.9399677,18.5069737 L16.5832333,19.5238563 C15.8277956,21.7906572 16.3104363,24.1845684 17.8842648,25.7946325 C18.72364,26.6844048 18.5347806,26.8115152 17.0868584,26.2818888 C16.5832333,26.1124083 16.1425613,25.985298 16.1005925,26.0488532 C15.9537019,26.1971486 16.457327,28.1249885 16.8560302,28.8876505 C17.4016241,29.9469033 18.5137962,30.9849709 19.7308902,31.5993375 L20.7591248,32.0865938 L19.5420308,32.1077788 C18.3669055,32.1077788 18.3249368,32.1289639 18.4508431,32.57385 C18.8705307,33.9508786 20.5282967,35.4126474 22.3749221,36.048199 L23.6759536,36.4930852 L22.5427971,37.1710069 C20.8640467,38.1455194 18.891515,38.6963309 16.9189833,38.738701 C15.9746862,38.759886 15.1982642,38.8446262 15.1982642,38.9081814 C15.1982642,39.1200319 17.7583585,40.306395 19.2482495,40.7724662 C23.7179224,42.1494948 29.0269705,41.5563132 33.0140027,39.2047722 C35.846894,37.5311528 38.6797853,34.2050993 40.0018012,30.9849709 C40.7152701,29.2689815 41.428739,26.1335934 41.428739,24.6294545 C41.428739,23.654942 41.4916922,23.5278317 42.6668174,22.3626537 C43.359302,21.6847319 44.0098178,20.943255 44.135724,20.7314044 C44.3455678,20.3288884 44.3245835,20.3288884 43.2543801,20.6890343 C41.4707078,21.324586 41.2188952,21.2398458 42.1002392,20.2865183 C42.750755,19.6085965 43.527177,18.3798634 43.527177,18.0197174 C43.527177,17.9561623 43.2124113,18.0620876 42.8556769,18.252753 C42.477958,18.4646036 41.6385828,18.7823794 41.0090514,18.9730449 L39.8758949,19.3331908 L38.8476603,18.634084 C38.281082,18.252753 37.4836756,17.829052 37.063988,17.7019416 C35.9937846,17.4053509 34.357003,17.447721 33.3917215,17.7866818 C30.768674,18.7400093 29.110908,21.1974757 29.2997675,23.8879776 Z M29.2997675,23.8879776" id="Path" fill="#FFFFFF" sketch:type="MSShapeGroup"></path>
+    <path d="M60.0867052,30 C60.0867052,46.5685433 46.6358389,60 30.0433526,60 C23.8895925,60 18.1679598,58.1525134 13.4044895,54.9827754 L47.8290478,5.81941103 C55.2628108,11.2806503 60.0867052,20.0777973 60.0867052,30 Z M60.0867052,30" id="reflec" fill-opacity="0.08" fill="#000000" sketch:type="MSShapeGroup"></path>
+</svg></a>
+<a href="https://plus.google.com/102570111351055130345"><svg width="40" height="40" xmlns="http://www.w3.org/2000/svg">
+
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="42" width="42" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Google+</title>
+  <g stroke="null" id="svg_1">
+   <circle stroke="null" id="svg_2" r="20" fill-rule="evenodd" fill="#E02F2F" cy="20" cx="20" clip-rule="evenodd"/>
+   <g stroke="null" id="svg_3">
+    <path stroke="null" id="svg_4" fill="#FFFFFF" d="m23.9375,7.4975c0,0 -6.027,0 -8.09025,0c-3.70125,0 -7.18594,2.47375 -7.18594,5.56625c0,3.16 2.52262,5.6175 6.28819,5.6175c0.2625,0 0.51712,-0.05625 0.7665,-0.07375c-0.24675,0.44375 -0.41737,0.92125 -0.41737,1.4425c0,0.87875 0.49481,1.58 1.12087,2.16125c-0.46988,0 -0.93056,0.00625 -1.43062,0.00625c-4.58456,0.00125 -8.11388,2.78 -8.11388,5.66375c0,2.84 3.86925,4.61875 8.45381,4.61875c5.22769,0 8.11519,-2.8275 8.11519,-5.6675c0,-2.27625 -0.70613,-3.64125 -2.88619,-5.11375c-0.74681,-0.50125 -2.1735,-1.725 -2.1735,-2.445c0,-0.8425 0.252,-1.2575 1.5855,-2.25c1.36369,-1.015 2.331,-2.22625 2.331,-3.88875c0,-1.97625 -0.8925,-4.3875 -2.62894,-4.3875l2.95313,0l1.3125,-1.25zm-2.71556,18.8425c0.063,0.265 0.10106,0.53625 0.10106,0.81125c0,2.295 -1.55531,4.08875 -6.01125,4.08875c-3.16969,0 -5.45737,-1.91 -5.45737,-4.205c0,-2.24875 2.83894,-4.1225 6.00994,-4.08875c0.73763,0.0075 1.428,0.12125 2.05275,0.31125c1.72069,1.14125 2.95444,1.785 3.30487,3.0825zm-5.07675,-8.56125c-2.12756,-0.05875 -4.15012,-2.26625 -4.51631,-4.925c-0.36619,-2.6625 1.0605,-4.69875 3.18675,-4.63875c2.12625,0.0625 4.15012,2.1975 4.51631,4.8575c0.3675,2.66 -1.05919,4.76625 -3.18675,4.70625z"/>
+    <polygon stroke="null" id="svg_5" points="30.5,17.488750457763672 30.5,13.738750457763672 27.875,13.738750457763672 27.875,17.488750457763672 23.9375,17.488750457763672 23.9375,19.988750457763672 27.875,19.988750457763672 27.875,23.73874855041504 30.5,23.73874855041504 30.5,19.988750457763672 34.4375,19.988750457763672 34.4375,17.488750457763672 " fill="#FFFFFF"/>
+   </g>
+  </g>
+  <g id="svg_6"/>
+  <g id="svg_7"/>
+  <g id="svg_8"/>
+  <g id="svg_9"/>
+  <g id="svg_10"/>
+  <g id="svg_11"/>
+ </g>
+</svg></a>
+<a href="http://stackoverflow.com/users/5080177/he-tao"><svg width="40" height="40" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+  <path fill="#919191" d="m7.294075,23.110188l2.385864,0.023237l-0.083177,10.552679l15.878221,0l0,-10.514505l2.51405,0l0,13.07741l-20.707843,0l0.01289,-13.138815l-0.000005,-0.000006z"/>
+  <rect fill="#919191" y="29.348862" x="11.184582" height="2.628626" width="12.437938"/>
+  <rect fill="#a78b68" transform="matrix(0.5395733410304717,0.05172669848399204,-0.05207586478003252,0.5359555264108665,3.6611416648678325,1.4067255727666614) " y="41.524347" x="18.49125" height="5.003923" width="23.066864"/>
+  <rect fill="#c19653" transform="matrix(0.5216998676238958,0.14625586092278992,-0.1472431193160242,0.5182018938275416,3.6611416648678325,1.4067255727666614) " y="27.438515" x="24.907076" height="5.003923" width="23.066864"/>
+  <rect fill="#d48c28" transform="matrix(0.4640090244261216,0.2783830739288475,-0.2802622193151353,0.46089786509976993,3.6611416648678325,1.4067255727666614) " y="7.461092" x="30.089396" height="5.003923" width="23.066864"/>
+  <rect fill="#fe8908" transform="matrix(0.3157222700143304,0.4376935608999602,-0.4406480862019664,0.31360536660688737,3.6611416648678325,1.4067255727666614) " y="-20.343803" x="28.488303" height="5.003923" width="23.066864"/>
+  <rect fill="#ff7a15" transform="matrix(0.0893402304821676,0.5310828333843179,-0.5346677562821299,0.08874120831524585,3.6611416648678325,1.4067255727666614) " y="-47.045927" x="14.158203" height="5.003923" width="23.066864"/>
+</svg>
+</a>
+</div>
+            
+            &copy; 2016 - Sighingnow. All rights reserved.<br/>
+            Built using 
+            
+            <a href="http://jekyllrb.com/">Jekyll</a>
+             and Theme proudly powered by <a href="https://github.com/olakara/JekyllMetro">JekyllMetro.</a> 
+      </div>
+</footer>
+
+
+      <!-- Mathjax config template. -->
+
+<style type="text/css">
+  span.MathJax_SVG { zoom : 1.0; }
+</style>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+          displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+          processEscapes: true
+        },
+        // displayAlign: "left",
+        // displayIndent: "0em",
+    });
+    MathJax.Hub.Queue(["Typeset",MathJax.Hub,document.body]);
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_SVG" type="text/javascript"></script>
+
+
+
+    
+    </div> <!-- content area column -->
+  </div> <!-- row  -->
+</div> <!-- container -->
+      
+      
+      
+	  
+
+    <!-- <script>
+(function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+ga('create', '', 'blog-olakara.rhcloud.com');
+ga('send', 'pageview');
+</script>
+ -->
+    <a href="#" class="scrollToTop"></a>
+	<script type="text/javascript">
+    $(document).ready(function(){
+    
+    //Check to see if the window is top if not then display button
+    $(window).scroll(function(){
+        if ($(this).scrollTop() > 100) {
+            $('.scrollToTop').fadeIn();
+        } else {
+            $('.scrollToTop').fadeOut();
+        }
+    });
+    
+    //Click event to scroll to top
+    $('.scrollToTop').click(function(){
+        $('html, body').animate({scrollTop : 0},800);
+        return false;
+    });
+    
+});
+</script>
+  </body>
+</html>
+

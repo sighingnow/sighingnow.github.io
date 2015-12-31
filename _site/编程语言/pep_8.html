@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <link href="http://sighingnow.github.io" rel="profile">
+  <meta charset="UTF-8">
+  
+  <meta name="description" content="Sighingnow's homepage using Jekyll Metro">
+  
+	<meta name="author" content="Sighingnow">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Python PEP 8 简单汇总 &middot; Sighingnow
+    
+  </title>
+
+  
+  <!-- Twitter Card data -->
+  <meta name="twitter:card" value="summary">
+  <!-- Open Graph data -->
+  <meta property="og:title" content="Python PEP 8 简单汇总" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/pep_8.html" />
+  <meta property="og:description" content="" />
+  
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="http://sighingnow.github.io/assets/css/bootstrap.css">
+  <link rel="stylesheet" href="http://sighingnow.github.io/assets/css/app.css">
+  <link rel="stylesheet" href="http://sighingnow.github.io/assets/css/pandoc-tango.css">
+
+  <script src="/assets/js/all.js"></script>
+  <script src="/assets/js/app.js"></script>
+  <script src="/assets/js/jekyll-search.js"></script>
+
+
+  
+
+  
+
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
+
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="128x128" href="http://sighingnow.github.io/assets/images/favicon-128.png">
+  <link rel="shortcut icon" href="http://sighingnow.github.io/assets/images/favicon-16.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml">
+</head>
+
+  <body>
+                  <div class="navbar navbar-default visible-xs">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">Sighingnow</a>
+                </div>
+                <div class="navbar-collapse collapse navbar-responsive-collapse">
+                    <ul class="nav navbar-nav">
+                        
+                          <li>
+                            <a href="/about/">About</a>
+                          </li>
+                        
+                          <li>
+                            <a href="/resume/">Resume</a>
+                          </li>
+                        
+                          <li>
+                            <a href="/blog/">Blog</a>
+                          </li>
+                        
+                          <li>
+                            <a href="/archive/">Archive</a>
+                          </li>
+                        
+                          <li>
+                            <a href="/tags/">Tags</a>
+                          </li>
+                        
+                    </ul>
+                </div>
+            </div>
+
+      <div class="container-fluid">
+  <div class="row">
+    <div class="hidden-xs col-md-2 col-sm-3 blue sidebar">
+      <aside>
+  <div class="row">
+    <div class="col-md-12">
+    <br/>
+        
+        <h1 class="text-center" style="margin-top:0px"><a href="/blog" class="icon icon-back"></a></h1>
+        
+    </div>
+  </div>
+  <div class="row">
+      <div class="col-md-12">
+        <ul class="left-nav">
+        
+          
+          
+            <li class="left-nav-item">
+              <a href="/about/">About</a>
+            </li>
+          
+        
+          
+          
+            <li class="left-nav-item">
+              <a href="/resume/">Resume</a>
+            </li>
+          
+        
+          
+          
+            <li class="left-nav-item left-nav-selected">Blog</a>
+          
+        
+          
+          
+            <li class="left-nav-item">
+              <a href="/archive/">Archive</a>
+            </li>
+          
+        
+          
+          
+            <li class="left-nav-item">
+              <a href="/tags/">Tags</a>
+            </li>
+          
+        
+        </ul>
+    </div>
+  </div>
+</aside>
+
+    </div> <!-- Side column -->
+    <div class="col-md-10 col-sm-9 col-md-offset-2 col-sm-offset-3">
+      <article class="col-md-12 col-xs-12 justified">
+        <h1 class="post-title">Python PEP 8 简单汇总</h1>
+        <div class="publish-tag">
+          <span class="fa fa-calendar"></span>&nbsp;Published On February 07, 2015
+        </div>
+        <p>PEP 8 是Python的代码风格指南(Style Guide for Python Code)，其中很多内容都来自Guido van Rossum。PEP 8 从代码格式、注释、空白、变量名、参考及权利声明等方面出发，主要提到了以下这些关于Python代码风格的问题。</p>
+<h2 id="代码格式code-lay-out">代码格式(Code lay-out)</h2>
+<h3 id="缩进indentation">缩进(Indentation)</h3>
+<p>每一级缩进使用4个空格。当一行过长需要折行时，应该保持与换行的界定符的垂直对齐。如下例：</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="co"># Aligned with opening delimiter.</span>
+foo = long_function_name(var_one, var_two,
+                     var_three, var_four)</code></pre>
+<p>或者下一行采用8个空格的缩进，与其他的正常缩进区别开来，例如：</p>
+<!--more-->
+<pre class="sourceCode python"><code class="sourceCode python"><span class="co"># More indentation included to distinguish this from the rest.</span>
+<span class="kw">def</span> long_function_name(
+        var_one, var_two, var_three,
+        var_four):
+    <span class="dt">print</span>(var_one)</code></pre>
+<p>悬挂的缩进应该保持一致。</p>
+<p>如果<code>if</code>语句太长以至于需要分成多行书写，应该把<code>if</code>和一个空格以及一个左括号和在一起，形成一个自然地4个空格的缩进。但也可以让下一行多缩进4个空格（8个空格的缩进）。同时，还可以添加一些注释使得代码更清楚。例如以下几种写法：</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="co"># No extra indentation.</span>
+<span class="kw">if</span> (this_is_one_thing and
+    that_is_another_thing):
+    do_something()
+
+<span class="co"># Add a comment, which will provide some distinction in editors</span>
+<span class="co"># supporting syntax highlighting.</span>
+<span class="kw">if</span> (this_is_one_thing and
+    that_is_another_thing):
+    <span class="co"># Since both conditions are true, we can frobnicate.</span>
+    do_something()
+
+<span class="co"># Add some extra indentation on the conditional continuation line.</span>
+<span class="kw">if</span> (this_is_one_thing
+        and that_is_another_thing):
+    do_something()</code></pre>
+<p>如果列表性质的内容需要拆成多行，那么右括号应该在新的一行同列表的上一行内容的第一个字符保持对齐或者同多行语句的开始位置保持对齐，如下例：</p>
+<pre class="sourceCode python"><code class="sourceCode python">my_list = [
+    <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>,
+    <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>,
+    ]
+result = some_function_that_takes_arguments(
+    <span class="st">&#39;a&#39;</span>, <span class="st">&#39;b&#39;</span>, <span class="st">&#39;c&#39;</span>,
+    <span class="co">&#39;d&#39;</span>, <span class="st">&#39;e&#39;</span>, <span class="st">&#39;f&#39;</span>,
+    )
+
+my_list = [
+    <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>,
+    <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>,
+]
+result = some_function_that_takes_arguments(
+    <span class="st">&#39;a&#39;</span>, <span class="st">&#39;b&#39;</span>, <span class="st">&#39;c&#39;</span>,
+    <span class="co">&#39;d&#39;</span>, <span class="st">&#39;e&#39;</span>, <span class="st">&#39;f&#39;</span>,
+)</code></pre>
+<h3 id="制表符与空格tabs-or-spaces">制表符与空格(Tabs or Spaces?)</h3>
+<p>应当使用空格来缩进，Tab键仅仅用于那些已经采用Tab键来缩进的Python源代码文件。</p>
+<p>Python 3 不允许混用Tab键和空格来缩进。对于Python 2，混用空格键和Tab键来缩进的代码应当被递归地转换成仅仅使用空格来缩进。</p>
+<p>Python 2 的交互式命令行有<code>-t</code>选项来检查不合理的混用Tab键和空格的缩进。当使用<code>-tt</code>选项时，这些相关的警告将会变成错误。强烈建议使用这些选项。</p>
+<h3 id="每行最长长度maximum-line-length">每行最长长度(Maximum Line Length)</h3>
+<p>每行的最长长度限制应该设置为<strong>79</strong>个字符。对于类似<code>docstrings</code>或者<code>comments</code>(文档字符串或注释)的缺乏结构的文本块应当限制在每行<strong>72</strong>个字符。</p>
+<h3 id="空行blank-lines">空行(Blank Lines)</h3>
+<p>用两个空行来分隔顶层函数和类。用一个空行来分隔类里面定义的函数。此外，还需要额外的空行来分隔相关的几个函数。</p>
+<p>Python允许把<code>Ctrl-L</code>符号当成空白，这在一些文本工具中表示分页符。<strong>注意</strong>，一些文本编辑器可能不能正确识别<code>Ctrl-L</code>符号，并把它当成某个奇怪的象形文字。</p>
+<h3 id="源代码文件编码source-file-encoding">源代码文件编码(Source File Encoding)</h3>
+<p>Python代码应当使用UTF-8编码(Python 2使用 ASCII)。</p>
+<p>使用 ASCII编码的Python 2 代码文件和使用 UTF-8 编码的Python 3 代码文件应该不使用编码声明。</p>
+<p>Python 可以使用如下格式的注释来声明文件的编码：</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="co"># -*- coding: &lt;encoding name&gt; -*-</span></code></pre>
+<p>或者：</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="co"># -*- coding=&lt;encoding name&gt; -*-</span></code></pre>
+<h3 id="import格式import">Import格式(Import)</h3>
+<ul>
+<li><p>多个 import 声明应该分行来写。</p>
+<p>例如：</p>
+<pre><code>import os
+import sys</code></pre>
+<p>而不是写成</p>
+<pre><code>import os, sys</code></pre>
+<p>从同一个模块中 import 多个函数等时可以写成一行。例如</p>
+<pre><code>from subprocess import Popen, PIPE</code></pre></li>
+<li><p>import 声明应该放在文件的最上方。也就是模块注释和文档字符串之后，模块全局变量和常量之前的位置。</p>
+<p>多个import声明应该使用如下顺序组织：</p>
+<ul>
+<li>标准库(standard library imports)</li>
+<li>相关的第三方库(related third party imports)</li>
+<li>本地应用和库(local application/library specific imports)</li>
+</ul>
+<p>每一组import声明之间应该用一个空行隔开。</p>
+<p>将任何 <code>__all__</code> 说明都放在import声明之后。</p></li>
+<li><p>推荐使用绝对引入(absolute import),这样代码可读性更好，并且当引入的库存在错误时，代码表现得会更好（至少会生成更有用的错误信息）。</p>
+<p>例如：</p>
+<pre><code>import mypkg.sibling
+from mypkg import sibling</code></pre>
+<p>隐含的相对路径引入也是可以接受的。例如：</p>
+<pre><code>from . import sibling
+from .sibling import example</code></pre></li>
+<li><p>当从一个包含class的module中import一个类时，应当这样书写：</p>
+<pre><code>from myclass import MyClass
+from foo.bar.yourclass import YourClass</code></pre>
+<p>如果这会导致与本地的变量名冲突，那么，这样的方式也是可行的：</p>
+<pre><code>import myclass
+import foo.bar.yourclass</code></pre></li>
+<li><p>应该避免使用通过通配符import的方式(<code>from &lt;module&gt; import *</code>)。这会导致命名空间的混淆，并对一些库和工具造成误解。</p></li>
+</ul>
+<h3 id="引号string-quotes">引号(String Quotes)</h3>
+<p>在Python中，使用双引号和使用单引号表示的字符串没有区别。只要制定一条原则并在整个项目的所有代码中保持一致即可。</p>
+<p>当字符串中包含单引号时，使用单引号，反之，当字符串中包含单引号时，使用双引号。</p>
+<h2 id="空白符whitespace">空白符(Whitespace)</h2>
+<p>在下列情形下应该避免多余的空格：</p>
+<ul>
+<li><p>括号内紧挨着括号不要留空格</p></li>
+<li><p>紧挨着冒号，逗号或分号前面</p>
+<p>然而，当冒号表现得像一个二元操作符，例如在列表切片(slice)等场合下，冒号左右应该留下相同个数的空格，如下例：</p>
+<pre><code>ham[1:9]
+ham[lower+offset : upper+offset]</code></pre></li>
+<li><p>函数名与左括号之间不要留空格</p></li>
+<li><p>字典、元组、列表等变量名和左方括号之间不要留空格</p></li>
+<li><p>定义变量或赋值时不要用空格去对齐等号。</p>
+<p>例如：</p>
+<pre><code>x = 1
+y = 2
+long_variable = 3</code></pre>
+<p>不要写成:</p>
+<pre><code>x             = 1
+y             = 2
+long_variable = 3</code></pre></li>
+<li><p>在函数的默认参数的等号左右和通过命名参数调用函数的等号左右不要留空格。</p>
+<p>例如：</p>
+<pre><code>def complex(real, imag=0.0):
+    return magic(r=real, i=imag)</code></pre>
+<p>不要写成：</p>
+<pre><code>def complex(real, imag = 0.0):
+    return magic(r = real, i = imag)</code></pre></li>
+</ul>
+<p>在以下这些情形下，应当使用空格</p>
+<ul>
+<li><p>要在注解函数定义的等号两侧使用空格。此外，还应该在注解函数定义中的冒号“:”后边使用空格，在“-&gt;”两边使用空格。</p>
+<p>例如：</p>
+<pre><code>def munge(input: AnyStr):
+def munge(sep: AnyStr = None):
+def munge() -&gt; AnyStr:
+def munge(input: AnyStr, sep: AnyStr = None, limit=1000):</code></pre>
+<p>不要写成：</p>
+<pre><code>def munge(input: AnyStr=None):
+def munge(input:AnyStr):
+def munge(input: AnyStr)-&gt;PosInt:</code></pre></li>
+</ul>
+<h2 id="注释comments">注释(Comments)</h2>
+<h3 id="块注释block-comments">块注释(Block Comments)</h3>
+<p>块注释的缩进应当与代码的缩进保持一致。在<code>#</code>后边要加一个空格。</p>
+<h3 id="行内注释内联注释inline-comments">行内注释(内联注释)(Inline Comments)</h3>
+<p>行内注释跟代码语句应该保持至少<strong>2个空格</strong>的距离。并且，要在<code>#</code>后边加一个空格。</p>
+<h3 id="文档字符串documentation-strings">文档字符串(Documentation Strings)</h3>
+<p>应该给所有的公有模块、函数、类、方法写文档字符串。文档字符串应该写在<code>def ...</code>语句之后一行。</p>
+<p>PEP 257 描述了好的文档字符串的写法。</p>
+<p>文档字符串格式示例：</p>
+<pre><code>&quot;&quot;&quot;Return ...
+......
+&quot;&quot;&quot;</code></pre>
+<p>对于一行的文档字符串，应该把两个<code>&quot;&quot;&quot;</code>写在同一行。</p>
+<h2 id="版本标记version-bookkeeping">版本标记(Version Bookkeeping)</h2>
+<p>如果需要在代码中描述版本信息，应该写成如下格式：</p>
+<pre><code>__version__ = &quot;$Revision$&quot;
+# $Source$</code></pre>
+<p>这些代码应该写在文档字符串之后，代码之前，并且前后都要用一个空行分开。</p>
+<h2 id="命名约定naming-conventions">命名约定(Naming Conventions)</h2>
+<h3 id="overriding-principle">Overriding Principle</h3>
+<p>公有API部分的命名应该能够反映用途而非实现方式。</p>
+<h3 id="descriptive-name-style">Descriptive: Name Style</h3>
+<p>采用描述性的命名风格。其中，有些形式的命名应该遵循如下约定：</p>
+<ul>
+<li><p><code>_single_leading_undersrore</code>:</p>
+<p>使用的标识符(“internal use” indicator)。</p>
+<p>例如，<code>from M import *</code>就不会import名字以一个下划线开头的的对象(objects)。</p></li>
+<li><p><code>single_trailing_underscore</code>:</p>
+<p>这项约定用来避免与Python的关键字(keywords)冲突。例如：</p>
+<pre><code>Tkinter.Toplevel(master, class_ = &#39;ClassName&#39;)</code></pre></li>
+<li><p><code>__double_leading_underscore</code>:</p>
+<p>这用来命名类属性(class attribute)。</p></li>
+<li><p><code>__double_leading_and_trailing_underscore__</code>:</p>
+<p>用在用户控制的(user-controlled)的命名空间下。从不创造这样的变量名，仅仅使用那些文档中存在的。</p></li>
+</ul>
+<h3 id="prescriptive-naming-conventions">Prescriptive: Naming Conventions</h3>
+<h4 id="names-to-avoid">Names to Avoid</h4>
+<p>应当避免使用“l”, “O”, “I”作为单个字母的变量名。</p>
+<h4 id="包和模块的命名">包和模块的命名</h4>
+<p>模块应该采用较短的、全部为小写字母的命名。如果下划线可以增强名字的可读性，那么可以用在模块名中。</p>
+<h4 id="异常命名exception-names">异常命名(Exception Names)</h4>
+<p>对异常的命名应当包含后缀“Error”。</p>
+<h4 id="类的方法method的命名">类的方法(method)的命名</h4>
+<p>使用<code>self</code>作为实例方法(instance methods)的第一个参数。</p>
+<p>使用<code>cls</code>作为类方法(class methods)的第一个参数。</p>
+<h4 id="常量">常量</h4>
+<p>常量的命名应该全部采用大写字母。</p>
+<h4 id="全局变量">全局变量</h4>
+<p>对于包和模块，可以通过设置<code>__all__</code>的内容来指定接口(API)。</p>
+<h2 id="其他的约定">其他的约定</h2>
+<h3 id="lambda和def">lambda和def</h3>
+<p>定义函数时，使用<code>def</code>。不要把<code>lambda</code>表达式绑定到标识符。</p>
+<h3 id="自定义异常">自定义异常</h3>
+<p>自定义异常时，直接继承<code>Exception</code>而不是<code>BaseException</code>。</p>
+<h3 id="合理使用异常链">合理使用异常链</h3>
+<h3 id="捕获异常">捕获异常</h3>
+<p>捕获异常时，尽量指明是什么类型的异常而不要全都是用单单的<code>except:</code>。</p>
+<h3 id="finally">finally</h3>
+<p>如果代码需要做清理工作，要加上 <code>finally</code> 语句块。</p>
+<h3 id="字符串检查">字符串检查</h3>
+<p>使用<code>startwith()</code>和<code>endwith()</code>方法而不是字符串切片(string slicing)来检查字符串的前缀和后缀。</p>
+<h3 id="类型检查">类型检查</h3>
+<p>使用<code>isinstance()</code>而不是<code>type() ==</code>来检查变量的类型。</p>
+<h3 id="序列非空检查">序列非空检查</h3>
+<p>对于序列(string, list, tuple)，空列表的布尔值为<code>False</code>，可以用这一特点来进行序列的非空检查，而不是判断序列的长度。</p>
+
+        <br/>
+        <span class="fa fa-tag"></span>Tags:
+        
+          		
+            <a href="/tags#Python"><span class="label label-primary">Python</span></a>
+          		
+            <a href="/tags#CodeStyle"><span class="label label-primary">CodeStyle</span></a>
+          
+        
+        <br/><br/>
+        <br/><br/><h3>Comments:</h3>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+  var disqus_shortname = 'sighingnow';
+
+  /* * * DON'T EDIT BELOW THIS LINE * * */
+  (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      </article> 
+      
+      <div class="row">
+        <div class="col-sm-6 col-xs-6 text-left">
+       	
+        	<a class="btn btn-blue" href="/math/mathematica_io.html">← Previous</a>
+        
+        </div>
+        <div class="col-sm-6 col-xs-6 text-right">
+        
+        	<a class="btn btn-blue" href="/algorithm/sleep_sort.html">Next →</a>
+         
+        </div>
+      </div>
+      
+      <footer class="row">
+      <div class="col-ms-12 text-center"><div id="clustrmaps-widget" style="margin-left: auto; margin-right: auto;"></div><script type="text/javascript">var _clustrmaps = {'url' : 'http://sighingnow.github.io', 'user' : 1175527, 'server' : '3', 'id' : 'clustrmaps-widget', 'version' : 1, 'date' : '2015-08-01', 'lang' : 'en', 'corners' : 'square' };(function (){ var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'http://www3.clustrmaps.com/counter/map.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);})();</script><noscript><a href="http://www3.clustrmaps.com/user/4e211efe7"><img src="http://www3.clustrmaps.com/stats/maps-no_clusters/sighingnow.github.io-thumb.jpg" alt="Locations of visitors to this page" /></a></noscript>
+
+</div>
+      <div class="col-ms-12 text-center">
+            <hr/>
+            
+                  <div>
+<a href="mailto:sighingnow@gmail.com"><svg width="40px" height="40px" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <path d="M0.224580688,30 C0.224580688,13.4314567 13.454941,0 29.7754193,0 C46.0958976,0 59.3262579,13.4314567 59.3262579,30 C59.3262579,46.5685433 46.0958976,60 29.7754193,60 C13.454941,60 0.224580688,46.5685433 0.224580688,30 Z M0.224580688,30" fill="#FFFFFF" sketch:type="MSShapeGroup"></path>
+    <path d="M35.0384324,31.6384006 L47.2131148,40.5764264 L47.2131148,20 L35.0384324,31.6384006 Z M13.7704918,20 L13.7704918,40.5764264 L25.9449129,31.6371491 L13.7704918,20 Z M30.4918033,35.9844891 L27.5851037,33.2065217 L13.7704918,42 L47.2131148,42 L33.3981762,33.2065217 L30.4918033,35.9844891 Z M46.2098361,20 L14.7737705,20 L30.4918033,32.4549304 L46.2098361,20 Z M46.2098361,20" id="Shape" fill="#333333" sketch:type="MSShapeGroup"></path>
+    <path d="M59.3262579,30 C59.3262579,46.5685433 46.0958976,60 29.7754193,60 C23.7225405,60 18.0947051,58.1525134 13.4093244,54.9827754 L47.2695458,5.81941103 C54.5814438,11.2806503 59.3262579,20.0777973 59.3262579,30 Z M59.3262579,30" id="reflec" fill-opacity="0.08" fill="#000000" sketch:type="MSShapeGroup"></path>
+</svg></a>
+<a href="http://facebook.com/sighingnow"><svg width="40px" height="40px" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <path d="M0.112290344,30 C0.112290344,13.4314567 13.3426506,0 29.663129,0 C45.9836073,0 59.2139676,13.4314567 59.2139676,30 C59.2139676,46.5685433 45.9836073,60 29.663129,60 C13.3426506,60 0.112290344,46.5685433 0.112290344,30 Z M0.112290344,30" fill="#3B5998" sketch:type="MSShapeGroup"></path>
+	<path d="M32.1341457,46.3196729 L32.1341457,29.9980891 L36.5657565,29.9980891 L37.1530406,24.3735809 L32.1341457,24.3735809 L32.141675,21.5584604 C32.141675,20.091502 32.2787707,19.3054722 34.351206,19.3054722 L37.1216686,19.3054722 L37.1216686,13.6803271 L32.6894304,13.6803271 C27.3655995,13.6803271 25.491749,16.4088187 25.491749,20.9972835 L25.491749,24.3742179 L22.1732173,24.3742179 L22.1732173,29.998726 L25.491749,29.998726 L25.491749,46.3196729 L32.1341457,46.3196729 Z M32.1341457,46.3196729" id="Path" fill="#FFFFFF" sketch:type="MSShapeGroup"></path>
+	<path d="M59.2139676,30 C59.2139676,46.5685433 45.9836073,60 29.663129,60 C23.6102502,60 17.9824147,58.1525134 13.2970341,54.9827754 L47.1572554,5.81941103 C54.4691534,11.2806503 59.2139676,20.0777973 59.2139676,30 Z M59.2139676,30" id="reflec" fill-opacity="0.08" fill="#000000" sketch:type="MSShapeGroup"></path>
+</svg></a>
+
+<a href="http://github.com/sighingnow"><svg width="40px" height="40px" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <path d="M0.336871032,30 C0.336871032,13.4314567 13.5672313,0 29.8877097,0 C46.208188,0 59.4385483,13.4314567 59.4385483,30 C59.4385483,46.5685433 46.208188,60 29.8877097,60 C13.5672313,60 0.336871032,46.5685433 0.336871032,30 Z M0.336871032,30" id="Github" fill="#333333" sketch:type="MSShapeGroup"></path>
+    <path d="M18.2184245,31.9355566 C19.6068506,34.4507902 22.2845295,36.0156764 26.8007287,36.4485173 C26.1561023,36.9365335 25.3817877,37.8630984 25.2749857,38.9342607 C24.4644348,39.4574749 22.8347506,39.62966 21.5674303,39.2310659 C19.7918469,38.6717023 19.1119377,35.1642642 16.4533306,35.6636959 C15.8773626,35.772144 15.9917933,36.1507609 16.489567,36.4722998 C17.3001179,36.9955141 18.0629894,37.6500075 18.6513541,39.04366 C19.1033554,40.113871 20.0531304,42.0259813 23.0569369,42.0259813 C24.2489236,42.0259813 25.0842679,41.8832865 25.0842679,41.8832865 C25.0842679,41.8832865 25.107154,44.6144649 25.107154,45.6761142 C25.107154,46.9004355 23.4507693,47.2457569 23.4507693,47.8346108 C23.4507693,48.067679 23.9990832,48.0895588 24.4396415,48.0895588 C25.3102685,48.0895588 27.1220883,47.3646693 27.1220883,46.0918317 C27.1220883,45.0806012 27.1382993,41.6806599 27.1382993,41.0860982 C27.1382993,39.785673 27.8372803,39.3737607 27.8372803,39.3737607 C27.8372803,39.3737607 27.924057,46.3153869 27.6704022,47.2457569 C27.3728823,48.3397504 26.8360115,48.1846887 26.8360115,48.6727049 C26.8360115,49.3985458 29.0168704,48.8505978 29.7396911,47.2571725 C30.2984945,46.0166791 30.0543756,39.2072834 30.0543756,39.2072834 L30.650369,39.1949165 C30.650369,39.1949165 30.6837446,42.3123222 30.6637192,43.7373675 C30.6427402,45.2128317 30.5426134,47.0792797 31.4208692,47.9592309 C31.9977907,48.5376205 33.868733,49.5526562 33.868733,48.62514 C33.868733,48.0857536 32.8436245,47.6424485 32.8436245,46.1831564 L32.8436245,39.4688905 C33.6618042,39.4688905 33.5387911,41.6768547 33.5387911,41.6768547 L33.5988673,45.7788544 C33.5988673,45.7788544 33.4186389,47.2733446 35.2190156,47.8992991 C35.8541061,48.1209517 37.2139245,48.1808835 37.277815,47.8089257 C37.3417055,47.4360167 35.6405021,46.8814096 35.6252446,45.7236791 C35.6157088,45.0178155 35.6567131,44.6059032 35.6567131,41.5379651 C35.6567131,38.470027 35.2438089,37.336079 33.8048426,36.4323453 C38.2457082,35.9766732 40.9939527,34.880682 42.3337458,31.9450695 C42.4383619,31.9484966 42.8791491,30.5737742 42.8219835,30.5742482 C43.1223642,29.4659853 43.2844744,28.1550957 43.3168964,26.6025764 C43.3092677,22.3930799 41.2895654,20.9042975 40.9014546,20.205093 C41.4736082,17.0182425 40.8060956,15.5675121 40.4961791,15.0699829 C39.3518719,14.6637784 36.5149435,16.1145088 34.9653608,17.1371548 C32.438349,16.3998984 27.0982486,16.4712458 25.0957109,17.3274146 C21.4005522,14.6875608 19.445694,15.0918628 19.445694,15.0918628 C19.445694,15.0918628 18.1821881,17.351197 19.1119377,20.6569598 C17.8961113,22.2028201 16.9902014,23.2968136 16.9902014,26.1963718 C16.9902014,27.8297516 17.1828264,29.2918976 17.6176632,30.5685404 C17.5643577,30.5684093 18.2008493,31.9359777 18.2184245,31.9355566 Z M18.2184245,31.9355566" id="Path" fill="#FFFFFF" sketch:type="MSShapeGroup"></path>
+    <path d="M59.4385483,30 C59.4385483,46.5685433 46.208188,60 29.8877097,60 C23.8348308,60 18.2069954,58.1525134 13.5216148,54.9827754 L47.3818361,5.81941103 C54.6937341,11.2806503 59.4385483,20.0777973 59.4385483,30 Z M59.4385483,30" id="reflec" fill-opacity="0.08" fill="#000000" sketch:type="MSShapeGroup"></path>
+</svg></a>
+
+<a href="http://linkedin.com/in/pub/%E6%B6%9B-%E4%BD%95/bb/868/732"><svg width="40px" height="40px" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <path d="M0.449161376,30 C0.449161376,13.4314567 13.6795217,0 30,0 C46.3204783,0 59.5508386,13.4314567 59.5508386,30 C59.5508386,46.5685433 46.3204783,60 30,60 C13.6795217,60 0.449161376,46.5685433 0.449161376,30 Z M0.449161376,30" fill="#007BB6" sketch:type="MSShapeGroup"></path>
+    <path d="M22.4680392,23.7098144 L15.7808366,23.7098144 L15.7808366,44.1369537 L22.4680392,44.1369537 L22.4680392,23.7098144 Z M22.4680392,23.7098144" id="Path" fill="#FFFFFF" sketch:type="MSShapeGroup"></path>
+    <path d="M22.9084753,17.3908761 C22.8650727,15.3880081 21.4562917,13.862504 19.1686418,13.862504 C16.8809918,13.862504 15.3854057,15.3880081 15.3854057,17.3908761 C15.3854057,19.3522579 16.836788,20.9216886 19.0818366,20.9216886 L19.1245714,20.9216886 C21.4562917,20.9216886 22.9084753,19.3522579 22.9084753,17.3908761 Z M22.9084753,17.3908761" id="Path" fill="#FFFFFF" sketch:type="MSShapeGroup"></path>
+    <path d="M46.5846502,32.4246563 C46.5846502,26.1503226 43.2856534,23.2301456 38.8851658,23.2301456 C35.3347011,23.2301456 33.7450983,25.2128128 32.8575489,26.6036896 L32.8575489,23.7103567 L26.1695449,23.7103567 C26.2576856,25.6271338 26.1695449,44.137496 26.1695449,44.137496 L32.8575489,44.137496 L32.8575489,32.7292961 C32.8575489,32.1187963 32.9009514,31.5097877 33.0777669,31.0726898 C33.5610713,29.8530458 34.6614937,28.5902885 36.5089747,28.5902885 C38.9297703,28.5902885 39.8974476,30.4634101 39.8974476,33.2084226 L39.8974476,44.1369537 L46.5843832,44.1369537 L46.5846502,32.4246563 Z M46.5846502,32.4246563" id="Path" fill="#FFFFFF" sketch:type="MSShapeGroup"></path>
+    <path d="M59.5508386,30 C59.5508386,46.5685433 46.3204783,60 30,60 C23.9471212,60 18.3192858,58.1525134 13.6339051,54.9827754 L47.4941264,5.81941103 C54.8060245,11.2806503 59.5508386,20.0777973 59.5508386,30 Z M59.5508386,30" id="reflec" fill-opacity="0.08" fill="#000000" sketch:type="MSShapeGroup"></path>
+</svg></a>
+<a href="http://pinterest.com/sighingnow"><svg width="40px" height="40px" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <path d="M0.883833675,30 C0.883833675,13.4314567 13.9008011,0 29.9580459,0 C46.0152907,0 59.0322581,13.4314567 59.0322581,30 C59.0322581,46.5685433 46.0152907,60 29.9580459,60 C13.9008011,60 0.883833675,46.5685433 0.883833675,30 Z M0.883833675,30" fill="#CB2027" sketch:type="MSShapeGroup"></path>
+    <path d="M17.5869165,25.6564894 C17.5869165,28.9590618 18.7986851,31.8971698 21.3976941,32.9920559 C21.8238696,33.1718356 22.2056087,32.9982405 22.3292037,32.5113638 C22.4151829,32.1744101 22.6185566,31.3243485 22.7092894,30.9703339 C22.8339179,30.4887888 22.7855546,30.3198854 22.441638,29.9001862 C21.692214,28.9880654 21.213335,27.8072348 21.213335,26.1346224 C21.213335,21.2820631 24.7318662,16.93792 30.3754877,16.93792 C35.3728188,16.93792 38.1183644,20.08865 38.1183644,24.2965188 C38.1183644,29.8330087 35.7438106,34.5057882 32.2186656,34.5057882 C30.2719407,34.5057882 28.8146355,32.8444787 29.2817337,30.8069754 C29.8410115,28.3745112 30.9244314,25.7492583 30.9244314,23.9934738 C30.9244314,22.4217342 30.1068028,21.1108139 28.4147084,21.1108139 C26.4245806,21.1108139 24.8259058,23.2351148 24.8259058,26.0808804 C24.8259058,27.8933925 25.4194926,29.1192214 25.4194926,29.1192214 C25.4194926,29.1192214 23.3828616,38.0231153 23.0259242,39.5824856 C22.3149428,42.6880041 22.9190703,46.4949407 22.9701204,46.8794518 C23.0000891,47.1072154 23.2838616,47.1613839 23.412417,46.9892816 C23.5959494,46.7421112 25.9661629,43.7227504 26.7720107,40.7057356 C26.9999795,39.8514088 28.0809192,35.427719 28.0809192,35.427719 C28.7274162,36.7002523 30.6170973,37.8211564 32.6266532,37.8211564 C38.6088176,37.8211564 42.6674052,32.1938169 42.6674052,24.6614098 C42.6674052,18.9658266 37.9920825,13.6613656 30.8861955,13.6613656 C22.0448112,13.6613656 17.5869165,20.2021053 17.5869165,25.6564894 Z M17.5869165,25.6564894" id="Path" fill="#FFFFFF" sketch:type="MSShapeGroup"></path>
+    <path d="M59.0322581,30 C59.0322581,46.5685433 46.0152907,60 29.9580459,60 C24.0027941,60 18.4657302,58.1525134 13.8559203,54.9827754 L47.170009,5.81941103 C54.3639732,11.2806503 59.0322581,20.0777973 59.0322581,30 Z M59.0322581,30" id="reflec" fill-opacity="0.08" fill="#000000" sketch:type="MSShapeGroup"></path>
+</svg></a>
+<a href="/feed.xml"><svg width="40px" height="40px" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <path d="M0.112290344,30 C0.112290344,13.4314567 13.3426506,0 29.663129,0 C45.9836073,0 59.2139676,13.4314567 59.2139676,30 C59.2139676,46.5685433 45.9836073,60 29.663129,60 C13.3426506,60 0.112290344,46.5685433 0.112290344,30 Z M0.112290344,30" fill="#E18F00" sketch:type="MSShapeGroup"></path>
+    <path d="M26.5147755,38.7571296 C26.5147755,36.8192934 24.9575021,35.2291656 23.0297047,35.2291656 C21.1094331,35.2291656 19.5492775,36.8192934 19.5492775,38.7571296 C19.5492775,40.7052068 21.1094331,42.277616 23.0297047,42.277616 C24.957422,42.277616 26.5146954,40.7052881 26.5147755,38.7571296 Z M36.8075433,42.2700571 C36.8075433,32.6055847 29.062648,24.7442705 19.5492775,24.7442705 L19.5492775,29.8318017 C22.8128986,29.8318017 25.8817303,31.1272145 28.1920609,33.4740429 C30.4999895,35.8159133 31.7732853,38.9454513 31.7732853,42.2701384 L36.8075433,42.2700571 Z M45.6871482,42.2675375 C45.6871482,27.6346878 33.9604014,15.722384 19.5492775,15.722384 L19.5492775,20.8123535 C31.186916,20.8123535 40.660496,30.438869 40.660496,42.2673749 L45.6871482,42.2675375 Z M45.6871482,42.2675375" id="Path" fill="#FFFFFF" sketch:type="MSShapeGroup"></path>
+    <path d="M59.2139676,30 C59.2139676,46.5685433 45.9836073,60 29.663129,60 C23.6102502,60 17.9824147,58.1525134 13.2970341,54.9827754 L47.1572554,5.81941103 C54.4691534,11.2806503 59.2139676,20.0777973 59.2139676,30 Z M59.2139676,30" id="reflec" fill-opacity="0.08" fill="#000000" sketch:type="MSShapeGroup"></path>
+</svg></a>
+<a href="http://twitter.com/sighingnow"><svg width="40px" height="40px" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <path d="M0,30 C0,13.4314567 13.4508663,0 30.0433526,0 C46.6358389,0 60.0867052,13.4314567 60.0867052,30 C60.0867052,46.5685433 46.6358389,60 30.0433526,60 C13.4508663,60 0,46.5685433 0,30 Z M0,30" fill="#4099FF" sketch:type="MSShapeGroup"></path>
+    <path d="M29.2997675,23.8879776 L29.3627206,24.9260453 L28.3135016,24.798935 C24.4943445,24.3116787 21.1578281,22.6592444 18.3249368,19.8840023 L16.9399677,18.5069737 L16.5832333,19.5238563 C15.8277956,21.7906572 16.3104363,24.1845684 17.8842648,25.7946325 C18.72364,26.6844048 18.5347806,26.8115152 17.0868584,26.2818888 C16.5832333,26.1124083 16.1425613,25.985298 16.1005925,26.0488532 C15.9537019,26.1971486 16.457327,28.1249885 16.8560302,28.8876505 C17.4016241,29.9469033 18.5137962,30.9849709 19.7308902,31.5993375 L20.7591248,32.0865938 L19.5420308,32.1077788 C18.3669055,32.1077788 18.3249368,32.1289639 18.4508431,32.57385 C18.8705307,33.9508786 20.5282967,35.4126474 22.3749221,36.048199 L23.6759536,36.4930852 L22.5427971,37.1710069 C20.8640467,38.1455194 18.891515,38.6963309 16.9189833,38.738701 C15.9746862,38.759886 15.1982642,38.8446262 15.1982642,38.9081814 C15.1982642,39.1200319 17.7583585,40.306395 19.2482495,40.7724662 C23.7179224,42.1494948 29.0269705,41.5563132 33.0140027,39.2047722 C35.846894,37.5311528 38.6797853,34.2050993 40.0018012,30.9849709 C40.7152701,29.2689815 41.428739,26.1335934 41.428739,24.6294545 C41.428739,23.654942 41.4916922,23.5278317 42.6668174,22.3626537 C43.359302,21.6847319 44.0098178,20.943255 44.135724,20.7314044 C44.3455678,20.3288884 44.3245835,20.3288884 43.2543801,20.6890343 C41.4707078,21.324586 41.2188952,21.2398458 42.1002392,20.2865183 C42.750755,19.6085965 43.527177,18.3798634 43.527177,18.0197174 C43.527177,17.9561623 43.2124113,18.0620876 42.8556769,18.252753 C42.477958,18.4646036 41.6385828,18.7823794 41.0090514,18.9730449 L39.8758949,19.3331908 L38.8476603,18.634084 C38.281082,18.252753 37.4836756,17.829052 37.063988,17.7019416 C35.9937846,17.4053509 34.357003,17.447721 33.3917215,17.7866818 C30.768674,18.7400093 29.110908,21.1974757 29.2997675,23.8879776 Z M29.2997675,23.8879776" id="Path" fill="#FFFFFF" sketch:type="MSShapeGroup"></path>
+    <path d="M60.0867052,30 C60.0867052,46.5685433 46.6358389,60 30.0433526,60 C23.8895925,60 18.1679598,58.1525134 13.4044895,54.9827754 L47.8290478,5.81941103 C55.2628108,11.2806503 60.0867052,20.0777973 60.0867052,30 Z M60.0867052,30" id="reflec" fill-opacity="0.08" fill="#000000" sketch:type="MSShapeGroup"></path>
+</svg></a>
+<a href="https://plus.google.com/102570111351055130345"><svg width="40" height="40" xmlns="http://www.w3.org/2000/svg">
+
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="42" width="42" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Google+</title>
+  <g stroke="null" id="svg_1">
+   <circle stroke="null" id="svg_2" r="20" fill-rule="evenodd" fill="#E02F2F" cy="20" cx="20" clip-rule="evenodd"/>
+   <g stroke="null" id="svg_3">
+    <path stroke="null" id="svg_4" fill="#FFFFFF" d="m23.9375,7.4975c0,0 -6.027,0 -8.09025,0c-3.70125,0 -7.18594,2.47375 -7.18594,5.56625c0,3.16 2.52262,5.6175 6.28819,5.6175c0.2625,0 0.51712,-0.05625 0.7665,-0.07375c-0.24675,0.44375 -0.41737,0.92125 -0.41737,1.4425c0,0.87875 0.49481,1.58 1.12087,2.16125c-0.46988,0 -0.93056,0.00625 -1.43062,0.00625c-4.58456,0.00125 -8.11388,2.78 -8.11388,5.66375c0,2.84 3.86925,4.61875 8.45381,4.61875c5.22769,0 8.11519,-2.8275 8.11519,-5.6675c0,-2.27625 -0.70613,-3.64125 -2.88619,-5.11375c-0.74681,-0.50125 -2.1735,-1.725 -2.1735,-2.445c0,-0.8425 0.252,-1.2575 1.5855,-2.25c1.36369,-1.015 2.331,-2.22625 2.331,-3.88875c0,-1.97625 -0.8925,-4.3875 -2.62894,-4.3875l2.95313,0l1.3125,-1.25zm-2.71556,18.8425c0.063,0.265 0.10106,0.53625 0.10106,0.81125c0,2.295 -1.55531,4.08875 -6.01125,4.08875c-3.16969,0 -5.45737,-1.91 -5.45737,-4.205c0,-2.24875 2.83894,-4.1225 6.00994,-4.08875c0.73763,0.0075 1.428,0.12125 2.05275,0.31125c1.72069,1.14125 2.95444,1.785 3.30487,3.0825zm-5.07675,-8.56125c-2.12756,-0.05875 -4.15012,-2.26625 -4.51631,-4.925c-0.36619,-2.6625 1.0605,-4.69875 3.18675,-4.63875c2.12625,0.0625 4.15012,2.1975 4.51631,4.8575c0.3675,2.66 -1.05919,4.76625 -3.18675,4.70625z"/>
+    <polygon stroke="null" id="svg_5" points="30.5,17.488750457763672 30.5,13.738750457763672 27.875,13.738750457763672 27.875,17.488750457763672 23.9375,17.488750457763672 23.9375,19.988750457763672 27.875,19.988750457763672 27.875,23.73874855041504 30.5,23.73874855041504 30.5,19.988750457763672 34.4375,19.988750457763672 34.4375,17.488750457763672 " fill="#FFFFFF"/>
+   </g>
+  </g>
+  <g id="svg_6"/>
+  <g id="svg_7"/>
+  <g id="svg_8"/>
+  <g id="svg_9"/>
+  <g id="svg_10"/>
+  <g id="svg_11"/>
+ </g>
+</svg></a>
+<a href="http://stackoverflow.com/users/5080177/he-tao"><svg width="40" height="40" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+  <path fill="#919191" d="m7.294075,23.110188l2.385864,0.023237l-0.083177,10.552679l15.878221,0l0,-10.514505l2.51405,0l0,13.07741l-20.707843,0l0.01289,-13.138815l-0.000005,-0.000006z"/>
+  <rect fill="#919191" y="29.348862" x="11.184582" height="2.628626" width="12.437938"/>
+  <rect fill="#a78b68" transform="matrix(0.5395733410304717,0.05172669848399204,-0.05207586478003252,0.5359555264108665,3.6611416648678325,1.4067255727666614) " y="41.524347" x="18.49125" height="5.003923" width="23.066864"/>
+  <rect fill="#c19653" transform="matrix(0.5216998676238958,0.14625586092278992,-0.1472431193160242,0.5182018938275416,3.6611416648678325,1.4067255727666614) " y="27.438515" x="24.907076" height="5.003923" width="23.066864"/>
+  <rect fill="#d48c28" transform="matrix(0.4640090244261216,0.2783830739288475,-0.2802622193151353,0.46089786509976993,3.6611416648678325,1.4067255727666614) " y="7.461092" x="30.089396" height="5.003923" width="23.066864"/>
+  <rect fill="#fe8908" transform="matrix(0.3157222700143304,0.4376935608999602,-0.4406480862019664,0.31360536660688737,3.6611416648678325,1.4067255727666614) " y="-20.343803" x="28.488303" height="5.003923" width="23.066864"/>
+  <rect fill="#ff7a15" transform="matrix(0.0893402304821676,0.5310828333843179,-0.5346677562821299,0.08874120831524585,3.6611416648678325,1.4067255727666614) " y="-47.045927" x="14.158203" height="5.003923" width="23.066864"/>
+</svg>
+</a>
+</div>
+            
+            &copy; 2016 - Sighingnow. All rights reserved.<br/>
+            Built using 
+            
+            <a href="http://jekyllrb.com/">Jekyll</a>
+             and Theme proudly powered by <a href="https://github.com/olakara/JekyllMetro">JekyllMetro.</a> 
+      </div>
+</footer>
+
+
+      <!-- Mathjax config template. -->
+
+<style type="text/css">
+  span.MathJax_SVG { zoom : 1.0; }
+</style>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+          displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+          processEscapes: true
+        },
+        // displayAlign: "left",
+        // displayIndent: "0em",
+    });
+    MathJax.Hub.Queue(["Typeset",MathJax.Hub,document.body]);
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_SVG" type="text/javascript"></script>
+
+
+
+    
+    </div> <!-- content area column -->
+  </div> <!-- row  -->
+</div> <!-- container -->
+      
+      
+      
+	  
+
+    <!-- <script>
+(function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+ga('create', '', 'blog-olakara.rhcloud.com');
+ga('send', 'pageview');
+</script>
+ -->
+    <a href="#" class="scrollToTop"></a>
+	<script type="text/javascript">
+    $(document).ready(function(){
+    
+    //Check to see if the window is top if not then display button
+    $(window).scroll(function(){
+        if ($(this).scrollTop() > 100) {
+            $('.scrollToTop').fadeIn();
+        } else {
+            $('.scrollToTop').fadeOut();
+        }
+    });
+    
+    //Click event to scroll to top
+    $('.scrollToTop').click(function(){
+        $('html, body').animate({scrollTop : 0},800);
+        return false;
+    });
+    
+});
+</script>
+  </body>
+</html>
+
