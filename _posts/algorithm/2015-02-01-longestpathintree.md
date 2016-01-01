@@ -17,7 +17,7 @@ layout: post
 
 树形DP的基本思路为由子节点的情况推出父节点的情况，针对树的最长路径这一问题，分别记录每个节点的子节点的最大深度和次大深度，父节点的最大深度等于所有子节点的最大深度和次大深度的最大值加1，父节点的次大深度等于所有子节点的最大深度和次大深度的次大值加1，最后，每个节点对应的最长路径值为该节点的`最大深度-次大深度+1`,由此可得到树的最长路径长度。伪代码描述如下：
 
-```cpp
+~~~cpp
 初始值：
     depth_0[leaf node] = depth_1[leaf node] = 1
 递推：
@@ -26,7 +26,7 @@ layout: post
 求解：
     length[i] = depth_0[i] + depth_1[i] - 1
     longest = max({length[i]})
-```
+~~~
 
 由此，得到结果。
 
@@ -50,7 +50,7 @@ layout: post
 
 [HihoCoder 1050][2]
 
-```cpp
+~~~cpp
 #include <cstdio>
 #include <vector>
 #include <cstring>
@@ -102,7 +102,7 @@ int main(int argc, char **argv) {
 
     return 0;
 }
-```
+~~~
 
 <!--links-->
 

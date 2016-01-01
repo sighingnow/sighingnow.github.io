@@ -22,16 +22,16 @@ The key to CPS:
 
 以阶乘函数为例：
 
-```scheme
+~~~scheme
 (define (factorial n)
   (if (= n 0)
      1     ; NOT tail-recursive
      (* n (factorial (- n 1)))))
-```
+~~~
 
 改成CPS：
 
-```scheme
+~~~scheme
 (define (factorial& n k)
   (=& n 0 (lambda (b)
           (if b                    ;; growing continuation
@@ -39,7 +39,7 @@ The key to CPS:
               (-& n 1 (lambda (num)
                        (factorial& num (lambda (f)
                                         (*& n f k))))))))) ;; apply continuation `k` to the result.  
-```
+~~~
 
 参数 k 表示对于 `factorial&` 函数的结果的行为，即Continuation。从这个例子中，我们不难看到，所谓CPS，其实传入一个函数，返回这个函数对被调用者的结果(可以是多个)处理后的值。我们可以以如下形式来调用 `factorial&`函数：
 
@@ -55,17 +55,17 @@ CPS形式的map
 
 用Scheme实现map：
 
-```scheme
+~~~scheme
 (define map1
   (lambda (f ls)
     (if (null? ls)
         '()
         (cons (f (car ls)) (map1 f (cdr ls))))))
-```
+~~~
 
 改写成CPS形式：
 
-```scheme
+~~~scheme
 (define map2
   (lambda (f ls k)
     (if (null? ls)
@@ -73,7 +73,7 @@ CPS形式的map
         (map2 f (cdr ls) (lambda (v)
                            (f (car ls) (lambda (n)
                                          (k (cons n v)))))))))
-```
+~~~
 
 其中，f 是需要map的函数，ls是列表，k是Continuation，需要注意的是，f本身也是一个CPS风格的函数，可以这样调用这个函数：
 
@@ -86,7 +86,7 @@ call/cc 和 CPS
 
 例如，Scheme实现的阶乘函数：
 
-```scheme
+~~~scheme
 (define product
   (lambda (ns)
     (call-with-current-continuation
@@ -95,7 +95,7 @@ call/cc 和 CPS
           (cond ((null? ns) 1)
                 ((= (car ns) 0) (exit 0))
                 (else (* (car ns) (f (cdr ns))))))))))
-```
+~~~
 
 接下来，将这个函数改成CPS的形式。首先，将call/cc的调用从函数体中去掉，然后为product函数加上一个参数k，k为接受一个参数的函数。
 
@@ -105,7 +105,7 @@ call/cc 和 CPS
 
 对于cond的每个分支，都需要对其结果进行后续的k计算。至此，我们得到了product函数的CPS版本：
 
-```scheme
+~~~scheme
 (define product-cps
   (lambda (ns k)
     (let f ((ns ns) (k k))
@@ -113,7 +113,7 @@ call/cc 和 CPS
             ((= (car ns) 0) (k 0))
             (else (f (cdr ns)
                      (lambda (x) (k (* (car ns) x)))))))))
-```
+~~~
 
 调用这个函数：
 
@@ -131,15 +131,15 @@ CPS程序与普通程序相比有如下明显的不同：
 
 + 普通函数
 
-```javascript
+~~~javascript
 function foo(x) {
     return x + 1;
 }
-```
+~~~
 
 CPS:
 
-```javascript
+~~~javascript
 function cps_foo(x k) {
     (function (k1) {
         k1(x+1)
@@ -147,20 +147,20 @@ function cps_foo(x k) {
         k(x1);
     });
 }
-```
+~~~
 
 + 有赋值语句的：
 
-```javascript
+~~~javascript
 function foo(x) {
     var a = 1;
     return x+a;
 }
-```
+~~~
 
 CPS:
 
-```javascript
+~~~javascript
 function cps_foo(x, k) {
     var a;
     (function (k1) {
@@ -174,11 +174,11 @@ function cps_foo(x, k) {
         });
     });
 }
-```
+~~~
 
 + 有分支结构的：
 
-```javascript
+~~~javascript
 function foo(x) {
     if(x > 100) {
         console.log("x > 100");
@@ -187,11 +187,11 @@ function foo(x) {
         console.log("x <= 100");
     }
 }
-```
+~~~
 
 CPS:
 
-```javascript
+~~~javascript
 function cps_foo(x k) {
     (function (k1) {
         k1(x > 100);
@@ -213,11 +213,11 @@ function cps_foo(x k) {
         }
     });
 }
-```
+~~~
 
 + try/catch 结构
 
-```javascript
+~~~javascript
 function goo(x) {
     function foo(a, b) {
         if(a < b) {
@@ -236,11 +236,11 @@ function goo(x) {
     }
     return x;
 }
-```
+~~~
 
 CPS:
 
-```javascript
+~~~javascript
 function cps_goo(x, k) {
     (function (a, b, k, thro) {
         if(a > b) {
@@ -257,7 +257,7 @@ function cps_goo(x, k) {
         k();
     });
 }
-```
+~~~
 
 翻译成CPS的表达式，有一种inside-out的效果，也就是说，表达式最内部的部分需要最先被计算出来。区别于普通的最先被计算在最外层。CPS变换的一些策略：
 
@@ -306,7 +306,7 @@ CPS已经成为了功能性编程语言的编译器的一种强大的中间表�
 
 通过下面的程序，可以对符合这一语法的代码做CPS转换：
 
-```scheme
+~~~scheme
 #lang racket
 
 ;; translating the lambda calculus to CPS.
@@ -338,7 +338,7 @@ CPS已经成为了功能性编程语言的编译器的一种强大的中间表�
 
 (define (cps-convert-program term)
   (cps-convert term '(lambda (ans) ans)))
-```
+~~~
 
 用CPS变换来实现call/cc: 
 

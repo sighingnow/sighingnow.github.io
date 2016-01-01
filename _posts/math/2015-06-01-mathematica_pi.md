@@ -22,13 +22,13 @@ $$ \frac{1}{\pi} = 12\sum_{k=0}^{\infty} \frac{(-1)^k(6k)! (163\cdot 3344418k + 
 
 根据这个公式，可以编写如下Mathematica代码：
 
-```mathematica
+~~~mathematica
 chud[n_] := N[1/(12*Sum[
 	((-1)^k*(6 k)!*(13591409 + 545140134 k))/
 	((3 k)!*(k!)^3*640320^(3 k + 3/2)), 
     {k, 0, n}], 5];
 ]);
-```
+~~~
 
 运行如下命令：
 
@@ -45,7 +45,7 @@ chud[n_] := N[1/(12*Sum[
 
 普通蒙特卡洛(Monte Carlo)方法求解$\pi$的值，是指每次随机产生一个在$2\times 2$的正方形中的点，统计这个点在该正方形的内接圆里的概率$p$。圆周率$\pi$的估计值为$4p$。算法原理和实现都很简单，Mathematica代码如下(此处，仅仅统计在第一象限内的随机点的分布情况)：
 
-```mathematica
+~~~mathematica
 mc[n_] := Module[
 	{
 		in = 0, 
@@ -59,7 +59,7 @@ mc[n_] := Module[
 	];
 	N[in/total*4, 5]
 ];
-```
+~~~
 
 重复运行1000000次随机：
 
@@ -88,7 +88,7 @@ mc[n_] := Module[
 
 该算法的Mathematica实现如下：
 
-```mathematica
+~~~mathematica
 (* 此处采用本机Mathematica的Machine ID作为随机数的最大范围: *)
 (*        6102-90797-51506 *)
 
@@ -107,7 +107,7 @@ primep[n_] := Module[
 	];
 	N[Sqrt[6/(is/total)], 5]
 ];
-```
+~~~
 
 重复运行：
 
@@ -124,7 +124,7 @@ primep[n_] := Module[
 
 画图分析$\pi$, Chudnovsky算法，普通蒙特卡洛算法，整数互质概率算法这四种求解$\pi$的数值值得结果：
 
-```mathematica
+~~~mathematica
 n = 10;
 pis = Table[N[Pi, 5], {k, 1, n}];
 chuds = Table[chud[k], {k, 1, n}];
@@ -138,7 +138,7 @@ ListLinePlot[{pis, chuds, mcs, primeps},
     AxesOrigin -> {0, 0}, 
     PlotRange -> {0, 4}
 ]
-```
+~~~
 
 如下图所示：
 
@@ -157,7 +157,7 @@ ListLinePlot[{pis, chuds, mcs, primeps},
 六、附录：Mathematica代码
 ------------------------
 
-```mathematica
+~~~mathematica
 (* Chudnovsky algorithm*)
 chud[n_] := N[1/(12*Sum[
     ((-1)^k*(6 k)!*(13591409 + 545140134 k))/
@@ -211,7 +211,7 @@ ListLinePlot[{pis, chuds, mcs, primeps},
     AxesOrigin -> {0, 0}, 
     PlotRange -> {0, 4}
 ]
-```
+~~~
 
 <!--links-->
 

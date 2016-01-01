@@ -24,15 +24,15 @@ layout: post
 
 <!--more-->
 
-```cpp
+~~~cpp
 #define lowbit(x) ((x)&((x)^((x)-1)))
-```
+~~~
 
 利用补码的特性，可以写为：
 
-```cpp
+~~~cpp
 #define lowbit(x) ((x)&(-x))
-```
+~~~
 
 来方便求得K值。
 
@@ -44,7 +44,7 @@ layout: post
 修改单个位置的值
 ------------------
 
-```cpp
+~~~cpp
 /**
  * 将k位置的值增加delta。
  */
@@ -55,14 +55,14 @@ void change(int k, int delta)
         k += lowbit(k);
     }
 }
-```
+~~~
 
 查询区间和
 ------------
 
 首先，可以通过如下方法在O(log(n))的时间内得出前k个元素的和。
 
-```cpp
+~~~cpp
 /**
  * 求区间[1, k]内元素的和
  */
@@ -74,11 +74,11 @@ int query_sum(int k) {
     }
     return _sum;
 }
-```
+~~~
 
 区间和查询便不难实现：
 
-```cpp
+~~~cpp
 /**
  * 求区间[x, y] 内元素的和。
  */
@@ -86,7 +86,7 @@ int query_range(int x, int y)
 {
     return query_sum(y) - query_sum(x-1);
 }
-```
+~~~
 
 二维情形
 -----------
@@ -95,7 +95,7 @@ int query_range(int x, int y)
 
 更新：
 
-```cpp
+~~~cpp
 /**
  * (x, y)处的值增加delta
  */
@@ -109,11 +109,11 @@ void change(int x, int y, int delta)
         x += lowbit(x);
     }
 }
-```
+~~~
 
 查询二维区间和操作：
 
-```cpp
+~~~cpp
 /**
  * 查询(0,0)与(x, y)范围内的和。
  */
@@ -136,7 +136,7 @@ int query_range(x1, y1, x2, y2) {
     return query_sum(x2, y2) + query_sum(x1-1, y1-1) -
             query_sum(x1-1, y2) - query_sum(x2, y1-1);
 }
-```
+~~~
 
 区间修改单点查询
 -------------------
@@ -147,7 +147,7 @@ int query_range(x1, y1, x2, y2) {
 
 对区间[x, y]的修改可以变换为对区间[1, x]和区间[1, y]的修改。具体代码实现如下：
 
-```cpp
+~~~cpp
 /**
  * 将[1, x]位置的值增加delta。
  */
@@ -180,7 +180,7 @@ void query_value(int k) {
     }
     return _value;
 }
-```
+~~~
 
 这样的区间修改单点查询的模型同样可以用于多维情形。
 
@@ -191,7 +191,7 @@ void query_value(int k) {
 
 代码实现如下：
 
-```cpp
+~~~cpp
 void change_c(int k, int delta) { // change c[].
     while(k > 0) {
         c[k] += delta;
@@ -245,7 +245,7 @@ void query_range(int x, int y) {
     return query_sum(y)-query_sum(x-1);
 }
 
-```
+~~~
 
 与线段树的对比
 ---------------

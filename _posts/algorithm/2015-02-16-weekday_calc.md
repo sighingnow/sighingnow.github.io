@@ -33,7 +33,7 @@ $$ w = (y+\lfloor{y/4}\rfloor+\lfloor{c/4}\rfloor-2c+\lfloor{26(m+1)/10}\rfloor+
 
 ### 代码实现(Python)
 
-```python
+~~~python
 def getWeek(year, mouth, day):
     ''' Zeller Method.
     '''
@@ -42,7 +42,7 @@ def getWeek(year, mouth, day):
     y, c = int(str(year)[2:4]), int(str(year)[0:2])
     week = (y + y//4 + c//4 - 2*c + 26*(mouth+1)//10 + day - 1) % 7
     return week
-```
+~~~
 
 基姆拉尔森公式
 ----------------

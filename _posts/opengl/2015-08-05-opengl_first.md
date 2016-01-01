@@ -89,7 +89,7 @@ Python实现
 
 也可以用PyOpenGL(OpenGL的Python Binding)来实现这个功能，PyOpenGL的API和OpenGL的C语言接口很相似：
 
-```python
+~~~python
 #! /usr/bin/env python3
 # -*- encoding: utf-8 -*-
 
@@ -115,7 +115,7 @@ def guimain():
 
 if __name__ == '__main__':
     guimain()
-```
+~~~
 
 注意在`glutCreateWindow(b"first window")`语句中使用的是`b''`，如果不这样，便会产生这样一个错误：
 
@@ -147,7 +147,7 @@ OpenGL绘制Utah teapot
 
 GLUT库提供了函数`glutWireTeapot`和`glutSolidTeapot`来绘制不同的Utah teapot，只需要更改`glutDisplayFunc()`注册的回掉函数`InternalCB`即可：
 
-```cpp
+~~~cpp
 static void InternalCB()
 {
     // clear the framebuffer
@@ -160,7 +160,7 @@ static void InternalCB()
     // the current frames front buffer and the current backbuffer will be displayed.
     glutSwapBuffers();
 }
-```
+~~~
 
 效果显示：
 
@@ -216,7 +216,7 @@ glPolygonMode()指定了如何绘制面的方式，函数原型：
 
 绘制点：
 
-```python
+~~~python
 glPointSize(5.0)
 glBegin(GL_POINTS)
 glColor3f(1.0, 0.0, 0.0)
@@ -226,22 +226,22 @@ glVertex2f(0.6, 0.6)
 glColor3f(0.0, 0.0, 1.0)
 glVertex2f(0.9, 0.9)
 glEnd()
-```
+~~~
 
 绘制线：
 
-```python
+~~~python
 glBegin(GL_LINES)
 glVertex2f(-1.0, 0.0)
 glVertex2f(1.0, 0.0)
 glVertex2f(0.0, 1.0)
 glVertex2f(0.0, -1.0)
 glEnd()
-```
+~~~
 
 绘制多边形：
 
-```python
+~~~python
 glPolygonMode(GL_FRONT, GL_FILL)
 glPolygonMode(GL_BACK, GL_LINE)
 glBegin(GL_POLYGON)
@@ -252,7 +252,7 @@ glVertex2f(0.5, -0.8)
 glVertex2f(0.8, -0.6)
 glVertex2f(0.8, -0.3)
 glEnd()
-```
+~~~
 
 代码：[gl_plot_rects.pyw][11]
 

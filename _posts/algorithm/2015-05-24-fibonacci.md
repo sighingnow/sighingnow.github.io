@@ -164,7 +164,7 @@ $$f(n)\ mod\ f(m) = f(n\ mod\ m)$$
 1. 使用矩阵快速幂模来求解某一项的值。
 2. 64位整数的二进制分解乘法（long long 乘以long long会导致溢出）。
 
-```cpp
+~~~cpp
 long long multiply(long long a, long long b) {
     long long ans = 0;
     a %= MOD;
@@ -178,7 +178,7 @@ long long multiply(long long a, long long b) {
     }
     return ans;
 }
-```
+~~~
 
 题目Accept代码：[PREV_29.cpp](/sourcecode/PREV_29.cpp)
 
@@ -187,7 +187,7 @@ Fibonacci另一种快速算法
 
 在[http://www.zhihu.com/question/29215494][5]看到了另一种基于分治的Fibonacci数列第n项的方法：
 
-```c
+~~~c
 double Fibonacci(int n){
     double x = 1.0, y = 1.0, a = 0, b = 1.0,t;
     while (n>0)
@@ -204,7 +204,7 @@ double Fibonacci(int n){
     }
     return a;
 }
-```
+~~~
 
 关于该算法的解释如下图所示：
 

@@ -16,19 +16,19 @@ classmethod and staticmethod
 
 这将返回一个function的静态方法。把类的一个方法的声明为静态方法，具体用法如下:
 
-```python
+~~~python
 class C:
     @staticmethod
     def f(arg1, arg2, ...): ...
-```
+~~~
 
 或者
 
-```python
+~~~python
 class C:
     def f(arg1, arg2, ...): ...
     f = staticmethod(f)
-```
+~~~
 
 <!--more-->
 
@@ -46,19 +46,19 @@ class C:
 
 这将返回function的一个类方法。具体用法如下：
 
-```python
+~~~python
 class C:
     @classmethod
     def f(cls, arg1, arg2, ...): ...
-```
+~~~
 
 或者：
 
-```python
+~~~python
 class C:
     def f(cls, arg1, arg2, ...): ...
     f = classmethod(f)
-```
+~~~
 
 类的classmethod既可以被类调用也可以被类的实例调用，例如:
 
@@ -77,31 +77,31 @@ Python Decorators for Functions and Methods
 
 一个函数decorators用于函数定义，它位于在函数定义之前的一行。例如：
 
-```python
+~~~python
 @decoFunc
 def aFunc():
     print('a Func is called')
-```
+~~~
 
 当编译器经过这段代码时，`aFunc()`被编译然后将结果函数对象传递给`decoFunc`代码，后者创建一个类函数对象并取代原来的`aFunc()`。根据这一说法，那么：
 
-```python
+~~~python
 @A
 @B
 @C
 def func(arg1, arg2, ...): ...
-```
+~~~
 
 等价于
 
-```python
+~~~python
 def func(arg1, arg2, ...): ...
 func = A(B(C(func)))
-```
+~~~
 
 例如：
 
-```python
+~~~python
 def decFunc(f):
     def inner(f):
         return 100
@@ -113,7 +113,7 @@ def aFunc(x):
     print('aFunc called')
 
 print(aFunc(10))
-```
+~~~
 
 程序的输出结果为
 
@@ -131,13 +131,13 @@ print(aFunc(10))
 
 一个类如果实现了`__call__`方法，那么这个类的对象便是可调用的。例如：
 
-```python
+~~~python
 class decCls():
     def __call__():
         print('__call__ of decCls called.')
 
 decCls()()
-```
+~~~
 
 运行，输出：
 
@@ -145,7 +145,7 @@ decCls()()
 
 下来举一个将类作为decorator的例子：
 
-```python
+~~~python
 class decCls():
     def __init__(self, f):
         self.f = f
@@ -159,16 +159,16 @@ def aFunc(x):
     print('aFunc called')
 
 print(aFunc(10))
-```
+~~~
 
 此处就相当于
 
-```python
+~~~python
 def aFunc(x):
     print('value x is %d'%(x))
     print('aFunc called')
 aFunc = decCls(aFunc)
-```
+~~~
 
 那么在调用`aFunc`的时候，其实是在调用`decCls(aFunc)`，也就是运行的是
 
@@ -181,7 +181,7 @@ decorator的用途
 
 decorator的一个很大的用途在于可以“掌控”一个函数的运行。看下面这段代码：
 
-```python
+~~~python
 def fn_decorator(fn):
     def wrapper(*args):
         print('call wrapper')
@@ -191,7 +191,7 @@ def fn_decorator(fn):
 @fn_decorator
 def fn(...):
     # ...
-```
+~~~
 
 在这儿，调用`fn`时其实是在调用`wrapper`，因此，`wrapper`是可以控制`fn`是否运行的。
 
@@ -202,36 +202,36 @@ Decorator带参数
 
 如果是单个带参数的Decorator，那么：
 
-```python
+~~~python
 @dec(param)
 def aFunc():
     #...
-```
+~~~
 
 等价于
 
-```
+~~~
 def aFunc():
 aFunc = dec(param)(aFunc)
-```
+~~~
 
 如果是多重Decorator，并且带参数，那么有：
 
-```python
+~~~python
 @dec_a(params1)
 @dec_b(params2)
 @dec_c(params3)
 def method(args):
     pass
-```
+~~~
 
 等价于
 
-```python
+~~~python
 def method(args):
     pass
 method = dec_a(params1)(dec_b(params2)(dec_c(params)(method))) 
-```
+~~~
 
 可见，Decorator还是很灵活很强大的。
 
@@ -240,7 +240,7 @@ method = dec_a(params1)(dec_b(params2)(dec_c(params)(method)))
 
 定义一个装饰器(Decorator)来测量函数的执行时间：
 
-```python
+~~~python
 
 import time
 
@@ -252,11 +252,11 @@ def fn_timer(f):
         print('f start at %f, end at %f, running %f'%(t0,t1,t1-t0))
         return ans
     return wrapper
-```
+~~~
 
 使用这个装饰器的例子：
 
-```python
+~~~python
 @fn_timer
 def sum_fn(n):
     ans = 0
@@ -265,20 +265,20 @@ def sum_fn(n):
     return ans
 
 print(sum_fn(10000000))
-```
+~~~
 
 这样，便可以在不改变`sum_fn`的接口和内部实现的前提下实现新的功能。
 
 `functools.wraps`
 ---------------
 
-```python
+~~~python
 @functools.wraps(wrapped, assigned=WRAPPER_ASSIGNMENTS, updated=WRAPPER_UPDATES)
-```
+~~~
 
 This is a convenience function for invoking update_wrapper() as a function decorator when defining a wrapper function. It is equivalent to partial(update_wrapper, wrapped=wrapped, assigned=assigned, updated=updated). For example:
 
-```python
+~~~python
 >>> from functools import wraps
 >>> def my_decorator(f):
 ...     @wraps(f)
@@ -299,7 +299,7 @@ Called example function
 'example'
 >>> example.__doc__
 'Docstring'
-```
+~~~
 
 Without the use of this decorator factory, the name of the example function would have been 'wrapper', and the docstring of the original example() would have been lost.
 

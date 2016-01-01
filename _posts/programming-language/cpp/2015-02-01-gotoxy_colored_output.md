@@ -14,7 +14,7 @@ Windows平台
 
 Windows环境下可以通过调用WIN32 API来实现光标定位，具体实现如下:
 
-```cpp
+~~~cpp
 #include <windows.h>
 void gotoxy(int x, int y) {
     COORD cursorPosition;
@@ -23,7 +23,7 @@ void gotoxy(int x, int y) {
     // COORD cursorPosition = {x, y};
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cursorPosition);
 }
-```
+~~~
 
 **注意**：X, Y 的值都是从 `0` 开始的。
 
@@ -37,12 +37,12 @@ void gotoxy(int x, int y) {
 
 Windows环境下可以通过执行cls命令来实现清屏，具体实现如下：
 
-```cpp
+~~~cpp
 #include <windows.h>
 void clear() {
     system("cls");
 }
-```
+~~~
 
 ### color命令
 
@@ -79,17 +79,17 @@ void clear() {
 
 在Windows环境下，同样是通过调用WIN32 API来实现控制台程序的彩色输出。具体实现如下：
 
-```cpp
+~~~cpp
 #include <windows.h>
 void settextcolor(int color)
 {
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
 }
-```
+~~~
 
 其中，color的值定义在 wincon.h 中。多个颜色值可以综合在一起使用。具体颜色定义如下:
 
-```cpp
+~~~cpp
 #define FOREGROUND_BLUE	1
 #define FOREGROUND_GREEN	2
 #define FOREGROUND_RED	4
@@ -98,14 +98,14 @@ void settextcolor(int color)
 #define BACKGROUND_GREEN	32
 #define BACKGROUND_RED	64
 #define BACKGROUND_INTENSITY	128
-```
+~~~
 
 多个值综合使用示例：(本质上为多个值得或运算)
 
-```cpp
+~~~cpp
 SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 
         FOREGROUND_GREEN|FOREGROUND_RED|FOREGROUND_INTENSITY);
-```
+~~~
 
 便可以在控制台将输出字符的颜色设置为黄色。
 
@@ -124,12 +124,12 @@ Linux环境下，控制台会解释ANSI转义序列，转义符是ESC，ASCII码
 
 应用举例：
 
-```cpp
+~~~cpp
 void gotoxy(int x, int y) {
     printf("%c[%d;%df", 0x1b, y, x);
     // printf("%c[%d;%dH", 0x1b, y, x);
 }
-```
+~~~
 
 **注意**: 光标位置的行和列都是从 `0` 开始索引。
 

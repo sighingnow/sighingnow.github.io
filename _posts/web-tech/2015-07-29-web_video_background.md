@@ -45,12 +45,12 @@ CSS里的`background-image`属性只能使用图片、SVG、颜色或渐变色�
 
 HTML5支持`video`标签，因此，很容易插入一段视频：
 
-```html
+~~~html
 <video autoplay loop poster="polina.jpg" id="bgvid">
   <source src="polina.webm" type="video/webm">
   <source src="polina.mp4" type="video/mp4">
 </video>
-```
+~~~
 
 这里摆放视频格式的顺序很重要，因为有些版本的谷歌浏览器里，如果`.webm`格式的视频放在了其他视频后面，视频将无法播放。
 
@@ -58,7 +58,7 @@ HTML5支持`video`标签，因此，很容易插入一段视频：
 
 接下俩，通过CSS控制视频全屏：
 
-```css
+~~~css
 video#bgvideo {
     position: fixed; right: 0; bottom: 0;
     min-width: 100%; min-height: 100%;
@@ -66,19 +66,19 @@ video#bgvideo {
     background: url(polina.jpg) no-repeat;
     background-size: cover; 
 }
-```
+~~~
 
 注意需要在CSS中使用`background`属性来控制页面背景，在较老版本的浏览器上，当视频无法播放时，使用背景图片作为网页背景。
 
 HTML 5中的`video`标签支持通过`control`属性供添加播放、暂停和音量控件。例如：
 
-```html
+~~~html
 <video controls="controls" width="800" height="480">
     Your browser does not support the video tag.
     <source src="polina.webm" type="video/webm">
     <source src="polina.mp4" type="video/mp4">
 </video>
-```
+~~~
 
 <video controls="controls" width="800" height="480">
     Your browser does not support the video tag.
@@ -91,16 +91,16 @@ HTML 5中的`video`标签支持通过`control`属性供添加播放、暂停和�
 
 要想在以视频为背景的网页上显示内容，只需要创建一个`div`做容器，在设置CSS样式即可：
 
-```html
+~~~html
 <div id="polina">
 <h1>POLINA</h1>
 <p>filmed by Alexander Wagner 2011</p>
 </div>
-```
+~~~
 
 控制样式：
 
-```css
+~~~css
 #polina {
     font-family: Agenda-Light, Agenda Light, Agenda, Arial Narrow, sans-serif;
     font-weight: 100;
@@ -112,20 +112,20 @@ HTML 5中的`video`标签支持通过`control`属性供添加播放、暂停和�
     float: right;
     font-size: 1.2rem;
 }
-```
+~~~
 
 控制视频播放
 ----------
 
 可以通过创建一个`button`来控制背景视频的播放，只需要同构javascript脚本来绑定事件即可：
 
-```html
+~~~html
 <button>Pause</button>
-```
+~~~
 
 CSS：
 
-```css
+~~~css
 #polina button {
     display: block; width: 80%; padding: .4rem; border: none; margin:1rem auto;
     font-size: 1.3rem;
@@ -140,13 +140,13 @@ CSS：
 #polina button:hover{
     background: rgba(0,0,0,.5)
 }
-```
+~~~
 
 事件脚本：
 
 首先，通过`document.querySelector`获取`button`控件，然后通过`addEventListener`绑定事件即可。
 
-```javascript
+~~~javascript
 var video = document.getElementById("bgvideo"),
     pauseButton = document.querySelector("#polina button");
 pauseButton.addEventListener("click",function() {
@@ -161,7 +161,7 @@ pauseButton.addEventListener("click",function() {
     }
 },false);
 video.addEventListener('touchstart',function(e){e.preventDefault();video.play();})
-```
+~~~
 
 在线演示：[将视频作为网页背景(演示)][5]
 

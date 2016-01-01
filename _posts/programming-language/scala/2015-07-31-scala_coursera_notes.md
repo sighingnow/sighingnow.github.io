@@ -98,7 +98,7 @@ Call-by-name has the advantage that a function argument is not evaluated if the 
 
 Scala允许函数嵌套。例如：
 
-```scala
+~~~scala
 // Square roots with Newton’s method
 def sqrt(x: Double) = {
   def sqrtIter(guess: Double, x: Double): Double =
@@ -110,16 +110,16 @@ def sqrt(x: Double) = {
     abs(square(guess) - x) < 0.001
   sqrtIter(1.0, x)
 }
-```
+~~~
 
 Scala中的Block:
 
-```scala
+~~~scala
 {
   var x = f(3)
   x*x
 }
-```
+~~~
 
 对于Block，Scala中变量和函数的可见性如下：
 
@@ -135,7 +135,7 @@ Implementation Consideration: If a function calls itself as its last action, the
 
 在Scala中，只有对当前函数的直接递归调用能够被尾递归优化。使用`@tailrec`注解表明当前函数存在尾递归。如果对一个不是尾递归实现的函数使用`@tailrec`注解，将会产生错误。
 
-```scala
+~~~scala
 @tailrec
 def gcd(a:Int, b:Int): Int = {
   if (b == 0) a else gcd(b, a % b)
@@ -157,7 +157,7 @@ def fibonacci(n: Int, acc_first: Int, acc_second: Int): Int = {
   if(n == 0) acc_first
   else fibonacci(n-1, acc_second, acc_first + acc_second)
 }
-```
+~~~
 
 有这几个例子可以看到将满足一定条件的普通递归转化为尾递归的基本方法和技巧。
 
@@ -176,7 +176,7 @@ Week 2: Higher Order Functions
 
 使用高阶函数的例子：
 
-```scala
+~~~scala
 def sum(f: Int=>Int, a: Int, b: Int) {
   if(a > 0) 0
   else f(a) + sum(f, a+1, b)
@@ -189,7 +189,7 @@ def fact(x:Int): Int = if(x==1) 1 else x*fact(x-1)
 def sumId(a, b)   = sum(id, a, b)
 def sumCube(a, b) = sum(cube, a, b)
 def sumFact(a, b) = sum(fact, a, b)
-```
+~~~
 
 2. 在Scala中，函数也是一种类型。例如`Int=>Int`表示的就是参数类型为一个`Int`, 返回值也是`Int`的函数的类型。
 
@@ -213,7 +213,7 @@ One can therefore say that anonymous functions are *syntactic suger*
 
 Scala中，函数可以将一个函数作为参数，也可以将一个函数作为返回值。如下例：
 
-```scala
+~~~scala
 object progfun {
   def sum(f: Int=>Int): (Int, Int) => Int = {
     def sum_i(a:Int, b:Int): Int = {
@@ -224,13 +224,13 @@ object progfun {
   }                              //> sum: (f: Int => Int)(Int, Int) => Int
   sum(x => x*x*x)(1,3)           //> res0: Int = 36
 }
-```
+~~~
 
 5. Multiple Parameter Lists
 
 Scala在定义函数时，可以有一个参数列表，也可以有多个参数列表。如下例：
 
-```scala
+~~~scala
 def sum(f: Int => Int)(a: Int, b: Int): Int = {
   if(a > b) 0 else f(a) + sum(f)(a+1, b)
 }                                //> sum: (f: Int => Int)(a: Int, b: Int)Int
@@ -238,7 +238,7 @@ def sum(f: Int => Int)(a: Int, b: Int): Int = {
 
 // application
 sum(a => a*a*a)(2,4)             //> res0: Int = 99
-```
+~~~
 
 这也是Scala的一个语法糖(syntactic suger)的例子。
 
@@ -293,25 +293,25 @@ You can also use the following syntax to define a curried function:
 
 8. 使用Currying来实现一个简单的mapReduce：
 
-```scala
+~~~scala
 def mapReduce(f:Int=>Int,combine:(Int,Int)=>Int, zero:Int)(a:Int,b:Int):Int = 
   if(a > b) zero
   else combine(f(a), mapReduce(f, combine, zero)(a+1, b))
-```
+~~~
 
 上面的
 
-```scala
+~~~scala
 def sum(f: Int => Int)(a: Int, b: Int): Int = {
   if(a > b) 0 else f(a) + sum(f)(a+1, b)
 }
-```
+~~~
 
 可以改成mapReduce的写法：
 
-```scala
+~~~scala
 def sum_mr(f: Int=>Int)(a: Int, b: Int): Int = mapReduce(f, (x, y)=>x+y, 0)(a, b)
-```
+~~~
 
 9. 在Scala中应该注意：一个函数能够找到（调用）定义在他下边的函数当且仅当这两个函数之间没有求值表达式。
 
@@ -328,12 +328,12 @@ Scala中的几种数据类型：
 
 Class可以用来定义新的数据类型。例如，使用Scala按照如下方式来定义分数：
 
-```scala
+~~~scala
 class Rational(x: Int, y: Int) {
   def numer = x
   def denom = y
 }
-```
+~~~
 
 This definition introduces two entities:
 
@@ -352,7 +352,7 @@ This definition introduces two entities:
 
 类的方法相关的示例：
 
-```scala
+~~~scala
 class Rational(x: Int, y: Int) {
   def numer = x
   def denom = y
@@ -362,7 +362,7 @@ class Rational(x: Int, y: Int) {
   def neg: Rational = new Rational(-numer, -denom)
   override def toString(): String = numer + "/" + denom
 }
-```
+~~~
 
 此处的`toStirng`方法是覆盖Object类的方法，因此，需要显式地加上一个`override`，否则将会出现编译错误。这个`toString`函数也可以简单地写成：
 
@@ -372,7 +372,7 @@ class Rational(x: Int, y: Int) {
 
 14. 值得注意的是，上述的Scala代码编译后得到的class文件反编译为java文件是这样的：
 
-```java
+~~~java
 public class Rational
 {
   private final int x;
@@ -402,17 +402,17 @@ public class Rational
                               .toString();
   }
 }
-```
+~~~
 
 另外，我发现
 
-```scala
+~~~scala
 def gcd(a: Int, b: Int): Int = if(b == 0) a else gcd(b, a%b)
-```
+~~~
 
 对应的java代码是这样的：
 
-```java
+~~~java
 private int gcd(int a, int b)
 {
     for (;;)
@@ -423,7 +423,7 @@ private int gcd(int a, int b)
         b = a % b;a = b;
     }
 }
-```
+~~~
 
 可见，Scala编译器对于递归的优化做得相当不错。
 
@@ -436,13 +436,13 @@ affecting clients is called data abstraction.
 
 在上面的分数的例子中，分母不能为0，可以使用require来做一下限制：
 
-```scala
+~~~scala
 class Rational(x: Int, y: Int) {
   require(x != 0, "the denominator can't be zero.")
   def numer = x
   def denom = y
 }
-```
+~~~
 
 如果传入的参数y为0，将会产生一个IllegalArgumentException:
 
@@ -499,34 +499,34 @@ Week 3: Data and Abstraction
 
 Abstraction classes can contain members which are missing an implementations. No instance of an abstract class can be created with the operator new.
 
-```scala
+~~~scala
 abstract class IntSet {
   def incl(x: Int): IntSet
   def contains(x: Int): Boolean
 }
-```
+~~~
 
 2. Class Extensions
 
 Scala中类支持继承，示例：
 
-```scala
+~~~scala
 class Empty extends IntSet {
   def incl(x: Int): IntSet = ???
   def contains(x: Int): Boolean = ???
 }
-```
+~~~
 
 但，如果子类也是abstract修饰的，那么就可以不同实现父类的所有抽象方法。
 
 3. 直接定义object：全局唯一的类的实例(singleton object)。例如上面的例子里的`Empty`类的实例都是相同的。可以写成：
 
-```scala
+~~~scala
 object Empty extends IntSet {
   def incl(x: Int): IntSet = new NonEmpty(x, Empty, Empty)
   def contains(x: Int): Boolean = false
 }
-```
+~~~
 
 但是，使用object继承一个class时，这个class不能有未实现的方法。
 
@@ -534,11 +534,11 @@ object Empty extends IntSet {
 
 main函数：
 
-```scala
+~~~scala
 object Hello {
   def main(args: Array[String]) = println("hello scala.")
 }
-```
+~~~
 
 4. Dynamic Binding
 
@@ -550,11 +550,11 @@ object Hello {
 
 Scala中import的三种语法：
 
-```scala
+~~~scala
 import A.func
 import A.{func1, func2}
 import a._  // 导入整个包里的所有内容
-```
+~~~
 
 6. Traits
 
@@ -596,9 +596,9 @@ Nothing的两个用途：
 + To signal abnormal termination
 + As an element type of empty collections (see next session), 例如：Set[Nothing]
 
-```
+~~~
 def func(): Nothing = throw new Exception("Nothing.")
-```
+~~~
 
 9. Scala.Null
 
@@ -620,13 +620,13 @@ Two principal forms of polymorphism:
 
 在Scala中，类和函数都可以拥有泛型参数。
 
-```scala
+~~~scala
 class A[T](ae: T) {
   def e = ae
 }
 
 def func[T](e: T) = println(e)
-```
+~~~
 
 12. type erasure
 
@@ -644,35 +644,35 @@ In fact function values are treated as objects in Scala. Functions are objects w
 
 例如Scala.Function, Scala.Function1, etc.
 
-```scala
+~~~scala
 package scala
 trait Function1[A, B] {
   def apply(x: A): B
 }
-```
+~~~
 
 2. Expansion of Function Values
 
 匿名函数(Anonymous Function)
 
-```scala
+~~~scala
 (x: Int) => x * x
-```
+~~~
 
 展开后的形式为：
 
-```scala
+~~~scala
 {
   class AnonFun extends Function1[Int, Int] {
     def apply(x: Int) = x * x
   }
   new AnonFun
 }
-```
+~~~
 
 再举一个相关的例子：
 
-```scala
+~~~scala
 import scala.Function1
 
 object progfun {
@@ -691,7 +691,7 @@ object progfun {
   One(1)                                          //> one arg
   One(1, 2)                                       //> two args
 }
-```
+~~~
 
 3. `Function1`的定义如下：`trait Function1[-T1, +R] extends AnyRef`。
 
@@ -699,7 +699,7 @@ object progfun {
 
 5. 在Scala中，任何数据类型都可以用类表达出来。
 
-```scala
+~~~scala
 object progfun {
   class Int {
     def + (that: Int): Int
@@ -709,7 +709,7 @@ object progfun {
     // ...
   }
 }
-```
+~~~
 
 6. Polymorphism: 多态：两个方面：子类型(Subtyping)、泛型(generics)。
 
@@ -752,7 +752,7 @@ Rules:
 
 A problematic example:
 
-```scala
+~~~scala
 trait List[+T] {
   def isEmpty = false
   def prepend(elem: T): List[T] = new Cons(elem, this)
@@ -765,7 +765,7 @@ class Cons[T](val head: T, val tail: List[T]) extends List[T] {
 object Nil extends List[Nothing] {
   override def isEmpty: Boolean = true
 }
-```
+~~~
 
 In function `prepend`, covariant type parameter `T` is used in method parameters, then, the compiler will report a error:
 
@@ -773,12 +773,12 @@ In function `prepend`, covariant type parameter `T` is used in method parameters
 
 How to correct it, make it variance-correct ? The answer is that use lower bounds:
 
-```scala
+~~~scala
 trait List[+T] {
   def isEmpty = false
   def prepend[U >: T](elem: U): List[U] = new Cons(elem, this)
 }
-```
+~~~
 
 More, the method `prepend` **violates LSP** (Liskov Substitution Principle). If `xs` is a list of type `List[NonEmpty]`, when we call `xs.prepend(Empty)`, it would lead to a type error. `xs.prepend` requires a `NonEmpty` object, and found `Empty`, but, `List[NonEmpty]` is also a subtype of `List[IntSet]`. so, it's problematic.
 
@@ -796,9 +796,9 @@ Covariant type parameters may appear in lower bounds of method type parameters, 
 + Each case associates an expression expr with a pattern pat.
 + A MatchError exception is thrown if no pattern matches the value of the selector.
 
-```scala
+~~~scala
 e match { case p1 => e1 ... case pn => en }
-```
+~~~
 
 Patterns are constructed from:
 
@@ -807,7 +807,7 @@ Patterns are constructed from:
 + wildcard patterns `_`, **Important**
 + constants, e.g. `1`, `true`.
 
-```scala
+~~~scala
 object Progfun {
   def func() = {
     val d = 1;
@@ -821,7 +821,7 @@ object Progfun {
     println(func())
   }
 }
-```
+~~~
 
 在这个例子中，`match`匹配到`1`之后，`func`函数直接返回`"abcd"`，不会接着运行后面的语句，不需要`break`。
 
@@ -829,21 +829,21 @@ object Progfun {
 
 Something, we need to construct a complex data structure(link tuple) as Lambda's parameter, we can use `case` here:
 
-```scala
+~~~scala
 List(('a', 97), ('b', 98), ('c', 99)) map ({ case (c, i) => println(c + " " + String.valueOf(i)) })
                                                   //> a 97
                                                   //| b 98
                                                   //| c 99
                                                   //| res1: List[Unit] = List((), (), ())
-```
+~~~
 
 If we simply use `map((c, i) => println(c + " " + String.valueOf(i)))`, we will get a error report and suggestion from Scala compiler:
 
-```
+~~~
 Multiple markers at this line
 - missing parameter type
 - missing parameter type Note: The expected type requires a one-argument function accepting a 2-Tuple.
-```
+~~~
 
 Suggestion from compiler:
 
@@ -879,9 +879,9 @@ Week 5: Lists
 
 4. List.groupBy
 
-```
+~~~
 def groupBy[K](f: (A) ⇒ K): Map[K, List[A]]
-```
+~~~
 
 > Partitions this traversable collection into a map of traversable collections according to some discriminator function.
 
@@ -889,7 +889,7 @@ def groupBy[K](f: (A) ⇒ K): Map[K, List[A]]
 
 Example:
 
-```scala
+~~~scala
 object progfun {
   "abcd".groupBy(x => x)    //> res0: scala.collection.immutable.Map[Char,String] = 
                             //|   Map(b -> b, d -> d, a -> a, c -> c)
@@ -897,7 +897,7 @@ object progfun {
   "abcdaa".groupBy(x => x)  //> res0: scala.collection.immutable.Map[Char,String] = 
                             //| Map(b -> b, d -> d, a -> aaa, c -> c)
 }
-```
+~~~
 
 Push all elements which having the same result of `f: param => retval` to a same group, and build a map (retval -> group). Then, build all maps to a List. 
 
@@ -908,43 +908,43 @@ Week 6: Collections
 
 The Law is that:
 
-```scala
+~~~scala
 xs flatMap f = (xs map f).flatten
-```
+~~~
 
 2. The difference between `map` and `flatMap`: flatMap works applying a function **that returns a sequence for each element in the list**, and **flattening** the results into the original list.
 
 For Example:
 
-```scala
+~~~scala
 object progfun {
   val x = 1 until 3
   def f(x: Int) = List(x-1, x, x+1)
   x map (f)
   x flatMap f
 }
-```
+~~~
 
 在Scala Worksheet中的运行结果：
 
-```
+~~~
 res0: [List[Int]] = Vector(List(0, 1, 2), List(1, 2, 3))
 res1: [Int] = Vector(0, 1, 2, 1, 2, 3)
-```
+~~~
 
 3. For-Expression
 
-```scala
+~~~scala
 for (p <- persons if p.age > 20) yield p.name
-```
+~~~
 
 is equivalent to
 
-```scala
+~~~scala
 persons filter (p => p.age > 20) map (p => p.name)
-```
+~~~
 
-```scala
+~~~scala
 object progfun {
   for {
     i <- 1 until 4
@@ -952,13 +952,13 @@ object progfun {
     if i + j < 6
   } yield (i, j)
 }
-```
+~~~
 
 的运行结果为：
 
-```
+~~~
 res0: [(Int, Int)] = Vector((2,1), (3,1), (3,2))
-```
+~~~
 
 Higher-order functions such as map, flatMap or filter provide powerful constructs for manipulating lists, but sometimes the level of abstraction required by these function make the program difficult to understand.
 
@@ -968,14 +968,14 @@ In this case, Scala's for expression notation can help.
 
 The syntax of for is closely related to the higher-order functions `map`, `flatMap` and `filter`. These functions can all be defined in terms of for:
 
-```scala
+~~~scala
 def mapFun[T, U](xs: List[T], f: T => U): List[U] =
   for (x <- xs) yield f(x)
 def flatMap[T, U](xs: List[T], f: T => Iterable[U]): List[U] = 
   for (x <- xs; y <- f(x)) yield y
 def filter[T](xs: List[T], p: T => Boolean): List[T] =
   for (x <- xs if p(x)) yield x
-```
+~~~
 
 5. `Filter` and `withFilter`
 
@@ -1004,25 +1004,25 @@ Week 7: Lazy Evaluation
 
 Streams are similar to lists, but their tail is evaluated **only on demand**.
 
-```scala
+~~~scala
 lazy val fibs: Stream[Int] = 0 #:: 1 #:: fibs.zip(fibs.tail).map { n => n._1 + n._2 }
 fibs take 10 foreach println
-```
+~~~
 
 Another example:
 
-```scala
+~~~scala
 val nums = Stream.from(1)                       //> nums  : scala.collection.immutable.Stream[Int] = Stream(1, ?)
 nums.take(10).toList                            //> res0: List[Int] = List(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
-```
+~~~
 
 This is a common but important way to get a list of integers with variable length.
 
 3. Stream Cons Operator
 
-```scala
+~~~scala
 #:: xs == Stream.cons(x, xs)
-```
+~~~
 
 4. Lazy Evaluation
 
@@ -1042,23 +1042,23 @@ Lazy Evaluation: do thing as late as possible and never do then twice.
 
 6. Infinite Streams
 
-```scala
+~~~scala
 def from(n: Int): Stream[Int] = n #:: from(n+1)
 val ints = from(0)
 ints take 10 foreach println
-```
+~~~
 
 7. The Sieve of Eratosthenes
 
 The Sieve of Eratosthenes is an ancient technique to calculate prime
 numbers.
 
-```scala
+~~~scala
 def from(n: Int): Stream[Int] = n #:: from(n+1)
 def sieve(s: Stream[Int]): Stream[Int] = 
   s.head #:: sieve(s.tail filter (_ % s.head != 0))
 val primes = sieve(from(2))
-```
+~~~
 
 8. Conclusion
 

@@ -32,13 +32,13 @@ layout: post
 
 首先判断点是否在线段所在的直线上，然后判断点的坐标是否在线段的坐标范围内。
 
-```
+~~~
 ON-SEGMENT(P, Q, R)
     if (R-P) x (Q-P) == 0 and min(px, qx) <= rx <= max(px, qx)
         return True
     else
         return False
-```
+~~~
 
 4. 判断线段相交
 ----------------

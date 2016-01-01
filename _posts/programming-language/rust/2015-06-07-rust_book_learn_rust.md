@@ -24,7 +24,7 @@ Our program will generate a random integer between one and a hundred. It will th
 
 <!--more-->
 
-```
+~~~
 │  .gitignore
 │  a.txt
 │  Cargo.lock
@@ -46,13 +46,13 @@ Our program will generate a random integer between one and a hundred. It will th
         ├─deps
         ├─examples
         └─native
-```
+~~~
 
 ### Processing a Guess
 
 代码(src/main.rs)：
 
-```
+~~~
 use std::io;
 fn main() {
     println!("Guess the number!");
@@ -63,7 +63,7 @@ fn main() {
         .expect("Failed to read line");
     println!("You guessed: {}", guess);
 }
-```
+~~~
 
 代码解释：
 
@@ -98,7 +98,7 @@ Rust标准库中并没有生成随机数的函数，因此，需要依赖第三�
 
 生成随机数的代码：
 
-```rust
+~~~rust
 extern crate rand;
 use std::io;
 use rand::Rng;
@@ -107,7 +107,7 @@ fn main() {
     let num = rand::thread_rng().gen_range(1, 101);
     println!("random number: {}", num);
 }
-```
+~~~
 
 代码解释：
 
@@ -117,13 +117,13 @@ fn main() {
 
 ### Comparing guesses
 
-```rust
+~~~rust
 match guess.cmp(&secret_number) {
     Ordering::Less    => println!("Too small!"),
     Ordering::Greater => println!("Too big!"),
     Ordering::Equal   => println!("You win!"),
 }
-```
+~~~
 
 `match`: 模式匹配，与Haskell很像。
 
@@ -133,19 +133,19 @@ match guess.cmp(&secret_number) {
 
 示例语法：
 
-```rust
+~~~rust
 loop {
     // ...
     break; // jump out of loop.
 }
-```
+~~~
 
-```rust
+~~~rust
 let guess: u32 = match guess.trim().parse() {
     Ok(num) => num,
     Err(_) => continue,
 };
-```
+~~~
 
 解释：
 

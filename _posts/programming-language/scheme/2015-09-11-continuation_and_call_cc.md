@@ -48,7 +48,7 @@ call/cc 机制主要用来实现一些复杂的流程控制结构。Scheme并没
 
 例如，
 
-```scheme
+~~~scheme
 (define (test e cc) (if (zero? e) (cc "find zero")))
 
 (define (search-zero test lst)
@@ -56,7 +56,7 @@ call/cc 机制主要用来实现一些复杂的流程控制结构。Scheme并没
     (lambda (ret) (for-each (lambda (e) (test e ret) (display e)) lst))))
 
 (search-zero test '(-3 -2 -1 0 1 2 3))
-```
+~~~
 
 执行的输出结果：
 
@@ -64,7 +64,7 @@ call/cc 机制主要用来实现一些复杂的流程控制结构。Scheme并没
 
 我们使用 call/cc 来实现一个功能类似于 Haskell 的 product 的函数：
 
-```scheme
+~~~scheme
 (define product
   (lambda (ns)
     (call-with-current-continuation
@@ -76,11 +76,11 @@ call/cc 机制主要用来实现一些复杂的流程控制结构。Scheme并没
 
 (product '(1 2 3 4 5 6))
 (product '(1 2 3 0 4 5 6))
-```
+~~~
 
 为了方便叙述，我们称包含call/cc的函数为callee，在该函数外部，无参数调用continuation的函数为caller。关于call/cc的代码执行流程，在**首次运行callee函数时，cc会被赋值，用于保存一个上下文环境**。当在caller中无参数调用continuation时，拿之前保存的上下文环境来运行call/cc的参数函数，并一直执行到函数的callee函数的末尾，以callee函数的值作为返回值，返回给caller函数，call函数继续执行。下一次在caller中无参数调用continuation，接着用之前保存的上下文环境来运行call/cc的参数函数，知道callee末尾，返回值给caller。下面的例子可以很好地说明这个过程：
 
-```scheme
+~~~scheme
 (define the-continuation #f) ; dummy value - will be used to store continuation later
 
 (define (func)
@@ -95,7 +95,7 @@ call/cc 机制主要用来实现一些复杂的流程控制结构。Scheme并没
 (the-continuation)
 (the-continuation)
 (the-continuation)
-```
+~~~
 
 运行结果：
 
@@ -141,7 +141,7 @@ call/cc 模拟多任务
 
 多任务控制流的一个关键就是，保存每个任务的上下文，让它切出去再返回的时候能接着执行，就像没有发生过切换一样。这个任务，continuation 完全胜任。生产者-消费者问题是检验多任务机制的经典问题，我们可以用 continuation 模拟这个过程。
 
-```scheme
+~~~scheme
 #lang racket
 
 (define dish #f)
@@ -164,7 +164,7 @@ call/cc 模拟多任务
             '("a" "b" "c" "d" "e")))
 
 (producer consumer)
-```
+~~~
 
 call/cc的实现
 -------------

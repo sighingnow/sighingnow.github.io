@@ -61,7 +61,7 @@ layout: post
 
 题解：
 
-```cpp
+~~~cpp
 #include <cstdio>
 #include <iostream>
 #include <cstring>
@@ -127,7 +127,7 @@ int main(int argc, char** args) {
     output();
     return 0;
 }
-```
+~~~
 
 这题有两个地方需要特别注意：
 
@@ -143,7 +143,7 @@ int main(int argc, char** args) {
 
 2. [POJ 2337](http://poj.org/problem?id=2337)
 
-```cpp
+~~~cpp
 #include <cstdio>
 #include <iostream>
 #include <cstring>
@@ -224,7 +224,7 @@ int main(int argc, char** args) {
 
     return 0;
 }
-```
+~~~
 
 这一题考察的是有向图的欧拉路径。
 
@@ -233,7 +233,7 @@ Fleury算法求欧拉路径
 
 这个算法在实现时有很巧妙的方法。因为DFS本身就是一个入栈出栈的过程，所以我们直接利用DFS的性质来实现栈，其伪代码如下：
 
-```
+~~~
 DFS(u):
     While (u存在未被删除的边e(u,v))
         删除边e(u,v)
@@ -241,7 +241,7 @@ DFS(u):
     End
     PathSize ← PathSize + 1
     Path[ PathSize ] ← u
-```
+~~~
 
 需要**注意**的是：必须在遍历完所有边后才能将该点加入到Path中。
 

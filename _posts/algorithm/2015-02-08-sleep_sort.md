@@ -9,7 +9,7 @@ layout: post
 
 Sleep Sort 是一种通过多线程的不同休眠时间的排序方法。可以很简单地用Shell脚本实现。
 
-```bash
+~~~bash
 #! /bin/bash
 
 function func() {
@@ -23,7 +23,7 @@ do
     shift
 done
 wait
-```
+~~~
 
 <!--more-->
 

@@ -66,7 +66,7 @@ yield 表达式可以用在 `try ... finally `结构的`try`部分中。当生�
 Example
 -------
 
-```python
+~~~python
 >>> def fib(bound):
 	a, b, n = 0, 1, 1
 	while n < bound:
@@ -91,13 +91,13 @@ Example
 1
 2
 >>> 
-```
+~~~
 
 由此，yield声明可以得到一个生成器函数。其类型为`<class 'generator'>`。
 
 yield 表示与 `try ... finally `语句块的运用:
 
-```python
+~~~python
 >>> def func(value = None):
         print("Execution starts when 'next()' is called for the first time.")
         try:
@@ -118,11 +118,11 @@ None
 >>> g.close()
 Don't forget to clean up when 'close()' is called.'
 >>> 
-```
+~~~
 
 读取文件时，如果直接对文件对象调用`read()`方法，会导致不可预测的内存占用，因此，常常需要用固定长度的缓冲区来不断读取文件内容。通过yield关键字，很容易实现文件的块读取。具体实现如下：
 
-```python
+~~~python
 def block_read(fpath, BLOCK_SIZE = 1024):
     with open(fpath, mode = 'rd') as fp:
         while True:
@@ -131,7 +131,7 @@ def block_read(fpath, BLOCK_SIZE = 1024):
                 yield block
             else:
                 return
-```
+~~~
 
 Reference
 ---------

@@ -28,7 +28,7 @@ layout: post
 
 IF-ELSE语句： 支持以下几种语法：
 
-```c
+~~~c
 if(cond) stmt
 
 if(cond) stmt
@@ -36,32 +36,32 @@ else stmt
 
 if(cond) { stmt }
 else { stmt }
-```
+~~~
 
 WHILE语句：支持以下几种语法：
 
-```c
+~~~c
 while(cond) stmt
 
 while(cond) { stmt }
-```
+~~~
 
 支持变量，但变量名必须是单个小写字母(`[a-z]`)。
 
 支持PRINT，语法为：
 
-```c
+~~~c
 print a;
 
 print 100;
-```
+~~~
 
 所有的值必须都为**整数**。
 
 语法树节点定义
 ------------
 
-```c
+~~~c
 /* Node type definition. */
 typedef enum {
     TYPE_CONTENT, TYPE_INDEX, TYPE_OP
@@ -89,12 +89,12 @@ typedef struct NodeTag {
 
 // simulate memory to storage the value of 26 variables([a-z])
 extern int memory[26];
-```
+~~~
 
 Lex代码
 ------
 
-```c
+~~~c
 %{
 #include <stdlib.h>
 #include "node.h"
@@ -137,12 +137,12 @@ int yywarp()
 {
     return 1;
 }
-```
+~~~
 
 Yacc代码
 --------
 
-```c
+~~~c
 %{
 #include <stdio.h>
 #include <stdlib.h>
@@ -372,12 +372,12 @@ int main(int argc, char **argv)
 
     return 0;
 }
-```
+~~~
 
 构建脚本Makefile
 ---------------
 
-```Makefile
+~~~Makefile
 ##
 # Copyright: He Tao, sighingnow@outlook.com
 # 2015-07-14
@@ -400,15 +400,15 @@ clean:
     rm y.tab.h -f
     rm syntaxtree -f
 .PHONY: clean
-```
+~~~
 
 例程
 ----
 
-```
+~~~
 a = 100;
 while(a) { a = a / 2; print a; }
-```
+~~~
 
 源代码下载： [Syntax-Tree.tar.gz][1]
 

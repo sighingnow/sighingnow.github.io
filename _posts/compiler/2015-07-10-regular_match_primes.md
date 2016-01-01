@@ -33,16 +33,16 @@ layout: post
 
 通过此正则表达式输出1-100之间所有的质数(Python)：
 
-```python
+~~~python
 import re
 print([i for i in range(1, 101) if not re.compile(r'^1?$|^(11+?)\1+$').match('1'*i)])
-```
+~~~
 
 得到结果：
 
-```python
+~~~python
 [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]
-```
+~~~
 
 参考
 ----

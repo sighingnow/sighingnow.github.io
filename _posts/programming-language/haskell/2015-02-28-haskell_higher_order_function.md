@@ -12,12 +12,12 @@ layout: post
 
 以求最大值的函数`max'`为例，
 
-```haskell
+~~~haskell
 max' :: (Ord a) => a->a -> a
 max' x y
     | x >= y = x
     | x < y  = y
-```
+~~~
 
 调用该函数时可以这样做：
 
@@ -80,7 +80,7 @@ Haskell中，也可以将一个函数用作参数。例如标准库中的`map`�
 
 通过上文提到的函数的部分应用，实现这两个函数：
 
-```haskell
+~~~haskell
 map :: (a -> b) -> [a] -> [b]
 map _ [] = []
 map f (x:xs) = (f x) : (map f xs)
@@ -91,15 +91,15 @@ filter f (x:xs)
     {- The list has only one item. -}
     | f x       = x : (filter p xs) {- x if (f x) == True else None -}
     | otherwise = (filter f xs)
-```
+~~~
 
 再回顾之前提到的快速排序函数：
 
-```haskell
+~~~haskell
 qsort :: (Ord a) => [a] -> [a]
 qsort []  = []
 qsort (x:xs) = qsort(filter (< x) xs) ++ [x] ++ qsort(filter (>=x) xs)
-```
+~~~
 
 此处用`filter`函数来从List选择元素，而`(< x)`是二元函数的中缀形式的局部应用。
 
@@ -110,7 +110,7 @@ Lambda表达式就是匿名函数。有时，我们需要传给高阶函数一�
 
 编写Lambda，就写个`\\`，后面是空格隔开的参数。然后是`->`然后是函数体。一般来说，lambda都括在括号里。例如：
 
-```haskell
+~~~haskell
 {- 对List中的值逐项求平方。 -}
 map (\a -> a*a) [1, 2, 3, 4, 5]
 
@@ -123,21 +123,21 @@ map (\a -> a*a) [1, 2, 3, 4, 5]
  - 注意，lambda中不能为参数设置多个模式。
  - -}
 map (\(a, b) -> a+b) [(1, 2), (3, 4), (5, 6)]
-```
+~~~
 
 通常lambda 都是括在括号中，否则，后面的整个语句都将作为lambda的函数体。
 
 由于有科里化，以下两种表达形式等价：
 
-```haskell
+~~~haskell
 sum' :: (Num a) => a -> a -> a -> a
 sum' x y z = x+y+z
-```
+~~~
 
-```haskell
+~~~haskell
 sum' :: (Num a) => a -> a -> a -> a
 sum' \x -> \y -> \z -> x+y+z
-```
+~~~
 
 List折叠(Fold)
 ---------------
@@ -165,11 +165,11 @@ foldl1和foldr1类似，函数定义为：
 
 举例：
 
-```haskell
+~~~haskell
 let a = [1, 2, 3, 5, 6]
 print $ foldl (\a b -> a*b) 1 a
 print $ foldr1 (\a b -> a*b) a
-```
+~~~
 
 由于Haskell的惰性求值特性，列表折叠会产生一个延迟计算栈，当列表过长时，对列表的折叠会造成栈空间的极大消耗，甚至可能造成栈溢出。Haskell还提供了一组严格折叠的函数来避免这一个问题。
 

@@ -75,7 +75,7 @@ $$\frac{1}{|G|}*(m^C(\pi_1)+m^C(\pi_2)+m^C(\pi_3)+\dots+m^C(\pi_k))$$其中$C(\p
 polya定理求循环节个数
 --------------------
 
-```cpp
+~~~cpp
 const int MAXN=1001;
 int n, perm[MAXN], visit[MAXN]; //sum求循环节个数, Perm用来存储置换,即一个排列
 int gcd(int n, int m) {
@@ -95,7 +95,7 @@ void Polya() {
     }
     return sum;
 }
-```
+~~~
 
 考虑旋转和翻转
 -------------
@@ -119,7 +119,7 @@ void Polya() {
 
 理解：给定颜色种数和环上的珠子总数，问有多少种染色方案（通过旋转和翻转相同的算同一种）。可见，是简单的考虑旋转和翻转的Polya计数模型。题解：
 
-```cpp
+~~~cpp
 #include <cstdio>
 using namespace std;
 
@@ -153,7 +153,7 @@ int main(int argc, char **argv) {
 
     return 0;
 }
-```
+~~~
 
 例题：POJ 2154
 ---------------
@@ -174,7 +174,7 @@ $$\phi(x)=x(1-\frac{1}{p_1})(1-\frac{1}{p_2})(1-\frac{1}{p_3})\dots(1-\frac{1}{p
 
 其中$p_1, p_2, p_3, \dots, p_k$为$x$的所有质因数，$x$是不为$0$的整数。**表示不超过$n$且与$n$互素的正整数的个数**。
 
-```cpp
+~~~cpp
 #include<iostream>
 #include<cstring>
 #include<cstdio>
@@ -248,7 +248,7 @@ int main() {
         printf("%d\n", ans);
     }
 }
-```
+~~~
 
 参考
 ----

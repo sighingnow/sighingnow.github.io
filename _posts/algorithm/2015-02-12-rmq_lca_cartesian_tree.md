@@ -36,22 +36,22 @@ RMQ(Range Maximum/Minimum Query) 和 LCA(Least Common Ancestor) 问题是关联�
 
 加入第一个值:
 
-```
+~~~
             1(10)
-```
+~~~
 
 加入第二个值:
 
-```
+~~~
             1(10)
                 \
                  \
                 2(25)
-```
+~~~
 
 加入第三个值:
 
-```
+~~~
             1(10)
                 \
                  \
@@ -59,11 +59,11 @@ RMQ(Range Maximum/Minimum Query) 和 LCA(Least Common Ancestor) 问题是关联�
                 /
                /
             2(25)
-```
+~~~
 
 加入第四个值:
 
-```
+~~~
             1(10)
                 \
                  \
@@ -71,11 +71,11 @@ RMQ(Range Maximum/Minimum Query) 和 LCA(Least Common Ancestor) 问题是关联�
                 /  \
                /    \
             2(25)    4(34)
-```
+~~~
 
 加入第五个值:
 
-```
+~~~
                 5(7)                
                 / 
                /   
@@ -86,11 +86,11 @@ RMQ(Range Maximum/Minimum Query) 和 LCA(Least Common Ancestor) 问题是关联�
                 /  \
                /    \
             2(25)   4(34)
-```
+~~~
 
 加入第六个值:
 
-```
+~~~
                 5(7)                
                 / \
                /   \
@@ -101,13 +101,13 @@ RMQ(Range Maximum/Minimum Query) 和 LCA(Least Common Ancestor) 问题是关联�
                 /  \
                /    \
             2(25)   4(34)
-```
+~~~
 
 
 
 加入第七个值:
 
-```
+~~~
                 5(7)                
                /   \
               /     \
@@ -118,11 +118,11 @@ RMQ(Range Maximum/Minimum Query) 和 LCA(Least Common Ancestor) 问题是关联�
             /   \
            /     \
         2(25)    4(34)
-```
+~~~
 
 加入第八个值:
 
-```
+~~~
                 5(7)                
                /   \
               /     \
@@ -133,7 +133,7 @@ RMQ(Range Maximum/Minimum Query) 和 LCA(Least Common Ancestor) 问题是关联�
             /   \
            /     \
         2(25)    4(34)
-```
+~~~
 
 
 

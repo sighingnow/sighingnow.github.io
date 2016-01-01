@@ -119,24 +119,24 @@ List的索引值是从 `0` 开始的。如果索引值超过了List的长度，�
 + head
     返回一个List的头部（首个元素）。如果当前List为空，则会产生异常。
 
-```haskell
+~~~haskell
 Prelude> head [1, 2, 3]
 1
 Prelude> head []
 *** Exception: Prelude.head: empty list
-```
+~~~
 
 + tail
     返回一个List除去头部元素之后的元素的List。如果当前List为空，则会产生异常。
 
-```haskell
+~~~haskell
 Prelude> tail [1, 2, 3]
 [2, 3]
 Prelude> tail [1]
 []
 Prelude> tail []
 *** Exception: Prelude.tail: empty list
-```
+~~~
 
 + last
     返回一个List的最后一个元素。
@@ -156,19 +156,19 @@ Prelude> tail []
 + take
     取得一个List的前几个元素。
 
-```haskell
+~~~haskell
 Prelude> take 2 [1, 2, 3]
 [1, 2]
 Prelude> take 1 [1, 2, 3]
 [1]
-```
+~~~
 
 如果要求的元素个数大于List的长度，则返回整个List，不会产生异常。
 
-```haskell
+~~~haskell
 Prelude> take 4 [1, 2]
 [1, 2]
-```
+~~~
 
 + maximum
     取得一个List中的元素的最大值。
@@ -182,12 +182,12 @@ Prelude> take 4 [1, 2]
 + elem
     判断一个元素是否在List中。如果在，返回`True`，否则返回`False`。也可以用中缀函数的方法调用`elem`函数。
 
-```haskell
+~~~haskell
 Prelude> elem 1 [1, 2, 3]
 True
 Prelude> 4 `elem` [1, 2, 3]
 False
-```
+~~~
 
 ### List与Range
 
@@ -263,13 +263,13 @@ Range也可以生成无限长的列表，不指定上界即可：
 
 基于列表推导的特性，我们很容易写出一个枚举序列的n-组合的程序：
 
-```haskell
+~~~haskell
 import Data.List
 
 combinations :: Int -> [a] -> [[a]]
 combinations 0 _ = [[]]
 combinations n xs = [y:ys | y:xs' <- tails xs, ys <- combinations (n-1) xs']
-```
+~~~
 
 其中用到了`Data.List`中的`tails`方法：
 
@@ -307,12 +307,12 @@ Haskell中，序对(Pair)是只有两个元素的元组。
 + `fst`函数返回一个序对的首项。
 + `snd`函数返回一个序对的尾项。
 
-```haskell
+~~~haskell
 Prelude> fst (8, 11)
 8
 Prelude> snd (8, 11)
 11
-```
+~~~
 
 **注意**：`fst`函数和`snd`函数仅仅对序对(Pair,只有两个元素的元组)有效。
 
@@ -431,7 +431,7 @@ haskell中的类型转换
 
 例如：`fromInteger`函数可以将`Integer`类型的数据转换成其他类型。
 
-```haskell
+~~~haskell
 func :: (Floating a) => a -> a
 func a = a * 2.0
 
@@ -439,16 +439,16 @@ main :: IO()
 main = do
     let a = read "20" :: Integer
     print $ func $ fromInteger a
-```
+~~~
 
 还可以通过与`read`函数类似的加注解的方式来指定`fromInteger`函数将`Integer`类型的变量转换为哪一种类型而非自动类型推断。
 
-```haskell
+~~~haskell
 main :: IO()
 main = do
     let a = read "1234" :: Integer
     print $ (fromInteger a :: Double)
-```
+~~~
 
 代码运行后，将输出：
 

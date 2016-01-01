@@ -16,13 +16,13 @@ OpenGL是按照客户机-服务器模式设计的，在OpenGL需要数据的任�
 
 VBO依赖glew库，因此，在使用VBO之前，需要初始化glew：
 
-```c
+~~~c
 GLenum res = glewInit();
 if(res != GLEW_OK) {
     fprintf(stdout, "Error: '%s'\n", glewGetErrorString(res));
     return EXIT_FAILURE;
 }
-```
+~~~
 
 >  GLEW helps you deal with the headache that can accompany the management of extensions in OpenGL. Once initialized it queries for all the available extensions on your platform, dynamically loads them and provides easy access via a single header file.
 

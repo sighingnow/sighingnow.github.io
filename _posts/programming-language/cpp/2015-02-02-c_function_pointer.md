@@ -20,7 +20,7 @@ C语言中，可以通过以下方式定义函数指针：
 
 <!--more-->
 
-```cpp
+~~~cpp
 int (*fn)(int a);
 
 int func(int a) {
@@ -33,7 +33,7 @@ int main(int argc, char **argv) {
     (*fn)(10);
     return 0;
 }
-```
+~~~
 
 参数和返回值类型共同决定函数指针的类型，不同类型的函数指针之间不能做类型转换。
 

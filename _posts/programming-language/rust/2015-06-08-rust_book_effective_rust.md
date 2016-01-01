@@ -14,12 +14,12 @@ The Stack and the Heap
 
 Box: A pointer type for heap allocation.可以使用`Box<T> type`来申请对内存空间。例如：
 
-```rust
+~~~rust
 fn main() {
     let x = Box::new(5);
     ley y = 42;
 }
-```
+~~~
 
 `Box`分配的堆内存资源可以使用`Drop`来释放。Rust没有垃圾回收(GC)机制。
 
@@ -32,22 +32,22 @@ Testing
 
 使用`test`属性来表明一个函数是测试函数。运行`cargo test`将会运行项目中所有的测试用例(具有`test`属性的)。例子：
 
-```rust
+~~~rust
 #[test]
 fn it_works() {
     // ...
 }
-```
+~~~
 
 在测试函数中，可以使用`assert`来判断变量的值是否符合预期。
 
-```rust
+~~~rust
 #[test]
 fn it_works() {
     // ...
     assert!(false);
 }
-```
+~~~
 
 注意，此处的`assert!`也是一个宏(Macro)，跟`println!`一样。`assert`用于检查一个逻辑值是否为真，此外，还有`assert_eq!`来用来检查两个变量是否相等，等等。
 
@@ -85,34 +85,34 @@ Rust允许如下的注释方式：
 
 此外，还可以使用`doc`属性(`doc` attributes)。例如：
 
-```rust
+~~~rust
 /// this
 
 #[doc="this"]
-```
+~~~
 
 等价于下面的写法：
 
-```rust
+~~~rust
 //! this
 
 #![doc="/// this"]
-```
+~~~
 
 Iterators
 ---------
 
 Iterators, 迭代器，几乎所有的现代编程语言里都直接提供了原生的对迭代器和迭代器模式的支持。
 
-```rust
+~~~rust
 for i in 1..10 {
     println!("{}", i);
 }
-```
+~~~
 
 其中，1..10将会生成一个`1,2,3,4,5,6,7,8,9`的迭代器。如果给出的上界小于下界，将会返回一个空迭代器。
 
-```rust
+~~~rust
 let mut range = 1..10;
 loop {
     match range.next() {
@@ -120,7 +120,7 @@ loop {
         None => { break; }
     }
 }
-```
+~~~
 
 `next` returns an `Option<i32>`, in this case, which will be `Some(i32)` when we have a value and `None` once we **run out**. If we get `Some(i32)`, we print it out, and if we get `None`, we break out of the loop.
 
@@ -147,12 +147,12 @@ fold() is a consumer that looks like this: fold(base, |accumulator, element| ...
 
 ### Iterators
 
-```rust
+~~~rust
 let nums = vec![1,2,3];
 for n in nums.iter() {
     println!("{}", n);
 }
-```
+~~~
 
 ### Iterator adapters
 
@@ -166,30 +166,30 @@ for n in nums.iter() {
 
 只有使用其结果时，才会执行。
 
-```rust
+~~~rust
 for i in (1..10).take(5) { // (1..).take(5)
     println!("{}", i);
 }
-```
+~~~
 
 将会只输出迭代器的前5项的值。
 
 `filter()` is an adapter that takes a closure as an argument. This closure returns true or false. The new iterator `filter()` produces only the elements that that closure returns true for:
 
-```rust
+~~~rust
 for i in (1..100).filter(|&x| x % 2 == 0) {
     println!("{}", i);
 }
-```
+~~~
 
 一个更复杂的filter的例子：
 
-```rust
+~~~rust
 (1..1000).filter(|&x| x%2 == 0)
          .filter(|&x| x%3 == 0)
          .take(5)
          .collect::<Vec<i32>>();
-```
+~~~
 
 Concurrency
 ------------
@@ -223,18 +223,18 @@ For example, sharing immutable data with an atomic reference count is threadsafe
 
 使用线程的例子：
 
-```rust
+~~~rust
 fn main() {
     thread::spawn(|| {
         println!("abcde");
     });
     // thread::sleep_ms(100);
 }
-```
+~~~
 
 > The `thread::spawn()` method accepts a closure, which is executed in a new thread. It returns a handle to the thread, that can be used to wait for the child thread to finish and extract its result.
 
-```rust
+~~~rust
 fn main() {
     /**
     thread::spawn(|| {
@@ -246,7 +246,7 @@ fn main() {
     });
     println!("{}", handle.join().unwrap());
 }
-```
+~~~
 
 Rust在多线程方面的优势：
 
@@ -260,7 +260,7 @@ Rust的所有权机制`ownership system`可以有效地防止指针错用、消�
 
 在Rust中，如下代码将会直接编译失败：
 
-```rust
+~~~rust
 use std::thread;
 fn main() {
     let mut data = vec![1u32, 2, 3];
@@ -271,7 +271,7 @@ fn main() {
     }
     thread::sleep_ms(50);
 }
-```
+~~~
 
 因为此处有三个线程会共享`data`,也就是说，`data`将会有三个`owner`。
 
@@ -285,13 +285,13 @@ Rust书中代码和叙述与实际编译、运行情况不符。
 
 A `panic!` will crash the currently executing thread. You can use Rust's threads as a simple isolation mechanism:
 
-```rust
+~~~rust
 use std::thread;
 let result = thread::spawn(move || {
     panic!("oops!");
 }).join();
 assert!(result.is_err());
-```
+~~~
 
 Our `Thread` gives us a `Result` back, which allows us to check if the thread has panicked or not.
 

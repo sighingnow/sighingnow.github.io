@@ -17,11 +17,11 @@ layout: post
 2. Rust版Hello World
 --------------------
 
-```rust
+~~~rust
 fn main() {
     println!("hello world");
 }
-```
+~~~
 
 `main`函数是程序入口。`println!`中的`!`表示这是一个宏。
 

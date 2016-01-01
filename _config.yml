@@ -1,13 +1,18 @@
 # Configurations
 
 # markdown render engine.
-markdown:         pandoc
-pandoc:
-  format: html5
-  highlight-style: tango
-  extensions:
-    - smart
-    - mathjax
+markdown:         kramdown
+kramdown:
+  smart_quotes: lsquo,rsquo,ldquo,rdquo
+  math_engine: mathjax
+  toc_levels: 1..6
+
+# pandoc:
+#   format: html5
+#   highlight-style: tango
+#   extensions:
+#     - smart
+#     - mathjax
 
 # redcarpet:
 #   extensions: ["no_intra_emphasis", "fenced_code_blocks", "autolink", "tables", "strikethrough", "superscript", "with_toc_data"]
@@ -36,14 +41,14 @@ navigation:
   url: /resume/
 - text: Blog
   url: /blog/
-# - text: Projects
-#   url: /projects/
 - text: Archive
   url : /archive/
-# - text: Categories
-#   url: /categories/
 - text: Tags
   url: /tags/
+# - text: Projects
+#   url: /projects/
+# - text: Categories
+#   url: /categories/
 
 # Author Details
 author:         'Sighingnow'
@@ -82,6 +87,10 @@ disqushandler: 'sighingnow'
 paginate: 10 # Posts per page on the blog index
 paginate_path: '/blog/page:num'
 destination: ./_site
+incremental: true
+regenerate: false
 
 # Custom vars
-version:          0.8
+version: 1.0
+
+gems: [jekyll-paginate]

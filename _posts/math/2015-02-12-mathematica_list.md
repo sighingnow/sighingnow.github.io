@@ -25,20 +25,20 @@ Mathematica中，有以下三种方式来生成List。
 
 1. Range 命令
 
-```mma
+~~~mma
 Range[Subscript[i, max]] 
     生成列表 {1,2,\[Ellipsis],Subscript[i, max]}.
 Range[Subscript[i, min],Subscript[i, max]] 
     生成列表 {Subscript[i, min],\[Ellipsis],Subscript[i, max]}.
 Range[Subscript[i, min],Subscript[i, max],di] 
     使用步长 di 生成列表. 
-```
+~~~
 
 <!--more-->
 
 2. Table 命令
 
-```mma
+~~~mma
 Table[expr,{Subscript[i, max]}] 
     产生一个 expr 的 Subscript[i, max] 拷贝的列表.
 Table[expr,{i,Subscript[i, max]}] 
@@ -51,11 +51,11 @@ Table[expr,{i,{Subscript[i, 1],Subscript[i, 2],\[Ellipsis]}}]
     使用连续值 Subscript[i, 1], Subscript[i, 2], \[Ellipsis]. 
 Table[expr,{i,Subscript[i, min],Subscript[i, max]},{j,Subscript[j, min],Subscript[j, max]},\[Ellipsis]] 
     给出一个嵌套列表. 和 i 相关联的列表是最外的列表.  
-```
+~~~
 
 3. Array 命令
 
-```mma
+~~~mma
 Array[f,n] 
     生成长度为 n、元素为 f[i] 的列表. 
 Array[f,n,r] 
@@ -70,7 +70,7 @@ Array[f,{Subscript[n, 1],Subscript[n, 2],\[Ellipsis]},{ {Subscript[a, 1],Subscri
     生成使用 Subscript[n, i] 个从 Subscript[a, i] 到 Subscript[b, i] 的数值组成的列表.
 Array[f,dims,origin,h] 
     对数组的每一层使用头部 h，而不是 List. 
-```
+~~~
 
 字符型List的生成
 ------------------
@@ -79,28 +79,28 @@ Array[f,dims,origin,h]
 
 1. Characters 命令
 
-```mma
+~~~mma
 Characters["string"] 
     给出了字符串中字符的列表. 
-```
+~~~
 
 2. CharacterRange 命令
 
-```mma
+~~~mma
 CharacterRange[Subscript[c, 1],Subscript[c, 2]] 
     产生 "Subscript[c, 1]" 到 "Subscript[c, 2]" 范围之内的字符列表. 
-```
+~~~
 
     具体的字符顺序为起始字符之间 ASCII 码表中的字符顺序。
 
     例如：
 
-```mma
+~~~mma
 CharacterRange["a", "c"]
 {a, b, c}
 FullForm[%]
 List["a", "b", "c"]  
-```
+~~~
 
 List的运算
 ------------
@@ -109,12 +109,12 @@ List的运算
 
 例如：
 
-```mma
+~~~mma
 2 ^ Range[10]
 {2, 4, 8, 16, 32, 64, 128, 256, 512, 1024}
 Prime[Range[10]]
 {2, 3, 5, 7, 11, 13, 17, 19, 23, 29}
-```
+~~~
 
 List取得指定位置元素
 ------------------------
@@ -158,9 +158,9 @@ List的操作
 
     如果lst的长度为0（没有元素），会得到如下输出：
 
-```mma
+~~~mma
     First::first: "{} 长度为零，并且没有第一个元素."
-```
+~~~
 
 + Last[lst]
 
@@ -168,25 +168,25 @@ List的操作
 
     如果lst的长度为0（没有元素），会得到如下输出：
 
-```mma
+~~~mma
     Last::nolast: "{} 的长度为零，并且没有最后一个元素".
-```
+~~~
 
 + Part[lst, k] 或 lst[[k]]
 
     返回lst中的第`k`个元素。如果lst中没有第`k`个元素，会得到如下输出：
 
-```mma
+~~~mma
     Part::partw: {} 的部分 1 不存在.
-```
+~~~
 
 + Part[lst, -k] 或 lst[[-k]]
 
     返回lst中的倒数第`k`个元素。如果lst中没有倒数第`k`个元素，会得到如下输出：
 
-```mma
+~~~mma
     Part::partw: "{} 的部分 -1 不存在.
-```
+~~~
 
 + Rest[lst] 
 
@@ -224,12 +224,12 @@ List的操作
 
     Sort命令用于对列表进行排序，具体标准顺序的定义如下例：
 
-```mma
+~~~mma
     a = {1, 2, "a", "b", "c", "A", "B", "C"}
     {1, 2, "a", "b", "c", "A", "B", "C"}
     Sort[a]
     {1, 2, "a", "A", "b", "B", "c", "C"}
-```
+~~~
 
     Mathematica中标准顺序的定义同其他编程语言有所不同，需格外注意。
 
@@ -257,10 +257,10 @@ List的操作
 
     类似，RealDigits 命令可以得到一个实数（有限位近似值）的各个位上的数字组成的列表。并且能够得到小数点左边的数字位数。例如:
 
-```mma
+~~~mma
     RealDigits[N[Pi, 10]]
     { {3, 1, 4, 1, 5, 9, 2, 6, 5, 3}, 1}
-```
+~~~
 
     上述结果中包含两个子列表，其中，第一个子列表为各个位上的数字组成的列表，第二个子列表的值为小数点左侧的数字的位数。
 

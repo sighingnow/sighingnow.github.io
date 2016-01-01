@@ -38,7 +38,7 @@ layout: post
 代码实现
 ---------
 
-```cpp
+~~~cpp
 /*
  * 注意：为方便DP，字符串从索引为 1 的位置开始。
  */
@@ -59,7 +59,7 @@ int getDistance(char A[], char B[]) {
     }
     return dis[Alen][Blen];
 }
-```
+~~~
 
 
 

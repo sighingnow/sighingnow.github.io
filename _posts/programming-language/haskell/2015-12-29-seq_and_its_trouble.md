@@ -58,26 +58,26 @@ seq
 
 例如：
 
-```haskell
+~~~haskell
 f !x !y = z
-```
+~~~
 
 的语义等价于
 
-```haskell
+~~~haskell
 f x y
     | x `seq` y `seq` False = undefined
     | otherwise             = z
-```
+~~~
 
 GHC 的惰性求值通过 `thunks` 来实现，`seq` 可以被用于累积参数以确保不会形成过大的
 `thunks` 导致程序运行时内存压力过大。例如，`fold`函数就可以通过严格求值来提高效率。
 
-```haskell
+~~~haskell
 foldl' :: (a -> b -> a) -> a -> [b] -> a
 foldl' _ z [] = z
 foldl' f z (x:xs) = let z' = f z x in z' `seq` foldl' f z' xs
-```
+~~~
 
 这个例子中，`seq` 函数保证了每次 `z'` 都会被严格求值。
 
@@ -86,12 +86,12 @@ foldl' f z (x:xs) = let z' = f z x in z' `seq` foldl' f z' xs
 可以使用 `seq` 函数来定义 `$!` 运算符（实际实现是使用 strictness annotations，与
 `seq`在语义上等价）：
 
-```haskell
+~~~haskell
 ($!) :: (a -> b) -> a -> b
 f $! x = x `seq` f x
 
 -- f $! x = let !vx = x in f vx
-```
+~~~
 
 > `seq` is the only way to force evaluation of a value with a function type
 > (except by applying it, which is liable to cause other problems).
@@ -99,7 +99,7 @@ f $! x = x `seq` f x
 对于函数来说，`seq`会将函数求值到lambda表达式的形式，也就是`ready for application`的
 形式。例子：
 
-```haskell
+~~~haskell
 -- ok, lambda is outermost
 Prelude> seq (\x -> undefined) 'a'
 'a'
@@ -108,14 +108,14 @@ Prelude> seq (\x -> undefined) 'a'
 -- the lambda is showing
 Prelude> seq (seq undefined (\x -> x)) 'b'
 *** Exception: Prelude.undefined
-```
+~~~
 
 GHC中，`case...of`对于参数也是严格求值，因此可以认为：
 
-```haskell
+~~~haskell
 seq a b = case a of
                 _ -> b
-```
+~~~
 
 deepseq 和 NFData
 -----------------
@@ -141,19 +141,19 @@ deepseq 将表达式求值到NF。函数类型声明：
 
 `$!!`跟`$`和`$!`类似，区别在于`$!!`首先将参数求值到NF而不是WHNF。
 
-```haskell
+~~~haskell
 ($!!) :: (NFData a) => (a -> b) -> a -> b
 f $!! x = x `deepseq` f x
-```
+~~~
 
 + `force`
 
 `force`函数对参数进行严格求值，并返回结果：
 
-```haskell
+~~~haskell
 force :: (NFData a) => a -> a
 force x = x `deepseq` x
-```
+~~~
 
 `deepseq`包中定义了数据类型`NFData`用于表达可以被彻底地严格求值的数据类型。数据类型
 Int, Float, Bool 以及 List 等都是`NFData`类型类的实例类型。`deepseq`包中的函数`rnf`
@@ -208,26 +208,26 @@ monad laws?][6] 也很有意思，答案是使用 `seq` !!! 事实上，将`seq`
 
 然而：
 
-```haskell
+~~~haskell
 Prelude> seq ( undefined >>= return :: IO () ) "hello, world"
 "hello, world"
 
 Prelude> seq ( undefined :: IO () ) "hello, world"
 *** Exception: Prelude.undefined
-```
+~~~
 
 在这个例子中：`undefined >>= return` 与 `undefined` 的值不相等。使用
 `unsafePerformIO`也会产生类似的效果。
 
 另一个使得 `Maybe` 不满足 Monad Laws 的例子：
 
-```haskell
+~~~haskell
 Prelude> seq ( undefined >>= return :: Maybe () ) "hello, world"
 *** Exception: Prelude.undefined
 
 Prelude> seq ( undefined :: Maybe () ) "hello, world"
 *** Exception: Prelude.undefined  
-```
+~~~
 
 引用一段证明如下：
 

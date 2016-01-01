@@ -80,7 +80,7 @@ lazy graph reduction
 
 例如这段代码的求值过程：
 
-```haskell
+~~~haskell
 foldl (+) 0 [1..100]
 => foldl (+) 0 (1:[2..100])
 => foldl (+) (0 + 1) [2..100]
@@ -89,7 +89,7 @@ foldl (+) 0 [1..100]
 => foldl (+) ((0 + 1) + 2) (3:[4..100])
 => foldl (+) (((0 + 1) + 2) + 3) [4..100]
 => ...
-```
+~~~
 
 在求值的过程中，累积参数占用的空间会越来越大，这个问题称为 **space leak**, space leak 会增加GC的负担，而不是重复检查。
 
@@ -114,7 +114,7 @@ Lazy 实现示例
 
 了解了 thunk 的原理，我们可以使用既非函数式的、不支持 first-class function 的编程语言来实现 Lazy Evaluation。
 
-```c
+~~~c
 #include <stdlib.h>
 
 typedef struct {
@@ -142,7 +142,7 @@ void *force(lazy *l) {
     }
     return l->val;
 }
-```
+~~~
 
 参考
 ----

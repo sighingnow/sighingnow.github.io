@@ -38,19 +38,19 @@ layout: post
 
 最容易想到的方法是排序后再遍历一趟数组，便可以得到这个唯一的只出现一次的整数。算法实现如下：
 
-```python
+~~~python
 def single_number(numbers):
     tmp = numbers.sort()
     for i in range(tmp.__len__()-1):
         if tmp[i] != tmp[i+1]:
             return tmp[0] if i == 0 else tmp[i+1]
-```
+~~~
 
 此算法的时间复杂度取决于采用的排序算法的时间复杂度。
 
 进一步思考不难想到，可以用哈希算法来解决这一问题。具体做法是每遍历到一个数，如果该数在哈希表中存在，就从哈希表中删除该数，否则将该数加入到哈希表中。这一算法实现如下：
 
-```python
+~~~python
 def single_number(numbers):
     m = {}
     for n in numbers:
@@ -59,19 +59,19 @@ def single_number(numbers):
         else:
             m[n] = True
     return list(m)[0]
-```
+~~~
 
 由于哈希表的时间复杂度可以认为是O(1)的，因此，可以在O(n)的时间内求出整数序列中仅仅出现一次的元素。
 
 再进一步思考，可以利用异或运算的性质来解决这个问题。相同元素异或的值为0，任意值与0异或都得原值。具体实现如下：
 
-```python
+~~~python
 def single_number(numbers):
     tmp = 0
     for n in numbers:
         tmp ^= n
     return tmp
-```
+~~~
 
 利用异或的性质来解决这一问题，即简便又高效，是一个非常好的算法。
 
@@ -89,7 +89,7 @@ def single_number(numbers):
 
 上述算法也不难实现：
 
-```python
+~~~python
 def single_number(numbers):
     number = 0
     for i in range(32):
@@ -98,7 +98,7 @@ def single_number(numbers):
             value += (0 if mask & n == 0 else 1)
         number |= (value % 3) << i
     return number
-```
+~~~
 
 ### 推广到一半情形
 
@@ -120,7 +120,7 @@ def single_number(numbers):
 
 通过两个变量来保存异或运算过程中得到的信息。如果某个数出现了三次，便直接清除该数每一位上的信息。实现如下：
 
-```python
+~~~python
 def single_number(numbers):
     ## a, b 分别为出现一次的标志位和积累标志位
     a, b = 0, 0
@@ -130,7 +130,7 @@ def single_number(numbers):
         t = a & b ## 第三次出现
         a, b = a & ~t, b & ~t ## 抛弃出现三次的数的信息
     return a ## 返回仅仅出现一次的数。
-```
+~~~
 
 这样的算法便可以从一组数中找到仅仅出现一次的数。
 

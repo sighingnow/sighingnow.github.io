@@ -16,7 +16,7 @@ C#委托与函数指针
 
 委托是安全封装方法的类型，类似于 C 和 C++ 中的函数指针。
 
-```csharp
+~~~csharp
 class Program
 {
     delegate void pFunc(int x);
@@ -36,7 +36,7 @@ class Program
         Console.WriteLine("test {0}", x);
     }
 }
-```
+~~~
 
 C#中的委托类型
 ------------
@@ -55,7 +55,7 @@ C#中的委托类型
 
 例如，如果创建方法所需的系统开销是不必要的，则指定代码块（而不是委托）可能非常有用。 启动新线程即是一个很好的示例。 无需为委托创建更多方法，线程类即可创建一个线程并且包含该线程执行的代码。
 
-```csharp
+~~~csharp
 void StartThread() 
 { 
     System.Threading.Thread t = new System.Threading.Thread (delegate() 
@@ -64,14 +64,14 @@ void StartThread()
     }); 
     t.Start(); 
 }
-```
+~~~
 
 多播委托(MulticastDelegate)
 -------------------------
 
 一次委托调用多个方法，通过+和-运算符实现多播的增加或减少。多播委托包含已分配委托的列表。在调用多播委托时，它会按顺序调用列表中的委托。只能合并相同类型的委托。一个多播委托的例子：
 
-```csharp
+~~~csharp
 using System;
 
 namespace SharpWork
@@ -104,7 +104,7 @@ namespace SharpWork
         void Show1000(int arg) { Console.WriteLine(arg+1000); }
     }
 }
-```
+~~~
 
 委托、事件与Observer模式
 ----------------------
@@ -128,7 +128,7 @@ Observer设计模式是为了定义对象间的一种一对多的依赖关系，
 
 具体实现代码：
 
-```csharp
+~~~csharp
 /*
  * Created by SharpDevelop.
  * User: He Tao
@@ -195,7 +195,7 @@ namespace Delegate
         }
     }
 }
-```
+~~~
 
 .Net Framework中的委托与事件
 --------------------------
@@ -209,7 +209,7 @@ namespace Delegate
 
 按照这一个规范，将上述代码改下为如下形式：
 
-```csharp
+~~~csharp
 /*
  * Created by SharpDevelop.
  * User: He Tao
@@ -298,7 +298,7 @@ namespace Delegate
         }
     }
 }
-```
+~~~
 
 `Action<T>`和`Func<T>`委托
 ---------------------
@@ -307,24 +307,24 @@ namespace Delegate
 
 泛型`Action<T>`委托表示引用一个void返回类型的方法，这个委托类存在不同的变体，最多可传递16种不同的参数类型。
 
-```csharp
+~~~csharp
 Action<int> f = delegate(int arg)
 {
     Console.WriteLine(arg);
 };
 f.Invoke(10);
-```
+~~~
 
 `Func<T>`允许调用带返回类型的方法，与`Action<T>`类似，也定义了不同的变体，最多也可传递16种不同的参数类型和一个返回类型。
 
-```csharp
+~~~csharp
 Func<int, int> f = delegate(int arg)
 {
     Console.WriteLine(arg);
     return arg+10;
 };
 Console.WriteLine(f.Invoke(10));
-```
+~~~
 
 `Func<T>`的类型参数列表中**最后一个**类型为返回值的类型。
 
@@ -343,7 +343,7 @@ Console.WriteLine(f.Invoke(10));
 
 一个使用`Predicate<T>`委托的例子：
 
-```csharp
+~~~csharp
 using System;
 using System.Drawing;
 
@@ -374,14 +374,14 @@ public class Example
         return p.X * p.Y > 100000;
     }
 }
-```
+~~~
 
 Lambda表达式
 ------------
 
 前文中提到了如何通过命名方法和匿名方法创建委托(delegate)，接下来给出一个使用Lambda表达式来创建委托的例子：
 
-```csharp
+~~~csharp
 using System;
 
 namespace SharpWork
@@ -398,11 +398,11 @@ namespace SharpWork
         }
     }
 }
-```
+~~~
 
 上文中使用`Predicate<T>`委托的例子可以直接改成使用Lambda的例子：
 
-```csharp
+~~~csharp
 using System;
 using System.Drawing;
 
@@ -425,4 +425,4 @@ public class Example
         Console.ReadKey();
     }
 }
-```
+~~~

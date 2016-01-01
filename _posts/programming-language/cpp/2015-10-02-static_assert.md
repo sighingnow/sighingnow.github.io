@@ -14,24 +14,24 @@ layout: post
 
 + 利用 `switch...case` 语句中两个 `case expression` 不能相等的机制
 
-```cpp
+~~~cpp
 #define assert_static(e) \
     do { \
         switch (e) case 0: case(e): ; \
     } while (0)
-```
+~~~
 
 使用 `do {} while (0)` 可以使得 `assert_static` 宏在使用的时候更像是函数调用。这一技巧在
 Linux 内核中的队列实现部分也有很多非常精彩的运用。
 
 + 利用数组长度不能为负数的机制
 
-```cpp
+~~~cpp
 #define assert_static(e) \
     do { \
         int __assert_static[(e) ? 1 : (-1)]; \
     } while (0)
-```
+~~~
 
 这么使用 `do {} while (0)` 可以将数组定义包裹在一个新的作用域中，不至于引起和程序中已经定义
 的变量的冲突。

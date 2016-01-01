@@ -19,7 +19,7 @@ C和C++中，可以通过函数指针的方式实现回调函数。如下例：
 
 <!--more-->
 
-```cpp
+~~~cpp
 #include <stdio.h>
 
 typedef int (*callf)(int a);
@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
     call2(&fb, arg);
     return 0;
 }
-```
+~~~
 
 在上例中，我们可以看到，在C/C++中可以直接将函数指针作为参数传参，并通过函数指针进行函数调用和
 传递参数，从而实现了回调函数。
@@ -65,19 +65,19 @@ int main(int argc, char *argv[])
 
 首先声明时间模型、回调函数和事件注册函数。
 
-```cpp
+~~~cpp
 // 事件模型声明
 struct Event;
 // 回调函数声明
 typedef void (*pEvent_cbF)(const struct Event *e, void *extra_data);
 // 事件注册函数声明
 void event_cbF_register(Event *e, pEvent_cbF callback, void *data);
-```
+~~~
 
 在事件调度器(event dispather)中，通常将回调函数放在结构体中。`trigger`函数供外部调用来触发
 事件，当时间发生时，会调用回调函数。
 
-```cpp
+~~~cpp
 struct Event {
     pEvent_cbF callback;
     void *data;
@@ -90,11 +90,11 @@ struct Event {
         this->callback(this, extra_data);
     }
 };
-```
+~~~
 
 接下来，实现事件注册函数和回掉函数。
 
-```cpp
+~~~cpp
 void event_cbF_register(Event *e, pEvent_cbF callback, void *data) {
     e->callback = callback;
     e->data = data;
@@ -107,11 +107,11 @@ void my_event_cbF(const struct Event *e, void *extra_data) {
         printf("extra data: %s\n", (const char *)(extra_data));
     }
 }
-```
+~~~
 
 在 main 函数中创建事件，并通过 `trigger` 触发。测试：
 
-```cpp
+~~~cpp
 int main(int argc, char *argv[])
 {
     Event custom_event;
@@ -125,11 +125,11 @@ int main(int argc, char *argv[])
 
     return 0;
 }
-```
+~~~
 
 运行上述程序，将获得如下输出：
 
-```
+~~~
     Event occur!
     my event callback function is called.
     event data: Event message of custom_event.
@@ -138,7 +138,7 @@ int main(int argc, char *argv[])
     my event callback function is called.
     event data: Event message of custom_event.
     extra data: Extra data when trigger custom_event.
-```
+~~~
 
 回调函数与异步非阻塞
 ---------------------

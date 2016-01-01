@@ -26,7 +26,7 @@ Java提供了以下两种常用的方式来使用多线程：
 
 ### 继承`Thread`类
 
-```java
+~~~java
 class MyThread extends Thread {
     @Override
     public void run() {
@@ -36,11 +36,11 @@ class MyThread extends Thread {
 
 Thread t = new MyThread();
 t.start();
-```
+~~~
 
 ### 实现`Runnable`接口
 
-```java
+~~~java
 class MyThread implements Runnable {
     @Override
     public void run() {
@@ -51,7 +51,7 @@ class MyThread implements Runnable {
 MyThread mt = new MyThread();
 Thread t = new Thread(mt);
 t.start();
-```
+~~~
 
 需要注意的是：**一个线程只能start()一次**，如果多次调用`start()`方法，会出现`Java.lang.IllegalStateException`。
 
@@ -62,7 +62,7 @@ Callable与Future
 
 `java.util.concurrent`包中还提供了一个`Callable`接口来实现线程，使用`Callable`需要与`Future`类配合使用。
 
-```java
+~~~java
 public class TEMP {
     public static void main(String[] args) throws Exception {
          FutureTask<Integer> task = new FutureTask<>(new FF());
@@ -80,7 +80,7 @@ class FF implements Callable<Integer> {
         return new Random().nextInt(100);
     }
 }
-```
+~~~
 
 程序运行的输出为：
 
@@ -94,7 +94,7 @@ class FF implements Callable<Integer> {
 
 一般Callable/Future与ExecutorService配合使用。使用`ExecutorService`来运行`Callable`线程：
 
-```java
+~~~java
 ExecutorService exec = Executors.newCachedThreadPool();
 // exec = Executors.newFixedThreadPool(3 /* nThread */);
 exec.submit(new Callable<Integer>() {
@@ -105,22 +105,22 @@ exec.submit(new Callable<Integer>() {
     }
 });
 // exec.shutdown();
-```
+~~~
 
 ExecutorService也可以用来执行实现Runnable线程：
 
-```java
+~~~java
 exec.submit(new Runnable() {
     @Override
     public void run() throws Exception {
         // ...
     }
 });
-```
+~~~
 
 使用`ExecutorService`时，可以通过`FutureTask`来获取Callable线程call方法的返回值：
 
-```java
+~~~java
 ExecutorService exec = Executors.newCachedThreadPool();
 FutureTask<Integer> task = new FutureTask<>(new Callable<Integer>() {
     @Override
@@ -131,7 +131,7 @@ FutureTask<Integer> task = new FutureTask<>(new Callable<Integer>() {
 });
 exec.submit(task);
 Integer result = task.get();
-```
+~~~
 
 ExecutorService还可以取消(cancel)一个Task(FutureTask)。
 
@@ -144,13 +144,13 @@ Java提供了强制原子性的内置锁机制：synchronized块。一个synchro
 
 可以使用`synchronized`关键字来修饰类中的方法，从而达到线程间同步的目的。示例：
 
-```java
+~~~java
 class A {
     public synchronized void Func() {
         // ...
     }
 }
-```
+~~~
 
 `synchronized`关键字修饰方法表明该方法在运行期间将会对`this`加锁，也就是说，当方法`Func`运行时其他方法无法操作`this`对象。需要注意的是，`synchronized`与`static`关键字是可以共存的。
 
@@ -158,7 +158,7 @@ class A {
 
 `synchronized`关键字除了用来修饰方法，还可以用来修饰代码块：
 
-```java
+~~~java
 class A {
     Integer i;
     // ...
@@ -169,11 +169,11 @@ class A {
         }
     }
 }
-```
+~~~
 
 这表明在`synchronized`中的代码块运行期间将会占有锁`this.i`。`synchronized`修饰方法等价于下列写法：
 
-```java
+~~~java
 class A {
     public void Func() {
         synchronized(this) {
@@ -181,7 +181,7 @@ class A {
         }
     }
 }
-```
+~~~
 
 可以看到，`synchronized`修饰代码块与修饰方法类似，但控制粒度更细，同步开销也较小。但是，在尽量减小同步代码块规模时应该注意原子操作中的语句必须在同一个同步代码块中。
 
@@ -189,7 +189,7 @@ class A {
 
 要同步静态方法，需要一个作用于整个类对象的锁。这个锁就是类自身。举例：
 
-```java
+~~~java
 class A {
     public static void func() {
         synchronized(B.class) {
@@ -197,13 +197,13 @@ class A {
         }
     }
 }
-```
+~~~
 
 ### 可重入锁
 
 另一个需要注意的地方是Java的同步锁匙可重入锁，例如，递归调用`run`方法或者调用的函数有同样的`synchronized`锁并不会造成死锁。示例如下：
 
-```java
+~~~java
 class KK extends Thread {
     static Integer x = 10;
     @Override
@@ -217,7 +217,7 @@ class KK extends Thread {
         }
     }
 }
-```
+~~~
 
 `wait`, `notify`, `notifyAll`，`join`是常用的线程控制调度方法。
 
@@ -237,7 +237,7 @@ Lock是控制多个线程对共享资源进行访问的工具。通常，锁提�
 
 使用Lock的一般框架：
 
-```java
+~~~java
 Lock lock = new ReetrantLock();
 lock.lock();
 try {
@@ -246,7 +246,7 @@ try {
 finally {
     lock.unlock();
 }
-```
+~~~
 
 注意，`try`中的语句块是可能抛出异常的，因此，如果可能有异常抛出，那么`lock.unlock()`必须在`finally`语句块中，以确保JVM会释放锁。通常认为：Lock提供了比synchronized方法和synchronized代码块更广泛的锁定操作，Lock更灵活的结构，有很大的差别，并且可以支持多个Condition对象。
 
@@ -254,7 +254,7 @@ Condition的功能更类似于传统多线程技术中的`Object.wait()`(`Condit
 
 一个使用Lock/Condition机制的例子：
 
-```java
+~~~java
 class AA implements Runnable {
     Lock lock = new ReentrantLock();
     @Override
@@ -266,7 +266,7 @@ class AA implements Runnable {
         lock.unlock();
     }
 }
-```
+~~~
 
 在这里面，可以配合使用Condition完成较复杂的线程管理和调度。在[Java多线程之Condition接口的实现](http://blog.csdn.net/huang_xw/article/details/7090122)一文中，作者使用`Condition/Lock`机制来实现了经典的“生产者-消费者”调度模型。在很多情景下，Condition提供了一种更加高效的、更有针对性的线程调度和同步方式。
 
@@ -333,7 +333,7 @@ Fork/Join机制是JDK 7新增加的多线程框架，如果一个应用能被分
 
 Task类需要实现compute方法，ForkJoinTask的代码框架：
 
-```
+~~~
 If (problem size > default size){
     task s = divide(task);
     execute(tasks);
@@ -341,13 +341,13 @@ If (problem size > default size){
 else {
     resolve problem using another algorithm;
 }
-```
+~~~
 
 ### 无返回值Task的示例
 
 通过并行，将一个数组中每个元素的值都置为其索引值，即令`a[i] = i`。
 
-```java
+~~~java
 class Task {
     // Creates a ForkJoinPool with parallelism equal to
     // java.lang.Runtime.availableProcessors,
@@ -389,13 +389,13 @@ class Task {
         }
     }
 }
-```
+~~~
 
 ### 有返回值的Task
 
 如果子任务有返回值，只需要改成继承`RecursiveTask`类，然后`compute`方法返回对应类型的返回值即可。例如：
 
-```java
+~~~java
 class SubTask extends RecursiveTask<Integer> {
     public Integer compute() {
         // ...
@@ -404,11 +404,11 @@ class SubTask extends RecursiveTask<Integer> {
 
 SubTask task = new SubTask(...);
 Integer result = task.get()
-```
+~~~
 
 在fork子任务时，只需要：
 
-```java
+~~~java
 SubTask t1 = new SubTask(...);
 SubTask t2 = new SubTask(...);
 invokeAll(t1, t2);
@@ -418,13 +418,13 @@ try {
     e.printStackTrace();  
 }
 return result;
-```
+~~~
 
 ### 异步执行Task
 
 上面两个示例都是同步执行的，invoke与invokeAll都是阻塞当前线程的。当Task线程运行时会阻塞父线程，而在很多场合，我们需要Task线程异步执行。这是需要使用到`execute`或者`submit`方法。`execute`方法直接执行task，而`submit`方法是将task提交到任务队列里边去。而`shutdown`方法则表示线程池不再接收新的task(ForkJoinPool是有守护线程的)(shutdown之后再submit后产生RejectedExecutionException)。ForkJoinPool线程池提供了execute()方法来异步启动任务，而作为任务本身，可以调用fork()方法异步启动新的子任务，并调用子任务的join()方法来取得计算结果。通过通过task.isDone()方法来判断任务是否结束。
 
-```java
+~~~java
 public boolean allDone(List<SubTask> tasks) {
     for(SubTask task: tasks) {
         if(!task.isDone()) {
@@ -433,7 +433,7 @@ public boolean allDone(List<SubTask> tasks) {
     }
     return true;
 }
-```
+~~~
 
 当使用Fork/Join框架时，如果主线程(main方法)先于task线程结束了，那么task线程也会结束，而不会等待执行完。这也是与Java中传统的Thread/Runnable有区别的地方。至于原因，应该是主线程(main方法)结束导致ForkJoinPool的守护线程结束了。此外，`ForkJoinPool`的`awaitTermination`方法也值得注意。`execute/submit/fork/join`也可以与`invoke/invokeAll`配合使用，来调整线程间的阻塞关系。
 

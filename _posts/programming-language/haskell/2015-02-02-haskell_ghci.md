@@ -32,7 +32,7 @@ GHCi的常用命令：
 + :set + t 设置所有表达式默认显示出其类型。
 + :i<name> 显示<name>相关的信息(info)。可以通过这种方式获取帮助。例如：
 
-```haskell
+~~~haskell
 Prelude> :i print
 print :: Show a => a -> IO() -- Defined in 'System.IO'
 Prelude> :i +
@@ -40,7 +40,7 @@ class Num a where
   (+) :: a -> a -> a
   ...
         -- Defined in 'CHC.Num'
-```
+~~~
 
 GHCi 使用
 ---------
@@ -148,23 +148,23 @@ Haskell注释语法
 
 例子：
 
-```haskell
+~~~haskell
 numUniques :: (Eq a) => [a] -> Int  
 numUniques = length . nub
-```
+~~~
 
 在GHCi中可以写成是：
 
-```haskell
+~~~haskell
 let numUniques' :: (Eq a) => [a] -> Int; numUniques' = length . nub
-```
+~~~
 
 GHC Profiler
 ------------
 
 运行Haskell程序时加上`+RTS -s`参数，可以得到profiler统计结果。
 
-```
+~~~
       80,084,528 bytes allocated in the heap
           11,696 bytes copied during GC
           42,680 bytes maximum residency (2 sample(s))
@@ -186,7 +186,7 @@ GHC Profiler
   Alloc rate    2,562,704,896 bytes per MUT second
 
   Productivity 100.0% of total user, 123.3% of total elapsed
-```
+~~~
 
 使用`+RTS -S`(大写的`S`)选项可以输出GC的Trace。
 

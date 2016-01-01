@@ -89,7 +89,7 @@ Larry Page和Sergey Brin两人从理论上证明了不论初始值如何选取�
 
 幂法计算PageRank的R代码实现：
 
-```R
+~~~R
 #构建邻接矩阵
 adjacencyMatrix<-function(pages){
   n<-max(apply(pages,2,max))
@@ -114,7 +114,7 @@ calcEigenMatrix<-function(G){
   x <- Re(eigen(G)$vectors[,1])
   x/sum(x)
 }
-```
+~~~
 
 六、MapReduce化分析及实现
 ----------------------
@@ -129,7 +129,7 @@ calcEigenMatrix<-function(G){
 
 使用Python实现这一算法：
 
-```python
+~~~python
 #! /usr/bin/env python
 # -*- coding = utf-8 -*-
 
@@ -214,7 +214,7 @@ def pk_test():
 if __name__ == '__main__':
     pk_test()
 
-```
+~~~
 
 程序模拟的构图为：
 

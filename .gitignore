@@ -1,4 +1,6 @@
 _drafts/
+_site/
+.jekyll-metadata
 
 *.exe
 *.class

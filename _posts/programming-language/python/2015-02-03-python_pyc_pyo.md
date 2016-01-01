@@ -27,10 +27,10 @@ pyo文件是优化(optimize)后的字节码文件。
 
 <!--more-->
 
-```python
+~~~python
 import py_compile
 py_compile.compile('$filename') # $filename is the file name of python source code.
-```
+~~~
 
 编译成pyo文件
 -------------
@@ -76,10 +76,10 @@ py_compile模块提供了一组函数用于由源码文件生成字节码文件�
 
 或者编写以下脚本来实现此功能：
 
-```python
+~~~python
 import compileall
 compileall.compile_dir('$dir')
-```
+~~~
 
 其中，$dir为Python源代码所在的目录。
 

@@ -17,20 +17,20 @@ Hello world
 
 创建一个后缀为 `.pyx` 的文件，在其中写入：
 
-```python
+~~~python
 print("Hello World")
-```
+~~~
 
 然后创建一个 setuptools 的构建脚本，指定使用 Cython 编译扩展模块：
 
-```python
+~~~python
 from distutils.core import setup
 from Cython.Build import cythonize
 
 setup(
     ext_modules = cythonize("helloworld.pyx")
 )
-```
+~~~
 
 运行编译命令：
 
@@ -38,26 +38,26 @@ setup(
 
 便会在当前目录下得到一个 helloworld.c 的文件，这便是 Cython 根据 Python 代码转换出来的 C 语言程序。此外，当前目录下还有一个 build 文件夹，里面的 lib.xxx.3.4 目录下有一个 helloworld.pyd 的文件，这便是我们得到的动态链接库。使用这个库，直接 import 即可：
 
-```python
+~~~python
 import helloworld
-```
+~~~
 
 便会得到 `hello world` 的输出。
 
 在 Cython 的扩展模块中编写函数以及调用这些函数同样很简单：
 
-```python
+~~~python
 def greet():
     print("Hello World")
-```
+~~~
 
 调用：
 
-```python
+~~~python
 import helloworld
 
 helloworld.greet()
-```
+~~~
 
 编译 Cython 遇到的问题
 --------------------
@@ -66,17 +66,17 @@ helloworld.greet()
 
 在 Windows 平台上，Python 默认使用的编译器是 MSVC，如果要使用 mingw 作为编译器，在 Python 安装目录下的 `Lib\distutils` 下面的 distutils.cfg 文件(如果没有这个文件，创建一个即可)中加入一下内容：
 
-```
+~~~
 [build]
 compiler = mingw32
-```
+~~~
 
 而想要指定使用 MSCV 编译器，在 distutils.cfg 中加入:
 
-```
+~~~
 [build]
 compiler = msvc
-```
+~~~
 
 即可。
 

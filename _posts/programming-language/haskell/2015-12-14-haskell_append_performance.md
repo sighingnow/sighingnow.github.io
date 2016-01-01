@@ -9,17 +9,19 @@ layout: post
 
 阅读 Graham Hutton 的书 _Programming in Haskell_ 的 Chapter 13 Reasoning about programs 时，书中分析 `reverse` 函数的时间复杂度时提到Haskell中列表拼接运算符`(++)`的时间复杂度是$O(n)$的！
 
+<!--more-->
+
 Implement `reverse`
 --------------------
 
 `reverse`函数用于将一个List倒转方向，不难写出一个简单的实现：
 
-```haskell
+~~~haskell
 -- | reverse a list.
 reverse :: [a] -> [a]
 reverse [] = []
 reverse (x:xs) = reverse xs ++ [x]
-```
+~~~
 
 分析这一实现的时间复杂度：
 
@@ -29,19 +31,19 @@ reverse (x:xs) = reverse xs ++ [x]
 
 我们不难看出，`(++)`函数的复杂度是瓶颈所在，Hutton 的书中给出了另一个实现：
 
-```haskell
+~~~haskell
 -- | reverse a list in linear time.
 reverse :: [a] -> [a]
 reverse xs = auxiliary xs [] where
     auxiliary [] ys = ys
     auxiliary (x:xs) ys = auxiliary xs (x:ys)
-```
+~~~
 
 在这个实现中，辅助函数`auxiliary`的作用是将已经reverse的结果保存到一个List中，每次采用`(:)`操作来更新结果，这样，每一步`reverse`的时间复杂度都是$O(1)$的，因此，整个列表的reverse可以在$O(n)$的时间内完成，也即`reverse`函数具有线性时间复杂度。
 
 Haskell的`reverse`函数定义在base库中，具体实现：
 
-```haskell
+~~~haskell
 -- | 'reverse' @xs@ returns the elements of @xs@ in reverse order.
 -- @xs@ must be finite.
 reverse                 :: [a] -> [a]
@@ -53,7 +55,7 @@ reverse l =  rev l []
     rev []     a = a
     rev (x:xs) a = rev xs (x:a)
 #endif
-```
+~~~
 
 这个实现也采取了使用`(:)`而不是`(++)`的思路，以保证函数的效率。
 
@@ -61,7 +63,7 @@ reverse l =  rev l []
 
 + 代码
 
-```haskell
+~~~haskell
 {-# LANGUAGE BangPatterns #-}
 {-# OPTIONS -O2 #-}
 import Data.Time.Clock
@@ -90,18 +92,18 @@ main = do
     print . sum . reverse3 $ns    
     end <- getCurrentTime
     putStrLn $ "reverse of linear time took " ++ show (diffUTCTime end start)
-```
+~~~
 
 执行结果：
 
-```
+~~~
 50005000
 reverse from standard library took 0.0016954s
 50005000
 reverse of quadratic time took 1.5450966s
 50005000
 reverse of linear time took 0s
-```
+~~~
 
 `reverse`的高效实现方法中所采取的缓存结果的思路对于算法设计和分析有着重要的启发意义。
 
@@ -110,7 +112,7 @@ Efficient concatenation
 
 基于命令式语言的列表拼接操作极其简单，并且具有常数级别的时间复杂度。但函数是编程语言中，数据是不可变的(pure data is immutable)，因此，也无法做到将后一个列表的head pointer直接指向上一个列表的tail这样的操作。Haskell中，每一次做拼接操作都需要创建一个新的List。看标准库中`(++)`的实现：
 
-```haskell
+~~~haskell
 (++) :: [a] -> [a] -> [a]
 {-# NOINLINE [1] (++) #-}    -- We want the RULE to fire first.
                              -- It's recursive, so won't inline anyway,
@@ -121,7 +123,7 @@ Efficient concatenation
 {-# RULES
 "++"    [~1] forall xs ys. xs ++ ys = augment (\c n -> foldr c n xs) ys
   #-}
-```
+~~~
 
 相当于将第一个参数列表展开成单个元素，再一个一个地加到第二个List的开头。因此，`(++)`函数的时间复杂度与第一个参数列表的长度成线性关系。
 
@@ -133,7 +135,7 @@ Difference List是一个很有意思的东西，他用函数来表达List，将L
 
 DList的核心在于将数据保存在函数中，用函数的组合来表示数据的组合，这是一个很自然而然地想法。DList的实现：
 
-```
+~~~
 -- Lists as functions
 newtype DList a = DL { unDL :: [a] -> [a] }
 
@@ -145,7 +147,7 @@ append xs ys = DL (unDL xs . unDL ys)
 
 -- Converting to a regular list, linear time.
 toList      = ($[]) . unDL
-```
+~~~
 
 另一个高效地实现List的append/prepend的数据结构是 Figure Tree。Haskell的库containers中导出了Figure Tree的一个实现 `Data.Sequence`，具有很好的执行效率。
 

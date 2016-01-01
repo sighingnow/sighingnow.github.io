@@ -51,7 +51,7 @@ $$P(x|y_i)P(y_i) = P(a_1|y_i)P(a_2|y_i) \dots P(a_m|y_i) = P(y_i) \prod_{j=1}^m 
 
 五、练习实现：
 
-```python
+~~~python
 #! /usr/bin/env python3
 # -*- encoding: utf-8 -*-
 '''
@@ -150,7 +150,7 @@ def learn():
 
 if __name__ == '__main__':
     main() 
-```
+~~~
 
 测试用数据来自[UCI Machine Learning Repository](http://archive.ics.uci.edu/ml/datasets/Adult)。
 

@@ -32,7 +32,7 @@ layout: post
 
 对应的代码实现：
 
-```cpp
+~~~cpp
 PipeLine & PipeLine::PerspectiveProject(float ar, float alpha, float znear, float zfar) {
     mat4x4f PrespectiveM = {
         1.0f/(tanf(alpha/2.0)*ar), 0.0f                  , 0.0f                      , 0.0f,
@@ -43,7 +43,7 @@ PipeLine & PipeLine::PerspectiveProject(float ar, float alpha, float znear, floa
     mulmatf(PrespectiveM, M, M, 4, 4, 4);
     return *this;
 }
-```
+~~~
 
 投影变换对应的矩阵称为**投影(projection)矩阵**。
 
@@ -128,7 +128,7 @@ PipeLine & PipeLine::PerspectiveProject(float ar, float alpha, float znear, floa
 
 可以将相机在空间的旋转、移动等变换都分解到 U、V、N 方向上进行，三个为了更好地表达对摄像机的控制，实现一个Camera类，代码实现：
 
-```cpp
+~~~cpp
 // implements for class Camera
 Camera::Camera(vec3f pos, vec3f target, vec3f up): POS(pos), TARGET(target), UP(up) {
     // initial camera.
@@ -196,11 +196,11 @@ mat4x4f & Camera::TransformM() {
 }
 
 ///////////////////////////////// END OF CLASS Camera ////////////////////////////////////
-```
+~~~
 
 方向键控制六个方向上的移动：
 
-```cpp
+~~~cpp
 static void SpecialKeys(int key, int, int)
 {
     switch (key) {
@@ -213,11 +213,11 @@ static void SpecialKeys(int key, int, int)
     default: printf("Unknown Special Key: %d\n", key); break;
     }
 }
-```
+~~~
 
 鼠标拖拽：
 
-```
+~~~
 glutMotionFunc(MotionFunc);
 glutMouseFunc(MouseFunc);
 
@@ -240,7 +240,7 @@ static void MouseFunc(int button, int state, int x, int y)
         }
     }
 }
-```
+~~~
 
 MVP变换矩阵
 ---------
@@ -253,7 +253,7 @@ M、V、P 分别指模型(model)，视图(view)和投影(projection)。MVP矩阵
 
 在实际编程中，可以使用`glm`库来方便地实现这些操作：
 
-```cpp
+~~~cpp
     // Projection matrix : 45° Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
     glm::mat4 Projection = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f);
     // Camera matrix
@@ -266,7 +266,7 @@ M、V、P 分别指模型(model)，视图(view)和投影(projection)。MVP矩阵
     glm::mat4 Model      = glm::mat4(1.0f);  // Changes for each model !
     // Our ModelViewProjection : multiplication of our 3 matrices
     glm::mat4 MVP        = Projection * View * Model; // Remember, matrix multiplication is the other way around
-```
+~~~
 
 深度缓冲（Z-Buffer）
 -----------------

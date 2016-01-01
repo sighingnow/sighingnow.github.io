@@ -50,7 +50,7 @@ layout: post
 
 ### 代码实现
 
-```python
+~~~python
 import random
 
 def con_hash():
@@ -102,7 +102,7 @@ def con_hash():
     del_test()
 
 con_hash()
-```
+~~~
 
 测试结果表明，算法效果确实很不错，在负载均衡上做的很好。
 
@@ -116,7 +116,7 @@ domain)。与其它流行的哈希函数相比，对于规律性较强的key，M
 (Memcached的C语言客户端驱动)、maatkit、Hadoop、Kyoto
 Cabinet以及RaptorDB。与CRC32，MD5，SHA-1等加密算法相比，MurmurHash算法的效率较高，碰撞率也很低。算法的Java实现：
 
-```java
+~~~java
 private Long hash(String key) {
     ByteBuffer buf = ByteBuffer.wrap(key.getBytes());
     int seed = 0x1234ABCD;
@@ -151,7 +151,7 @@ private Long hash(String key) {
     buf.order(byteOrder);
     return h;
 }
-```
+~~~
 
 参考
 ----

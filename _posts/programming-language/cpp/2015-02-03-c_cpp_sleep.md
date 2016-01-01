@@ -14,7 +14,7 @@ GCC编译器的实现
 
 GCC编译器中，sleep定义在`<unistd.h>`中。函数原型：
 
-```cpp
+~~~cpp
 /* The sleep() function is, perhaps, the most commonly used of all the
  * process/thread suspension APIs; it provides support for specification
  * of suspension periods ranging from 1 second to ~136 years.  (However,
@@ -22,7 +22,7 @@ GCC编译器中，sleep定义在`<unistd.h>`中。函数原型：
  * maintain portability to platforms with only 16-bit ints).
  */
 unsigned _cdecl __MINGW_NOTHROW sleep( unsigned );
-```
+~~~
 
 注意，在GCC的实现中，`sleep`的单位为秒(second)。
 
@@ -33,9 +33,9 @@ VC编译器的实现
 
 VC编译器中，Sleep定义在`<windows.h>`中(具体定义在`<winbase.h>`中)，函数原型为：
 
-```cpp
+~~~cpp
 WINBASEAPI void WINAPI Sleep(DWORD);
-```
+~~~
 
 注意，在VC编译器的实现中，`Sleep`的首字母"S"要**大写**，并且其时间单位为毫秒(millisecond)。
 
@@ -49,14 +49,14 @@ C++11
 
 在C++11中，可以用`this_thread`命名空间下的`sleep_for`函数来实现线程休眠的功能。具体函数定义如下：
 
-```cpp
+~~~cpp
 template< class Rep, class Period >
 void sleep_for( const std::chrono::duration<Rep, Period>& sleep_duration );
-```
+~~~
 
 使用示例：
 
-```cpp
+~~~cpp
 #include <iostream>
 #include <chrono>
 #include <thread>
@@ -72,6 +72,6 @@ int main()
     sleep(2000);
     std::cout << "sleep for 2000 ms\n";
 }
-```
+~~~
 
 

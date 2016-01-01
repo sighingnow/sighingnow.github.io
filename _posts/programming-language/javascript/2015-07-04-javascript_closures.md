@@ -44,7 +44,7 @@ JavaScript中的闭包
 
 一个JS闭包的例子：
 
-```js
+~~~js
 function f(){
     var n=999;
     function g(){
@@ -52,7 +52,7 @@ function f(){
     }
     return g;
 }
-```
+~~~
 
 此处，`g`函数和变量`n`就是一个闭包，它包含一个执行过程`return (n++);`和其执行的上下文`n`(一个函数加上这个函数用到的非局部变量。)。`n`不会因为其创造者`f`执行完被销毁而随之销毁。**对于闭包来说，函数和环境，缺一不可。**
 
@@ -84,7 +84,7 @@ JavaScript 中的闭包与其 Scope Chain 特性真是密不可分的。首先�
 
 1. 闭包中局部变量是引用而非拷贝。
 
-```js
+~~~js
 function f() {
     var n = 999;
     function g() {
@@ -95,7 +95,7 @@ function f() {
 }
 
 console.log(f()());
-```
+~~~
 
 得到的结果是1000而不是99。
 

@@ -12,7 +12,7 @@ Linux下，通常需要用tar命令进行解压和压缩操作，针对不同的
 tar 命令的常用参数含义:
 ------------------------
 
-```
+~~~
 Main operation mode:
 
  -A, --catenate, --concatenate   append tar files to an archive
@@ -24,7 +24,7 @@ Main operation mode:
      --test-label           test the archive volume label and exit
  -u, --update               only append files newer than copy in archive
  -x, --extract, --get       extract files from an archive
-```
+~~~
 
 常见压缩文件格式解压参数
 ------------------------

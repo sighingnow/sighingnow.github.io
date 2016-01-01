@@ -87,7 +87,7 @@ Sprague-Grundy函数
 
 求解SG函数的实现：
 
-```cpp
+~~~cpp
 int sg[N];
 
 // N求解范围 S[]数组是可以每次取的值，t是s的长度。
@@ -108,11 +108,11 @@ void sg_solve(int *s, int t, int N) {
         sg[i] = j;
     }
 }
-```
+~~~
 
 除了按照定义递推以外，还可以通过DFS求解：
 
-```cpp
+~~~cpp
 // 注意 S数组要按从小到大排序 SG函数要初始化为-1 对于每个集合只需初始化1遍
 // n是集合s的大小 S[i]是定义的特殊取法规则的数组
 
@@ -140,7 +140,7 @@ int SG_dfs(int x) {
     }
     return sg[x]=e;
 }
-```
+~~~
 
 Nimble游戏是另一种Nim博弈的应用场景：
 
@@ -219,7 +219,7 @@ Lasker's Nim游戏是指这样一种博弈模型：
 
 按照威佐夫博弈模型的结论，不难得到题解：
 
-```cpp
+~~~cpp
 #include<cstdio>
 #include<algorithm>
 #include<cmath>
@@ -242,7 +242,7 @@ int main(int argc, char **argv) {
     }
     return 0;
 }
-```
+~~~
 
 参考
 ----

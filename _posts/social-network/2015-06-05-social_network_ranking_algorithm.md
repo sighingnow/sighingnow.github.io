@@ -51,7 +51,7 @@ Reddit排名算法
 
 与知乎类似，Reddit是全美最大的问答社区，其主题同样涵盖了各个学科的内容。Reddit的站内排名算法是根据赞成票与反对票的相对比例来决定的，Reddit采用的算法并没有过多考虑用户权重，却加上了时间对排名的影响，或许是因为Reddit更倾向于想用户呈现较新的内容吧。Reddit所使用的排名算法如下：
 
-```python
+~~~python
 #Rewritten code from /r2/r2/lib/db/_sorts.pyx
  
 from datetime import datetime, timedelta
@@ -75,7 +75,7 @@ def hot(ups, downs, date):
     sign = 1 if s > 0 else -1 if s < 0 else 0
     seconds = epoch_seconds(date) - 1134028003
     return round(order + sign * seconds / 45000, 7)
-```
+~~~
 
 (代码来源：[https://github.com/reddit/reddit/blob/master/r2/r2/lib/db/_sorts.pyx][5])
 

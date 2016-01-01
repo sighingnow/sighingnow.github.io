@@ -28,13 +28,13 @@ Haskell提供类型`IO a`，其成员称为**类型a**的**I/O动作**。这种�
 
 从这些IO函数的类型中可以看出，对于输入，函数返回一个`IO a`类型的值，对于输出，返回值的类型为`IO ()`，其中`()`表示空元组，这仅仅意味着这个IO操作的完成。那么，又如何从IO操作的返回值中得到对应类型的内容呢？Haskell提供了一个操作符`<-`用于从`IO a`中得到`a`类型的值。如下例：
 
-```haskell
+~~~haskell
 main :: IO ()
 main = do
     a <- getLine       -- 用 <- 获取IO操作的值
     b <- print a       -- 将输出操作的返回值的内容绑定到 b
     print b            -- 输出操作的值为 IO()
-```
+~~~
 
 用GHC编译上述代码，运行，输入
 
@@ -47,14 +47,14 @@ main = do
 
 IO Action可以在任何地方创建、赋值、传递。任何表达式都可以返回一个IO Action，但只有从另一个IO动作中（或main中）才能执行。举个例子：
 
-```haskell
+~~~haskell
 func :: IO ()
 func = do
     let a = putStr "12345"
     return ()
 main = do
     func
-```
+~~~
 
 执行这一段代码不会获得任何输出，因为这仅仅将一个IO Action（此处为`putStr "12345"`）绑定到变量`a`而已，并没有执行。在`return ()`语句之前加上一句：
 
@@ -66,7 +66,7 @@ main = do
 
 那么，上述代码中的`return ()`又是干嘛的呢？`return ()`的意思是构造了一个IO Action，其值为`()`。再看这样一段代码：
 
-```haskell
+~~~haskell
 func :: IO String
 func = do
     return "1234567"
@@ -74,7 +74,7 @@ func = do
 main = do
     str <- func
     print str
-```
+~~~
 
 编译，运行，可以看到如下输出：
 
@@ -89,12 +89,12 @@ main = do
 
 应当注意到，组合IO块必须返回一个IO Action，可以用`return`来构造一个IO Action。haskell会将组合IO块的最后一条语句作为返回值。例如：
 
-```haskell
+~~~haskell
 func :: IO String
     getLine
     getLine
     getLine
-```
+~~~
 
 这一组合IO块的值便是最后一个`getLine`语句的值。同样，也可以通过绑定获取这一`IO String`类型的值中的`String`。
 
@@ -130,13 +130,13 @@ Haskell中，与文件操作有关的函数定义在`System.IO`包中，使用�
 
 打开文件的函数如`openFile`会返回一个`IO Handle`，可以同`<-`来获得这个`IO Handle`的值。如：
 
-```haskell
+~~~haskell
 main = do
     fh = openFile "output.txt" WriteMode
     s <- hPutStr fh "output content"
     print s
     hClose fh
-```
+~~~
 
 在`System.IO`中，普通的对`stdio`的操作的函数都有对应的操作文件的版本，具体构成为将原函数的首字母变成大写，再在前面加上一个`h`字符。这些函数都有一个额外的参数：`IO Handle`。
 
@@ -180,23 +180,23 @@ sequence
 
 `sequence` 接受一串 I/O action，并回传一个会依序执行他们的 I/O action。运算的结果是包在一个 I/O action 的一连串 I/O action 的运算结果。他的 type signature 是 `sequence :: [IO a] -> IO [a]`
 
-```haskell
+~~~haskell
 main :: IO()
 main = do
     rs <- sequence [getLine, getLine, getLine]
     print rs
-```
+~~~
 
 就等价于：
 
-```haskell
+~~~haskell
 main :: IO()
 main = do
     a <- getLine
     b <- getLine
     c <- getLine
     print [a,b,c]
-```
+~~~
 
 
 when
@@ -206,7 +206,7 @@ when
 
 他接受一个 boolean 值跟一个 I/O action。如果 boolean 值是 True，便回传我们传给他的 I/O action。如果 boolean 值是 False，便回传 return ()，即什么都不做的 I/O action。
 
-```haskell
+~~~haskell
 import Control.Monad
 
 main :: IO()
@@ -215,7 +215,7 @@ main = do
     when (c /= ' ') $ do
         putChar c
         main
-```
+~~~
 
 mapM
 -----
@@ -241,7 +241,7 @@ interact
 
 能应用 `interact` 的情况有几种，像是从输入 pipe 读进一些内容，然后丢出一些结果的程序；或是从用户获取一行一行的输入，然后丢回根据那一行运算的结果，再拿取另一行。
 
-```haskell
+~~~haskell
 import Control.Monad
 import System.IO
 
@@ -253,7 +253,7 @@ reverseLine contents = unlines (map (\s -> reverse s) (lines contents))
 
 -- point-free style:
 -- reverseLine = unlines . map reverse . lines
-```
+~~~
 
 这段程序的作用在于每读入一行就reverse，然后输出。
 
@@ -267,7 +267,7 @@ reverseLine contents = unlines (map (\s -> reverse s) (lines contents))
 + `getArgs`，他的 type 是 `getArgs :: IO [String]`，他是一个拿取命令行引数的 I/O action，并把结果放在包含的一个串列中。
 + `getProgName` 的型态是 `getProgName :: IO String`，他则是一个 I/O action 包含了程序的名称。
 
-```haskell
+~~~haskell
 import System.IO
 import System.Environment
 
@@ -277,7 +277,7 @@ main = do
     progName <- getProgName
     mapM_ print args
     print progName
-```
+~~~
 
 随机数(Random)
 -------------
@@ -311,13 +311,13 @@ Haskell 是一个纯粹函数式语言。代表任何东西都具有 **referenti
 
 对于同样的`SteGen`, 程序永远都会回传同样的乱数。这在真实世界中的程序是不能接受的。`System.Random` 要提供 `getStdGen` 这个 I/O action，他的型态是 `IO StdGen`。当你的程序执行时，他会跟系统要一个 random generator，并存成一个 global generator。getStdGen 会替你拿那个 global random generator 并把他绑定到某个名称上。
 
-```haskell
+~~~haskell
 import System.Random
 
 main = do
     gen <- getStdGen
     putStr $ take 20 (randomRs (1, 10) gen) -- randomRs: produce random number in specific range.
-```
+~~~
 
 Exceptions
 ----------

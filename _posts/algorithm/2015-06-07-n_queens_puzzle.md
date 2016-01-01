@@ -21,7 +21,7 @@ N皇后问题的普通解法是通过枚举N的全排列，并判断是否符合
 
 使用位运算可以显著提升运算效率。这是目前公认N皇后的最高效算法：
 
-```cpp
+~~~cpp
 // 试探算法从最右边的列开始。
 void nqueens(long row, long ld, long rd) {
     if(row != upperlim) {
@@ -56,7 +56,7 @@ void nqueens(long row, long ld, long rd) {
         sum++;
     }
 }
-```
+~~~
 
 + 初始化: `upperlim = (1<<n)-1; sum = 0;`
 + 调用参数：`nqueens(0, 0, 0);`
@@ -86,7 +86,7 @@ void nqueens(long row, long ld, long rd) {
 完整实现
 ---------
 
-```cpp
+~~~cpp
 /**
  * N Queens Problem
  * 试探-回溯算法，递归实现
@@ -136,7 +136,7 @@ int main(int argc, char *argv[])
     printf("共有%ld种排列, 计算时间%d秒 \n", sum, (int) (time(0) - tm));
     return 0;
 }
-```
+~~~
 
 方案构造
 --------
@@ -167,7 +167,7 @@ int main(int argc, char *argv[])
 
 按照上述结论，容易得到题解：
 
-```cpp
+~~~cpp
 #include <iostream>
 #include <cstdio>
 using namespace std;
@@ -241,7 +241,7 @@ int main(int argc, char **argv) {
     }
     return 0;
 }
-```
+~~~
 
 参考
 ----

@@ -18,53 +18,53 @@ layout: post
 
 第一步，我们需要解压docx包，读取其中的XML文件。Python提供了`ZipFile`可供读取.zip文件。
 
-```python
+~~~python
 from zipfile import ZipFile
 
 zf = Zipfile(filename)
-```
+~~~
 
 那么，就如何判断一个文件是不是MS Office Word(.docx)文件呢？我们可以通过判断压缩包文件中是否存在`word/document.xml`文件来实现。
 
-```python
+~~~python
 def isdocx(zf):
     if not zf.namelist().__contains__('word/document.xml'):
         # print('invalid MS word file.')
         return False
     return True
-```
+~~~
 
 接下来，读取`word/document.xml`文件：
 
-```python
+~~~python
 text = str(zf.read('word/document.xml'), encoding='utf-8')
-```
+~~~
 
 读取之后，还需要解析这个XML文件，以提取出其中的所有文字信息。因为此处并不关心XML文件的样式以及其他信息，为方便起见，直接使用标准库中的`html.parser.HTMLParser`来解析XML即可。
 
 首先，继承HTMLParser类：
 
-```python
+~~~python
 class Parser(HTMLParser):
     def __init__(self):
         HTMLParser.__init__(self)
         self.text = ''
-```
+~~~
 
 接下来，提取出所有的data，这就是docx文件中的文本内容。这一步需要重写`handle_data`方法：
 
-```python
+~~~python
 def handle_data(self, data):
     self.text += data
-```
+~~~
 
 然而仅仅通过`handle_data`并无法处理换行符的问题。通过观察`word/document.xml`文件的特点和查阅DOXC文件规范得知Word中每一个新段落都是通过`<w:p>`Tag开始的，因此，只需要在每次`<w:p>`标签结束的时候加上一个`\n`即可实现段落的划分。
 
-```
+~~~
 def handle_endtag(self, tag):
     if tag == 'w:p':  # new line
         self.text += '\n'
-```
+~~~
 
 更多
 -----

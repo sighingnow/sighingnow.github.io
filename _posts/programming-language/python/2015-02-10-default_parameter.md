@@ -18,7 +18,7 @@ Python的默认参数为编程带来了极大地便利，但同时误用默认�
 
 Python的默认参数是从左向右求值。看下面这段代码：
 
-```python
+~~~python
 param = [1, 3, 2, 4]
 
 def func(a=param.copy(), b=param.sort(), c=param.copy()):
@@ -26,7 +26,7 @@ def func(a=param.copy(), b=param.sort(), c=param.copy()):
 
 if __name__ == '__main__':
     func()
-```
+~~~
 
 <!--more-->
 
@@ -36,7 +36,7 @@ if __name__ == '__main__':
 
 再看如下一段代码：
 
-```python
+~~~python
 param = [1, 3, 2, 4]
 
 if __name__ == '__main__':
@@ -47,7 +47,7 @@ def func(a=param.copy(), b=param.sort(), c=param.copy()):
 
 if __name__ == '__main__':
     print(param)
-```
+~~~
 
 运行，得到如下输出：
 
@@ -69,7 +69,7 @@ if __name__ == '__main__':
 
 使用可变对象作为默认参数时，参数可以在不创建新对象的情况下对参数对象进行修改。考虑如下一段代码的运行情况：
 
-```python
+~~~python
 >>> def func(param=[]):
 	param.append(1)
 	return param
@@ -80,11 +80,11 @@ if __name__ == '__main__':
 [1, 1]
 >>> func()
 [1, 1, 1]
-```
+~~~
 
 可见，每次调用函数时并没有重新将`param`的值赋为`[]`，而是直接在原来的对象的基础上修改。这也正是默认参数仅仅在函数定义时求值的原因。
 
-```python
+~~~python
 >>> def func(param=[]):
 	param.append(1)
 	print(id(param))
@@ -100,7 +100,7 @@ if __name__ == '__main__':
 29548216
 [1, 1, 1]
 >>> 
-```
+~~~
 
 从上面这段代码的运行结果不难看出，`param`始终是同一对象。
 
@@ -108,21 +108,21 @@ if __name__ == '__main__':
 
 为了避免程序中出现此类问题，应当用`None`作为默认参数，并且在函数开始的时候检查参数是否为`None`即可。
 
-```python
+~~~python
 def func(param=None):
     if param == None:
         ...
     ...
-```
+~~~
 
 有些情形下，直接将对象与`None`比较是否相等可能会导致一些警告信息(例如`Numpy`库中的某些对象)。可以用以下方式来解决这一问题：
 
-```python
+~~~python
 def func(param=None):
     if param is None:
         ...
     ...
-```
+~~~
 
 在Python(34)的Documentation中，有这样的叙述：
 
@@ -130,20 +130,20 @@ def func(param=None):
 
 并给出了如下的一个示例：
 
-```python
+~~~python
 def whats_on_the_telly(penguin=None):
     if penguin is None:
         penguin = []
     penguin.append("property of the zoo")
     return penguin
-```
+~~~
 
 默认参数的修改
 -----------------
 
 默认参数也是函数的一个属性(attribute)，可以像修改普通的函数属性那样修改默认参数的值。Python中国，函数的`__defaults__`属性是一个包含函数所有的默认参数的元组。
 
-```python
+~~~python
 >>> def func(param=10):
 	print(param)
 
@@ -164,7 +164,7 @@ Traceback (most recent call last):
     func()
 TypeError: func() missing 1 required positional argument: 'param'
 >>>
-```
+~~~
 
 可见，通过修改默认参数来改变函数的性质的方法也是可行的。
 

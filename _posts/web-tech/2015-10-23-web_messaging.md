@@ -51,7 +51,7 @@ Web Messaging
 
 域：`http://www.a.com`
 
-```html
+~~~html
 <div>
     <input type="text" id="message" />
     <button onclick="sendMessage();">Send Message</button>
@@ -62,13 +62,13 @@ Web Messaging
         $('#remotepage').contentWindow.postMessage("plain text message", "http://www.example.com");
     }
 </script>
-```
+~~~
 
 子页面：
 
 域: `http://www.b.com`
 
-```html
+~~~html
 <div id="messagebox"></div>
 <script type="text/javascript">
     function receiver(event) {
@@ -79,15 +79,15 @@ Web Messaging
     }
     window.addEventListener('message', receiver, false);
 </script>
-```
+~~~
 
 子页面中的最后一条语句`window.addEventListener('message', receiver, false);`用来绑定事件，当`window`接收到一个message时，就会调用这个函数进行处理。如果使用 jQuery 来绑定事件：
 
-```javascript
+~~~javascript
 window.on('message', function (event) {
     alert(event.originalEvent.data);
 });
-```
+~~~
 
 需要注意的是，jQuery对于message事件做了一层封装，要想获取到 `event.origin`, `event.data` 等属性，需要使用`event.originalEvent`。
 
@@ -114,7 +114,7 @@ And a trivial child frame:
 
 Let's create a channel in our child frame:
 
-```javascript
+~~~javascript
 chan = Channel.build({
     window: document.getElementById("childId").contentWindow,
     origin: "*",
@@ -123,26 +123,26 @@ chan = Channel.build({
       console.log("channel is ready!");
     }
 });
-```
+~~~
 
 + Remote Methods
 
 Now we'll define a simple function in our child frame:
 
-```javascript
+~~~javascript
 chan.bind("reverse", function(trans, s) {
     return s.split("").reverse().join("");
 });
-```
+~~~
 
 And call it in our parent frame.
 
-```javascript
+~~~javascript
 chan.call({method: "reverse",
     params: "hello world!",
     success: function(v) { emit(v.toString()); }
 });
-```
+~~~
 
 更详细的 jschannel.js 使用的方式，可以查看[文档][2]。
 

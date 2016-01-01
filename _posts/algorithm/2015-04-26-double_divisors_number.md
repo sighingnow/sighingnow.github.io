@@ -48,7 +48,7 @@ layout: post
 
 下面给出这一算法的Python实现。
 
-```python
+~~~python
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
@@ -104,7 +104,7 @@ if __name__ == '__main__':
     print(solve500())
 
 # vim: set sw=4, ts=4
-```
+~~~
 
 答案(answer): 35407281
 

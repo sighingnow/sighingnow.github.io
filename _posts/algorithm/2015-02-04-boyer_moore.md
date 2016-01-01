@@ -25,7 +25,7 @@ Boyer-Moore 算法由 Robort S.Boyer 和 J Strother Moore 在1977年提出，可
 
 式中，坏字符在模式串中的上一次出现位置值可以由一下算法得出：
 
-```cpp
+~~~cpp
 /**
  * bmBC数组为对应坏字符的应有的右移距离。
  **/
@@ -38,7 +38,7 @@ inline void getBadChar(int bmBC[], int ALPHABET_SIZE, char pattern[]) {
         bmBC[pattern[i]] = len - 1 - i;
     }
 }
-```
+~~~
 
 `bmBC`数组基于字典计算，最终计算得到的`bmBC`数组便是每个字母在模式串中出现的最后的位置。
 
@@ -52,7 +52,7 @@ inline void getBadChar(int bmBC[], int ALPHABET_SIZE, char pattern[]) {
 
 为了应用好后缀规则，还需要对模式串预处理，求出后缀长度表。即以每一个位置的字符为后缀和以最后一个字符为后缀的公共后缀串的长度。
 
-```cpp
+~~~cpp
 /**
  * suffix 数组的含义:
  * suffix[i]为pattern中以i位置字符为后缀和
@@ -69,11 +69,11 @@ inline void getSuffix(int suffix[], char pattern[]) {
         suffix[i] = i - j;
     }
 }
-```
+~~~
 
 通过利用已经求出的后缀串的长度，还可以对该过程做出进一步的改进。如下：
 
-```cpp
+~~~cpp
 inline void getSuffix(int suffix[], char pattern[]) {
     int len = strlen(pattern);
     int g = len-1, f;
@@ -94,11 +94,11 @@ inline void getSuffix(int suffix[], char pattern[]) {
         }
     }
 }
-```
+~~~
 
 通过已经求出的后缀长度表，便可以求出“好后缀”的长度。
 
-```cpp
+~~~cpp
 inline void getGoodSuffix(int bmGS[], char pattern[]) {
     int len = strlen(pattern);
     int suffix[len+5];
@@ -119,14 +119,14 @@ inline void getGoodSuffix(int bmGS[], char pattern[]) {
         bmGS[len-1-suffix[i]] = len - 1 - i;
     }
 }
-```
+~~~
 
 三、算法实现
 -------------
 
 最终，BoyerMoore算法的实现如下：
 
-```cpp
+~~~cpp
 /**
  * 如果模式串存在，返回模式串的第一个字符在文本串中的索引位置（从0开始计算）。
  * 如果不存在，返回 -1 。
@@ -151,7 +151,7 @@ int BoyerMoore(char pattern[], char src[]) {
 
     return -1;
 }
-```
+~~~
 
 四、参考
 ----------

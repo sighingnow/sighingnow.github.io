@@ -28,55 +28,55 @@ data 表示我们要定义一个新的类型。`=` 的左端标明类型的名�
 
 我们在定义值构造子时，可以在后面跟几个类型表示它包含值的类型。Circle 的值构造子有三个项(field)，都是 Float，Rectangle 的值构造子取四个 Float 项(field)。**值构造子（可以有参数，也可以没有参数）的本质是个函数，可以返回一个类型的值。** “项”(field)，其实应为“参数”(parameters)。
 
-```haskell
+~~~haskell
 ghci> :t Circle
 Circle :: Float -> Float -> Float -> Shape
 ghci> :t Rectangle
 Rectangle :: Float -> Float -> Float -> Float -> Shape
-```
+~~~
 
 `data`可以用来递归定义数据类型：
 
-```haskell
+~~~haskell
 data List a = Empty | Cons a (List a) deriving (Show, Read, Eq, Ord)
 
 -- data List a = Empty | Cons { listHead :: a, listTail :: List a} deriving (Show, Read, Eq, Ord)
-```
+~~~
 
 `Cons` 构造子: `Cons` 其实就是指 `:`。对 List 而言，`:` 其实是一个构造子，他接受一个值跟另一串 List 来构造一个 List。现在我们可以使用我们新定义的 List 型态。换句话说，他有两个 field，其中一个 field 具有型态 `a`，另一个有型态 `[a]`。
 
 值构造子可以局部应用（科里化）我们若要取一组不同半径的同心圆，可以这样：
 
-```haskell
+~~~haskell
 ghci> map (Circle 10 20) [4,5,6,6]
 [Circle 10.0 20.0 4.0,Circle 10.0 20.0 5.0,Circle 10.0 20.0 6.0,Circle 10.0 20.0 6.0]
-```
+~~~
 
 在Haskell中定义类型时可以使用派生(deriving)。若在 data 声明的后面加上 deriving (Show)，那 Haskell 就会自动将该类型至于 Show 类型类之中。
 
-```haskell
+~~~haskell
 ghci> data Shape = Circle Float Float Float | Rectangle Float Float Float Float deriving (Show)
 ghci> print $ Circle 10 20 5
-```
+~~~
 
 Record Syntax
 -------------
 
 Record Syntax可以理解为给类型构造器的域(filed)建立别名。
 
-```haskell
+~~~haskell
 data Person = Person { firstName :: String
                      , lastName :: String
                      , age :: Int
                      } deriving (Show)
-```
+~~~
 
 通过 Record Syntax，Haskell 就自动生成了这些函数：firstName, lastName, age, 参数为`Person`, 返回值类型为这些field声明的类型。
 
-```haskell
+~~~haskell
 ghci> :t age
 age :: Person -> String
-```
+~~~
 
 通过 Record Syntax, 在构造该类型的值的时候就不必必须遵守构造类型时的参数的顺序：
 
@@ -101,7 +101,7 @@ Type parameters
 
 接下来，通过两个type parameters的例子来说明如何使用type parameters：
 
-```haskell
+~~~haskell
 Prelude> data Vector a = Vec a a a deriving (Show)
 Prelude> let fV :: (Num a) => Vector a -> a; fV (Vec i j k) = i+j+k;
 Prelude> :t fV
@@ -109,11 +109,11 @@ fV :: Num a => Vector a -> a
 Prelude> fV $ Vec 10 101 10
 121
 Prelude> 
-```
+~~~
 
 另一个例子：
 
-```haskell
+~~~haskell
 data T v = A v | B v v | C v v v deriving (Show)
 
 fV :: T String -> String
@@ -126,7 +126,7 @@ main = do
     print $ fV $ A "param-a"
     print $ fV $ B "param-a" "param-b"
     print $ fV $ C "param-a" "param-b" "param-c"
-```
+~~~
 
 程序运行的结果：
 
@@ -140,12 +140,12 @@ main = do
 Derived instances
 -----------------
 
-```haskell
+~~~haskell
 data Person = Person { firstName :: String
                      , lastName :: String
                      , age :: Int
                      } deriving (Eq)
-```
+~~~
 
 在一个类型 derive 为 Eq 的 instance 后，就可以直接使用 `==` 或 `/=` 来判断它们的相等性了。Haskell 会先看下这两个值的值构造子是否一致(这里只是一个值构造子)，再用 `==` 来检查其中的所有数据(必须都是 Eq 的成员)是否一致。
 
@@ -154,32 +154,32 @@ Type synonyms
 
 `type` 关键字: 给一个既有类型提供一个别名(并不是用来创造新类, 创造新类应使用`data`关键字)。
 
-```haskell
+~~~haskell
 type String = [Char]
-```
+~~~
 
 类型别名也是可以有参数的，如果你想搞个类型来表示关联 List，但依然要它保持通用，好让它可以使用任意类型作 key 和 value，我们可以这样：
 
-```haskell
+~~~haskell
 type AssocList k v = [(k,v)]
-```
+~~~
 
 自定义typeclass
 --------------
 
 typeclass 就像是 interface。一个 typeclass 定义了一些行为(像是比较相不相等，比较大小顺序，能否穷举)而我们会把希望满足这些性质的类型定义成这些 typeclass 的 instance。typeclass 的行为是由定义的函数来描述。并写出对应的实作。当我们把一个类型定义成某个 typeclass 的 instance，就表示我们可以对那个类型使用 typeclass 中定义的函数。
 
-```haskell
+~~~haskell
 class Eq a where
     (==) :: a -> a -> Bool
     (/=) :: a -> a -> Bool
     x == y = not (x /= y)
     x /= y = not (x == y)
-```
+~~~
 
 如何让一个类型成为 Eq 的 `instance`：
 
-```haskell
+~~~haskell
 data TrafficLight = Red | Yellow | Green
 
 instance Eq TrafficLight where
@@ -190,7 +190,7 @@ instance Eq TrafficLight where
 
 -- equivalent to:
 -- data TrafficLight = Red | Yellow | Green deriving (Eq)
-```
+~~~
 
 `Functor` typeclass
 -------------------
@@ -199,51 +199,51 @@ instance Eq TrafficLight where
 
 `Data.Functor`的定义：
 
-```haskell
+~~~haskell
 class Functor f where
     fmap :: (a -> b) -> f a -> f b
-```
+~~~
 
 f 是一个类型构造子，它接受一个类型。
 
 All instances of Functor should obey:
 
-```haskell
+~~~haskell
 fmap id      = id
 fmap (p . q) = (fmap p) . (fmap q)
-```
+~~~
 
 Haskell中的fmap的定义：
 
-```haskell
+~~~haskell
 fmap :: Functor f => (a -> b) -> f a -> f b
-```
+~~~
 
 `map` 就是针对 List 的 `fmap`。 List 如何被定义成 Functor 的 instance 的:
 
-```haskell
+~~~haskell
 instance Functor [] where
     fmap = map
-```
+~~~
 
 Maybe 作为一个 Functor 的定义：
 
-```haskell
+~~~haskell
 instance Functor Maybe where
     fmap f (Just x) = Just (f x)
     fmap f Nothing = Nothing
-```
+~~~
 
 Either 作为Functor的定义：
 
-```haskell
+~~~haskell
 instance Functor (Either a) where
     fmap f (Right x) = Right (f x)
     fmap f (Left x) = Left x
 
 -- 从观察 fmap 的类型也可以知道，当他运作在 Either 上的时候，第一个类型参数必须固定，而第二个则可以改变。
 -- 而其中第一个参数正好就是 Left 用的。
-```
+~~~
 
 参考： [The functor design pattern][http://www.haskellforall.com/2012/09/the-functor-design-pattern.html]
 

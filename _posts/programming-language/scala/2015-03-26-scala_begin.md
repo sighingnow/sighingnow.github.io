@@ -14,13 +14,13 @@ Hello World in Scala
 
 学习Scala的语法，还是从Hello World开始吧：
 
-```scala
+~~~scala
 object HelloWorld {
   def main(args: Array[String]) {
     print("Hello World, Scala!")
   }
 }
-```
+~~~
 
 <!--more-->
 
@@ -52,7 +52,7 @@ Scala运行于JVM之上，Scala代码也很容易与Java代码进行交互。Sca
 
 Scala与Java进行代码级的交互的例子：
 
-```scala
+~~~scala
 import java.util.{Data, Locale}
 
 object Main {
@@ -61,7 +61,7 @@ object Main {
     print(now)
   }
 }
-```
+~~~
 
 编译，运行，得到输出：
 
@@ -84,7 +84,7 @@ Scala是一门纯面向对象的语言(a pure object-oritented language)，一�
 
 Scala中，函数也是对象，可以把函数当成值来传参和作为函数返回值，这也是Scala函数式编程特性的体现。将函数作为参数传递时类似C/C++中的函数指针。如下例：
 
-```scala
+~~~scala
 object Main {  
 
   def timer(callback: () => Unit) : Unit {
@@ -103,19 +103,19 @@ object Main {
   def main(args: Array[String]) : Unit {
     timer(task)
   }
-```
+~~~
 
 此处，`timer`函数进行传递回调函数是，还可以使用匿名函数，写成这样：
 
-```scala
+~~~scala
     timer(() => Unit {
       println("working...")
     })
-```
+~~~
 
 面向对象自然少不了类的概念，在Scala中，也是用`class`关键字来定义类。例如，用Scala定义一个Person类：
 
-```scala
+~~~scala
 class Student {
   private var id = Int.MaxValue
   def setId(id: Int) {
@@ -124,7 +124,7 @@ class Student {
 }
 class Person(id: Integer, name: String) {
 }
-```
+~~~
 
 可以用
 
@@ -134,13 +134,13 @@ class Person(id: Integer, name: String) {
 
 同样，在类中也可以定义类的方法和属性，只是在这一点上Scala更多地具有函数式编程的特点。在这一点上，Scala的语法与Haskell的**“绑定”**类似。举例：
 
-```scala
+~~~scala
 class Person(id: Integer, name: String) {
   def aid = id
   def aname = name
   def getId(pid: Integer) = id
   def getName(pname: String) = name
 }
-```
+~~~
 
 
