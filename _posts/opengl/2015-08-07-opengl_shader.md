@@ -74,11 +74,13 @@ shader类型：
 
 编译shader之前，我们首先要通过glShaderSource函数指定shader的源代码，该函数可以通过字符指针数组（实际上是二维指针const GLchar ** ，每个元素都是一个字符指针，指向相应的源代码）指定多个shader源代码。该函数第一个参数是shader对象，第二个参数是个整数，指定字符指针数组中元素的个数，即多少个源代码，第三个参数为字符指针数组地址，第四个参数是个整数指针数组，和shader字符指针数组对应，它指定每个shader源代码的字符数量。
 
-    const GLchar *p[1];
-    p[0] = pShaderText;
-    GLint Lengths[1];
-    Lengths[0] = strlen(pShaderText);
-    glShaderSource(ShaderObj, 1, p, Lengths);
+~~~cpp
+const GLchar *p[1];
+p[0] = pShaderText;
+GLint Lengths[1];
+Lengths[0] = strlen(pShaderText);
+glShaderSource(ShaderObj, 1, p, Lengths);
+~~~
 
 接下来编译shader对象：
 
@@ -90,13 +92,15 @@ shader类型：
 
 通常编译shader的时候可能会碰到各种错误，这时候我们可以通过`glGetShaderiv`和`glGetShaderInfoLog`得到编译状态和错误信息，便于调试shader代码。一个例子：
 
-    GLint success;
-    glGetShaderiv(ShaderObj, GL_COMPILE_STATUS, &success);
-    if (!success) {
-        GLchar InfoLog[1024];
-        glGetShaderInfoLog(ShaderObj, sizeof(InfoLog), NULL, InfoLog);
-        fprintf(stderr, "Error compiling shader type %d: '%s'\n", ShaderType, InfoLog);
-    }
+~~~cpp
+GLint success;
+glGetShaderiv(ShaderObj, GL_COMPILE_STATUS, &success);
+if (!success) {
+    GLchar InfoLog[1024];
+    glGetShaderInfoLog(ShaderObj, sizeof(InfoLog), NULL, InfoLog);
+    fprintf(stderr, "Error compiling shader type %d: '%s'\n", ShaderType, InfoLog);
+}
+~~~
 
 绑定之后是链接操作，链接操作之后，我们可以通过函数glDeleteShader释放中间shader对象。然后，检测shader链接时候是否有错误：
 
@@ -106,18 +110,22 @@ shader类型：
 
 检验是否出错：
 
-    glGetProgramiv(ShaderProg, GL_LINK_STATUS, &success);
-    if (Success == 0) {
-        glGetProgramInfoLog(ShaderProg, sizeof(ErrorLog), NULL, ErrorLog);
-        fprintf(stderr, "Error linking shader program: '%s'\n", ErrorLog);
-    }
+~~~cpp
+glGetProgramiv(ShaderProg, GL_LINK_STATUS, &success);
+if (Success == 0) {
+    glGetProgramInfoLog(ShaderProg, sizeof(ErrorLog), NULL, ErrorLog);
+    fprintf(stderr, "Error linking shader program: '%s'\n", ErrorLog);
+}
+~~~
 
 一般来说，这些检查在release的代码里是不需要的，删去还能提升性能。
 
 最后，验证shader程序对象的有效性（链接检测基于shader绑定，而验证有效性则是验证程序能否在现在的管线上执行）。把链接好的程序对象送到shader管线。**这个shader将对随后的所有draw有效**，除非你用另一个shader程序对象代替它或者通过设置glUseProgram(NULL)禁止它(此时会打开固定管线功能)。
 
-    glValidateProgram(ShaderProg);
-    glUseProgram(ShaderProg);
+~~~cpp
+glValidateProgram(ShaderProg);
+glUseProgram(ShaderProg);
+~~~
 
 Shader的代码
 -----------
@@ -199,14 +207,16 @@ GLUT不会重复调用我们的渲染函数，只有发生一些特殊事件的�
 
 然后在IdleCB函数中动态调整gScale的值，从而实现动画：
 
-    static void IdleCB()
-    {
-        static float Scale = 0.0f;
-        Scale += 0.01f;
-        glUniform1f(gScaleLocation, sinf(Scale));
-        sleep(10);
-        glutPostRedisplay();
-    }
+~~~cpp
+static void IdleCB()
+{
+    static float Scale = 0.0f;
+    Scale += 0.01f;
+    glUniform1f(gScaleLocation, sinf(Scale));
+    sleep(10);
+    glutPostRedisplay();
+}
+~~~
 
 源代码：[OpenGL_Shader.cpp][4], [OpenGL_Uniform_Variable.cpp][5]
 

@@ -16,15 +16,15 @@ stdio的IO操作
 
 Haskell提供类型`IO a`，其成员称为**类型a**的**I/O动作**。这种类型提供了一种在Haskell之上书写涉及到IO的有副作用的程序(按顺序执行IO操作)，并且不破坏Haskell的函数模型。以下函数用于标准IO(stdin/stdout)的输入与输出：
 
-| Function     | Type                    | Action | Usage                                    |
-|:------------:|-------------------------|:------:|------------------------------------------|
-| getChar      | :: IO Char              | I      | 从stdin读入一个字符                      |
-| getContents  | :: IO String            | I      | 从stdin读入多行字符串                    |
-| getLine      | :: IO String            | I      | 从stdin读入一行字符串                    |
-| putChar      | :: Char -> IO ()        | O      | 向stdout输出一个字符                     |
-| putStr       | :: String -> IO ()      | O      | 向stdout输出一个字符串                   |
-| putStrLn     | :: String -> IO ()      | O      | 向stdout输出一个字符串，再输出一个换行符 |
-| print        | :: Show a => a -> IO () | O      | 向stdout输出任何`Show`类型的参数         |
+| Function     | Type                    | Action | Usage                                       |
+|:------------:|-------------------------|:------:|---------------------------------------------|
+| getChar      | :: IO Char              | I      | 从stdin读入一个字符                         |
+| getContents  | :: IO String            | I      | 从stdin读入多行字符串                       |
+| getLine      | :: IO String            | I      | 从stdin读入一行字符串                       |
+| putChar      | :: Char -> IO ()        | O      | 向stdout输出一个字符                        |
+| putStr       | :: String -> IO ()      | O      | 向stdout输出一个字符串                      |
+| putStrLn     | :: String -> IO ()      | O      | 向stdout输出一个字符串，再输出一个换行符    |
+| print        | :: Show a => a -> IO () | O      | 向stdout输出任何`Show`类型的参数            |
 
 从这些IO函数的类型中可以看出，对于输入，函数返回一个`IO a`类型的值，对于输出，返回值的类型为`IO ()`，其中`()`表示空元组，这仅仅意味着这个IO操作的完成。那么，又如何从IO操作的返回值中得到对应类型的内容呢？Haskell提供了一个操作符`<-`用于从`IO a`中得到`a`类型的值。如下例：
 
@@ -262,7 +262,7 @@ reverseLine contents = unlines (map (\s -> reverse s) (lines contents))
 命令行参数
 ---------
 
-在 `System.Environment` 模块当中有两个 I/O actions: 
+在 `System.Environment` 模块当中有两个 I/O actions:
 
 + `getArgs`，他的 type 是 `getArgs :: IO [String]`，他是一个拿取命令行引数的 I/O action，并把结果放在包含的一个串列中。
 + `getProgName` 的型态是 `getProgName :: IO String`，他则是一个 I/O action 包含了程序的名称。

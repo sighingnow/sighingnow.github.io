@@ -61,13 +61,23 @@ Week 1: Functions & Evaluations
 
 > The interpreter reduces function arguments to values before rewriting the function application.
 
-6. 两种求值策略(evaluation strategy)：Call-by-Name, Call-by-Value
+6. 三种求值策略(evaluation strategy)：Call-by-Name, Call-by-Value, Call-by-Need
 
 求值策略与Subsitution Model.
 
-Call-by-value has the advantage that it evaluates every function argument only once.
++ Call-by-value
 
-Call-by-name has the advantage that a function argument is not evaluated if the corresponding parameter is unused in the evaluation of the function body.
+    Call-by-value has the advantage that it evaluates every function argument only once.
+
++ Call-by-name
+
+    Call-by-name has the advantage that a function argument is not evaluated if the corresponding parameter
+    is unused in the evaluation of the function body.
+
++ Call-by-need
+
+    Call-by-need is a memoized version of call-by-name where, if the function argument is evaluated, that value
+    is stored for subsequent uses. (Haskell)
 
 由于两种求值策略的区别，某些求值序列可能在一种策略下会终止，在另外一种求值策略下并不会终止。
 
@@ -294,7 +304,7 @@ You can also use the following syntax to define a curried function:
 8. 使用Currying来实现一个简单的mapReduce：
 
 ~~~scala
-def mapReduce(f:Int=>Int,combine:(Int,Int)=>Int, zero:Int)(a:Int,b:Int):Int = 
+def mapReduce(f:Int=>Int,combine:(Int,Int)=>Int, zero:Int)(a:Int,b:Int):Int =
   if(a > b) zero
   else combine(f(a), mapReduce(f, combine, zero)(a+1, b))
 ~~~
@@ -390,7 +400,7 @@ public class Rational
 
   public Rational add(Rational that)
   {
-    return new Rational(numer() * that.denom() + that.numer() * denom(), 
+    return new Rational(numer() * that.denom() + that.numer() * denom(),
       denom() * that.denom());
   }
 
@@ -490,7 +500,7 @@ Scala中，直接使用this来定义构造函数。如下例：
 
     def unary_- : Rational = new Rational(-numer, denom)
 
-注意，`-`和`:`之间的空格不能省略，否则会导致编译器认为`-:`是一个运算符。 
+注意，`-`和`:`之间的空格不能省略，否则会导致编译器认为`-:`是一个运算符。
 
 Week 3: Data and Abstraction
 ----------------------------
@@ -891,15 +901,15 @@ Example:
 
 ~~~scala
 object progfun {
-  "abcd".groupBy(x => x)    //> res0: scala.collection.immutable.Map[Char,String] = 
+  "abcd".groupBy(x => x)    //> res0: scala.collection.immutable.Map[Char,String] =
                             //|   Map(b -> b, d -> d, a -> a, c -> c)
 
-  "abcdaa".groupBy(x => x)  //> res0: scala.collection.immutable.Map[Char,String] = 
+  "abcdaa".groupBy(x => x)  //> res0: scala.collection.immutable.Map[Char,String] =
                             //| Map(b -> b, d -> d, a -> aaa, c -> c)
 }
 ~~~
 
-Push all elements which having the same result of `f: param => retval` to a same group, and build a map (retval -> group). Then, build all maps to a List. 
+Push all elements which having the same result of `f: param => retval` to a same group, and build a map (retval -> group). Then, build all maps to a List.
 
 Week 6: Collections
 -------------------
@@ -971,7 +981,7 @@ The syntax of for is closely related to the higher-order functions `map`, `flatM
 ~~~scala
 def mapFun[T, U](xs: List[T], f: T => U): List[U] =
   for (x <- xs) yield f(x)
-def flatMap[T, U](xs: List[T], f: T => Iterable[U]): List[U] = 
+def flatMap[T, U](xs: List[T], f: T => Iterable[U]): List[U] =
   for (x <- xs; y <- f(x)) yield y
 def filter[T](xs: List[T], p: T => Boolean): List[T] =
   for (x <- xs if p(x)) yield x
@@ -1055,7 +1065,7 @@ numbers.
 
 ~~~scala
 def from(n: Int): Stream[Int] = n #:: from(n+1)
-def sieve(s: Stream[Int]): Stream[Int] = 
+def sieve(s: Stream[Int]): Stream[Int] =
   s.head #:: sieve(s.tail filter (_ % s.head != 0))
 val primes = sieve(from(2))
 ~~~

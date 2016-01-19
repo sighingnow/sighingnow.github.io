@@ -1,5 +1,4 @@
-\documentclass[$if(fontsize)$$fontsize$,$endif$$if(lang)$$lang$,$endif$$if(papersize)$$papersize$,$endif$$for(classoption)$$classoption$$sep$,$endfor$]{$documentclass$}
-
+\documentclass[$if(fontsize)$$fontsize$,$endif$$if(lang)$$lang$,$endif$$if(papersize)$$papersize$,$endif$$for(classoption)$$classoption$$sep$,$endfor$]{report}%%{$documentclass$}
 
 \usepackage{geometry}       % 設定邊界
 \geometry{
@@ -50,11 +49,15 @@ $endif$
 \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
 \setmainfont{Monaco}
 \punctstyle{quanjiao}
-\setCJKmainfont{微软雅黑}
-\setCJKmonofont{微软雅黑}
+\setCJKmainfont{Microsoft JhengHei}
+\setmonofont{Consolas}
+\setCJKmonofont{Microsoft JhengHei}
 \XeTeXlinebreaklocale "zh"  % 針對中文自動換行
 \XeTeXlinebreakskip = 0pt plus 1pt % 字與字之間加入0pt至1pt的間距，確保左右對整齊
 \linespread{1.1}\selectfont     % 行距
+
+\newfontfamily{\zhfont}{Microsoft JhengHei}
+\DeclareTextFontCommand{\textzh}{\zhfont}
 
 \setmathfont{XITS Math}
 \setmathfont[version=bold,FakeBold=3.5]{XITS Math}
@@ -72,9 +75,6 @@ $endif$
 % \setlength{\parskip}{6pt plus 2pt minus 1pt}
 
 %% CHINESE NUMBERING
-
-\newfontfamily{\zhfont}{微软雅黑}
-\DeclareTextFontCommand{\textzh}{\zhfont}
 
 \makeatletter
 \def\zhdigits#1{\expandafter\@zhdigits\csname c@#1\endcsname}
@@ -152,6 +152,13 @@ $endif$
 $if(verbatim-in-note)$
 \usepackage{fancyvrb}
 $endif$
+
+% for frame around code blocks.
+\usepackage{framed}
+\renewenvironment{Shaded} {\begin{framed}\normalsize} {\end{framed}}
+\DefineVerbatimEnvironment{verbatim}{Verbatim}{frame=single,framerule=\FrameRule,framesep=\FrameSep,samepage=true,fontsize=\normalsize}
+
+
 $if(tables)$
 \usepackage{longtable,booktabs}
 $endif$
@@ -169,15 +176,17 @@ $endif$
 \ifxetex
   \usepackage[setpagesize=false, % page size defined by xetex
               unicode=false, % unicode breaks when used with xetex
-              xetex]{hyperref}
+              xetex,linktoc=all,CJKbookmarks=true]{hyperref}
 \else
-  \usepackage[unicode=true]{hyperref}
+  \usepackage[unicode=true,linktoc=all,CJKbookmarks=true]{hyperref}
 \fi
+\usepackage{titlesec}
 \hypersetup{breaklinks=true,
             bookmarks=true,
             pdfauthor={$author-meta$},
             pdftitle={$title-meta$},
-            colorlinks=false,
+            colorlinks=true,
+            linktoc=all,
             citecolor=$if(citecolor)$$citecolor$$else$blue$endif$,
             urlcolor=$if(urlcolor)$$urlcolor$$else$blue$endif$,
             linkcolor=$if(linkcolor)$$linkcolor$$else$magenta$endif$,
@@ -213,18 +222,21 @@ $endif$
 \vspace{0.5em}
 
 $if(title)$
-\title{\huge $title$$if(subtitle)$\\\vspace{0.5em}{\large $subtitle$}$endif$\vspace{13cm}}
+\title{\huge $title$$if(subtitle)$\\\vspace{0.5em}{\large $subtitle$}$endif$\vspace{3cm}}
 $endif$
+
+% $if(author)$
+% \author{$for(author)$$author$$sep$ \and $endfor$}
+% $endif$
 
 $if(author)$
 \author{$for(author)$$author$$sep$ \and $endfor$}
 $endif$
 
-
 $if(date)$
-\date{\hfill $date$}
+\date{$date$}
 $else$
-\date{\hfill \today}
+\date{\today}
 $endif$
 
 $for(header-includes)$
@@ -257,7 +269,7 @@ $endfor$
 
 $if(toc)$
 {
-\hypersetup{linkcolor=black}
+\hypersetup{colorlinks=true,linktoc=all,linkcolor=black}
 \setcounter{tocdepth}{$toc-depth$}
 \tableofcontents
 }

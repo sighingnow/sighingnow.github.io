@@ -194,8 +194,6 @@ mat4x4f & Camera::TransformM() {
 
     return this->M;
 }
-
-///////////////////////////////// END OF CLASS Camera ////////////////////////////////////
 ~~~
 
 方向键控制六个方向上的移动：
@@ -217,7 +215,7 @@ static void SpecialKeys(int key, int, int)
 
 鼠标拖拽：
 
-~~~
+~~~cpp
 glutMotionFunc(MotionFunc);
 glutMouseFunc(MouseFunc);
 
@@ -277,10 +275,12 @@ M、V、P 分别指模型(model)，视图(view)和投影(projection)。MVP矩阵
 
 我们可以自己实现深度缓冲，但让硬件自动完成更简单：
 
-    // Enable depth test
-    glEnable(GL_DEPTH_TEST);
-    // Accept fragment if it closer to the camera than the former one
-    glDepthFunc(GL_LESS);
+~~~cpp
+// Enable depth test
+glEnable(GL_DEPTH_TEST);
+// Accept fragment if it closer to the camera than the former one
+glDepthFunc(GL_LESS);
+~~~
 
 问题解决了。
 

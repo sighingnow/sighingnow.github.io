@@ -33,7 +33,7 @@ Evaluation)就是将一个表达式求值到WHNF。
 > a data value, a built-in function applied to too few arguments, or a lambda
 > abstraction whose body is not reducible. I.e. the top level is neither a
 > redex nor a lambda abstraction with a reducible body.
-> 
+>
 > An expression in HNF may contain redexes in argument postions whereas a
 > normal form may not.
 
@@ -47,7 +47,7 @@ seq
 `seq` 函数用于 strict evaluation：
 
 > The seq function is the most basic method of introducing strictness to a
-> Haskell program. `seq :: a -> b -> b` takes two arguments of any type, 
+> Haskell program. `seq :: a -> b -> b` takes two arguments of any type,
 > and returns the second. However, it also has the important property that
 > it is magically strict in its first argument.
 
@@ -189,8 +189,8 @@ Polymorphic `seq` 可能会破坏一些变换的等价性。例如在Haskell中�
     f (map g [False, True]) = f [undefined, True] = [undefined]
 
 等式两边的值不一样，破坏了等式的性质。之所以会出现这个问题，愿意就在于`seq`会将List `xs`
-中不同位置的两个值建立起依赖。更深层次的探讨，这一问题与Free Theorem有关， _[Free 
-Theorems in the Presence of seq][3]_ 以及 Philip Wadler 的论文 _[Theorems for 
+中不同位置的两个值建立起依赖。更深层次的探讨，这一问题与Free Theorem有关， _[Free
+Theorems in the Presence of seq][3]_ 以及 Philip Wadler 的论文 _[Theorems for
 free!][1]_ 就在讨论这一问题，此外，_[Improvements for Free][2]_ 一文看上去也很有
 意思。
 
@@ -226,7 +226,7 @@ Prelude> seq ( undefined >>= return :: Maybe () ) "hello, world"
 *** Exception: Prelude.undefined
 
 Prelude> seq ( undefined :: Maybe () ) "hello, world"
-*** Exception: Prelude.undefined  
+*** Exception: Prelude.undefined
 ~~~
 
 引用一段证明如下：
@@ -239,12 +239,13 @@ Prelude> seq ( undefined :: Maybe () ) "hello, world"
 
 > Using `seq` even `Identity` and `Maybe` fail to be monads:
 
+~~~haskell
 seq (return <=< undefined :: a -> Identity b) () = ()
 seq (undefined            :: a -> Identity b) () = undefined
 
 seq (return <=< undefined :: a -> Maybe b) () = ()
 seq (undefined            :: a -> Maybe b) () = undefined
-
+~~~
 
 参考
 ----
@@ -254,9 +255,9 @@ seq (undefined            :: a -> Maybe b) () = undefined
 
 <!--links-->
 
-[1]. http://dl.acm.org/citation.cfm?id=99404
-[2]. http://arxiv.org/pdf/1107.1203.pdf
-[3]. http://www.janis-voigtlaender.eu/papers/FreeTheoremsInThePresenceOfSeq.pdf
-[4]. http://stackoverflow.com/questions/12687392/why-is-seq-bad
-[5]. http://stackoverflow.com/a/12688908
-[6]. http://stackoverflow.com/questions/12617664/a-simple-example-showing-that-io-doesnt-satisfy-the-monad-laws/12620418#12620418
+[1]: http://dl.acm.org/citation.cfm?id=99404
+[2]: http://arxiv.org/pdf/1107.1203.pdf
+[3]: http://www.janis-voigtlaender.eu/papers/FreeTheoremsInThePresenceOfSeq.pdf
+[4]: http://stackoverflow.com/questions/12687392/why-is-seq-bad
+[5]: http://stackoverflow.com/a/12688908
+[6]: http://stackoverflow.com/questions/12617664/a-simple-example-showing-that-io-doesnt-satisfy-the-monad-laws/12620418#12620418

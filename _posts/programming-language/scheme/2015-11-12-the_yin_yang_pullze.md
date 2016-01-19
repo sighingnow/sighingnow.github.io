@@ -1,7 +1,7 @@
 ---
 title: The yin-yang puzzle
 author: He Tao
-date: 2015-09-12
+date: 2015-11-12
 tag: [Scheme]
 category: 编程语言
 layout: post

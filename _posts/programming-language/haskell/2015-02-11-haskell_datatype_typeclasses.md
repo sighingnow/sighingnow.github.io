@@ -189,7 +189,7 @@ Prelude> 4 `elem` [1, 2, 3]
 False
 ~~~
 
-### List与Range
+### List 与 Range
 
 对于可枚举的值，通过区间(Range)的方式可以很方便地生成列表。比如，要生成一个包含`1-20`的自然数的列表，只需要运行如下命令：
 
@@ -235,7 +235,7 @@ Range也可以生成无限长的列表，不指定上界即可：
     Prelude> take 5 (cycle [1, 2, 3])
     [1, 2, 3, 1, 1]
 
-### List与repeat函数
+### List 与 repeat 函数
 
 `repeat`函数的作用是接受一个值作为参数，并返回一个仅包含该值的无限List。
 

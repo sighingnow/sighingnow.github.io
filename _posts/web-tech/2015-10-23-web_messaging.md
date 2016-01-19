@@ -138,7 +138,8 @@ chan.bind("reverse", function(trans, s) {
 And call it in our parent frame.
 
 ~~~javascript
-chan.call({method: "reverse",
+chan.call({
+    method: "reverse",
     params: "hello world!",
     success: function(v) { emit(v.toString()); }
 });

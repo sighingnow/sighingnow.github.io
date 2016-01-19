@@ -8,8 +8,8 @@ layout: post
 ---
 
 `assert` 是 C/C++ 中的运行时断言机制，但是，如果包含断言的函数不被调用，就无法触发该断言，
-实际上，编译期的断言也非常重要，例如在模板实例化时的编译期断言很有利于提高程序的质量。Boost 
-库中内置了 `BOOST_STATIC_ASSERT` 断言机制，C++0x/C++11标准中也加入了 `static_assert` 
+实际上，编译期的断言也非常重要，例如在模板实例化时的编译期断言很有利于提高程序的质量。Boost
+库中内置了 `BOOST_STATIC_ASSERT` 断言机制，C++0x/C++11标准中也加入了 `static_assert`
 断言。不借助 Boost 库和 C++0x/C++11，如何实现一个编译期断言？
 
 + 利用 `switch...case` 语句中两个 `case expression` 不能相等的机制
@@ -44,10 +44,10 @@ Linux 内核中的队列实现部分也有很多非常精彩的运用。
 
 至于为什么要这么做，C++ 之父 **Bjarne Stroustrup** 的 _The Design and Evolution of C++_ (Addison Wesley, 1994) 一书中提到
 
-> low-level events, such as arithmetic overflows and divide by zero, are 
-> assumed to be handled by a dedicated lower-level mechanism rather than by 
-> exceptions. This enables C++ to match the behaviour of other languages when 
-> it comes to arithmetic. It also avoids the problems that occur on heavily 
+> low-level events, such as arithmetic overflows and divide by zero, are
+> assumed to be handled by a dedicated lower-level mechanism rather than by
+> exceptions. This enables C++ to match the behaviour of other languages when
+> it comes to arithmetic. It also avoids the problems that occur on heavily
 > pipelined architectures where events such as divide by zero are asynchronous.
 
 

@@ -8,7 +8,7 @@ layout: post
 ---
 
 返回函数的函数
---------------
+-----------
 
 以求最大值的函数`max'`为例，
 
@@ -177,7 +177,7 @@ print $ foldr1 (\a b -> a*b) a
 
     foldl' :: (b->a->b) -> b -> [a] -> b
     foldr' :: (b->a->b) -> b -> [a] -> b
-    
+
     foldl1' :: (a->a->a) -> [a] -> a
     foldr1' :: (a->a->a) -> [a] -> a
 
@@ -214,7 +214,21 @@ f 的参数类型必须与 g 的回传类型相同。所以得到的组合函数
 
 point free style 更强调函数的组合方式而非数据的传递方式。这种程序逻辑更加简洁明了。可以通过这种方式将一系列函数组合在一起从而形成一个复杂的函数。
 
+Currying and partial application
+--------------------------------
 
+Currying 和 Partial application 都是高阶函数的体现，**但这二者是不同的概念**！
+**Currying 是将一个有 _n_ 个参数的函数转换成 _n_ 个只有 _1_ 个参数的函数。** 在
+Lambda calculus 中，函数只能有一个参数。而 Parial application 则是接收函数的部分
+参数并返回一个新的函数。
 
+Currying 和 Parial application 的区别就在于 Currying 每次只接受一个参数，而 Parial
+application 可以接受多个参数。
+
+对于
+
+    f :: x -> y -> z -> res
+
+`f x y` 值 Parial application 了一次，而从 Currying 的角度理解，则是 Curry 了两次。
 
 
