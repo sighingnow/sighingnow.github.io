@@ -47,10 +47,10 @@ $endif$
 \usepackage[boldfont,slantfont,CJKsetspaces,CJKchecksingle]{xeCJK}
 \usepackage{fontspec,xltxtra,xunicode}
 \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
-\setmainfont{Monaco}
+\setmainfont{Consolas} %% {Consolas} {Monaco} {Courier New}
 \punctstyle{quanjiao}
 \setCJKmainfont{Microsoft JhengHei}
-\setmonofont{Consolas}
+\setmonofont{Monaco}
 \setCJKmonofont{Microsoft JhengHei}
 \XeTeXlinebreaklocale "zh"  % 針對中文自動換行
 \XeTeXlinebreakskip = 0pt plus 1pt % 字與字之間加入0pt至1pt的間距，確保左右對整齊
@@ -149,12 +149,27 @@ $endif$
 $if(highlighting-macros)$
 $highlighting-macros$
 $endif$
-$if(verbatim-in-note)$
+% $if(verbatim-in-note)$
+% \usepackage{fancyvrb}
+% $endif$
+
 \usepackage{fancyvrb}
-$endif$
+
+%% self defined \provideenvironment
+\makeatletter
+\def\provideenvironment{\@star@or@long\provide@environment}
+\def\provide@environment#1{%
+        \@ifundefined{#1}%
+                {\def\reserved@a{\newenvironment{#1}}}%
+                {\def\reserved@a{\renewenvironment{dummy@environ}}}%
+        \reserved@a
+}
+\def\dummy@environ{}
+\makeatother
 
 % for frame around code blocks.
 \usepackage{framed}
+\provideenvironment{Shaded}{}{}
 \renewenvironment{Shaded} {\begin{framed}\normalsize} {\end{framed}}
 \DefineVerbatimEnvironment{verbatim}{Verbatim}{frame=single,framerule=\FrameRule,framesep=\FrameSep,samepage=true,fontsize=\normalsize}
 

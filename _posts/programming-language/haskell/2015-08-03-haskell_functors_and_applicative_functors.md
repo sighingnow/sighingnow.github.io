@@ -86,7 +86,7 @@ fmap的定义：
 Applicative functors
 ---------------------
 
-Applicative Functor, 也就是加强的 Functor，定义在 `Control.Applicative` 中。A functor with application, providing operations to 
+Applicative Functor, 也就是加强的 Functor，定义在 `Control.Applicative` 中。A functor with application, providing operations to
 
 + embed pure expressions (`pure`).
 + sequence computations and combine their results (`<*>`).
@@ -115,9 +115,9 @@ over the second one.
 `Maybe`类型也是一个 Applicative Functor：
 
 ~~~haskell
-instance Applicative Maybe where  
-    pure = Just  
-    Nothing <*> _ = Nothing  
+instance Applicative Maybe where
+    pure = Just
+    Nothing <*> _ = Nothing
     (Just f) <*> something = fmap f something
 ~~~
 
@@ -148,14 +148,14 @@ ghci> [(*0),(+100),(^2)] <*> [1,2,3]
 由于在Haskell中，函数缺省就是Curried的，我们可以使用 applicative style 的方式来使用 Applicative Functor，如下例：
 
 ~~~haskell
-ghci> [(+),(*)] <*> [1,2] <*> [3,4]  
+ghci> [(+),(*)] <*> [1,2] <*> [3,4]
 [4,5,5,6,3,4,6,8]
 ~~~
 
 `Control.Applicative` 导出了一个函数 `<$>`，可以认为是中缀版(infix synonym)的`fmap`，将一个函数map到一个函子上，并返回一个函子。定义如下：
 
 ~~~haskell
-(<$>) :: (Functor f) => (a -> b) -> f a -> f b  
+(<$>) :: (Functor f) => (a -> b) -> f a -> f b
 f <$> x = fmap f x
 ~~~
 
@@ -176,21 +176,21 @@ Just 3
 可以将 list 看作是一个 non-deterministic 的计算，Applicative style 对于 list 而言是一个取代 list comprehension 的好方式。
 
 ~~~haskell
-ghci> [ x*y | x <- [2,5,10], y <- [8,10,11]]     
+ghci> [ x*y | x <- [2,5,10], y <- [8,10,11]]
 [16,20,22,40,50,55,80,100,110]
 
-ghci> (*) <$> [2,5,10] <*> [8,10,11]  
+ghci> (*) <$> [2,5,10] <*> [8,10,11]
 [16,20,22,40,50,55,80,100,110]
 ~~~
 
 `IO` 作为 Applicative Functor 的定义：
 
 ~~~haskell
-instance Applicative IO where  
-    pure = return  
-    a <*> b = do  
-        f <- a  
-        x <- b  
+instance Applicative IO where
+    pure = return
+    a <*> b = do
+        f <- a
+        x <- b
         return (f x)
 ~~~
 
@@ -204,23 +204,23 @@ instance Applicative ((->) a) where
     (<*>) f g x = f x (g x)
 
 -- | Constant function.
-const                   :: a -> b -> a
-const x _               =  x
+const :: a -> b -> a
+const x _ = x
 ~~~
 
 也就是说，`((->) r)` 作为 Applicative Functor 的定义可以写成如下形式：
 
 ~~~haskell
-instance Applicative ((->) r) where  
-    pure x = (\_ -> x)  
+instance Applicative ((->) r) where
+    pure x = (\_ -> x)
     f <*> g = \x -> f x (g x)
 ~~~
 
 **当我们用 pure 将一个值包成 applicative functor 的时候，他产生的结果永远都会是那个值。** 也就是最小的 context。那也是为什么对于 function 的 pure 实现来讲，他就是接受一个值，然后造一个函数永远回传那个值，不管传递了什么参数。如果你限定 pure 的类型至 `(->) r` 上，他就会是 `pure :: a -> (r -> a)`。将两个 applicative functor 传递给 <*> 可以产生一个新的 applicative functor，所以如果传递给他两个函数，我们能得到一个新的函数。值得注意的是这种语法的**求值顺序**：
 
 ~~~haskell
-ghci> :t (+) <$> (+3) <*> (*100)  
-(+) <$> (+3) <*> (*100) :: (Num a) => a -> a  
+ghci> :t (+) <$> (+3) <*> (*100)
+(+) <$> (+3) <*> (*100) :: (Num a) => a -> a
 ghci> (+) <$> (+3) <*> (*100) $ 5
 508
 ~~~
@@ -232,7 +232,7 @@ ghci> (+) <$> (+3) <*> (*100) $ 5
 再例如:
 
 ~~~haskell
-ghci> (\x y z -> [x,y,z]) <$> (+3) <*> (*2) <*> (/2) $ 5  
+ghci> (\x y z -> [x,y,z]) <$> (+3) <*> (*2) <*> (/2) $ 5
 [8.0,10.0,2.5]
 ~~~
 

@@ -17,14 +17,14 @@ layout: post
 
 二维傅里叶变换是傅里叶变换在二维定义域上的表达形式：
 
-$$ F(u,v) = \int_{-\infty}^{+\infty} \int_{-\infty}^{+\infty} f(x,y)e^{-j2\pi(ux+vy)} dx dy $$
+$$F(u,v) = \int_{-\infty}^{+\infty} \int_{-\infty}^{+\infty} f(x,y)e^{-j2\pi(ux+vy)} dx dy$$
 
 图像、声音等信号是离散信号，对图像做二维离散傅里叶变换，可以得到图像的频率分布：
 
-$$ \begin{aligned}
+$$\begin{aligned}
 F(k,l) &= \sum_{m=0}^{M-1} \sum_{n=0}^{N-1} f(m,n)e^{-j2\pi(km/M+ln/N)} \\
        &= \sum_{m=0}^{M-1} e^{-j2\pi\frac{km}{M}} \sum_{n=0}^{N-1} f(m,n) e^{-j2\pi\frac{ln}{N}}
-\end{aligned} $$
+\end{aligned}$$
 
 对得到的频谱进行低通滤波，可以得到压缩后的图像，对得到的频谱进行低通滤波，可以得到图片的大致轮廓。例如下例：
 

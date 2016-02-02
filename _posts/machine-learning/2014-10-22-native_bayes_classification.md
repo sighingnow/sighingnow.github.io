@@ -17,13 +17,13 @@ layout: post
 
 <!--more-->
 
-1、设$$x = \{a_1, a_2, \dots, a_m\}$$为一个待分类项，而每个a为x的一个特征属性。
+1、设 $$x = \{a_1, a_2, \dots, a_m\}$$为一个待分类项，而每个a为x的一个特征属性。
 
-2、有类别集合$$C = \{y_1, y_2, \dots, y_n\}$$
+2、有类别集合 $$C = \{y_1, y_2, \dots, y_n\}$$
 
-3、计算$$P(y_1|x), P(y_2|x), \dots, P(y_n|x)$$
+3、计算 $$P(y_1|x), P(y_2|x), \dots, P(y_n|x)$$
 
-4、如果$$P(y_k|n) = max\{P(y_1|x), P(y_2|x), \dots,P(y_n|x)\}$$则$$x\in y_k$$
+4、如果 $$P(y_k|n) = max\{P(y_1|x), P(y_2|x), \dots,P(y_n|x)\}$$ 则 $$x\in y_k$$
 
 那么现在的关键就是如何计算第3步中的各个条件概率。我们可以这么做：
 
@@ -33,13 +33,13 @@ $$P(a_1|y_1),P(a_2|y_1),\dots,P(a_m|y_1),\dots,P(a_m|y_n)$$
 3. 如果各个特征属性是条件独立的，则根据贝叶斯定理有如下推导：
 $$P(y_i|x) = \frac{P(x|y_i)P(p_i)}{P(x)}$$
 因为分母对于所有类别为常数，因为我们只要将分子最大化皆可。又因为各特征属性是条件独立的，所以有：
-$$P(x|y_i)P(y_i) = P(a_1|y_i)P(a_2|y_i) \dots P(a_m|y_i) = P(y_i) \prod_{j=1}^m P(a_j|y_i) $$
+$$P(x|y_i)P(y_i) = P(a_1|y_i)P(a_2|y_i) \dots P(a_m|y_i) = P(y_i) \prod_{j=1}^m P(a_j|y_i)$$
 
 三、基本实现步骤
 -----------------
 
 1. 整理数据， 对一些连续值字段离散化。
-2. 通过已知数据统计计算$P(y_i)$，$P(a_j|y_i)$。
+2. 通过已知数据统计计算 $P(y_i)$，$P(a_j|y_i)$。
 3. 对待分类数据进行分类
 
 四、优化
@@ -149,7 +149,7 @@ def learn():
                 probability[type][i][u] = v / cnt[type]
 
 if __name__ == '__main__':
-    main() 
+    main()
 ~~~
 
 测试用数据来自[UCI Machine Learning Repository](http://archive.ics.uci.edu/ml/datasets/Adult)。

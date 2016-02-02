@@ -309,7 +309,7 @@ Haskell 是一个纯粹函数式语言。代表任何东西都具有 **referenti
     randoms' :: (RandomGen g, Random a) => g -> [a]
     randoms' gen = let (value, newGen) = random gen in value:randoms' newGen
 
-对于同样的`SteGen`, 程序永远都会回传同样的乱数。这在真实世界中的程序是不能接受的。`System.Random` 要提供 `getStdGen` 这个 I/O action，他的型态是 `IO StdGen`。当你的程序执行时，他会跟系统要一个 random generator，并存成一个 global generator。getStdGen 会替你拿那个 global random generator 并把他绑定到某个名称上。
+对于同样的`StdGen`, 程序永远都会回传同样的随机数。这在真实世界中的程序是不能接受的。`System.Random` 要提供 `getStdGen` 这个 I/O action，他的型态是 `IO StdGen`。当你的程序执行时，他会跟系统要一个 random generator，并存成一个 global generator。getStdGen 会替你拿那个 global random generator 并把他绑定到某个名称上。
 
 ~~~haskell
 import System.Random

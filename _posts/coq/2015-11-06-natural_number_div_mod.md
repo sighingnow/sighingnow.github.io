@@ -27,11 +27,11 @@ Coq 对自然数的除法与取模的实现很有讲究！
 
 皮亚诺公理的形式化描述：
 
-(e in S)
-(forall a in S)(f(a) in S)
-(forall b in S)(forall c in S)(f(b) = f(c) -> b = c)
-(forall a in S)( f(a) /= e)
-(forall A in S)(((e in A) and (forall a in A)(f(a) in A)) -> (A = S) )
++ (e in S)
++ (forall a in S)(f(a) in S)
++ (forall b in S)(forall c in S)(f(b) = f(c) -> b = c)
++ (forall a in S)( f(a) /= e)
++ (forall A in S)(((e in A) and (forall a in A)(f(a) in A)) -> (A = S) )
 
 自然数的运算
 ----------

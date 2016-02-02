@@ -14,42 +14,32 @@ Tak函数和Tarai函数是两个非常类似，但本质上差异显著的函数
 
 It is defined as follows:
 
-$$
-\tau (x,y,z) = {
-    \begin{cases}
-        \tau (\tau (x-1,y,z), \tau (y-1,z,x), \tau (z-1,x,y))
-            & {\text{if }}y < x \\
-        z
-            & {\text{otherwise}}
-    \end{cases}}
-$$
+$$\tau (x,y,z) = {\begin{cases}
+\tau (\tau (x-1,y,z), \tau (y-1,z,x), \tau (z-1,x,y)) & {\text{if }}y < x \\
+z                                                     & {\text{otherwise}}
+\end{cases}}$$
 
 John McMarchy 的论文 [_An Interesting Lisp Function_][2] 中论述了以下两个 tak 函数的性质。
 
-$$ tak(x+a, y+a, z+a) = tak(x, y, z) + a $$
+$$tak(x+a, y+a, z+a) = tak(x, y, z) + a$$
 
 以及
 
-$$ tak(x, y, z) = \text{ if } x \le y \text{ then } y \text{ else if } y \le z \text{ then } z \text{ else } x $$
+$$tak(x, y, z) = \text{ if } x \le y \text{ then } y \text{ else if } y \le z \text{ then } z \text{ else } x$$
 
 + Tarai 函数
 
-$$
-\tau (x,y,z) = {
-    \begin{cases}
-        \tau (\tau (x-1,y,z), \tau (y-1,z,x), \tau (z-1,x,y))
-            & {\text{if }}y < x \\
-        y
-            & {\text{otherwise}}
-    \end{cases}}
-$$
+$$\tau (x,y,z) = {\begin{cases}
+\tau (\tau (x-1,y,z), \tau (y-1,z,x), \tau (z-1,x,y)) & {\text{if }}y < x \\
+y                                                     & {\text{otherwise}}
+\end{cases}}$$
 
 <!--more-->
 
 性能
 ----
 
-这两个函数非常相似，表达式中唯一的区别在于$\text{otherwise}$条件下函数的值，这一区别
+这两个函数非常相似，表达式中唯一的区别在于 $\text{otherwise}$ 条件下函数的值，这一区别
 导致了这两个函数在执行性能上的巨大差异。tak 函数经常被作为测试对递归的优化的基准(It can be made to run a
 long time without generating large number or using much stack)，而
 tarai 函数很容易通过记忆化或者 Lazy Evaluation 的手段进行优化。

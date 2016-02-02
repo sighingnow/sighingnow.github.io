@@ -7,19 +7,18 @@ category: Algorithm
 layout: post
 ---
 
-Boyer-Moore 算法由 Robort S.Boyer 和 J Strother Moore 在1977年提出，可以在O(1)的时间复杂度内完成字符串的匹配，其在绝大部分场合的性能表现要优于KMP算法。GNU grep使用了此算法进行字符串匹配，同时也被很多文本编辑器用进行字符串的查找。
+Boyer-Moore 算法由 Robort S.Boyer 和 J Strother Moore 在1977年提出，可以在O(1)的时间复杂度内完成字符串的匹配，其在绝大部分场合的性能表现要优于KMP算法。
+GNU grep使用了此算法进行字符串匹配，同时也被很多文本编辑器用进行字符串的查找。
 
-一、概述
----------
+<!--more-->
 
-二、移动规则
--------------
+移动规则
+--------
 
 ### “坏字符”规则
 
 坏字符规则(bad-character shift)用来计算当前模式串与源串失配时的模式串指针的移动方案。具体计算方法如下：
 
-<!--more-->
 
     后移位数 = 坏字符的位置 - 坏字符在模式串中的上一次出现位置
 
@@ -48,7 +47,7 @@ inline void getBadChar(int bmBC[], int ALPHABET_SIZE, char pattern[]) {
 
     后移位数 = 好后缀的位置 - 模式串中的上一次出现位置
 
-式中，好后缀的位置的取值以“好后缀”的最后一个字符为准。如果“好后缀”在模式串中没有重复出现，择取其上一次出现的位置为-1。
+式中，好后缀的位置的取值以“好后缀”的最后一个字符为准。如果“好后缀”在模式串中没有重复出现，择取其上一次出现的位置为 $-1$。
 
 为了应用好后缀规则，还需要对模式串预处理，求出后缀长度表。即以每一个位置的字符为后缀和以最后一个字符为后缀的公共后缀串的长度。
 
@@ -121,8 +120,8 @@ inline void getGoodSuffix(int bmGS[], char pattern[]) {
 }
 ~~~
 
-三、算法实现
--------------
+算法实现
+-------
 
 最终，BoyerMoore算法的实现如下：
 
@@ -153,8 +152,8 @@ int BoyerMoore(char pattern[], char src[]) {
 }
 ~~~
 
-四、参考
-----------
+参考
+-----
 
 1. [grep之字符串搜索算法Boyer-Moore由浅入深(比KMP快3-5倍)](http://blog.jobbole.com/52830)
 2. [字符串匹配的Boyer-Moore算法](http://blog.jobbole.com/39132)
