@@ -61,28 +61,23 @@ kNN算法的一般步骤
     50242	3.723498	0.831917	didntLike
     63275	8.385879	1.669485	didntLike
 
-一般来说，规一化数据的方法为依据特征值将数据值变换到__0-1__或者__-1-1__之间。可以通过以下公式进行：
+一般来说，规一化数据的方法为依据特征值将数据值变换到 $0-1$ 或者 $-1-1$之间。可以通过以下公式进行：
 
 $$new_val = \frac{old_val-min}{max-min}$$
 
-此公式可以把数据规格化到__0-1__之间。
+此公式可以把数据规格化到 $0-1$ 之间。
 
 在归一化处理时，还可以根据之前的分析，对不同的特征分量加上不同的权重，以提高分类的准确率。
 
 附件
 -----
 
-1. [knn-dating]({{site.url}}/resource/k_nearest_neighbors/dating.py)
-   测试用数据：[dating.zip]({{site.url}}/resource/k_nearest_neighbors/dating.zip)
-2. [KNN 手写数字识别]({{site.url}}/resource/k_nearest_neighbors/handwriting.py)
-   测试用数据：[handwriting.zip]({{site.url}}/resource/k_nearest_neighbors/handwriting.zip)
+1. [knn-dating]({{site.url}}/resource/k_nearest_neighbors/dating.py)，
+测试用数据：[dating.zip]({{site.url}}/resource/k_nearest_neighbors/dating.zip)。
+2. [KNN 手写数字识别]({{site.url}}/resource/k_nearest_neighbors/handwriting.py)，
+测试用数据：[handwriting.zip]({{site.url}}/resource/k_nearest_neighbors/handwriting.zip)。
 
 参考
 -----
 
-1. 机器学习实战(<i>Machine Learning in Action</i>)
-
-
-
-
-
+1. 机器学习实战(_Machine Learning in Action_)

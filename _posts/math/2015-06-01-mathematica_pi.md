@@ -147,7 +147,7 @@ ListLinePlot[{pis, chuds, mcs, primeps},
 
 如下图所示：
 
-![结果对比图][3]
+![结果对比图]({{site.url}}/resource/mathematica_pi/image.png)
 
 通过图像对比，不难看出Chudnovsky算法的高效和精确。在保留5位小数的情况下，Chudnovsky算法得到的结果和Mathematica自身算出来的结果已经重合，Chudnovsky算法仅仅做了一次迭代！
 
@@ -158,8 +158,8 @@ ListLinePlot[{pis, chuds, mcs, primeps},
 五、参考文献
 --------
 
-1. [Chudnovsky algorithm][1]
-2. [WOLFRAM语言教程-关于内部实现的一些注释][2]
+1. [Chudnovsky algorithm](https://en.wikipedia.org/wiki/Chudnovsky_algorithm)
+2. [WOLFRAM语言教程-关于内部实现的一些注释](http://reference.wolfram.com/language/tutorial/SomeNotesOnInternalImplementation.html)
 
 六、附录：Mathematica代码
 ------------------------
@@ -220,8 +220,3 @@ ListLinePlot[{pis, chuds, mcs, primeps},
 ]
 ~~~
 
-<!--links-->
-
-[1]: https://en.wikipedia.org/wiki/Chudnovsky_algorithm
-[2]: http://reference.wolfram.com/language/tutorial/SomeNotesOnInternalImplementation.html
-[3]: {{site.url}}/resource/mathematica_pi/image.png

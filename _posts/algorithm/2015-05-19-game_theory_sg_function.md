@@ -185,7 +185,7 @@ Lasker's Nim游戏是指这样一种博弈模型：
 
 通过这个 $SG$ 函数的应用可以看出分析后继状态的重要性。
 
-练习题目：[HDU 3032 Nim or not Nim?][1]
+练习题目：[HDU 3032 Nim or not Nim?](http://acm.hdu.edu.cn/showproblem.php?pid=3032)
 
 巴什博弈(Bash Game)
 -------------------
@@ -244,7 +244,7 @@ $$a_k = \lfloor {k \times \frac{1+\sqrt{5}}{2}} \rfloor, b_k= a_k + k (k = 0, 1,
 
 一道Wythoff Game的题目:
 
-题目：[POJ 1067. 取石子游戏][6]
+题目：[POJ 1067. 取石子游戏](http://poj.org/problem?id=1067)
 
 按照威佐夫博弈模型的结论，不难得到题解：
 
@@ -276,20 +276,9 @@ int main(int argc, char **argv) {
 参考
 ----
 
-1. [Nim游戏][2]
-2. [组合博弈知识汇总][3]
-3. [威佐夫博奕][4]
-4. [寻找必败态——一类博弈问题的快速解法][5]
-5. [博弈之翻硬币系列][7]
-
-
-<!--links-->
-
-[1]: http://acm.hdu.edu.cn/showproblem.php?pid=3032
-[2]: http://blog.csdn.net/qiankun1993/article/details/6765688
-[3]: http://www.cnblogs.com/tanky_woo/archive/2010/08/20/1804464.html
-[4]: http://baike.baidu.com/view/1952620.htm
-[5]: http://www.cnitblog.com/weiweibbs/articles/42736.html
-[6]: http://poj.org/problem?id=1067
-[7]: http://blog.csdn.net/y990041769/article/details/21645153
+1. [Nim游戏](http://blog.csdn.net/qiankun1993/article/details/6765688)
+2. [组合博弈知识汇总](http://www.cnblogs.com/tanky_woo/archive/2010/08/20/1804464.html)
+3. [威佐夫博奕](http://baike.baidu.com/view/1952620.htm)
+4. [寻找必败态——一类博弈问题的快速解法](http://www.cnitblog.com/weiweibbs/articles/42736.html)
+5. [博弈之翻硬币系列](http://blog.csdn.net/y990041769/article/details/21645153)
 

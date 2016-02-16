@@ -23,7 +23,7 @@ fn main() {
 
 `Box`分配的堆内存资源可以使用`Drop`来释放。Rust没有垃圾回收(GC)机制。
 
-Rust使用[jemalloc][1]来进行内存分配，
+Rust使用[jemalloc](http://www.canonware.com/jemalloc/)来进行内存分配，
 
 <!--more-->
 
@@ -297,11 +297,7 @@ Our `Thread` gives us a `Result` back, which allows us to check if the thread ha
 
 _注_: 上述代码摘自Rust Book.
 
+参考
+---
 
-
-<!--links-->
-
-[1]: http://www.canonware.com/jemalloc/
-[2]: http://www.cs.northwestern.edu/~pdinda/icsclass/doc/dsa.pdf
-
-
+1. [http://www.cs.northwestern.edu/~pdinda/icsclass/doc/dsa.pdf](http://www.cs.northwestern.edu/~pdinda/icsclass/doc/dsa.pdf)

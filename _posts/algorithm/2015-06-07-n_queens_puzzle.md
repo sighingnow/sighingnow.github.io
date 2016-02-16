@@ -8,7 +8,7 @@ layout: post
 ---
 
 N皇后问题是一个经典的问题，在一个N*N的棋盘上放置N个皇后，每行一个并使其不能互相攻击（同一行、同一列、同一斜线上的皇后都会自动攻击）。N皇后问题互
-不相同的解的个数可以用[OEIS A000170][2]序列来表示，如果将旋转和对称的解归为一种，那么独立解的个数符合序列[OEIS A002562][1]。
+不相同的解的个数可以用[OEIS A000170](http://oeis.org/A000170)序列来表示，如果将旋转和对称的解归为一种，那么独立解的个数符合序列[OEIS A002562](http://oeis.org/A002562)。
 
 普通递归求解
 ------------
@@ -70,8 +70,8 @@ void nqueens(long row, long ld, long rd) {
 注意递归调用时三个参数的变化，每个参数都加上了一个禁位，但两个对角线方向的禁位对下一行的影响需要平移一位。最后，如果递归到某个时候发现`row=upperlim`了，
 说明`n`个皇后全放进去了，找到的解的个数加`1`。如下图所示：
 
-![示意图][6]
-![示意图][7]
+![示意图]({{site.url}}/resource/n_queens_puzzle/pic_1.gif)
+![示意图]({{site.url}}/resource/n_queens_puzzle/pic_2.gif)
 
 `upperlime = (1 << n) - 1`: 生成了`n`个`1`组成的二进制数。
 
@@ -170,7 +170,7 @@ int main(int argc, char *argv[])
 
 上式中，方括号`[]`仅仅用来表示解的子序列特征。
 
-例题：[POJ 3239: Solution to the n Queens Puzzle][8]
+例题：[POJ 3239: Solution to the n Queens Puzzle](http://poj.org/problem?id=3239)
 
 按照上述结论，容易得到题解：
 
@@ -253,21 +253,9 @@ int main(int argc, char **argv) {
 参考
 ----
 
-1. [Wikipedia: Eight Queens Puzzle][4]
-2. [Queens Problem][3]
-3. [位运算解决八皇后问题][5]
-4. [N皇后问题公式解][9]
-
-<!--links-->
-
-[1]: http://oeis.org/A002562
-[2]: http://oeis.org/A000170
-[3]: http://mathworld.wolfram.com/QueensProblem.html
-[4]: http://en.wikipedia.org/wiki/Eight_queens_puzzle
-[5]: http://blog.csdn.net/kai_wei_zhang/article/details/8033194
-[6]: {{site.url}}/resource/n_queens_puzzle/pic_1.gif
-[7]: {{site.url}}/resource/n_queens_puzzle/pic_2.gif
-[8]: http://poj.org/problem?id=3239
-[9]: http://www.cnblogs.com/Missa/archive/2012/10/19/2730344.html
-[10]: http://blog.chinaunix.net/uid-20476222-id-1942598.html
+1. [Wikipedia: Eight Queens Puzzle](http://en.wikipedia.org/wiki/Eight_queens_puzzle)
+2. [Queens Problem](http://mathworld.wolfram.com/QueensProblem.html)
+3. [位运算解决八皇后问题](http://blog.csdn.net/kai_wei_zhang/article/details/8033194)
+4. [N皇后问题公式解](http://www.cnblogs.com/Missa/archive/2012/10/19/2730344.html)
+5. [http://blog.chinaunix.net/uid-20476222-id-1942598.html](http://blog.chinaunix.net/uid-20476222-id-1942598.html)
 

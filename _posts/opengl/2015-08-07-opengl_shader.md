@@ -23,13 +23,13 @@ Shader
 
 基于光栅化（Rasterization）图形管线是这样的：
 
-![Pipeline][1]
+![Pipeline]({{site.url}}/resource/opengl_shader/pipeline.jpg)
 
 图中下部虚线部分数据流向代表固定图形管线。应用程序通过点、线、多边形等几何图元构建出物理模型或可视化的数据结构，这些模型最后表示成具有对象空间坐标、法向量、颜色、纹理坐标等属性的顶点集（Vertex）。对顶点进行坐标变换、光照计算后，图元装配和光栅化操作对几何图元进行纹理和颜色的插值，生成和窗口屏幕像素相对应的片元集（Fragment）。片元集具有窗口坐标、颜色、纹理坐标、雾化坐标等属性，每个片元经过纹理应用颜色混合以及雾化等操作后计算出片元最终颜色和深度。通过模板、深度、透明混合等测试的片元最终写入帧缓存中显示出来。
 
 Shader Model（在3D图形领域常被简称SM）就是“优化渲染引擎模式”。事实上，Shader（着色器）是一段能够针对3D对象进行操作、并被GPU所执行的程序。OpenGL ES 的管线工作模式图：
 
-![Shader Pipeline][2]
+![Shader Pipeline]({{site.url}}/resource/opengl_shader/shader_pipeline.jpg)
 
 在OpenGL中，顶点shader叫做vertex shader(vs)，像素shader叫做fragment shader(fs)。通过Shader，图形开发人员可以对渲染管线中的顶点运算和像素运算分别进行编程处理了，而无须象以前那样套用一些固定函数，通过设置参数来控制管线。
 
@@ -38,7 +38,7 @@ OpenGL的shader管线
 
 OpenGL中的Shader管线框图如下：
 
-![OpenGL programmable pipeline][3]
+![OpenGL programmable pipeline]({{site.url}}/resource/opengl_shader/opengl_shader_pipeline.png)
 
 几个阶段：
 
@@ -218,13 +218,5 @@ static void IdleCB()
 }
 ~~~
 
-源代码：[OpenGL_Shader.cpp][4], [OpenGL_Uniform_Variable.cpp][5]
-
-<!--links-->
-
-[1]: {{site.url}}/resource/opengl_shader/pipeline.jpg
-[2]: {{site.url}}/resource/opengl_shader/shader_pipeline.jpg
-[3]: {{site.url}}/resource/opengl_shader/opengl_shader_pipeline.png
-[4]: {{site.url}}/sourcecode/04_shader.cpp
-[5]: {{site.url}}/sourcecode/05_uniform_variables.cpp
+源代码：[OpenGL_Shader.cpp]({{site.url}}/sourcecode/04_shader.cpp), [OpenGL_Uniform_Variable.cpp]({{site.url}}/sourcecode/05_uniform_variables.cpp)
 

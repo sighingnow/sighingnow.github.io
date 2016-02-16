@@ -269,9 +269,3 @@ void query_range(int x, int y) {
 -----
 
 1. [树状数组，百度百科](http://baike.baidu.com/view/1420784.htm)
-
-
-
-
-
-

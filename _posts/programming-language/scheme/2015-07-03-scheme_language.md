@@ -9,7 +9,7 @@ layout: post
 
 Scheme 语言是 函数式编程语言，是现代两大Lisp方言之一，诞生于1975年，由 MIT 的 Gerald J. Sussman and Guy L. Steele Jr. 完成。
 
-本文是根据[Teach Yourself Scheme in Fixnum Days][1]学习Scheme的笔记。
+本文是根据[Teach Yourself Scheme in Fixnum Days](http://ds26gte.github.io/tyscheme/index.html)学习Scheme的笔记。
 
 第一个Scheme程序:
 
@@ -90,7 +90,7 @@ Scheme的integers(整型)不需要一定是10进制格式。可以通过在数�
 
 3. Characters
 
-Scheme中字符型数据通过在字符前加`#\`前缀来表示。像 `#\c`就表示字符 `c`。那些非可视字符会有更多的描述名称，例如，`#\newline`, `#\tab`。空格字符可以写成 `#\` ，或者可读性更好一些的`#\space`。 
+Scheme中字符型数据通过在字符前加`#\`前缀来表示。像 `#\c`就表示字符 `c`。那些非可视字符会有更多的描述名称，例如，`#\newline`, `#\tab`。空格字符可以写成 `#\` ，或者可读性更好一些的`#\space`。
 
 字符类型判断过程是`char?`, 数据的分号字符不会引发注释。字符类型数据有自己的比较判断过程：`char=?`, `char<?`, `char<=?`, `char>?`, `char>=?`。
 
@@ -114,7 +114,7 @@ Symbols通常在Scheme程序中被用来当做变量的标识，这样可以运�
     'xyz
 
 Scheme的Symbols类型通常都是不区分大小写的。因此`XYZ`和`xyz`是等价的
-    
+
     > (eqv? 'XYZ 'xyz)
     #t
 
@@ -614,7 +614,7 @@ Scheme提供了`call-with-input-file`和`call-with-output-file`过程，这些�
 
 Scheme的一个显著标志是它支持跳转或者**nonlocal control**。特别是Scheme允许程序控制跳转到程序的任意位置，相比之下条件语句和函数调用的限制要更多一些。Scheme的nonlocal control操作符是一个名为`call-with-current-continuation`的过程。
 
-<!--links-->
+参考
+----
 
-[1]: http://ds26gte.github.io/tyscheme/index.html
-[2]: http://songjinghe.github.io/TYS-zh-translation/
+1. [http://songjinghe.github.io/TYS-zh-translation/](http://songjinghe.github.io/TYS-zh-translation/)

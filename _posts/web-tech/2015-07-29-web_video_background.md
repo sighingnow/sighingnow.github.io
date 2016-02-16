@@ -64,7 +64,7 @@ video#bgvideo {
     min-width: 100%; min-height: 100%;
     width: auto; height: auto; z-index: -100;
     background: url(polina.jpg) no-repeat;
-    background-size: cover; 
+    background-size: cover;
 }
 ~~~
 
@@ -163,18 +163,10 @@ pauseButton.addEventListener("click",function() {
 video.addEventListener('touchstart',function(e){e.preventDefault();video.play();})
 ~~~
 
-在线演示：[将视频作为网页背景(演示)][5]
+在线演示：[将视频作为网页背景(演示)]({{site.url}}/demos/web_video_background/web_video_background.html)。
 
 参考
 ----
 
-1. [Create-Fullscreen-HTML5-Page-Background-Video][1]
-
-<!--links-->
-
-[1]: http://demosthenes.info/blog/777/Create-Fullscreen-HTML5-Page-Background-Video
-[2]: {{site.url}}/resource/web_video_background/polina.webm
-[3]: {{site.url}}/resource/web_video_background/polina.mp4
-[4]: {{site.url}}/resource/web_video_background/polina.jpg
-[5]: {{site.url}}/demos/web_video_background/web_video_background.html
+1. [Create-Fullscreen-HTML5-Page-Background-Video](http://demosthenes.info/blog/777/Create-Fullscreen-HTML5-Page-Background-Video)
 

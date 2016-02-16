@@ -16,7 +16,7 @@ X86汇编学习笔记。
 
 寄存器命令示意图：
 
-![寄存器命名][1]
+![寄存器命名]({{site.url}}/resource/x86_assembly_language_notes/register_naming.png)
 
 8个通用寄存器：
 
@@ -384,10 +384,5 @@ Win32汇编中局部变量的使用方法可以解释一个很有趣的现象：
 
 + 寄存器 `%eax`, `%ecx`, `%edx` 被划分为**调用者保存**寄存器。
 + 寄存器 `%ebx`, `%esi`, `%edi` 被划分为**被调用者保存**寄存器。
-
-
-<!--links-->
-
-[1]: {{site.url}}/resource/x86_assembly_language_notes/register_naming.png
 
 

@@ -20,7 +20,7 @@ layout: post
 
 能实现四则运算，布尔运算，`if`语句判断，`while`循环。另外，还可以实现注释功能(`/* ... */`)和打印。
 
-四则运算包括： 加(`+`)，减(`—`)，乘(`*`)，除(`/`)，求余(`%`) 
+四则运算包括： 加(`+`)，减(`—`)，乘(`*`)，除(`/`)，求余(`%`)
 
 布尔运算包括: AND(`&&`), OR(`||`), NOT(`!`)
 
@@ -283,7 +283,7 @@ Node *opr(int name, int num, ...)
 }
 
 /**
- * calculate the value of the node in syntax tree. 
+ * calculate the value of the node in syntax tree.
  * this is the core method to eval the syntax tree.
  */
 int execNode(Node *p)
@@ -294,7 +294,7 @@ int execNode(Node *p)
     case TYPE_INDEX: return memory[p->index];
     case TYPE_OP:
         switch(p->op.name) {
-        case WHILE: 
+        case WHILE:
             while(execNode(p->op.node[0])) {
                 execNode(p->op.node[1]);
             }
@@ -410,8 +410,4 @@ a = 100;
 while(a) { a = a / 2; print a; }
 ~~~
 
-源代码下载： [Syntax-Tree.tar.gz][1]
-
-<!--links-->
-
-[1]: {{site.url}}/resource/lex_yacc_interpreter/Syntax-Tree.tar.gz
+源代码下载： [Syntax-Tree.tar.gz]({{site.url}}/resource/lex_yacc_interpreter/Syntax-Tree.tar.gz)

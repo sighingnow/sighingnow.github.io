@@ -62,7 +62,7 @@ helloworld.greet()
 编译 Cython 遇到的问题
 --------------------
 
-在 Linux 上，编译 Cython 模块，只要有 gcc 即可，在 Windows 上，可以使用 Mingw 或者 MSVC 作为 C 语言代码的编译器。关于如何指定具体的编译器，可以参考[Building Extensions: Tips and Tricks][2]。具体做法：
+在 Linux 上，编译 Cython 模块，只要有 gcc 即可，在 Windows 上，可以使用 Mingw 或者 MSVC 作为 C 语言代码的编译器。关于如何指定具体的编译器，可以参考[Building Extensions: Tips and Tricks](https://docs.python.org/3/install/#building-extensions-tips-and-tricks)。具体做法：
 
 在 Windows 平台上，Python 默认使用的编译器是 MSVC，如果要使用 mingw 作为编译器，在 Python 安装目录下的 `Lib\distutils` 下面的 distutils.cfg 文件(如果没有这个文件，创建一个即可)中加入一下内容：
 
@@ -102,11 +102,5 @@ helloworld的例子时，只要我们 import 得到的动态链接库，Python �
 参考
 ---
 
-1. [CythonExtensionsOnWindows][1]
-2. [Building Extensions: Tips and Tricks][2]
-
-
-<!--links-->
-
-[1]: https://github.com/cython/cython/wiki/CythonExtensionsOnWindows
-[2]: https://docs.python.org/3/install/#building-extensions-tips-and-tricks
+1. [CythonExtensionsOnWindows](https://github.com/cython/cython/wiki/CythonExtensionsOnWindows)
+2. [Building Extensions: Tips and Tricks](https://docs.python.org/3/install/#building-extensions-tips-and-tricks)

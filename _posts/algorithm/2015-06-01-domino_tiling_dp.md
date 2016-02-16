@@ -18,7 +18,7 @@ layout: post
 
 分析，注意到骨牌面积(1x2)和棋盘面积(2xn)之间的关系，只有以下两种放置方法：
 
-![放置示意图][1]
+![放置示意图]({{site.url}}/resource/domino_tiling_dp/pic_1.png)
 
 显然，不难得到这样的结论：$$f(n) = f(n-1) + f(n-2)$$
 
@@ -31,18 +31,18 @@ layout: post
 
 当有三列时，当第i-1行摆好后，第i行可能会出现如下图所示的八种状态：
 
-![八种状态][2]
+![八种状态]({{site.url}}/resource/domino_tiling_dp/pic_2.png)
 
 考虑这八种状态有分别会如下影响下一行的状态，拿状态 1 举例，当出现状态 1 的局面时，有以下两种放法：
 
-![方案 1][3]
+![方案 1]({{site.url}}/resource/domino_tiling_dp/pic_3.png)
 
-![方案 2][4]
+![方案 2]({{site.url}}/resource/domino_tiling_dp/pic_4.png)
 
 对于第一种方案，对于第i行状态1，我们在第i+1行竖放两块骨牌之后便能到达状态6。对于第二种方案，相当于第i行的状态1变成了第i行的状态7，本质上并没有改变
 第i+1行的状态，而对于第i行的状态7，不做任何动作便能够转移到第i+1行的状态0。通过枚举八种状态的转移，可以得到如下图所示的状态转移矩阵：
 
-![状态转移矩阵][5]
+![状态转移矩阵]({{site.url}}/resource/domino_tiling_dp/pic_5.png)
 
 其中，第i行第j列的位置的值表示两行之间从状态i变为状态j的方案数。之后，便可以通过矩阵乘法来递推最后一行的状态的方案数了。而由于第0行的状态肯定是7，
 因此，初始状态向量为(0, 0, 0, 0, 0, 0, 1)。最终只用统计第n行状态为7的方案数即可。
@@ -63,7 +63,7 @@ n为奇数肯定为0，n为偶数，每次都是加两列，我们把两列看�
 2. 第i行竖放骨牌，则前一行必须为空。x对应二进制位为1，y对应二进制位为0。
 3. 第i行横向骨牌，则前一行必须两个位置均有骨牌，否则会产生空位。x对应二进制位为1，y对应二进制位为1。
 
-![三种策略][6]
+![三种策略]({{site.url}}/resource/domino_tiling_dp/pic_6.png)
 
 这三种策略分别对应一下三种状态转移：
 
@@ -84,7 +84,7 @@ void dfs(int column, int now, int pre) {
 }
 ~~~
 
-当k较大时，便无法使用状态转移矩阵乘法的方法来解决问题，此时，需要存下状态转移矩阵中所有的边，然后递推。例如[POJ 2411: Mondriaan's Dream][7]。
+当k较大时，便无法使用状态转移矩阵乘法的方法来解决问题，此时，需要存下状态转移矩阵中所有的边，然后递推。例如[POJ 2411: Mondriaan's Dream](http://poj.org/problem?id=2411)。
 对应的DFS过程改成：
 
 ~~~cpp
@@ -128,12 +128,3 @@ for(int i = 0; i < h; ++i) {
 return dp[h%2][(1<<w)-1];
 ~~~
 
-<!--links-->
-
-[1]: {{site.url}}/resource/domino_tiling_dp/pic_1.png
-[2]: {{site.url}}/resource/domino_tiling_dp/pic_2.png
-[3]: {{site.url}}/resource/domino_tiling_dp/pic_3.png
-[4]: {{site.url}}/resource/domino_tiling_dp/pic_4.png
-[5]: {{site.url}}/resource/domino_tiling_dp/pic_5.png
-[6]: {{site.url}}/resource/domino_tiling_dp/pic_6.png
-[7]: http://poj.org/problem?id=2411

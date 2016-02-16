@@ -21,9 +21,9 @@ OpenGL坐标系
 -----------
 
 OpenGL坐标系可分为世界坐标系和当前绘图坐标系。
- 
+
 世界坐标系：在OpenGL中，世界坐标系是以屏幕中心为原点(0, 0, 0)，且是始终不变的。你面对屏幕，你的右边是x正轴，上面是y正轴，屏幕指向你的为z正轴。长度单位这样来定：窗口范围按此单位恰好是(-1,-1)到(1,1)，即屏幕左下角坐标为（-1，-1），右上角坐标为（1,1）。**世界坐标系是右手坐标系。**
- 
+
 当前绘图坐标系：是绘制物体时的坐标系。程序刚初始化时，世界坐标系和当前绘图坐标系是重合的。当对当前绘图坐标系进行平移、伸缩、旋转变换之后，世界坐标系和当前绘图坐标系不再重合。注意，这里的平移旋转是将当前绘图坐标系看做一个整体在世界坐标系中进行旋转平移。然后，改变以后，再用`glVertex3f()`等绘图函数绘图时，都是在当前绘图坐标系进行绘图，所有的函数参数也都是相对当前绘图坐标系来讲的。
 
 OpenGL中，使用右手坐标
@@ -92,23 +92,23 @@ OpenGL中有一个坐标变换矩阵栈(ModelView)，栈顶就是当前坐标变
 
 + 平移：
 
-![translation][1]
+![translation]({{site.url}}/resource/opengl_transformation/opengl_translation.jpg)
 
 + 旋转：
 
 绕一个轴转意味着这个轴的法平面不动，OpenGL里，一般需要做的是绕 x, y, z 轴旋转：
 
-![rotation][7]
+![rotation]({{site.url}}/resource/opengl_transformation/opengl_rotation.png)
 
 + 缩放：
 
 缩放矩阵是一个对角矩阵，如下图所示，a, b,c分别表示在x，y，z三个轴上的缩放比例:
 
-![scaling matrix][5]
+![scaling matrix]({{site.url}}/resource/opengl_transformation/opengl_scaling_3.png)
 
 把它扩展成4x4矩阵，以便和齐次坐标匹配:
 
-![scaling][6]
+![scaling]({{site.url}}/resource/opengl_transformation/opengl_scaling_4.png)
 
 在Shader中使用变换
 ----------------
@@ -148,7 +148,7 @@ OpenGL中有一个坐标变换矩阵栈(ModelView)，栈顶就是当前坐标变
 坐标变换顺序
 ----------
 
-**正确的坐标变换顺序：先缩放；再调整方向；最后平移。** 
+**正确的坐标变换顺序：先缩放；再调整方向；最后平移。**
 
 例如，假设有个船的模型（为简化问题，略去旋转）：
 
@@ -162,18 +162,5 @@ OpenGL中有一个坐标变换矩阵栈(ModelView)，栈顶就是当前坐标变
 
 每一步坐标变换都是在原来的举证的基础上**左乘**变换矩阵！经过这些缩放、旋转、平移得到的矩阵称为**模型(model)矩阵**。
 
-完整代码链接：[translation.cpp][10]
+完整代码链接：[translation.cpp]({{site.url}}/resource/opengl_transformation/06-07-08_transformation.cpp)
 
-
-<!--links-->
-
-[1]: {{site.url}}/resource/opengl_transformation/opengl_translation.jpg
-[2]: {{site.url}}/resource/opengl_transformation/opengl_rotation_z.png
-[3]: {{site.url}}/resource/opengl_transformation/opengl_rotation_y.png
-[4]: {{site.url}}/resource/opengl_transformation/opengl_rotation_x.png
-[5]: {{site.url}}/resource/opengl_transformation/opengl_scaling_3.png
-[6]: {{site.url}}/resource/opengl_transformation/opengl_scaling_4.png
-[7]: {{site.url}}/resource/opengl_transformation/opengl_rotation.png
-[8]: {{site.url}}/resource/opengl_transformation/opengl_ransformation.mp4
-[9]: {{site.url}}/resource/opengl_transformation/opengl_ransformation.webm
-[10]: {{site.url}}/resource/opengl_transformation/06-07-08_transformation.cpp

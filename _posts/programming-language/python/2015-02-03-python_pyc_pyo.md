@@ -55,7 +55,7 @@ py_compile模块提供了一组函数用于由源码文件生成字节码文件�
     py_compile.compile(file, cfile=None, dfile=None, doraise=False, optimize=1)
 
 参数含义:
-+ file: Python源码文件(source code) 
++ file: Python源码文件(source code)
 + cfile: 指定编译得到的pyc文件的路径，cfile的默认位置遵循`PEP 3147`的约定
 + dfile: 如果指定了dfile，在error message中使用dfile的值来作为源文件的文件名而非file参数的文件名
 + doraise: 是否抛出警告
@@ -68,7 +68,7 @@ py_compile模块提供了一组函数用于由源码文件生成字节码文件�
 
 函数定义：
 
-    compileall.compile_dir(dir, maxlevels=10, ddir=None, force=False, rx=None, quiet=False, legacy=False, optimize=-1) 
+    compileall.compile_dir(dir, maxlevels=10, ddir=None, force=False, rx=None, quiet=False, legacy=False, optimize=-1)
 
 用法：
 
@@ -81,7 +81,7 @@ import compileall
 compileall.compile_dir('$dir')
 ~~~
 
-其中，$dir为Python源代码所在的目录。
+其中，`$dir` 为Python源代码所在的目录。
 
 
 

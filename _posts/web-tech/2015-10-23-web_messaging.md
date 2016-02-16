@@ -94,7 +94,7 @@ window.on('message', function (event) {
 jschannel.js
 ------------
 
-[jschannel.js][1]是 Mozilla 开发的一个页面间使用 Web Messaging 技术进行通信的JS库。
+[jschannel.js](https://github.com/mozilla/jschannel) 是 Mozilla 开发的一个页面间使用 Web Messaging 技术进行通信的JS库。
 
 > A JavaScript library which implements fancy IPC semantics on top of postMessage.
 
@@ -145,9 +145,5 @@ chan.call({
 });
 ~~~
 
-更详细的 jschannel.js 使用的方式，可以查看[文档][2]。
+更详细的 jschannel.js 使用的方式，可以查看[文档](http://mozilla.github.io/jschannel/docs)。
 
-<!--links-->
-
-[1]: https://github.com/mozilla/jschannel
-[2]: http://mozilla.github.io/jschannel/docs

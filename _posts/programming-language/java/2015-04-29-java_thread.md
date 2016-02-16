@@ -30,8 +30,8 @@ Java提供了以下两种常用的方式来使用多线程：
 class MyThread extends Thread {
     @Override
     public void run() {
-    
-    } 
+
+    }
 }
 
 Thread t = new MyThread();
@@ -44,7 +44,7 @@ t.start();
 class MyThread implements Runnable {
     @Override
     public void run() {
-    
+
     }
 }
 
@@ -337,7 +337,7 @@ Task类需要实现compute方法，ForkJoinTask的代码框架：
 If (problem size > default size){
     task s = divide(task);
     execute(tasks);
-} 
+}
 else {
     resolve problem using another algorithm;
 }
@@ -413,9 +413,9 @@ SubTask t1 = new SubTask(...);
 SubTask t2 = new SubTask(...);
 invokeAll(t1, t2);
 try {
-    result = t1.get()+t2.get();  
-} catch (InterruptedException | ExecutionException e) {  
-    e.printStackTrace();  
+    result = t1.get()+t2.get();
+} catch (InterruptedException | ExecutionException e) {
+    e.printStackTrace();
 }
 return result;
 ~~~

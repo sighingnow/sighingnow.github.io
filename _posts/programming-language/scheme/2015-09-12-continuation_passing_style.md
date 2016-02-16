@@ -38,7 +38,7 @@ The key to CPS:
               (k 1)                ;; in the recursive call
               (-& n 1 (lambda (num)
                        (factorial& num (lambda (f)
-                                        (*& n f k))))))))) ;; apply continuation `k` to the result.  
+                                        (*& n f k))))))))) ;; apply continuation `k` to the result.
 ~~~
 
 参数 k 表示对于 `factorial&` 函数的结果的行为，即Continuation。从这个例子中，我们不难看到，所谓CPS，其实传入一个函数，返回这个函数对被调用者的结果(可以是多个)处理后的值。我们可以以如下形式来调用 `factorial&`函数：
@@ -265,7 +265,7 @@ function cps_goo(x, k) {
 + 最终每个函数内只做一件不能在被分割的事情（譬如+，-，*，/ 或者调用系统API等）
 + 每个函数实际上只关心传入自身的continuation参数
 
-CPS中，我们没有在调用return了，控制流必须显式通过continuation传递。`return` 语句只是一个语法糖而已。exception仅仅是一个特殊的continuation而已。`try/catch` 也可以被视作是语法糖。犹他大学的课件 [Continuation-Passing Style (CS 6520, Spring 2002, The University of Utah)][3] 详细讲述了如何做CPS变换的一般原理，并将这一过程形式化描述。
+CPS中，我们没有在调用return了，控制流必须显式通过continuation传递。`return` 语句只是一个语法糖而已。exception仅仅是一个特殊的continuation而已。`try/catch` 也可以被视作是语法糖。犹他大学的课件 [Continuation-Passing Style (CS 6520, Spring 2002, The University of Utah)](https://www.cs.utah.edu/~mflatt/past-courses/cs6520/public_html/s02/cps.pdf) 详细讲述了如何做CPS变换的一般原理，并将这一过程形式化描述。
 
 CPS and tail calls
 ------------------
@@ -325,13 +325,13 @@ CPS已经成为了功能性编程语言的编译器的一种强大的中间表�
        (cps-convert f `(lambda (,$f)
          ,(cps-convert e `(lambda (,$e)
              (,$f ,$e ,cont))))))]
-    
+
     [`(lambda (,v) ,e)
      ; =>
      (let (($k (gensym 'k)))
        `(,cont (lambda (,v ,$k)
                  ,(cps-convert e $k))))]
-    
+
     [(? symbol?)
      ; =>
      `(,cont ,term)]))
@@ -340,7 +340,7 @@ CPS已经成为了功能性编程语言的编译器的一种强大的中间表�
   (cps-convert term '(lambda (ans) ans)))
 ~~~
 
-用CPS变换来实现call/cc: 
+用CPS变换来实现call/cc:
 
     call/cc => (lambda (f cc) (f (lambda (x k) (cc x)) cc))
 
@@ -348,7 +348,7 @@ CPS已经成为了功能性编程语言的编译器的一种强大的中间表�
 
 用Javascirpt来表达这一程序：
 
-    function callcc (f,cc) { 
+    function callcc (f,cc) {
         f(function(x,k) { cc(x) },cc)
     }
 
@@ -358,12 +358,7 @@ CPS 的另一个重要的用途是用来实现 interprocedure analysing，例如
 参考
 ----
 
-1. [By example: Continuation-passing style in JavaScript][1]
-2. [CPS Lecture][2]
-3. [Continuation-Passing Style (CS 6520, Spring 2002, The University of Utah)][3]
+1. [By example: Continuation-passing style in JavaScript](http://matt.might.net/articles/by-example-continuation-passing-style/)
+2. [CPS Lecture](https://cgi.soic.indiana.edu/~c311/lib/exe/fetch.php?media=cps-notes.scm)
+3. [Continuation-Passing Style (CS 6520, Spring 2002, The University of Utah)](https://www.cs.utah.edu/~mflatt/past-courses/cs6520/public_html/s02/cps.pdf)
 
-<!--links-->
-
-[1]: http://matt.might.net/articles/by-example-continuation-passing-style/
-[2]: https://cgi.soic.indiana.edu/~c311/lib/exe/fetch.php?media=cps-notes.scm
-[3]: https://www.cs.utah.edu/~mflatt/past-courses/cs6520/public_html/s02/cps.pdf

@@ -108,7 +108,7 @@ Prelude> :t fV
 fV :: Num a => Vector a -> a
 Prelude> fV $ Vec 10 101 10
 121
-Prelude> 
+Prelude>
 ~~~
 
 另一个例子：
@@ -291,9 +291,8 @@ For Example:
 
     data List a = Nil | Cons a (List a)
 
+参考
+----
 
-
-<!--links-->
-
-[1]: http://www.haskellforall.com/2012/09/the-functor-design-pattern.html
-[2]: https://en.wikipedia.org/wiki/Type_theory
+1. [http://www.haskellforall.com/2012/09/the-functor-design-pattern.html](http://www.haskellforall.com/2012/09/the-functor-design-pattern.html)
+2. [https://en.wikipedia.org/wiki/Type_theory](https://en.wikipedia.org/wiki/Type_theory)

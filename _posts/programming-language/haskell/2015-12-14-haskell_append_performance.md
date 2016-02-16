@@ -85,11 +85,11 @@ main = do
     end <- getCurrentTime
     putStrLn $ "reverse from standard library took " ++ show (diffUTCTime end start)
     start <- getCurrentTime
-    print . sum . reverse2 $ns    
+    print . sum . reverse2 $ns
     end <- getCurrentTime
     putStrLn $ "reverse of quadratic time took " ++ show (diffUTCTime end start)
     start <- getCurrentTime
-    print . sum . reverse3 $ns    
+    print . sum . reverse3 $ns
     end <- getCurrentTime
     putStrLn $ "reverse of linear time took " ++ show (diffUTCTime end start)
 ~~~
@@ -152,8 +152,5 @@ toList      = ($[]) . unDL
 另一个高效地实现List的append/prepend的数据结构是 Figure Tree。Haskell的库containers中导出了Figure Tree的一个实现 `Data.Sequence`，具有很好的执行效率。
 
 > Standard `Sequence` has $O(1)$ for addition from 'both ends' and $O(log(min(n1,n2)))$ for general concatenation (The difference from lists though is that `Sequence` is strict).
-
-
-
 
 

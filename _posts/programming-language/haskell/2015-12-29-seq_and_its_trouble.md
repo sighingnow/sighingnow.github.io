@@ -190,8 +190,8 @@ Polymorphic `seq` 可能会破坏一些变换的等价性。例如在Haskell中�
 
 等式两边的值不一样，破坏了等式的性质。之所以会出现这个问题，愿意就在于`seq`会将List `xs`
 中不同位置的两个值建立起依赖。更深层次的探讨，这一问题与Free Theorem有关， _[Free
-Theorems in the Presence of seq][3]_ 以及 Philip Wadler 的论文 _[Theorems for
-free!][1]_ 就在讨论这一问题，此外，_[Improvements for Free][2]_ 一文看上去也很有
+Theorems in the Presence of seq](http://www.janis-voigtlaender.eu/papers/FreeTheoremsInThePresenceOfSeq.pdf)_ 以及 Philip Wadler 的论文 _[Theorems for
+free!](http://dl.acm.org/citation.cfm?id=99404)_ 就在讨论这一问题，此外，_[Improvements for Free](http://arxiv.org/pdf/1107.1203.pdf)_ 一文看上去也很有
 意思。
 
 Polymorphic `seq` 在特定情况下会产生一些问题，但是其他的可选方案同样不是非常理想。如果
@@ -199,7 +199,7 @@ Polymorphic `seq` 在特定情况下会产生一些问题，但是其他的可�
 内存占用过大的问题可以通过`seq`来解决，因此，`seq`也不可能被去除。
 
 StackOverflow上另一个问题 [A simple example showing that IO doesn't satisfy the
-monad laws?][6] 也很有意思，答案是使用 `seq` !!! 事实上，将`seq`和`undefined`组合
+monad laws?](http://stackoverflow.com/questions/12617664/a-simple-example-showing-that-io-doesnt-satisfy-the-monad-laws/12620418#12620418) 也很有意思，答案是使用 `seq` !!! 事实上，将`seq`和`undefined`组合
 会破坏Monad Laws，因此，所有的 Monad 都会失效。
 
 对于一个Monad，有：
@@ -251,13 +251,4 @@ seq (undefined            :: a -> Maybe b) () = undefined
 ----
 
 最后一部分内容关于 `seq` is bad 的内容参考了 Jan Christiansen 在 StackOverflow
-上的问题 [Why is seq bad?][4] 下的 [回答][5]。
-
-<!--links-->
-
-[1]: http://dl.acm.org/citation.cfm?id=99404
-[2]: http://arxiv.org/pdf/1107.1203.pdf
-[3]: http://www.janis-voigtlaender.eu/papers/FreeTheoremsInThePresenceOfSeq.pdf
-[4]: http://stackoverflow.com/questions/12687392/why-is-seq-bad
-[5]: http://stackoverflow.com/a/12688908
-[6]: http://stackoverflow.com/questions/12617664/a-simple-example-showing-that-io-doesnt-satisfy-the-monad-laws/12620418#12620418
+上的问题 [Why is seq bad?](http://stackoverflow.com/questions/12687392/why-is-seq-bad) 下的 [回答](http://stackoverflow.com/a/12688908)。

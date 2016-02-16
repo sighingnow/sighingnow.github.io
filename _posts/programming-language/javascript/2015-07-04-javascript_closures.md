@@ -9,7 +9,7 @@ layout: post
 
 闭包这个概念第一次出现在1964年的《The Computer Journal》上，由P. J. Landin在《The mechanical evaluation of expressions》一文中提出了applicative expression和closure的概念。
 
-在StackOverflow上的关于闭包的问题描述[How do JavaScript closures work?][2]中有这样一段话,很有意思：
+在StackOverflow上的关于闭包的问题描述[How do JavaScript closures work?](http://stackoverflow.com/questions/111102/how-do-javascript-closures-work) 中有这样一段话,很有意思：
 
 > If you can't explain it to a six-year-old, you really don't understand it yourself.
 
@@ -22,9 +22,9 @@ layout: post
 
 另一段关于闭包的叙述：
 
-> Also we represent the value of a λ-expression by a bundle of information called a "closure", comprising the λ-expression and the environment relative to which it was evaluated. We must therefore arrange that such a bundle is correctly interpreted whenever it has to be applied to some argument. 
+> Also we represent the value of a λ-expression by a bundle of information called a "closure", comprising the λ-expression and the environment relative to which it was evaluated. We must therefore arrange that such a bundle is correctly interpreted whenever it has to be applied to some argument.
 
-A closure has an environment part which is a list whose two items are: 
+A closure has an environment part which is a list whose two items are:
 
 + (1) an environment
 + (2) an identifier or list of identifiers
@@ -48,7 +48,7 @@ JavaScript中的闭包
 function f(){
     var n=999;
     function g(){
-        return (n++); 
+        return (n++);
     }
     return g;
 }
@@ -69,7 +69,7 @@ function f(){
 
 > 典型实现方式是定义一个特殊的数据结构，保存了函数地址指针与闭包创建时的函数的词法环境表示（那些nonlocal变量的绑定）。使用函数调用栈的语言实现闭包比较困难，因而这也说明了为什么大多数实现闭包的语言是基于垃圾收集机制。闭包的实现与函数对象很相似。这种技术也叫做**lambda lifting**。
 
-JavaScript 中的闭包与其 Scope Chain 特性真是密不可分的。首先在 JavaScript 的执行中会一直存在一个 Execute Context Stack (想想 JavaScript 解释器在看到一个 alert(x) 的时候, 如果没有上下文他怎么知道这个 x 是什么?), Execute Context Stack 中最下面一个一定是 GlobalContext, 而在每一个函数的执行开始就会向这个 stack 中压入一个此 Function 的 Execution Context; 而一个 Execution Context 的组成分为三部分: 
+JavaScript 中的闭包与其 Scope Chain 特性真是密不可分的。首先在 JavaScript 的执行中会一直存在一个 Execute Context Stack (想想 JavaScript 解释器在看到一个 alert(x) 的时候, 如果没有上下文他怎么知道这个 x 是什么?), Execute Context Stack 中最下面一个一定是 GlobalContext, 而在每一个函数的执行开始就会向这个 stack 中压入一个此 Function 的 Execution Context; 而一个 Execution Context 的组成分为三部分:
 
 1. Variable Object: 存储方法内的变量 vars, 方法传入的参数, 函数内定义的函数等等(函数表达式不保存), Variable Object 在任何时候是不可以被直接访问到的, 当然不同的 JS 引擎提供了访问接口就说不定了;
 2. Scope Chain: 这个函数执行的时候用以寻找值的 Scope Chain, 这个 Scope Chain 由 Variable Object + All Parent Scopes 组成, Variable Object 会放在这个 Scope Chain 的最前面, 这也是为什么函数内的变量会被最先找到;
@@ -88,7 +88,7 @@ JavaScript 中的闭包与其 Scope Chain 特性真是密不可分的。首先�
 function f() {
     var n = 999;
     function g() {
-        return n; 
+        return n;
     }
     n += 1;
     return g;
@@ -165,14 +165,8 @@ Final points
 参考
 ----
 
-1. [how-do-javascript-closures-work][2]
-2. [ECMA-262-3 in detail. Chapter 1. Execution Contexts.][3]
-3. [MDN文档. 闭包(Closures)][4]
-
-<!--links-->
-
-[1]: http://ejohn.org/apps/learn/
-[2]: http://stackoverflow.com/questions/111102/how-do-javascript-closures-work
-[3]: http://dmitrysoshnikov.com/ecmascript/chapter-1-execution-contexts/
-[4]: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Closures
+1. [http://ejohn.org/apps/learn/](http://ejohn.org/apps/learn/)
+2. [how-do-javascript-closures-work](http://stackoverflow.com/questions/111102/how-do-javascript-closures-work)
+3. [ECMA-262-3 in detail. Chapter 1. Execution Contexts](http://dmitrysoshnikov.com/ecmascript/chapter-1-execution-contexts/).
+4. [MDN文档. 闭包(Closures)](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Closures).
 

@@ -7,7 +7,7 @@ category: 社会网络
 layout: post
 ---
 
-社交网站站内排名一直是一个热门的话题，一套好的排名机制有助于将社区中精华的内容(如博客、帖子、评论等)优先推送给网站用户，从而有效促进社区的良性发展。本文将以[Reddit][1]和[知乎][2]这两个热门社交网站为例，分析其站内排名算法的优缺点，并探讨其对整个社区内社团形成以及同质化的作用和影响。
+社交网站站内排名一直是一个热门的话题，一套好的排名机制有助于将社区中精华的内容(如博客、帖子、评论等)优先推送给网站用户，从而有效促进社区的良性发展。本文将以[Reddit](http://www.reddit.com)和[知乎](http://www.zhihu.com)这两个热门社交网站为例，分析其站内排名算法的优缺点，并探讨其对整个社区内社团形成以及同质化的作用和影响。
 
 知乎排名算法
 ------------
@@ -22,7 +22,7 @@ layout: post
 
 如今，知乎已经是一个有着几百万活跃用户、几万个话题和几千万个问题的大型社交网站，知乎的话题涵盖了IT、自然科学、工程、数学、历史、政治、经济等多方面的话题，也有很多非常优秀的用户在这儿贡献自己的才华和智慧。对于这样一个网站来说，一套优秀的站内排名算法是至关重要的。
 
-知乎采取的是基于用户投票的[威尔逊算法][3]。算法描述如下：
+知乎采取的是基于用户投票的[威尔逊算法](http://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval)。算法描述如下：
 
 $$n = u+v$$
 $$p = u/n$$
@@ -78,7 +78,7 @@ def hot(ups, downs, date):
     return round(order + sign * seconds / 45000, 7)
 ~~~
 
-(代码来源：[https://github.com/reddit/reddit/blob/master/r2/r2/lib/db/_sorts.pyx][5])
+(代码来源：[https://github.com/reddit/reddit/blob/master/r2/r2/lib/db/_sorts.pyx](https://github.com/reddit/reddit/blob/master/r2/r2/lib/db/_sorts.pyx))
 
 Reddit采用的算法考虑了这样几个因素:
 
@@ -123,16 +123,7 @@ $$Score = log_{10}{z} + \frac{yt}{45000}$$
 参考
 ----
 
-1. [威尔逊得分][3]
-2. [How Reddit ranking algorithms work][4]
-3. [Reddit’s empire is founded on a flawed algorithm][6]
-
-<!--links-->
-
-[1]: http://www.reddit.com
-[2]: http://www.zhihu.com
-[3]: http://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval
-[4]: http://amix.dk/blog/post/19588
-[5]: https://github.com/reddit/reddit/blob/master/r2/r2/lib/db/_sorts.pyx
-[6]: http://technotes.iangreenleaf.com/posts/2013-12-09-reddits-empire-is-built-on-a-flawed-algorithm.html
+1. [威尔逊得分](http://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval)
+2. [How Reddit ranking algorithms work](http://amix.dk/blog/post/19588)
+3. [Reddit’s empire is founded on a flawed algorithm](http://technotes.iangreenleaf.com/posts/2013-12-09-reddits-empire-is-built-on-a-flawed-algorithm.html).
 

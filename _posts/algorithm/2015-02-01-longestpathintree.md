@@ -7,7 +7,7 @@ category: Algorithm
 layout: post
 ---
 
-树的最长路问题是一类求解树上两点之间最长距离的问题。针对此问题，有这样两类算法：DFS求解和树形DP。本文将以 [HihoCoder 1050 : 树中的最长路][1] 一题为例，
+树的最长路问题是一类求解树上两点之间最长距离的问题。针对此问题，有这样两类算法：DFS求解和树形DP。本文将以 [HihoCoder 1050 : 树中的最长路](http://hihocoder.com/problemset/problem/1050) 一题为例，
 详细阐述这两种解法。
 
 <!--more-->
@@ -56,7 +56,7 @@ $$dis(u,T)+dis(s,X)+dis(u,X) > dis(s,X)+dis(X,t) = dis(s,t)$$
 
 ## 代码实现
 
-[HihoCoder 1050][2]
+[HihoCoder 1050](http://hihocoder.com/problemset/problem/1050)
 
 ~~~cpp
 #include <cstdio>
@@ -111,9 +111,4 @@ int main(int argc, char **argv) {
     return 0;
 }
 ~~~
-
-<!--links-->
-
-[1]: http://hihocoder.com/problemset/problem/1050
-[2]: http://hihocoder.com/problemset/problem/1050
 

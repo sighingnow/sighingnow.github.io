@@ -68,11 +68,11 @@ f(A) = I(Y;XA) = H(Y) − H(Y|XA) = H(XA) − H(XA|Y)
 
 7. Monge Matrices
 
-$m \times n $ matrices $ C = [cij]_{ij}$ are called Monge matrices if they satisfy
+$m \times n$ matrices $C = c_{ij}$ are called Monge matrices if they satisfy
 the Monge property, namely(也就是说):
 $$c_{ij}+ c_{rs} < c_{is} + c_{rj}$$
 
-for all $1 \le i < r \le m $ and $ 1 \le j < s \le n$.
+for all $1 \le i < r \le m$ and $ 1 \le j < s \le n$.
 
 四边形不等式(quadrangle inqeuality)，加速DP(dynamic programming problems)。
 
@@ -133,7 +133,4 @@ decreases (diminishes) as the context in which $v$ is considered grows from
 $A$ to $B$.
 3. $f(A) + f(B) \ge f(A\bigcup B)$
 This means that the “whole” is less than the sum of the parts.
-
-
-
 

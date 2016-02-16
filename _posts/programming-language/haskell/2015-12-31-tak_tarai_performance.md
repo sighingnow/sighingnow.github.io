@@ -8,7 +8,7 @@ layout: post
 ---
 
 Tak函数和Tarai函数是两个非常类似，但本质上差异显著的函数，具体的定义参考[Wikipedia
-的页面][1]。
+的页面](https://en.wikipedia.org/wiki/Tak_(function))。
 
 + Tak 函数
 
@@ -19,7 +19,7 @@ $$\tau (x,y,z) = {\begin{cases}
 z                                                     & {\text{otherwise}}
 \end{cases}}$$
 
-John McMarchy 的论文 [_An Interesting Lisp Function_][2] 中论述了以下两个 tak 函数的性质。
+John McMarchy 的论文 [_An Interesting Lisp Function_](http://dl.acm.org/citation.cfm?id=1411833) 中论述了以下两个 tak 函数的性质。
 
 $$tak(x+a, y+a, z+a) = tak(x, y, z) + a$$
 
@@ -152,8 +152,3 @@ Haskell 作为一门抽象程序极高，表达能力极强的编程语言，在
 在 Haskell 这种默认惰性求值的语言中实现 Strict 确实非常难的事情，`BangPattern`以及Strict标记(`!`)的使用对程序的可读性和可维护行没有什么好处，但
 这是在Haskell里使用Strict Evaluation的唯一途径。不过好在 GHC 8.0 将会加入`Strict`和`StrictData`扩展，可以将整个模块直接设为 Strict Evaluation,
 能够将程序从散落各处的`!`标记中解救出来。
-
-<!--links-->
-
-[1]: https://en.wikipedia.org/wiki/Tak_(function)
-[2]: http://dl.acm.org/citation.cfm?id=1411833

@@ -40,7 +40,7 @@ class B extends A {
 ~~~
 
 无论是
-    
+
     B b = new B()
 
 还是
@@ -49,7 +49,7 @@ class B extends A {
 
 编译时都会出错。错误信息为：
 
-    对于A(), 找不到合适的构造器。
+    对于 `A()`, 找不到合适的构造器。
 
 如果子函数中使用了`super`语句(**注意：**`super`语句只能写在子类构造函数的*第一行*)，此时，便会根据`super`的参数类型去调用父类中相同参数类型的构造函数。如果父类中不存在以`super`中的参数为参数的构造函数，编译时会报错。
 
@@ -169,7 +169,7 @@ public class Main {
 
         System.out.println(b.getClass());
         System.out.println(a.getClass());
-        
+
         System.out.println(a instanceof A);
         System.out.println(b instanceof A);
         System.out.println(a instanceof B);
@@ -220,8 +220,4 @@ class B extends A {
 1. [15.20.2. Type Comparison Operator `instanceof`](http://docs.oracle.com/javase/specs/jls/se8/html/jls-15.html#jls-15.20.2)
 2. [How do I determine if a class extends another class in Java?](http://stackoverflow.com/questions/4100281/how-do-i-determine-if-a-class-extends-another-class-in-java)
 
-
 *注:*代码测试环境：java version "1.8.0_40"
-
-
-

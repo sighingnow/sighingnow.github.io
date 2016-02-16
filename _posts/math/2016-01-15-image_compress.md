@@ -28,7 +28,7 @@ F(k,l) &= \sum_{m=0}^{M-1} \sum_{n=0}^{N-1} f(m,n)e^{-j2\pi(km/M+ln/N)} \\
 
 对得到的频谱进行低通滤波，可以得到压缩后的图像，对得到的频谱进行低通滤波，可以得到图片的大致轮廓。例如下例：
 
-![高通滤波和低通滤波对比][1]
+![高通滤波和低通滤波对比]({{site.url}}/resource/image_compress/fft_edge.jpg)
 
 从这三张图片中可以看出，低通滤波后，原来图像色彩变化比较剧烈的地方变得模糊，但于此同时，图像的大小也减少了很多，说明图片被压缩了，同时失真了。
 而最后一张图片是经过高通滤波后的图片，图片中原来的轮廓位置被保留了下来，其他地方的信息都丢失了，通过对图像的处理我们得到了图像的边缘检测，如果
@@ -160,24 +160,17 @@ imshow(k), title('FFT 比例 0.6');
 
 用于压缩的图片原图(Figure 2)：
 
-![原图][2]
+![原图]({{site.url}}/resource/image_compress/origin.jpg)
 
 ### FFT压缩效果图
 
 通过快速傅里叶变换和快速傅里叶逆变换之后得到的效果图如(Figure 3)（左侧为高通滤波后的频率分布，右侧为按照不同的率波比例压缩后的图片）：
 
-![FFT效果图][3]
+![FFT效果图]({{site.url}}/resource/image_compress/fft_result.jpg)
 
 ### DCT压缩效果图
 
 通过离散余弦变换和离散余弦反变换之后得到的效果图(Figure 4)（左侧为高通滤波后的频率分布，右侧为按照不同的率波比例压缩后的图片）：
 
-![DCT效果图][4]
-
-<!--links-->
-
-[1]: {{site.url}}/resource/image_compress/fft_edge.jpg
-[2]: {{site.url}}/resource/image_compress/origin.jpg
-[3]: {{site.url}}/resource/image_compress/fft_result.jpg
-[4]: {{site.url}}/resource/image_compress/dct_result.jpg
+![DCT效果图]({{site.url}}/resource/image_compress/dct_result.jpg)
 

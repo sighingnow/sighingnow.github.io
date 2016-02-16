@@ -99,20 +99,15 @@ target可以是GL_ARRAY_BUFFER或者GL_ELEMENT_ARRAY_BUFFER等。size指定了�
 
 完成了对缓冲区对象的操作之后，可以释放它的资源，并使它的标识符可以由其他缓冲区对象使用。为此，可以调用glDeleteBuffers()。被删除的当前绑定缓冲区对象的所有绑定都将重置为零。函数原型：
 
-    void glDeleteBuffers(GLsizei n, const GLuint *buffers); 
+    void glDeleteBuffers(GLsizei n, const GLuint *buffers);
 
 如果一个缓冲区对象是在绑定时删除的，这个对象的所有绑定都重置为默认的缓冲区对象，就像以0作为指定的缓冲区对象参数调用了glBindBuffer()一样。如果试图删除不存在的缓冲区对象或名称为0的缓冲区对象，这个操作将被忽略，并不会产生错误。
 
 程序运行效果：
 
-![OpenGL Plot Lines][1]
+![OpenGL Plot Lines]({{site.url}}/resource/opengl_vbo/vbo_plot_lines.png)
 
 参考
 -----
 
-1. [Ogldev tutorial 02： Hello Dot!][2]
-
-<!--links-->
-
-[1]: {{site.url}}/resource/opengl_vbo/vbo_plot_lines.png
-[2]: http://ogldev.atspace.co.uk/www/tutorial02/tutorial02.html
+1. [Ogldev tutorial 02： Hello Dot!](http://ogldev.atspace.co.uk/www/tutorial02/tutorial02.html)

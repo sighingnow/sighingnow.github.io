@@ -7,7 +7,7 @@ category: Graphics
 layout: post
 ---
 
-忽然开始对OpenGL感兴趣了。便去看了一下[ogldev][1]上的tutorial给的demo。
+忽然开始对OpenGL感兴趣了。便去看了一下 [ogldev](http://ogldev.atspace.co.uk/www/tutorial01/tutorial01.html) 上的tutorial给的demo。
 
 OpenGL（全写Open Graphics Library）是个定义了一个跨编程语言、跨平台的编程接口规格的专业的图形程序接口。它用于三维/二维图像，是一个功能强大，调用方便的底层图形库。
 
@@ -64,13 +64,13 @@ GLUT_DOUBLE指定系统使用双缓冲，就是有2个color buffer，一个称�
     glutSwapBuffers();
 
 另外，如果是采用单缓冲，`glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB)`, 使用`glFlush()`来刷新显示，不必再交换缓冲区:
-    
+
     glFlush();
 
 使用MinGW编译
 --------------
 
-为了能够使用MinGW gcc来编译OpenGL程序，需要安装GLUT库，这儿使用[freeglut][2]。
+为了能够使用MinGW gcc来编译OpenGL程序，需要安装GLUT库，这儿使用[freeglut](http://freeglut.sourceforge.net/)。
 
 编译：
 
@@ -82,7 +82,7 @@ GLUT_DOUBLE指定系统使用双缓冲，就是有2个color buffer，一个称�
 
 得到window.exe，运行截图如下：
 
-![first_window.png][3]
+![first_window.png]({{site.url}}/resource/opengl_first/first_window.png)
 
 Python实现
 ---------
@@ -138,12 +138,12 @@ if __name__ == '__main__':
 
     #pragma comment( linker, "/subsystem:\"windows\" /entry:\"mainCRTStartup\"" )
 
-源代码： [window.c][4], [Makefile][5], [window.pyw][6]
+源代码： [window.c]({{site.url}}/resource/opengl_first/window.c), [Makefile]({{site.url}}/resource/opengl_first/Makefile), [window.pyw]({{site.url}}/resource/opengl_first/window.pyw)
 
 OpenGL绘制Utah teapot
 ---------------------
 
-[Utah teapot][7]是在计算机图形学界广泛采用的标准参照物体。以一个茶壶作为基本物体的想法，与的“Hello World”程序如出一辙。目的是，方便快捷地建立一个最简单的三维场景，使其含有相对复杂的模型，以此模型为基本参考几何物体，用以辅助安排场景和设定灯光。
+[Utah teapot](https://en.wikipedia.org/wiki/Utah_teapot) 是在计算机图形学界广泛采用的标准参照物体。以一个茶壶作为基本物体的想法，与的“Hello World”程序如出一辙。目的是，方便快捷地建立一个最简单的三维场景，使其含有相对复杂的模型，以此模型为基本参考几何物体，用以辅助安排场景和设定灯光。
 
 GLUT库提供了函数`glutWireTeapot`和`glutSolidTeapot`来绘制不同的Utah teapot，只需要更改`glutDisplayFunc()`注册的回掉函数`InternalCB`即可：
 
@@ -155,8 +155,8 @@ static void InternalCB()
 
     glutWireTeapot(0.5f);
 
-    // tells GLUT to swap the roles of the backbuffer and the frontbuffer. 
-    // In the next round through the render callback we will render into 
+    // tells GLUT to swap the roles of the backbuffer and the frontbuffer.
+    // In the next round through the render callback we will render into
     // the current frames front buffer and the current backbuffer will be displayed.
     glutSwapBuffers();
 }
@@ -164,7 +164,7 @@ static void InternalCB()
 
 效果显示：
 
-![Utah teapot][8]
+![Utah teapot]({{site.url}}/resource/opengl_first/utah_teapot.png)
 
 绘制图元
 -------
@@ -190,7 +190,7 @@ glBegin()提供的图元有：
 
 关于这些图元的定点的绘制顺序的解释如下：
 
-![GL Geometric Primitives][9]
+![GL Geometric Primitives]({{site.url}}/resource/opengl_first/gl_geometric_primitives.png)
 
 gluOrtho2D函数是OpenGL中的二维裁剪函数，函数原型为：
 
@@ -254,18 +254,6 @@ glVertex2f(0.8, -0.3)
 glEnd()
 ~~~
 
-代码：[gl_plot_rects.pyw][11]
+效果图：![]({{site.url}}/resource/opengl_first/gl_plot_rects.png)
 
-<!--links-->
-
-[1]: http://ogldev.atspace.co.uk/www/tutorial01/tutorial01.html
-[2]: http://freeglut.sourceforge.net/
-[3]: {{site.url}}/resource/opengl_first/first_window.png
-[4]: {{site.url}}/resource/opengl_first/window.c
-[5]: {{site.url}}/resource/opengl_first/Makefile
-[6]: {{site.url}}/resource/opengl_first/window.pyw
-[7]: https://en.wikipedia.org/wiki/Utah_teapot
-[8]: {{site.url}}/resource/opengl_first/utah_teapot.png
-[9]: {{site.url}}/resource/opengl_first/gl_geometric_primitives.png
-[10]: {{site.url}}/resource/opengl_first/gl_plot_rects.png
-[11]: {{site.url}}/resource/opengl_first/gl_plot_rects.pyw
+代码：[gl_plot_rects.pyw]({{site.url}}/resource/opengl_first/gl_plot_rects.pyw)

@@ -17,10 +17,10 @@ Lazy 的实现
 
 > Thunks are primarily used to represent an additional calculation that a subroutine needs to execute, or to call a routine that does not support the usual calling mechanism.
 
-Haksell 的惰性求值正是通过将表达式包装成一个**thunk**实现的。例如计算 `f (g x)`，实际上给f传递的参数就是一个类似于包装成 `(\_ > (g x))` 的一个thunk 然后在真正需要计算 `g x`
+Haksell 的惰性求值正是通过将表达式包装成一个**thunk**实现的。例如计算 `f (g x)`，实际上给f传递的参数就是一个类似于包装成 `(\_ > (g x))` 的一个 [thunk](https://en.wikipedia.org/wiki/Thunk) 然后在真正需要计算 `g x`
 的时候才会调用这个thunk。这个thunk里面还包含一个boolean表示该thunk是否已经被计算过（若已经被计算过，则还包含一个返回值），用来防止重复计算。
 
-接下来，我们使用Haskell的 [ghc-heap-view][5] 工具来举例说明 Haskell 的惰性求值是如何运作的。
+接下来，我们使用Haskell的 [ghc-heap-view](http://hackage.haskell.org/package/ghc-heap-view) 工具来举例说明 Haskell 的惰性求值是如何运作的。
 
     Prelude> let x = map show [(0::Int) ..]
     Prelude> :printHeap x
@@ -42,7 +42,7 @@ Haksell 的惰性求值正是通过将表达式包装成一个**thunk**实现的
 
 `_bh` 指的是BLACKHOLE。这里
 
-+ `(_bh _fun)` 应该是`instace Show Int`中的`show` 
++ `(_bh _fun)` 应该是`instace Show Int`中的`show`
 + `(_thunk _fun{9223372036854775807} 9223372036854775807 0)` 本应该是`instance Enum Int`中的`enumFrom`，不过从这个数值 9223372036854775807 可以猜测到 `enumFrom n = enumFromTo n maxBound`
 
 这时x已经被求值到了，而`show`和`enumFrom`本身也被求值了。
@@ -67,14 +67,14 @@ Haksell 的惰性求值正是通过将表达式包装成一个**thunk**实现的
 
 `performGC`消灭BLACKHOLE。BLACKHOLE是为了兼顾多线程和效率而存在。Black Hole 的详细定义和解释:
 
-> The concurrent runtime system uses black holes as synchronisation points for subexpressions which are shared among multiple threads. In "sequential Haskell", a black hole indicates a cyclic data dependency, which is a fatal error. However, in concurrent execution, a black hole may simply indicate that the desired expression is being evaluated by another thread. Therefore, when a thread encounters a black hole, it simply blocks and waits for the black hole to be updated. 
+> The concurrent runtime system uses black holes as synchronisation points for subexpressions which are shared among multiple threads. In "sequential Haskell", a black hole indicates a cyclic data dependency, which is a fatal error. However, in concurrent execution, a black hole may simply indicate that the desired expression is being evaluated by another thread. Therefore, when a thread encounters a black hole, it simply blocks and waits for the black hole to be updated.
 
 > Cyclic data dependencies will result in deadlock, and the program will fail to terminate.
 
 lazy graph reduction
 -------------------
 
-[Graph reduction][2], 是惰性求值的实现方式，Spineless Tarless G-Machine 和 G-Machine 之类的抽象机器可以专门用于实现惰性求值语言中的 Graph reduction。
+[Graph reduction](https://en.wikipedia.org/wiki/Graph_reduction), 是惰性求值的实现方式，Spineless Tarless G-Machine 和 G-Machine 之类的抽象机器可以专门用于实现惰性求值语言中的 Graph reduction。
 
 关于 Lazy Evaluation 的时间和空间消耗，**惰性求值不会需要比贪婪求值更多的求值步骤**，因此，二者的时间复杂度不会有本质上的差异，Haskell 中，用于判断一个 object 的值是否已经求出的重复的检查，但是，Lazy Evaluation 的空间消耗值得关注。
 
@@ -147,14 +147,6 @@ void *force(lazy *l) {
 参考
 ----
 
-1. [Potential problems with Concurrent Haskell][1]
-2. [How Lazy Evaluation Works in Haskell][3]
-
-<!--links-->
-
-[1]: https://downloads.haskell.org/~ghc/0.29/docs/users_guide/user_86.html
-[2]: https://en.wikipedia.org/wiki/Graph_reduction
-[3]: https://hackhands.com/lazy-evaluation-works-haskell/
-[4]: https://en.wikipedia.org/wiki/Thunk
-[5]: http://hackage.haskell.org/package/ghc-heap-view
+1. [Potential problems with Concurrent Haskell](https://downloads.haskell.org/~ghc/0.29/docs/users_guide/user_86.html)
+2. [How Lazy Evaluation Works in Haskell](https://hackhands.com/lazy-evaluation-works-haskell/)
 

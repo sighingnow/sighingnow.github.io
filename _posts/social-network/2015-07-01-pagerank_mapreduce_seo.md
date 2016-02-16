@@ -41,7 +41,7 @@ PageRank算法在计算页面排名时基于以下两个假设：
 
 如下图中的节点的链接关系和PageRank权值便能很好地反映出这个问题：
 
-![][1]
+![]({{site.url}}/resource/pagerank_mapreduce_seo/pagerank-example.png)
 
 三、算法原理分析
 -------------
@@ -133,7 +133,7 @@ calcEigenMatrix<-function(G){
 六、MapReduce化分析及实现
 ----------------------
 
-可以直接根据PageRank算法的简单公式： $$Rv=alpha * Sigma(Rn/Nn)+ (1-apha)/N$$ 来实现并行化，大概思路为：
+可以直接根据PageRank算法的简单公式： $$Rv = alpha * Sigma(Rn/Nn)+ (1-apha)/N$$ 来实现并行化，大概思路为：
 
 + Mapper 的输入格式为：（节点，PageRank 值）->（该节点的外部链接节点列表）
 + Mapper 的输出格式为：（节点） -> （该节点的反向链接节点，反向节点的 PankRank 值/反向节点的外链个数）
@@ -232,7 +232,7 @@ if __name__ == '__main__':
 
 程序模拟的构图为：
 
-![][2]
+![]({{site.url}}/resource/pagerank_mapreduce_seo/pagerankdemo.png)
 
 模拟有两个节点参与计算，初始时PageRank的值都为0.25，使用的阈值为0.0001，最多迭代的次数为100次。
 
@@ -247,7 +247,7 @@ if __name__ == '__main__':
 
 此外，将矩阵迭代并行化可以很好滴实现PageRank算法的并行化，其MapReduce流程分解如下图所示：
 
-![][3]
+![]({{site.url}}/resource/pagerank_mapreduce_seo/pagerankjob.png)
 
 七、SEO以及反SEO
 ---------------
@@ -269,7 +269,7 @@ Google经常处罚恶意提高PageRank的行为，至于其如何区分正常的
 
 下图就是这样一个Spam拓扑图：
 
-![][4]
+![]({{site.url}}/resource/pagerank_mapreduce_seo/pagerankspam.png)
 
 其中T是目标页，A是可达页，S是支持页。按照PageRank算法计算页面排名，最终的结果显示这个拓扑结构将会使得页面T的PageRank值放大约2.7倍！因此，这种策略在网页排名作弊中相当有效！
 
@@ -279,7 +279,7 @@ Google经常处罚恶意提高PageRank的行为，至于其如何区分正常的
 
 TrustRank放法是另一种可行的反作弊策略。TrustRank的思想很直观：如果一个页面的普通rank远高于可信网页的topic rank，则很可能这个页面被spam了。所谓可信网页例如政府网站、新浪、网易门户首页等等。
 
-设一个页面普通rank为P，TrustRank为T，则定义网页的Spam Mass为：$\frac{P–T}{P}。Spam Mass越大，说明此页面为spam目标页的可能性越大。
+设一个页面普通rank为 $P$，TrustRank为 $T$，则定义网页的Spam Mass为：$\frac{P–T}{P}$。Spam Mass越大，说明此页面为spam目标页的可能性越大。
 
 参考
 ----
@@ -290,9 +290,3 @@ TrustRank放法是另一种可行的反作弊策略。TrustRank的思想很直�
 4. Lawrence Page, Sergey Brin, Rajeev Motwani, Terry Winograd. The PageRank Citation Ranking: Bringing Order to the Web, 1998
 5. PageRank算法并行实现, http://blog.fens.me/algorithm-pagerank-mapreduce/
 
-<!--links-->
-
-[1]: {{site.url}}/resource/pagerank_mapreduce_seo/pagerank-example.png
-[2]: {{site.url}}/resource/pagerank_mapreduce_seo/pagerankdemo.png
-[3]: {{site.url}}/resource/pagerank_mapreduce_seo/pagerankjob.png
-[4]: {{site.url}}/resource/pagerank_mapreduce_seo/pagerankspam.png

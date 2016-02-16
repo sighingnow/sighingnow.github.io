@@ -70,7 +70,7 @@ $X$ 的元素形成的等价类称为 $G$ 的轨道，它是集合 $X$ 的一个
 **Burnside引理**：
 
 $$L = \frac{1}{|G|}*(Z_1+Z_2+Z_3+Z_4+\dots+Z_k).$$
-$$L = \frac{L1}{|G|}*(C(\pi_1)+C(\pi_2)+C(\pi_3)+\dots+C(\pi_n)), $k\in X, \pi \in G.$$
+$$L = \frac{L1}{|G|}*(C(\pi_1)+C(\pi_2)+C(\pi_3)+\dots+C(\pi_n)), k\in X, \pi \in G.$$
 
 **Polya定理**：
 
@@ -120,7 +120,7 @@ void Polya() {
 例题：POJ 2409
 --------------
 
-题目链接：[POJ 2409: http://poj.org/problem?id=2409][1]
+题目链接：[POJ 2409: http://poj.org/problem?id=2409](http://poj.org/problem?id=2409)
 
 > A bracelet is a ring-like sequence of s beads each of which can have one of c distinct colors. The ring is closed, i.e. has no beginning or end, and has no direction. Assume an unlimited supply of beads of each color. For different values of s and c, calculate the number of different bracelets that can be made.
 
@@ -165,7 +165,7 @@ int main(int argc, char **argv) {
 例题：POJ 2154
 ---------------
 
-题目链接：[POJ 2154: http://poj.org/problem?id=2154][2]
+题目链接：[POJ 2154: http://poj.org/problem?id=2154](http://poj.org/problem?id=2154)
 
 题目大意：将正 $n$ 边形的 $n$ 个顶点用 $n$ 种颜色染色，问有多少种方案（答案$\text{mod } p$，且可由旋转互相得到的算一种）。
 
@@ -261,12 +261,5 @@ int main() {
 参考
 ----
 
-1. [polya 计数法，burnside定理][3]
-
-<!--links-->
-
-[1]: http://poj.org/problem?id=2409
-[2]: http://poj.org/problem?id=2154
-[3]: http://blog.sina.com.cn/s/blog_6f71bea30100opru.html
-
+1. [polya 计数法，burnside定理](http://blog.sina.com.cn/s/blog_6f71bea30100opru.html)
 

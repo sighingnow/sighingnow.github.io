@@ -12,7 +12,7 @@ layout: post
 题目
 ----
 
-题目链接：[斐波那契 http://lx.lanqiao.org/problem.page?gpid=T121][1]
+题目链接：[斐波那契 http://lx.lanqiao.org/problem.page?gpid=T121](http://lx.lanqiao.org/problem.page?gpid=T121)
 
 题目内容：
 
@@ -62,12 +62,12 @@ $$f(n+1) = f(n) + f(n-1)$$
 那么，由此得到：
 $$f(n) = f(n+1)-f(n-1)$$
 从这个等式可以推出：
-$$\begin{align*}
+$$\begin{aligned}
 \sum_{i=1}^n {f(i)} &= f(1)+f(2)+f(3)+\dots+f(n) \\
                     &= f(1)+f(3)-f(1)+f(4)-f(2)+\dots+f(n+1)-f(n-1) \\
                     &= f(n)+f(n+1)-f(2) \\
                     &= f(n+2)-1
-\end{align*}$$
+\end{aligned}$$
 这个性质非常重要，通过这个性质，可以将Fibonacci数列前 $N$ 项的求和转化为求解某一项的值。
 
 与上式同理，不难得到：
@@ -96,13 +96,13 @@ $$f(n)^2 = (-1)^{n+1} + f(n-1)*f(n+1)$$
 
 通过上面的Fibonacci数列前N项求和公式，可以将原来的问题简化成 $f(n)\%f(m)\%p$ 的情形。
 
-$$\begin{align*}
+$$\begin{aligned}
 f(n) \textit{ mod } f(m) &= f(n-m+m) \textit{ mod } f(m) \\
                 &= (f(n-m+1)*f(m)+f(n-m)*f(m-1)) \textit{ mod } f(m) \\
                 &= f(n-)f(m-1) \textit{ mod } f(m) \\
                 &= \dots \\
                 &= f(m-1)^{\frac{n}{m}} f(n \textit{ mod } m) \textit{ mod } f(m)
-\end{align*}$$
+\end{aligned}$$
 
 因此，当 $m$ 的值比较小时，完全可以通过预处理一定范围内的Fibonacci数列，便可以求解出问题的答案。
 
@@ -116,7 +116,7 @@ f(n) \textit{ mod } f(m) &= f(n-m+m) \textit{ mod } f(m) \\
 
 $$f(m) \textit{ mod } p - 1 + p) \textit{ mod } p$$
 
-结合前面提到了快速幂模的方法，这个问题是容易的。我们还有以下结论（推导过程参见文末[参考 2][2]）：
+结合前面提到了快速幂模的方法，这个问题是容易的。我们还有以下结论（推导过程参见文末[参考 2](http://blog.csdn.net/acdreamers/article/details/21822165)）：
 
 1. 当 $k$ 为奇数时，$$f(m-1) \times f(k) \textit{ mod } f(m) = f(m-k)$$
 2. 当 $k$ 为偶数时，$$f(m-1) \times f(k) \textit{ mod } f(m) = f(m) - f(m-k)$$
@@ -182,7 +182,7 @@ long long multiply(long long a, long long b) {
 Fibonacci另一种快速算法
 --------------------
 
-在[http://www.zhihu.com/question/29215494][5]看到了另一种基于分治的Fibonacci数列第n项的方法：
+在[http://www.zhihu.com/question/29215494](http://www.zhihu.com/question/29215494)看到了另一种基于分治的Fibonacci数列第n项的方法：
 
 ~~~c
 double Fibonacci(int n){
@@ -205,19 +205,11 @@ double Fibonacci(int n){
 
 关于该算法的解释如下图所示：
 
-![][4]
+![]({{site.url}}/resource/fibonacci/fibonacci-www.zhihu.com.png)
 
 参考
 ----
 
-1. [Fibonacci数列的幂和][3]
-2. [从蓝桥杯来谈Fibonacci数列][2]
+1. [Fibonacci数列的幂和](http://blog.csdn.net/acdreamers/article/details/23039571)
+2. [从蓝桥杯来谈Fibonacci数列](http://blog.csdn.net/acdreamers/article/details/21822165)
 
-
-<!--links-->
-
-[1]: http://lx.lanqiao.org/problem.page?gpid=T121
-[2]: http://blog.csdn.net/acdreamers/article/details/21822165
-[3]: http://blog.csdn.net/acdreamers/article/details/23039571
-[4]: {{site.url}}/resource/fibonacci/fibonacci-www.zhihu.com.png
-[5]: http://www.zhihu.com/question/29215494

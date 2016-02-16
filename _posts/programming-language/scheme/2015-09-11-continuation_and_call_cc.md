@@ -125,7 +125,7 @@ get-cc 函数捕捉到当前的 continuation，然后返回，显然，这个函
     > (x 10)
     > x
     10
-    > 
+    >
 
 **(get-cc) 获取它这个位置上的 continuation， (get-cc) 自己被用来做了什么事，它返回的 continuation 就对别人做同样的事。** 经过define之后，x 获得一个 continuation，这个continuation 的作用就是获取一个值，然后返回这个值，当以参数 10 来调用 x 时，continuation 返回一个值：10，并把这个值绑定到 x，x 被重新绑定，变成了数字10。但是直接以((get-cc) 10) 来调用的时候，(get-cc) 被当成了函数调用，显然就会出现错误了。
 
@@ -177,7 +177,7 @@ call/cc的实现
 
 在这个式子中，`k` 是需要保存的continuation，`(lambda (v k0) (k v))` 用来重新保存(restore) continuation。
 
-[Call-with-current-continuation for C programmers][3] 一文介绍了C语言中的 setjump/longjump 机制与 continuation 的异同，并从更加 low-level 的方式阐述了大多数主流 Scheme 解释器的 call/cc 的实现细节。Continuation 操作程序控制流的原理与命令式语言中的`goto`有着本质的不同。[Parent pointer tree][4](也作Spaghetti stack)就是编译器中实现call/cc，进行垃圾回收的一种方法。
+[Call-with-current-continuation for C programmers](http://community.schemewiki.org/?call-with-current-continuation-for-C-programmers) 一文介绍了C语言中的 setjump/longjump 机制与 continuation 的异同，并从更加 low-level 的方式阐述了大多数主流 Scheme 解释器的 call/cc 的实现细节。Continuation 操作程序控制流的原理与命令式语言中的`goto`有着本质的不同。[Parent pointer tree](https://en.wikipedia.org/wiki/Parent_pointer_tree) (也作Spaghetti stack) 就是编译器中实现call/cc，进行垃圾回收的一种方法。
 
 在并发领域，Coroutine就是基于Continuation实现的。Continuation可认为是对PCB的抽象，其实它就是函数当前的执行栈，并且是实实在在可以被保存的东西，因此，很容易通过CPS来实现协程、non-local-return 等。
 
@@ -185,14 +185,7 @@ call/cc的实现
 参考
 ----
 
-1. [Wikipedia Continuation][1]
-2. [Call-with-current-continuation for C programmers][3]
-
-<!--links-->
-
-[1]: https://en.wikipedia.org/wiki/Continuation
-[2]: https://en.wikipedia.org/wiki/Call-with-current-continuation
-[3]: http://community.schemewiki.org/?call-with-current-continuation-for-C-programmers
-[4]: https://en.wikipedia.org/wiki/Parent_pointer_tree
-
+1. [Wikipedia Continuation](https://en.wikipedia.org/wiki/Continuation)
+2. [Wikipedia Call with Current Continuation](https://en.wikipedia.org/wiki/Call-with-current-continuation)
+3. [Call-with-current-continuation for C programmers](http://community.schemewiki.org/?call-with-current-continuation-for-C-programmers)
 

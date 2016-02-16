@@ -29,19 +29,19 @@ Our program will generate a random integer between one and a hundred. It will th
 │  a.txt
 │  Cargo.lock
 │  Cargo.toml
-│  
+│
 ├─src
 │      main.rs
-│      
+│
 └─target
     └─debug
         │  guessing_game.exe
-        │  
+        │
         ├─.fingerprint
         │  └─guessing_game-375af41f7208f0f5
         │          bin-guessing_game
         │          dep-bin-guessing_game
-        │          
+        │
         ├─build
         ├─deps
         ├─examples
@@ -111,7 +111,7 @@ fn main() {
 
 代码解释：
 
-`extern crate rand;`: we can use extern crate to let Rust know we’ll be making use of it. 
+`extern crate rand;`: we can use extern crate to let Rust know we’ll be making use of it.
 
 `rand::thread_rng()`: We use the rand::thread_rng() function to get a copy of the random number generator, which is local to the particular thread of execution we’re in.
 
@@ -166,8 +166,4 @@ Rust Inside Other Languages
 FFI编程接口，与Ruby, Python, NodeJS等语言通过动态链接库进行交互。
 
 例如，在多线程方面可以克服这些语言的全局解释器锁(Global Interpreter Lock)对并发的限制。
-
-<!--links-->
-
-
 

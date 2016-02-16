@@ -34,21 +34,14 @@ fn main() {
 
 > Cargo is a tool that Rustaceans use to help manage their Rust projects.
 
-Cargo manages three things: 
-1. building your code, 
-2. downloading the dependencies your code needs, 
+Cargo manages three things:
+1. building your code,
+2. downloading the dependencies your code needs,
 3. building those dependencies.
 
-类似于Maven? 
+类似于Maven?
 
-构建脚本文件名：`Cargo.toml`。语法参考：[toml-lang/toml][1]。
+构建脚本文件名：`Cargo.toml`。语法参考：[toml-lang/toml](https://github.com/toml-lang/toml)。
 
 命令：`cargo build`, `cargo run`, `cargo new xxx`(创建新项目, 会自动创建git仓库(.git和.gitignore))。
-
-
-<!--links-->
-
-[1]: https://github.com/toml-lang/toml
-
-
 

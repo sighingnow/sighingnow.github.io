@@ -18,17 +18,17 @@ layout: post
 
 **世界坐标和眼坐标系使用右手坐标系，而NDC使用左手坐标系。**这就是说，眼坐标系下，在原点处的照相机朝着-Z轴看去，但是在NDC中它朝着+Z轴看去。如下图所示：
 
-![相机坐标系与设备坐标系][1]
+![相机坐标系与设备坐标系]({{site.url}}/resource/projection_and_camera/camera_ndc.png)
 
 由几何关系，可以推导出对称视锥(常见的都是对称视锥，也符合人眼看物理的规律)的投影变换矩阵如下：
 
-![透视投影变换矩阵][2]
+![透视投影变换矩阵]({{site.url}}/resource/projection_and_camera/perspective_projection_matrix_1.png)
 
 其中，n为眼睛与近平面的距离(near)，f为眼睛与远平面的距离(far)，r为设备的宽度，t为设备的高度。
 
 如何定义视界角度为alpha，定义设备的宽高比为 ar = width/height, 那么，投影矩阵也可以表述为：
 
-![透视投影变换矩阵][3]
+![透视投影变换矩阵]({{site.url}}/resource/projection_and_camera/perspective_projection_matrix_2.png)
 
 对应的代码实现：
 
@@ -52,11 +52,11 @@ PipeLine & PipeLine::PerspectiveProject(float ar, float alpha, float znear, floa
 
 构造正交投影(Orithographic Projection)的矩阵简单很多。所有的是眼坐标下xe, ye 和ze，都被线性的映射到NDC中。我们需要做的就是讲长方体视景体缩放为规范视见体，然后移动到原点。如下图所示：
 
-![正交投影][4]
+![正交投影]({{site.url}}/resource/projection_and_camera/orithographic_projection.png)
 
 如果视锥是对称的话，投影矩阵为：
 
-![正交投影变换矩阵][5]
+![正交投影变换矩阵]({{site.url}}/resource/projection_and_camera/orithographic_projection_matrix.png)
 
 相机空间
 -------
@@ -65,7 +65,7 @@ PipeLine & PipeLine::PerspectiveProject(float ar, float alpha, float znear, floa
 
 三维相机的一个示意图：
 
-![相机示意图][8]
+![相机示意图]({{site.url}}/resource/projection_and_camera/uvn_camera.png)
 
 与UVN相关的概念包括:
 
@@ -77,7 +77,7 @@ PipeLine & PipeLine::PerspectiveProject(float ar, float alpha, float znear, floa
 
 移动相机是非常简单的。如果相机位于（x，y，z），那么平移变换就是（-x,-y,-y）。原因很明显——相机在世界坐标系下用向量（x,y,z）做平移变换，所以想要相机回到原点，那么我们就需要使用此向量的相反向量进行平移。变换矩阵如下所示：
 
-![相机移动变换矩阵][6]
+![相机移动变换矩阵]({{site.url}}/resource/projection_and_camera/camera_move_matrix.png)
 
 ### 相机旋转变换
 
@@ -89,7 +89,7 @@ PipeLine & PipeLine::PerspectiveProject(float ar, float alpha, float znear, floa
 
 为了把一个位置从世界坐标系空间转换到被UVN向量定义的相机坐标系空间，我们需要在位置和UVN向量之间进行一个点乘运算。我们可以把UVN系统看作是相机的基，从而可以方便的把一个向量在世界坐标和相机坐标进行转换(将世界坐标变换到相机坐标)。得到的相机旋转变换矩阵：
 
-![相机转动变换矩阵][7]
+![相机转动变换矩阵]({{site.url}}/resource/projection_and_camera/camera_rotate_matrix.png)
 
 下来讨论这个变换矩阵的推导过程。对于一个相机，我们容易知道它在三维坐标(世界坐标系)中的以下三个参数：
 
@@ -124,7 +124,7 @@ PipeLine & PipeLine::PerspectiveProject(float ar, float alpha, float znear, floa
 
 第一人称相机旋转示意图：
 
-![第一人称相机旋转示意图图][12]
+![第一人称相机旋转示意图图]({{site.url}}/resource/projection_and_camera/camera_control_rotate.png)
 
 可以将相机在空间的旋转、移动等变换都分解到 U、V、N 方向上进行，三个为了更好地表达对摄像机的控制，实现一个Camera类，代码实现：
 
@@ -287,21 +287,6 @@ glDepthFunc(GL_LESS);
 参考
 ----
 
-1. [深入投影变换][9]
-2. [OpenGL学习脚印: 投影矩阵的推导][10]
-3. [推导相机变换矩阵][11]
-
-<!--links-->
-
-[1]: {{site.url}}/resource/projection_and_camera/camera_ndc.png
-[2]: {{site.url}}/resource/projection_and_camera/perspective_projection_matrix_1.png
-[3]: {{site.url}}/resource/projection_and_camera/perspective_projection_matrix_2.png
-[4]: {{site.url}}/resource/projection_and_camera/orithographic_projection.png
-[5]: {{site.url}}/resource/projection_and_camera/orithographic_projection_matrix.png
-[6]: {{site.url}}/resource/projection_and_camera/camera_move_matrix.png
-[7]: {{site.url}}/resource/projection_and_camera/camera_rotate_matrix.png
-[8]: {{site.url}}/resource/projection_and_camera/uvn_camera.png
-[9]: http://blog.csdn.net/popy007/article/details/1797121
-[10]: http://blog.csdn.net/wangdingqiaoit/article/details/39010077
-[11]: http://blog.csdn.net/popy007/article/details/5120158
-[12]: {{site.url}}/resource/projection_and_camera/camera_control_rotate.png
+1. [深入投影变换](http://blog.csdn.net/popy007/article/details/1797121)
+2. [OpenGL学习脚印: 投影矩阵的推导](http://blog.csdn.net/wangdingqiaoit/article/details/39010077)
+3. [推导相机变换矩阵](http://blog.csdn.net/popy007/article/details/5120158)
