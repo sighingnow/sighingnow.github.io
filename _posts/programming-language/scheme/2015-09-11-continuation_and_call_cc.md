@@ -9,40 +9,63 @@ layout: post
 
 维基百科关于 Continuation 的定义：
 
-> The continuation is a data structure that represents the computational process at a given point in the process's execution; the created data structure can be accessed by the programming language, instead of being hidden in the runtime environment.
+> The continuation is a data structure that represents the computational process at a given point
+> in the process's execution; the created data structure can be accessed by the programming
+> language, instead of being hidden in the runtime environment.
 
 Continuation，延续性，是对程序的控制状态/流程的抽象表达，Continuation 使得程序的控制流程具体化。
 
-Current continuation，也就是 continuation of the computation step，指的是源自于程序当前运行点的一种 continuation。Scheme中，在代码某处调用call/cc后，产生了一个等待着参数的过程，这个参数是程序在该处的上下文，在参数之后的程序就叫做 current continuation。Continuation 一词也指 first-class continuations, 指的是编程语言中使得编程语言具有保存任意一点的运行状态，并从之后的程序中回到这一状态(可能多次返回)的能的的结构和概念。
+Current continuation，也就是 continuation of the computation step，指的是源自于程序当前运行点的一种
+continuation。Scheme中，在代码某处调用call/cc后，产生了一个等待着参数的过程，这个参数是程序在该处的上下文，
+在参数之后的程序就叫做 current continuation。Continuation 一词也指 first-class continuations,
+指的是编程语言中使得编程语言具有保存任意一点的运行状态，并从之后的程序中回到这一状态(可能多次返回)的可能
+的结构和概念。
 
 <!--more-->
 
 First-class continuations
 --------------------------
 
-First-class continuations 指的是一门编程语言能够完全控制程序的执行顺序的能力。程序既可以跳转到一个将要调用当前函数的函数，也可以跳转到之前已经退出的函数。first-class continuation可以被看作是保存程序的执行状态(仅仅是上下文，而不是程序数据，区别于 processing image)。First-class, 是指 Continuation 可以被当作参数传递和作为返回值。
+First-class continuations 指的是一门编程语言能够完全控制程序的执行顺序的能力。程序既可以跳转到一个将要调用
+当前函数的函数，也可以跳转到之前已经退出的函数。first-class continuation可以被看作是保存程序的执行状态(仅仅
+是上下文，而不是程序数据，区别于 processing image)。First-class, 是指 Continuation 可以被当作参数传递和
+作为返回值。
 
 一个解释 continuation 与普通的程序调用和返回的区别的例子：
 
-> Say you're in the kitchen in front of the refrigerator, thinking about a sandwich. You take a continuation right there and stick it in your pocket. Then you get some turkey and bread out of the refrigerator and make yourself a sandwich, which is now sitting on the counter. You invoke the continuation in your pocket, and you find yourself standing in front of the refrigerator again, thinking about a sandwich. But fortunately, there's a sandwich on the counter, and all the materials used to make it are gone. So you eat it.
+> Say you're in the kitchen in front of the refrigerator, thinking about a sandwich. You take a
+> continuation right there and stick it in your pocket. Then you get some turkey and bread out of
+> the refrigerator and make yourself a sandwich, which is now sitting on the counter. You invoke
+> the continuation in your pocket, and you find yourself standing in front of the refrigerator
+> again, thinking about a sandwich. But fortunately, there's a sandwich on the counter, and all the
+> materials used to make it are gone. So you eat it.
 
-**此处，我们并没有调用一个用来 make sandwich 的函数并返回，而是调用了一个 make sandwich with current continuation 的函数，然后 create the sandwish，最后返回到之前离开时的continuation(fron of the refrigerator)。**
+**此处，我们并没有调用一个用来 make sandwich 的函数并返回，而是调用了一个 make sandwich with current
+continuation 的函数，然后 create the sandwish，最后返回到之前离开时的continuation(fron of the refrigerator)。**
 
-Continuations 在denotational semantics, the Actor model, process calculi, 以及 lambda calculus 等计算模型中都有广泛的应用。这些模型依赖程序员在所谓的 CPS(continuation passing style, 后续传递风格) 编写 mathematical functions。这意味着每个函数都调用表示先对于函数调用的剩下的计算的函数(This means that each function consumes a function that represents the rest of the computation relative to this function call.)，当需要返回值时，就用这些"continuation function"的返回值，而当需要终止计算时，这些函数就 returns a value。
+Continuations 在denotational semantics, the Actor model, process calculi, 以及 lambda calculus 等
+计算模型中都有广泛的应用。这些模型依赖程序员在所谓的 CPS(continuation passing style, 后续传递风格) 编写
+mathematical functions。这意味着每个函数都调用表示先对于函数调用的剩下的计算的函数(This means that each
+function consumes a function that represents the rest of the computation relative to this function
+call)，当需要返回值时，就用这些"continuation function"的返回值，而当需要终止计算时，这些函数就 returns a value。
 
 CPS 赋予函数式编程语言程序员以任意方式来来操作程序的控制流的表达能力，但与此同时，需要付出手动维护 invariants of control 和 continuations 的代价。
 
 Scheme的call/cc
 ---------------
 
-Scheme是第一个提供Continuation支持的产品级编程语言，Scheme提供了使用call/cc(call-with-current-continuation)的控制流运算符,call/cc的参数是只能接受一个参数的函数。在Scheme中，Continuation被表达为一个函数，假设 call/cc 捕捉了当前的 continuation，并绑定到 lambda 的参数 cc，那么**在 lambda 函数体内**，一旦 cc 被**直接或间接**的作为过程调用，那么 call/cc 会立即返回，并且提供给 cc 的参数即为 call/cc 的返回值。
+Scheme是第一个提供Continuation支持的产品级编程语言，Scheme提供了使用call/cc(call-with-current-continuation)
+的控制流运算符,call/cc的参数是只能接受一个参数的函数。在Scheme中，Continuation被表达为一个函数，
+假设 call/cc 捕捉了当前的 continuation，并绑定到 lambda 的参数 cc，那么**在 lambda 函数体内**，一旦 cc
+被**直接或间接**的作为过程调用，那么 call/cc 会立即返回，并且提供给 cc 的参数即为 call/cc 的返回值。
 
 > In the name "call‐with‐current‐continuation", "call" refers to the way a function is called
-to hand over the continuation. Don't be confused by the fact the continuation object is
-later invoked by calling it, that's entirely separate.
+> to hand over the continuation. Don't be confused by the fact the continuation object is
+> later invoked by calling it, that's entirely separate.
 
 call/cc 本质上其实是非本地返回(non-local return)，其他的例如 setjump/longjump, exception 等机制也属于 non-local return 的范畴。
-call/cc 机制主要用来实现一些复杂的流程控制结构。Scheme并没有提供像C语言那样的break语句，可以用call/cc来实现退出函数的功能。在过程的入口调用call/cc，在需要中途退出的地方参数调用continuation，就可以直接退出函数。
+call/cc 机制主要用来实现一些复杂的流程控制结构。Scheme并没有提供像C语言那样的break语句，可以用call/cc来实现退出函数的功能。
+在过程的入口调用call/cc，在需要中途退出的地方参数调用continuation，就可以直接退出函数。
 
 > Note that Scheme does not syntactically distinguish continuation application from function application.
 
@@ -78,7 +101,12 @@ call/cc 机制主要用来实现一些复杂的流程控制结构。Scheme并没
 (product '(1 2 3 0 4 5 6))
 ~~~
 
-为了方便叙述，我们称包含call/cc的函数为callee，在该函数外部，无参数调用continuation的函数为caller。关于call/cc的代码执行流程，在**首次运行callee函数时，cc会被赋值，用于保存一个上下文环境**。当在caller中无参数调用continuation时，拿之前保存的上下文环境来运行call/cc的参数函数，并一直执行到函数的callee函数的末尾，以callee函数的值作为返回值，返回给caller函数，call函数继续执行。下一次在caller中无参数调用continuation，接着用之前保存的上下文环境来运行call/cc的参数函数，知道callee末尾，返回值给caller。下面的例子可以很好地说明这个过程：
+为了方便叙述，我们称包含call/cc的函数为callee，在该函数外部，无参数调用continuation的函数为caller。
+关于call/cc的代码执行流程，在**首次运行callee函数时，cc会被赋值，用于保存一个上下文环境**。当在caller中无
+参数调用continuation时，拿之前保存的上下文环境来运行call/cc的参数函数，并一直执行到函数的callee函数的末尾，
+以callee函数的值作为返回值，返回给caller函数，call函数继续执行。下一次在caller中无参数调用continuation，
+接着用之前保存的上下文环境来运行call/cc的参数函数，知道callee末尾，返回值给caller。下面的例子可以很好地
+说明这个过程：
 
 ~~~scheme
 (define the-continuation #f) ; dummy value - will be used to store continuation later
@@ -125,11 +153,18 @@ get-cc 函数捕捉到当前的 continuation，然后返回，显然，这个函
     > (x 10)
     > x
     10
-    >
 
-**(get-cc) 获取它这个位置上的 continuation， (get-cc) 自己被用来做了什么事，它返回的 continuation 就对别人做同样的事。** 经过define之后，x 获得一个 continuation，这个continuation 的作用就是获取一个值，然后返回这个值，当以参数 10 来调用 x 时，continuation 返回一个值：10，并把这个值绑定到 x，x 被重新绑定，变成了数字10。但是直接以((get-cc) 10) 来调用的时候，(get-cc) 被当成了函数调用，显然就会出现错误了。
+**(get-cc) 获取它这个位置上的 continuation， (get-cc) 自己被用来做了什么事，它返回的 continuation 就
+对别人做同样的事。** 经过define之后，x 获得一个 continuation，这个continuation 的作用就是获取一个值，
+然后返回这个值，当以参数 10 来调用 x 时，continuation 返回一个值：10，并把这个值绑定到 x，x 被重新绑定，
+变成了数字10。但是直接以((get-cc) 10) 来调用的时候，(get-cc) 被当成了函数调用，显然就会出现错误了。
 
-(get-cc) 的非引用透明性来源于它的语义，它总是捕捉当前的 continuation 并返回之。可以这么理解 call/cc，它可以出现在任何一个本应是表达式的地方（它占了表达式的位置）。凡是表达式都要求值，并且还要求它的后续表达式的值，我们通过call/cc，可以在该表达式出现的地方捕捉（catch）到该表达式的后续操作。被捕捉到的后续操作即为 continuation，调用捕捉到的 continuation 可以回到过去。但是注意调用 continuation 和非本地退出的区别，后者是在 call/cc 的函数体内（直接或间接）调用捕捉到的 cc，这是 continuation 的特殊用法，它能立即退出，而且可以在非本地退出；而前者是在相应 continuation 的 call/cc 之外调用，它的作用就是重复后续操作。
+(get-cc) 的非引用透明性来源于它的语义，它总是捕捉当前的 continuation 并返回之。可以这么理解 call/cc，它
+可以出现在任何一个本应是表达式的地方（它占了表达式的位置）。凡是表达式都要求值，并且还要求它的后续表达式的
+值，我们通过call/cc，可以在该表达式出现的地方捕捉（catch）到该表达式的后续操作。被捕捉到的后续操作即为
+continuation，调用捕捉到的 continuation 可以回到过去。但是注意调用 continuation 和非本地退出的区别，后者
+是在 call/cc 的函数体内（直接或间接）调用捕捉到的 cc，这是 continuation 的特殊用法，它能立即退出，而且可以
+在非本地退出；而前者是在相应 continuation 的 call/cc 之外调用，它的作用就是重复后续操作。
 
 + (let ((x (get-cc))) (x (lambda (unused) "result")))
 + (((get-cc) (lambda (x) x)) "result")
@@ -139,7 +174,9 @@ get-cc 函数捕捉到当前的 continuation，然后返回，显然，这个函
 call/cc 模拟多任务
 -----------------
 
-多任务控制流的一个关键就是，保存每个任务的上下文，让它切出去再返回的时候能接着执行，就像没有发生过切换一样。这个任务，continuation 完全胜任。生产者-消费者问题是检验多任务机制的经典问题，我们可以用 continuation 模拟这个过程。
+多任务控制流的一个关键就是，保存每个任务的上下文，让它切出去再返回的时候能接着执行，就像没有发生过切换一样。
+这个任务，continuation 完全胜任。生产者-消费者问题是检验多任务机制的经典问题，我们可以用 continuation
+模拟这个过程。
 
 ~~~scheme
 #lang racket
@@ -177,10 +214,11 @@ call/cc的实现
 
 在这个式子中，`k` 是需要保存的continuation，`(lambda (v k0) (k v))` 用来重新保存(restore) continuation。
 
-[Call-with-current-continuation for C programmers](http://community.schemewiki.org/?call-with-current-continuation-for-C-programmers) 一文介绍了C语言中的 setjump/longjump 机制与 continuation 的异同，并从更加 low-level 的方式阐述了大多数主流 Scheme 解释器的 call/cc 的实现细节。Continuation 操作程序控制流的原理与命令式语言中的`goto`有着本质的不同。[Parent pointer tree](https://en.wikipedia.org/wiki/Parent_pointer_tree) (也作Spaghetti stack) 就是编译器中实现call/cc，进行垃圾回收的一种方法。
+[Call-with-current-continuation for C programmers](http://community.schemewiki.org/?call-with-current-continuation-for-C-programmers) 一文介绍了C语言中的 setjump/longjump 机制与 continuation 的异同，并从更加 low-level 的方式阐述了大多数主流 Scheme 解释器的 call/cc 的实现细节。
+Continuation 操作程序控制流的原理与命令式语言中的`goto`有着本质的不同。[Parent pointer tree](https://en.wikipedia.org/wiki/Parent_pointer_tree) (也作Spaghetti stack) 就是编译器中实现call/cc，进行垃圾回收的一种方法。
 
-在并发领域，Coroutine就是基于Continuation实现的。Continuation可认为是对PCB的抽象，其实它就是函数当前的执行栈，并且是实实在在可以被保存的东西，因此，很容易通过CPS来实现协程、non-local-return 等。
-
+在并发领域，Coroutine就是基于Continuation实现的。Continuation可认为是对PCB的抽象，其实它就是函数当前的执行
+栈，并且是实实在在可以被保存的东西，因此，很容易通过CPS来实现协程、non-local-return 等。
 
 参考
 ----

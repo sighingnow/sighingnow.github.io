@@ -181,6 +181,12 @@ struct function_traits<Return(Args...)> {
 
 // for member function.
 template <typename Class, typename Return, typename... Args>
+struct function_traits<Return(Class::*)(Args...)> {
+    using func_type = std::function<Return(Args...)>;
+};
+
+// for capturing lambda transformed lambda expression and function object.
+template <typename Class, typename Return, typename... Args>
 struct function_traits<Return(Class::*)(Args...) const> {
     using func_type = std::function<Return(Args...)>;
 };
@@ -196,6 +202,12 @@ struct function_traits<Return (*)(Args...)> {
 `function_traits<T>::func_type`类型。使用示例：
 
 ~~~cpp
+template<typename F>
+auto curry_decorator(F const & f) {
+    typename function_traits<F>::func_type _f = f;
+    return curry_impl(_f);
+}
+
 int f1(int a, int & b, int c, int & d) {
     b = b + 1;
     d = d + 1;
@@ -209,7 +221,6 @@ int main() {
         m = m + 1;
         return k + 100;
     };
-
     auto f3 = [](int a, int & b, int c, int & d) -> auto {
         b = b + 1;
         d = d + 1;
@@ -219,15 +230,9 @@ int main() {
 
     std::cout << "a: " << a << " b: " << b << " c: " << c << " d: " << d << std::endl;
 
-    function_traits<decltype(f1)>::func_type _f1 = f1;
-    curry(_f1)(a)(std::ref(b))(c)(std::ref(d));
-
-    function_traits<decltype(f2)>::func_type _f2 = f2;
-    curry(_f2)(std::ref(a))(std::ref(c));
-
-    function_traits<decltype(f3)>::func_type _f3 = f3;
-    curry(_f3)(a)(std::ref(b))(c)(std::ref(d));
-
+    curry_decorator(f1)(a)(std::ref(b))(c)(std::ref(d));
+    curry_decorator(f2)(std::ref(a))(std::ref(c));
+    curry_decorator(f3)(a)(std::ref(b))(c)(std::ref(d));
 
     std::cout << "a: " << a << " b: " << b << " c: " << c << " d: " << d << std::endl;
 

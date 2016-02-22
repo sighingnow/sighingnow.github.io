@@ -81,10 +81,10 @@ SICP Exercise 2.6 的题目要求：
       ((a f) ((b f) x)))))
 ~~~
 
-丘奇编码
--------
+自然数运算
+---------
 
-其他的自然数函数的 Church 计数表示：
+其他的自然数的运算的 Church 计数表示：
 
 + 加法函数(利用恒等式 $f^(m+n)(x) = f^m(f^n(x))$)
 
@@ -164,9 +164,7 @@ $$pred(n) = {\begin{cases}
 ~~~scheme
 (define integer->church
   (lambda (n)
-    (if (= n 0)
-        zero
-        (succ (integer->church (- n 1))))))
+    (if (= n 0) zero (succ (integer->church (- n 1))))))
 
 (define church->integer
   (lambda (hf)
@@ -174,42 +172,37 @@ $$pred(n) = {\begin{cases}
           (+ x 1))) 0)))
 ~~~
 
-+ 布尔值
+undefined
+---------
+
+因为$\bot$与non-termination computation不可区分，因此，使用后者来编码$\bot$，用以表示错误(error)。
 
 ~~~scheme
-(define true
-  (lambda (a)
-    (lambda (b) a)))
+(define error
+  (lambda () ((lambda (f) (f f)) (lambda (f) (f f)))))
+~~~
 
-(define false
-  (lambda (a)
-    (lambda (b) b)))
+布尔值和布尔运算
+--------------
+
++ 布尔值的丘奇编码
+
+~~~scheme
+(define true  (lambda (on-true on-false) on-true))
+(define false (lambda (on-true on-false) on-false))
 ~~~
 
 + 布尔运算
 
 ~~~scheme
-(define and
-  (lambda (m)
-    (lambda (n)
-      ((m n) false))))
-
-(define or
-  (lambda (m)
-    (lambda (n)
-      ((m true) n))))
-
-(define not
-  (lambda (m)
-    ((m false) true)))
-
-(define xor
-  (lambda (m)
-    (lambda (n)
-      ((m (not n)) n))))
+(define and (lambda (m n) ((m n) false)))
+(define or  (lambda (m n) ((m true) n)))
+(define not (lambda (m)   ((m false) true)))
+(define xor (lambda (m n) ((m (not n)) n)))
 ~~~
 
-+ 元祖(pair)的丘奇编码
+元祖(pair)
+---------
 
 ~~~scheme
 (define pair
@@ -225,6 +218,21 @@ $$pred(n) = {\begin{cases}
 (define second
   (lambda (p)
     (p false)))
+~~~
+
+列表(list)
+----------
+
+~~~scheme
+(define nil (lambda (on-null on-pair) on-null))
+(define cons (lambda (x xs) (lambda (on-null on-pair) (on-pair x xs))))
+
+(define head (lambda (list)
+               (list (lambda () (error))
+                     (lambda (x xs) x))))
+(define tail (lambda (list)
+               (list (lambda () (error))
+                     (lambda (x xs) xs))))
 ~~~
 
 参考
