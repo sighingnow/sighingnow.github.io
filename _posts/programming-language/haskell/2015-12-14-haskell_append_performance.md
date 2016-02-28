@@ -34,9 +34,10 @@ reverse (x:xs) = reverse xs ++ [x]
 ~~~haskell
 -- | reverse a list in linear time.
 reverse :: [a] -> [a]
-reverse xs = auxiliary xs [] where
-    auxiliary [] ys = ys
-    auxiliary (x:xs) ys = auxiliary xs (x:ys)
+reverse xs = auxiliary xs []
+    where
+        auxiliary [] ys = ys
+        auxiliary (x:xs) ys = auxiliary xs (x:ys)
 ~~~
 
 在这个实现中，辅助函数`auxiliary`的作用是将已经reverse的结果保存到一个List中，每次采用`(:)`操作来更新结果，这样，每一步`reverse`的时间复杂度都是$O(1)$的，因此，整个列表的reverse可以在$O(n)$的时间内完成，也即`reverse`函数具有线性时间复杂度。
@@ -66,44 +67,35 @@ reverse l =  rev l []
 ~~~haskell
 {-# LANGUAGE BangPatterns #-}
 {-# OPTIONS -O2 #-}
-import Data.Time.Clock
+import Criterion.Main
 
 reverse1 = reverse
 
 reverse2 [] = []
 reverse2 (x:xs) = reverse2 xs ++ [x]
 
-reverse3 xs = auxiliary xs [] where
-    auxiliary [] ys = ys
-    auxiliary (x:xs) ys = auxiliary xs (x:ys)
+reverse3 xs = auxiliary xs []
+    where
+        auxiliary [] ys = ys
+        auxiliary (x:xs) ys = auxiliary xs (x:ys)
 
-
-main = do
-    let !ns = [1..10000]
-    start <- getCurrentTime
-    print . sum . reverse1 $ns
-    end <- getCurrentTime
-    putStrLn $ "reverse from standard library took " ++ show (diffUTCTime end start)
-    start <- getCurrentTime
-    print . sum . reverse2 $ns
-    end <- getCurrentTime
-    putStrLn $ "reverse of quadratic time took " ++ show (diffUTCTime end start)
-    start <- getCurrentTime
-    print . sum . reverse3 $ns
-    end <- getCurrentTime
-    putStrLn $ "reverse of linear time took " ++ show (diffUTCTime end start)
+main :: IO ()
+main = defaultMain $ let !xs = ([1..1000] :: [Int]) in [
+        bgroup "reverse" [
+            bench "library reverse" (nf reverse1 xs)
+            , bench "simple reverse" (nf reverse2 xs)
+            , bench "fast reverse" (nf reverse3 xs)
+        ]
+    ]
 ~~~
 
-执行结果：
+执行结果（编译优化选项：`-O2`）：
 
-~~~
-50005000
-reverse from standard library took 0.0016954s
-50005000
-reverse of quadratic time took 1.5450966s
-50005000
-reverse of linear time took 0s
-~~~
+| 函数        | 具体实现                        |  运行时间    |
+|:------ ----:|---------------------------------|:------------:|
+| reverse1    | 库函数实现(`Data.List.reverse`) | 25.2 us     |
+| reverse2    | 使用`++`                        | 8.71 ms      |
+| reverse3    | 使用`:`和辅助函数               | 12.7 us      |
 
 `reverse`的高效实现方法中所采取的缓存结果的思路对于算法设计和分析有着重要的启发意义。
 
@@ -137,16 +129,16 @@ DList的核心在于将数据保存在函数中，用函数的组合来表示数
 
 ~~~
 -- Lists as functions
-newtype DList a = DL { unDL :: [a] -> [a] }
+newtype DList a = DL { runDL :: [a] -> [a] }
 
 -- The empty list
 empty       = DL id
 
 -- The append case: composition, a la Hughes
-append xs ys = DL (unDL xs . unDL ys)
+append xs ys = DL (runDL xs . runDL ys)
 
 -- Converting to a regular list, linear time.
-toList      = ($[]) . unDL
+toList      = ($[]) . runDL
 ~~~
 
 另一个高效地实现List的append/prepend的数据结构是 Figure Tree。Haskell的库containers中导出了Figure Tree的一个实现 `Data.Sequence`，具有很好的执行效率。
