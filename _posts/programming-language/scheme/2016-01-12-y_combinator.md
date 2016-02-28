@@ -235,7 +235,13 @@ fix (1:)
 在 System F (Polymorphic lambda calculus)中，polymorphic fixed-point combinator 的类型声明为：
 $$\forall a.\ (a \to a) \to a$$
 在 Simply typed lambda calculus 中，Y combinator 无法获得正确的类型，$Y := \lambda f.\ (\lambda x.\ f\ (x\ x))\ (\lambda x.\ f\ (x\ x))$ 中的子项 $(x\ x)$ 的类型推导规则为：
-$$\frac{\Gamma \vdash x: t_1 \to t_2 \ \ \ \Gamma \vdash x: t_1}{\Gamma \vdash x\ x: t_2}$$
+$$\frac{
+    \Gamma \vdash x: t_1 \to t_2
+    \quad
+    \Gamma \vdash x: t_1
+    }{
+        \Gamma \vdash x\ x: t_2
+    }$$
 这就意味着 `x` 的类型是一个infinite type: $t_1 = t_1 \to t_2$，没有任何高阶函数能够具有这样的类型，因此，在这类编程语言中，必须提供语言级别的对递归的支持。
 
 其他语言实现

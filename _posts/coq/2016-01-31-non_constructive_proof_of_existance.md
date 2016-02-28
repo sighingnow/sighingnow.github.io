@@ -9,6 +9,8 @@ layout: post
 
 在 _A Course in Discrete Structures_ by Rafael Pass and Wei-Lung Dustin Tseng 上看到一个很有意思的证明方法：Non-constructive proof of existance。
 
+<!--more-->
+
 Proof by Cases
 ---------------
 
@@ -30,8 +32,10 @@ Proof by Cases 指的是这样一种证明技巧：将定理的定义域拆分�
 另一个例子，证明：$$\textit{For all real x, } |x^2| = |x|^2.$$
 将其定义域分为两部分，$x \ge 0$ 和 $x < 0$.
 
-+ $\text{If } x \ge 0, \text{ then } |x^2| = x^2 = |x|^2$.
-+ $\text{If } x < 0, \text{ then } |x^2| = (-x)^2 = |x|^2$.
+$${\begin{cases}
+\text{If } x \ge 0, & \text{ then } |x^2| = x^2 = |x|^2. \\
+\text{If } x < 0,   & \text{ then } |x^2| = (-x)^2 = |x|^2.
+\end{cases}}$$
 
 Proof by Example
 ----------------
