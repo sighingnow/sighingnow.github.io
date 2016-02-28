@@ -9,6 +9,8 @@ layout: post
 
 编程语言对于 Variadic function 的支持极大地扩展了语言的表达能力，对Haskell这样类型系统及其强大的语言，Variadic Function 的实现更是优雅。
 
+<!--more-->
+
 Variadic Function
 -----------------
 
