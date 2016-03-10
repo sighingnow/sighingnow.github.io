@@ -144,10 +144,60 @@ Y Combinator 实现了通过非递归的 Lambda 抽象来定义递归函数。
 
     letrec v = B in E => let v = Y (\v. B) in E
 
-Memoizing Fixed-point combinator
-------------------------------
+Memoizing
+----------
 
-Memoizing Fixed-point combinator 指的是一种与 Y Combinator类似的机制，可以缓存函数调用的中间结果，以此提升函数的性能。
+Memoizing 指的是能够自动完成缓存函数调用的中间运算结果，以此提升函数的性能。可以通过将 Fix-point Combinator 与 memorize 结合使用，来以较高的抽象程度完成特定的功能。
+
+首先定义 Y Combinator：
+
+~~~cpp
+template<typename F>
+struct Y_struct {
+    F f;
+    template<typename T>
+    auto operator () (const T & t) const {
+        return f(*this, t);
+    }
+};
+template<typename F>
+auto Y(const F & f) {
+    return Y_struct<F>{ f };
+}
+~~~
+
+接下来，定义 memorize，使用`std::map`来缓存结果：
+
+~~~cpp
+template<typename F, typename K, typename V>
+struct memorize_struct {
+    F f;
+    mutable std::map<K, V> cache;
+    template<typename SELF>
+    auto operator () (const SELF & self, const K & k) const -> V {
+        auto iter = cache.find(k);
+        if (iter == cache.end()) {
+            iter = cache.emplace(k, f(self, k)).first;
+        }
+        return std::move(iter->second);
+    }
+};
+template<typename K, typename V, typename F>
+auto memorize(const F & f) {
+    return memorize_struct<F, K, V>{ f, { } };
+}
+~~~
+
+示例：
+
+~~~cpp
+auto fact = Y([](const auto & self, size_t n) -> size_t {
+    return n == 0 ? 1 : n * self(n-1);
+})
+auto fibonacci = Y(memorize<size_t, size_t>([](const auto & self, size_t n) -> size_t {
+    return n == 0 ? 0 : n == 1 ? 1 : self(n-1) + self(n-2);
+}));
+~~~
 
 尾递归优化
 ----------
@@ -244,6 +294,13 @@ $$\frac{
     }$$
 这就意味着 `x` 的类型是一个infinite type: $t_1 = t_1 \to t_2$，没有任何高阶函数能够具有这样的类型，因此，在这类编程语言中，必须提供语言级别的对递归的支持。
 
+Haskell 中另外两种 Y Combinator 的实现方法：
+
+~~~haskell
+fix1 f = x where x = f x
+fix2 f = f (fix2 f)
+~~~
+
 其他语言实现
 -----------
 
@@ -261,19 +318,9 @@ fibonacci = Y(lambda recurse: lambda n: n if n <= 1 else (recurse(n-1)+recurse(n
 # fibonacci = Y(lambda recurse: lambda n: n <= 1 and n or (recurse(n-1)+recurse(n-2)))
 ~~~
 
-### Haskell
-
-~~~haskell
--- | Y combinator, defined in 'Data.Function'.
-fix :: (a -> a) -> a
-fix f = let x = f x in x
-
-
-fix' f = x where x = f x
-fix'' f = f (fix'' f)
-~~~
-
 ### C++
+
+C++ 中另外一种 Y Combinator 的实现，支持 full-currying 的匿名函数。
 
 ~~~cpp
 #include <iostream>
@@ -282,11 +329,12 @@ fix'' f = f (fix'' f)
 /**
  * typename F: the type of origin recursive function.
  * typename T: the type of principle argument in the recursive function.
+ * typename R: the type of the final result.
  */
-template<typename F, typename T>
+template<typename F, typename T, typename R>
 auto Y(auto recurse) -> F {
     auto helper = [=](auto self) -> F {
-        return recurse([=](T x) {
+        return recurse([=](T x) -> R {
             return self(self)(x);
         });
     };
@@ -294,12 +342,12 @@ auto Y(auto recurse) -> F {
 };
 
 int main() {
-    auto fact = Y<std::function<int(int)>, int>([](auto recurse) {
+    auto fact = Y<std::function<int(int)>, int, int>([](auto recurse) {
         return [=](auto n) {
             return n == 0 ? 1 : n * recurse(n-1);
         };
     });
-    auto fibonacci = Y<std::function<int(int)>, int>([](auto recurse) {
+    auto fibonacci = Y<std::function<int(int)>, int, int>([](auto recurse) {
         return [=](auto n) {
             return n == 0 ? 0 : n == 1 ? 1 : recurse(n-1) + recurse(n-2);
         };

@@ -319,6 +319,25 @@ main = do
     putStr $ take 20 (randomRs (1, 10) gen) -- randomRs: produce random number in specific range.
 ~~~
 
+在haskell中生成随机数最常用的方法是使用`getStdRandom`函数，函数的类型签名是：
+
+    getStdRandom :: (StdGen -> (a, StdGen)) -> IO a
+
+使用示例：
+
+    > getStdRandom (randomR (1, 3))
+    1
+    > getStdRandom (randomR (1, 3))
+    3
+    > getStdRandom (randomR (1, 3))
+    2
+    > getStdRandom (randomR (1, 3))
+
+也可以使用`getStdRandom`函数来连续生成多个随机数：
+
+    > sequence $ replicate 10 (getStdRandom (randomR (1, 3)))
+    [2,3,1,3,3,1,2,1,3,3]
+
 Exceptions
 ----------
 
