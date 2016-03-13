@@ -49,7 +49,7 @@ GHCi 使用
 
 + GHCi 中可以直接进行数学表示式的运算，在这一点上和Python的交互式环境(Python Shell) 很像。
 + GHCi 中支持的数学运算符号：+, -, \*, /, \*\*(乘方)。**注意**：\*\*计算得到的结果是浮点数：
-        
+
         Prelude> :t 2 ** 2
         2 ** 100 :: Floating a->a
 
@@ -66,7 +66,7 @@ GHCi 使用
         Prelude> 10 /= 10
         False
 
-+ GHCi 有一个名为 `it` 的变量，自动保存上一次计算的结果。其类型也随上一条表达式的结果的变化而变化。
++ **GHCi 有一个名为 `it` 的变量，自动保存上一次计算的结果。** 其类型也随上一条表达式的结果的变化而变化。
 
 GHCi交互式环境与加载hs文件的区别
 --------------------------------
@@ -149,7 +149,7 @@ Haskell注释语法
 例子：
 
 ~~~haskell
-numUniques :: (Eq a) => [a] -> Int  
+numUniques :: (Eq a) => [a] -> Int
 numUniques = length . nub
 ~~~
 
