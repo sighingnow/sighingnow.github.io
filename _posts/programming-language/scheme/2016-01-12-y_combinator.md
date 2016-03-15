@@ -358,3 +358,8 @@ int main() {
 }
 ~~~
 
+参考
+----
+
+1. 本文关于`memorize_struct`的部分参考了文章 (第一文要简单优雅幽默有趣独一无二帅气可爱)[http://zhuanlan.zhihu.com/marisa/20421894].
+
