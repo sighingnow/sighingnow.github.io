@@ -19,7 +19,7 @@ kramdown:
 
 markdown_ext:  markdown,mkdown,mkdn,mkd,md
 
-highlighter: pygments
+highlighter: rouge
 
 # Permalinks
 permalink:        none
@@ -28,7 +28,7 @@ excerpt_separator: "<!--more-->"
 
 # Setup
 title:            'Sighingnow'
-tagline:          "Sighingnow's blog" 
+tagline:          "Sighingnow's blog"
 description:      "Sighingnow's homepage using Jekyll Metro"
 url:              'http://sighingnow.github.io'
 baseurl:          ''
