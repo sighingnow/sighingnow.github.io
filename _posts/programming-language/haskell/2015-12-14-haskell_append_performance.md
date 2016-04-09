@@ -89,13 +89,13 @@ main = defaultMain $ let !xs = ([1..1000] :: [Int]) in [
     ]
 ~~~
 
-执行结果（编译优化选项：`-O2`）：
+[执行结果]({{site.url}}/resource/haskell_append_performance/bench_report_reverse.html)（编译优化选项：`-O2`）：
 
 | 函数        | 具体实现                        |  运行时间    |
-|:------ ----:|---------------------------------|:------------:|
-| reverse1    | 库函数实现(`Data.List.reverse`) | 25.2 us     |
-| reverse2    | 使用`++`                        | 8.71 ms      |
-| reverse3    | 使用`:`和辅助函数               | 12.7 us      |
+|:-----------:|---------------------------------|:------------:|
+| reverse1    | 库函数实现(`Data.List.reverse`) | 9.92 us      |
+| reverse2    | 使用`++`                        | 6.05 ms      |
+| reverse3    | 使用`:`和辅助函数               | 9.49 us      |
 
 `reverse`的高效实现方法中所采取的缓存结果的思路对于算法设计和分析有着重要的启发意义。
 

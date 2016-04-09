@@ -248,6 +248,9 @@ def sum_n_normal(n):
     return calc_core(n)
 ~~~
 
+一个很有意思的事实是在普通的CPython下，上面的`sum_n`的性能比`sum_n_normal`差大概十倍，但是，在Pypy下，`sum_n`的性能
+比`sum_n_normal`要快一百多倍，猜测原因是Pypy的尾递归优化带来了显著的性能提升。
+
 Y Combinator in Haskell
 -----------------
 
@@ -256,8 +259,12 @@ Y Combinator in Haskell
     fix :: (a -> a) -> a
     fix f = let x = f x in x
 
-`fix` 函数返回的是函数`f`在 domain ordering 上的最后一个不动点(least defined fixed point of a function)，涉及到denotational semantics，Haskell中每一个类型都包含了一个特殊的值：$\bot$，并且，$\bot$是任何类型的 least-defined value。因此，如果 $$f\ \bot = \bot$$ 那么，$$fix\ f = \bot$$ 这可以解释为什么 $(3\ \ast)\ 0\ =\ 0$ 但是
-$fix\ (3\ \ast)\ =\ \bot$ ($0$ 和 $\bot$ 都是函数 $(3\ \ast)$ 的 Fixed-point，但是按照 Partial order，$\bot < 3$)。
+`fix` 函数返回的是函数`f`在 domain ordering 上的最后一个不动点(least defined fixed point of a function)，涉及到denotational semantics，Haskell中每一个类型都包含了一个特殊的值：$\bot$，并且，$\bot$是任何类型的 least-defined value。因此，如果 $$f\ \bot = \bot$$ 那么，
+
+$$fix\ f = \bot$$
+
+这可以解释为什么 $(3\ \ast)\ 0\ =\ 0$ 但是 $fix\ (3\ \ast)\ =\ \bot$ ($0$ 和 $\bot$ 都是函数 $(3\ \ast)$
+的 Fixed-point，但是按照 Partial order，$\bot < 3$)。
 
 在GHCi中运行
 
@@ -285,6 +292,7 @@ fix (1:)
 在 System F (Polymorphic lambda calculus)中，polymorphic fixed-point combinator 的类型声明为：
 $$\forall a.\ (a \to a) \to a$$
 在 Simply typed lambda calculus 中，Y combinator 无法获得正确的类型，$Y := \lambda f.\ (\lambda x.\ f\ (x\ x))\ (\lambda x.\ f\ (x\ x))$ 中的子项 $(x\ x)$ 的类型推导规则为：
+
 $$\frac{
     \Gamma \vdash x: t_1 \to t_2
     \quad
@@ -292,6 +300,7 @@ $$\frac{
     }{
         \Gamma \vdash x\ x: t_2
     }$$
+
 这就意味着 `x` 的类型是一个infinite type: $t_1 = t_1 \to t_2$，没有任何高阶函数能够具有这样的类型，因此，在这类编程语言中，必须提供语言级别的对递归的支持。
 
 Haskell 中另外两种 Y Combinator 的实现方法：

@@ -118,22 +118,22 @@ auto partial(F && f, Arg && arg, Args &&... args) {
 
 ~~~cpp
 template<typename Return>
-auto curry(std::function<Return()> & f) {
+auto curry_impl(std::function<Return()> & f) {
     return std::forward<decltype(f)>(f);
 }
 
 template<typename Return, typename Arg>
-auto curry(std::function<Return(Arg)> & f) {
+auto curry_impl(std::function<Return(Arg)> & f) {
     return std::forward<decltype(f)>(f);
 }
 
 template<typename Return, typename Arg, typename... Args>
-auto curry(std::function<Return(Arg, Args...)> & f) {
+auto curry_impl(std::function<Return(Arg, Args...)> & f) {
     return [f=std::forward<decltype(f)>(f)](Arg arg) {
         std::function<Return(Args...)> rest = [&f, &arg](Args... args) -> Return {
             return f(arg, args...);
         };
-        return curry(rest);
+        return curry_impl(rest);
     };
 }
 ~~~
@@ -167,33 +167,37 @@ int main() {
 都转换成一个`std::function`类型的函数，然后就可以方便地进行科里化了。
 
 ~~~cpp
-// for lambda expression, and functor object.
+// for lambda expression, and functor object, after capturing,
+// forward lambda expression to
+//      `function_traits<Return (Class::*)(Args...) const>`,
+// forward functor object to
+//      `struct function_traits<Return (Class::*)(Args...)>`
 template <typename Functor>
 struct function_traits
-    : public function_traits<decltype(&Functor::operator())>
-{};
+        : public function_traits<decltype(&Functor::operator())> {};
 
-// for std::function and ordinary functions.
-template<typename Return, typename... Args>
+// for std::function, ordinary functions and static member functions.
+template <typename Return, typename... Args>
 struct function_traits<Return(Args...)> {
     using func_type = std::function<Return(Args...)>;
 };
 
-// for member function.
-template <typename Class, typename Return, typename... Args>
-struct function_traits<Return(Class::*)(Args...)> {
-    using func_type = std::function<Return(Args...)>;
-};
-
-// for capturing lambda transformed lambda expression and function object.
-template <typename Class, typename Return, typename... Args>
-struct function_traits<Return(Class::*)(Args...) const> {
-    using func_type = std::function<Return(Args...)>;
-};
-
-// for function pointer.
+// for function pointer. e.g, &f.
 template <typename Return, typename... Args>
 struct function_traits<Return (*)(Args...)> {
+    using func_type = std::function<Return(Args...)>;
+};
+
+// for capturing functor object (callable struct, struct with overloaded `()`
+// operator).
+template <typename Class, typename Return, typename... Args>
+struct function_traits<Return (Class::*)(Args...)> {
+    using func_type = std::function<Return(Args...)>;
+};
+
+// for capturing lambda expression.
+template <typename Class, typename Return, typename... Args>
+struct function_traits<Return (Class::*)(Args...) const> {
     using func_type = std::function<Return(Args...)>;
 };
 ~~~
@@ -203,7 +207,7 @@ struct function_traits<Return (*)(Args...)> {
 
 ~~~cpp
 template<typename F>
-auto curry_decorator(F const & f) {
+auto curry(F const & f) {
     typename function_traits<F>::func_type _f = f;
     return curry_impl(_f);
 }
@@ -230,9 +234,9 @@ int main() {
 
     std::cout << "a: " << a << " b: " << b << " c: " << c << " d: " << d << std::endl;
 
-    curry_decorator(f1)(a)(std::ref(b))(c)(std::ref(d));
-    curry_decorator(f2)(std::ref(a))(std::ref(c));
-    curry_decorator(f3)(a)(std::ref(b))(c)(std::ref(d));
+    curry(f1)(a)(std::ref(b))(c)(std::ref(d));
+    curry(f2)(std::ref(a))(std::ref(c));
+    curry(f3)(a)(std::ref(b))(c)(std::ref(d));
 
     std::cout << "a: " << a << " b: " << b << " c: " << c << " d: " << d << std::endl;
 
