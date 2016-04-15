@@ -1,9 +1,9 @@
 /* Solarized Dark
- 
+
 For use with Jekyll and Pygments
- 
+
 http://ethanschoonover.com/solarized
- 
+
 SOLARIZED HEX ROLE
 --------- -------- ------------------------------------------
 base03 #002b36 background
@@ -15,10 +15,10 @@ blue #268bd2 reserved keywords
 cyan #2aa198 strings, numbers
 green #859900 operators, other keywords
 */
- 
+
 pre {background-color: #002b36; }
 .highlight .lineno { color: #93a1a1; display:inline-block; padding: 0 5px; border-right:1px solid #93a1a1; }
-.highlight pre code { display: block; white-space: pre; overflow-x: auto; word-wrap: normal; }    
+.highlight pre code { display: block; white-space: pre; overflow-x: auto; word-wrap: normal; }
 .highlight { background-color: #002b36; color: #93a1a1 }
 .highlight .lineno { color: #586e75 } /* Line Numbers */
 .highlight .c { color: #586e75 } /* Comment */

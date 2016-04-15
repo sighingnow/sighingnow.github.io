@@ -6,39 +6,11 @@
                   <div>{% include svg-icons.html %}</div>
             {% endif %}
             &copy; {{ site.time | date: '%Y' }} - {{site.author}}. All rights reserved.<br/>
-            Built using 
+            Built using
             {% if page.theme And page.theme != "" And page.theme != nil %}
             <a class="{{page.theme}}-link" href="http://jekyllrb.com/">Jekyll</a>
             {% else %}
             <a href="http://jekyllrb.com/">Jekyll</a>
-            {% endif %} and Theme proudly powered by <a href="https://github.com/olakara/JekyllMetro">JekyllMetro.</a> 
+            {% endif %} and Theme proudly powered by <a href="https://github.com/olakara/JekyllMetro">JekyllMetro.</a>
       </div>
 </footer>
-
-<link rel="stylesheet" type="text/css" href="{{site.url}}/assets/css/solarized-light.css">
-<script src="{{site.url}}/assets/js/highlight.pack.js" type="text/javascript" charset="utf-8"></script>
-
-<script type="text/javascript" charset="utf-8">
-$(document).ready(function() {
-    $('pre > code').each(function(i, block) {
-        var dom = $(block);
-        var classes = dom.attr("class");
-        if (!classes) {
-            return;
-        }
-        if (typeof(classes) === "string") {
-            if (classes.length > 9 && classes.startsWith("language")) {
-                dom.addClass(classes.substr(9));
-            }
-        }
-        else {
-            for (var i = 0; i < classes.length; ++i) {
-                if (classes[i].startsWith("language")) {
-                    dom.addClass(classes[i].substr(9));
-                }
-            }
-        }
-        hljs.highlightBlock(block);
-    });
-});
-</script>
