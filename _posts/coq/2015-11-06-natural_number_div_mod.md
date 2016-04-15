@@ -27,15 +27,63 @@ Coq 对自然数的除法与取模的实现很有讲究！
 
 皮亚诺公理的形式化描述：
 
-+ (e in S)
-+ (forall a in S)(f(a) in S)
-+ (forall b in S)(forall c in S)(f(b) = f(c) -> b = c)
-+ (forall a in S)( f(a) /= e)
-+ (forall A in S)(((e in A) and (forall a in A)(f(a) in A)) -> (A = S) )
++ `(e in S)`
++ `(forall a in S)(f(a) in S)`
++ `(forall b in S)(forall c in S)(f(b) = f(c) -> b = c)`
++ `(forall a in S)( f(a) /= e)`
++ `(forall A in S)(((e in A) and (forall a in A)(f(a) in A)) -> (A = S) )`
 
 自然数的运算
 ----------
 
+根据自然数的归纳原理，容易给出自然数的加法、减法和乘法运算：
+
+~~~coq
+Fixpoint add (a  b : nat) : nat :=
+  match b with
+    | O    => a
+    | S b' => addition (S a) b'
+  end.
+
+Fixpoint subtract (a b : nat) : nat :=
+  match a, b with
+    | _, O => a
+    | O, _ => O
+    | S a', S b' => subtract a' b'
+  end.
+
+Fixpoint multiply (a b : nat) : nat :=
+  match b with
+    | O => O
+    | S b' => add a (multiply a b')
+  end.
+~~~
+
+而除法和取模的运算具有很强的技巧性：
+
+~~~coq
+Fixpoint nat_divmod (a b quotient remainder : nat) : nat * nat :=
+  match a with
+    | O   => (quotient, remainder)
+    | S t =>
+      match remainder with
+        | O   => nat_divmod t b (S quotient) b
+        | S r => nat_divmod t b quotient r
+      end
+  end.
+
+Definition nat_div (a b : nat) : nat :=
+  match b with
+    | O   => b
+    | S t => fst (nat_divmod a t 0 t)
+  end.
+
+Definition nat_mod (a b : nat) : nat :=
+  match b with
+    | O   => b
+    | S t => t - snd (nat_divmod a t 0 t)
+  end.
+~~~
 
 
 

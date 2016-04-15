@@ -156,16 +156,18 @@ Functor表达的是Haskell的范畴Hask中函数之间的映射关系。例如`a
 
 > A tensor is just a bifunctor over that category, which satisfies some conditions. It is associative, has a unit, and meets a couple of scarier higher order conditions.
 
-Functor代表着恒值映射，有函数`a -> b`，在List上就有`[a] -> [b]`，在Tree上就有`Tree a -> Tree b`，等等。函数`fmap :: (a -> b) -> (f a -> f b)`的作用是Lifting，是的原本作用于简单的值的函数能够作用于
-Context中的值，本质上意味着计算过程中的某种不确定性（Context的不确定性）。从这个角度讲，Applicative Functor
+Functor代表着恒值映射，有函数`a -> b`，在List上就有`[a] -> [b]`，在Tree上就有`Tree a -> Tree b`，等等。函数`fmap :: (a -> b) -> (f a -> f b)`的作用是Lifting，是的原本作用
+于简单的值的函数能够作用于 Context中的值，本质上意味着计算过程中的某种不确定性（Context的不确定性）。而与普通的Functor相比，Applicative Functor在这方面提供了更强大的能力。
+`fmap`函数完成了普通函数在函子上的映射，而`<*>`完成了不确定的函数在函子上的映射，而`pure`函数则在完成从值到函子的转换,
+因此，用"beefed-up"一词来形容Applicative Functor很恰当。从计算方式的角度出发，也就不难理解 `pure f <*> x` 等于 `fmap f x`了，applicative laws 中也有`pure id <*> v = v`。`<*>`
+与`>>=`的区别在于后者引入了值之间的依赖而前者参数可以并行求值。`<*>`的两个参数的类型分别是`f (a -> b)`、`f a`，可以并行地从Context `f`中计算`a -> b`和`a`，然后再将两个结
+果reduce得到最终的`b`。而`>>=`的两个参数的类型分别是`m a`和`a -> m b`，只有先从Context `m`中计算出`a`，才能使用`a -> m b`来计算最终的结果。前者参数各个部分的计算时独立的，
+而后者存在前后依赖关系。Applicative是自函子水平方向的组合，Monad是自函子垂直方向的组合。Applicative表达的是一个Batching and aggregation的过程，而Monad表达的是一个Sequence
+的过程。Functor、Applicative和Monad的区别也直接决定了三者在表达能力上的强弱。以Parser Combinator为例，Monad既可以处理CFG，也可以处理CSG，而Applicative只能处理CFG。
+而维护Context需要额外的开销，Applicative在CFG parser上比Monadic parser更有优势。
 
-Functor，函子，本质上在表达计算过程中的某种不确定性，而与普通的Functor相比，Applicative Functor在这方面提供了更强大的能力。`fmap`函数完成了普通函数在函子上的映射，而`<*>`完成了不确定的函数在函子上的映射，而`pure`函数则在完成从值到函子的转换,
-因此，用"beefed-up"一词来形容Applicative Functor很恰当。从计算方式的角度出发，也就不难理解 `pure f <*> x` 等于 `fmap f x`了，applicative laws 中也有`pure id <*> v = v`。`<*>`与`>>=`的区别在于后者引入了值之间的依赖而前者参数可以
-并行求值。`<*>`的两个参数的类型分别是`f (a -> b)`、`f a`，可以并行地从Context `f`中计算`a -> b`和`a`，然后再将两个结果reduce得到最终的`b`。而`>>=`的两个参数的类型分别是`m a`和`a -> m b`，只有先从Context `m`中计算出`a`，才能使用
-`a -> m b`来计算最终的结果。前者参数各个部分的计算时独立的，而后者存在前后依赖关系。Applicative是自函子水平方向的组合，Monad是自函子垂直方向的组合。Functor、Applicative和Monad的区别也直接决定了三者在表达能力上的强弱。以Parser Combinator
-为例，Monad既可以处理CFG，也可以处理CSG，而Applicative只能处理CFG。而维护Context需要额外的开销，Applicative在CFG parser上比Monadic parser更有优势。
-
-从这三者之间的区别，可以看出Haskell自底向上的设计哲学。Haskell正是通过不同程序的抽象：Functor -> Applicative -> Monad来满足不同的需求，并且通过这种细粒度的抽象来提高模块化的程序，利于代码复用和应对需求调整的灵活性。
+从这三者之间的区别，可以看出Haskell自底向上的设计哲学。Haskell正是通过不同程序的抽象：Functor -> Applicative -> Monad来满足不同的需求，并且通过这种细粒度的抽象来提高模块
+化的程序，利于代码复用和应对需求调整的灵活性。John Hughes _Why Functional Programming Matters_ 一文中举的例子就能够非常好地体现这种抽象在实际开发中带来的好处。
 
 do notation
 -----------
@@ -223,10 +225,6 @@ instance Monad ((->) r) where
 
 ### IO Action
 
-
-IO Action 与 Functor
---------------------
-
 IO Action是一种典型的Context：
 
 ~~~haskell
@@ -243,6 +241,51 @@ instance  Monad IO  where
     return = IO $ \ s -> (# s, x #)
     (>>=)  = IO $ \ s -> case m s of (# new_s, a #) -> unIO (k a) new_s
 ~~~
+
+### Pair
+
+~~~haskell
+instance Functor ((,) a) where
+    fmap f (x,y) = (x, f y)
+~~~
+
+但是元组`((,) a)`不能作为 Applicative 和 Monad 的实例。
+
+Not Functor/Applicative/Monad
+-----------------------------
+
++ A type constructor which is not a Functor:
+
+~~~haskell
+newtype T a = T (a -> Int)
+~~~
+
+无法使用一个类型为`a -> b`的函数将一个类型为`a -> Int`的函数转换成一个`b -> Int`的函数。
+
++ A type constructor which is a functor, but not an Applicative:
+
+~~~haskell
+instance Functor ((,) a) where
+    fmap f (x, y) = (x, f y)
+~~~
+
+但是无法对任意的类型`a`定义`pure :: a -> (r, a)`。
+
++ A type constructor which is an Applicative, but not a Monad:
+
+~~~haskell
+newtype ZipList a = ZipList { getZipList :: [a] }
+
+instance Functor ZipList where
+    fmap f (ZipList xs) = ZipList (map f xs)
+
+instance Applicative ZipList where
+    pure x = ZipList (repeat x)
+    ZipList fs <*> ZipList xs = ZipList (zipWith id fs xs)
+~~~
+
+`pure`返回的是一个无限列表`repeat x`，因此，无法做出满足Moand Laws的`>>=`，`ZipList`不能作为Monad的实例。
+
 
 参考
 ---
