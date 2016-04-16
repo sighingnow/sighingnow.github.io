@@ -55,7 +55,7 @@ a.cxx:27:6: note: candidate: template<class A, class B, class> bool is_equal(con
 a.cxx:27:6: note:   template argument deduction/substitution failed:
 ~~~
 
-而如果不适用`Requires`，GCC 产生了超过300行的错误信息，非常不利于定位和修复错误。
+而如果不使用`Requires`，GCC 产生了超过300行的错误信息，非常不利于定位和修复错误。
 
 Concept
 -------
