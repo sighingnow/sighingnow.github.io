@@ -199,6 +199,40 @@ auto fibonacci = Y(memorize<size_t, size_t>([](const auto & self, size_t n) -> s
 }));
 ~~~
 
+Haskell中使用这一技巧的例子：
+
+~~~haskell
+import qualified Data.Map as M
+
+type Gen a = (a -> a)
+
+fix :: Gen a -> a
+fix f = f (fix f)
+
+type Memo a b = State (M.Map a b)
+
+memoize :: Ord a => Gen (a -> Memo a b b)
+memoize self x = do
+    cached <- query x
+    case cached of
+      Just v  -> return v
+      Nothing -> self x >>= \v -> store x v >> return v
+    where
+        query k = fmap (M.lookup k) get
+        store k v = fmap (M.insert k v) get >>= put
+
+fibHelper :: Monad m => Gen (Integer -> m Integer)
+fibHelper _ 0    = return 0
+fibHelper _ 1    = return 1
+fibHelper self n = do
+    a <- self (n-1)
+    b <- self (n-2)
+    return (a + b)
+
+fib n = evalState (fix (fibHelper . memoize) n) M.empty
+~~~
+
+
 尾递归优化
 ----------
 

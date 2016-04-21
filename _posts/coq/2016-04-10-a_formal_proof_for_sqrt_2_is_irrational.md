@@ -10,6 +10,9 @@ layout: post
 It was one of the most surprising discovers of the Pythagorean, a famous Greek mathematicians, that there are irrational
 numbers. The square root of $2$ sometimes has the name _Pythagora's Constant_.
 $$\sqrt{2} = 1.4142135...$$
+
+<!--more-->
+
 As we all know that $\sqrt{2}$ is irrational and there's a classic example of _proof by contradiction_ for this proposition.
 Here I will present how to prove it and how to formalize the proof in Coq.
 
@@ -126,7 +129,7 @@ It's easy to deduce these three premises by some steps `rewrite`:
   rewrite ctz_p in ctz_q.
 ~~~
 
-Then we got `ctz_q : negb true = true`. It's just the contradiction we want and the theorem of $\sqrt{2}$ is rational is
+Then we get `ctz_q : negb true = true`. It's just the contradiction we want and the theorem of $\sqrt{2}$ is rational is
 proved completely.
 
 It's time to look back at the immediate conclusion `pp_eq_2qq_Z`. Because $\sqrt{2}$ is real number but $p$ and $q$ are

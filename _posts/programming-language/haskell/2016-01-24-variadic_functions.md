@@ -38,15 +38,12 @@ instance (PrintfArg a, PrintfType r) => PrintfType (a -> r) where
     spr fmts args = \a ‐> spr fmts (toUPrintf a : args)
 ~~~
 
-其巧妙之处在于，将`(IsChar c) => [c]`和`(a -> r)`同时作为`PrintfType`类型类的实例类型，对于不同参数的调用，选择不同的函数，`printf`函数的类型，既可以是
-一个`(IsChar c) => [c]`，也可以是一个函数`(a -> r)`，或者是一个`IO a`。这种多态机制，实现了对边长参数的支持。
+其巧妙之处在于，将`(IsChar c) => [c]`和`(a -> r)`同时作为`PrintfType`类型类的实例类型，对于不同参数的调用，GHC的类型推导系统会自动选择不同的函数，`printf`函数的类型，既可以是
+一个`(IsChar c) => [c]`，也可以是一个函数`(a -> r)`，或者是一个`IO a`。这种多态机制，实现了对变长参数的支持。
 
 从`printf`的实现，不难构造出Variadic Function的一般框架如下：
 
 ~~~haskell
-variadic :: VariadicRetClass r => RequiredArgs -> r
-variadic args = variadicImpl args mempty
-
 class VariadicRetClass r where
     variadicImpl :: RequiredArgs -> AccType -> r
 
@@ -55,26 +52,45 @@ class VariadicRetClass ActualRetType where
 
 class (ArgClass a, VariadicRetClass r) => VariadicRetClass (a -> r) where
     variadicImpl args acc = \a -> variadicImpl args (acc `mappend` (specialize a))
+
+variadic :: VariadicRetClass r => RequiredArgs -> r
+variadic args = variadicImpl args mempty
 ~~~
 
-[Polyvariadic functions and keyword arguments: pattern-matching on the type of the context](http://okmij.org/ftp/Haskell/polyvariadic.html) 一文给出了更加泛化的例子和说明。
+[Polyvariadic functions and keyword arguments: pattern-matching on the type of the context](http://okmij.org/ftp/Haskell/polyvariadic.html) 一文给
+出了更加一般化的例子和说明。
 
 仿照上面提到的一般性模板，实现一个Variadic 版本的 printAll：
 
 ~~~haskell
 class PrintType t where
-    printAll' :: [String] -> t
+    printAllImpl :: [String] -> t
 
 instance (a ~ ()) => PrintType (IO a) where
-    printAll' args = do
+    printAllImpl args = do
         mapM_ putStrLn args
         return undefined -- return undefined rather than () make sure nobody uses it.
 
 instance (Show a, PrintType r) => PrintType (a -> r) where
-    printAll' acc = \x -> printAll' (acc ++ [show x])
+    printAllImpl acc = \x -> printAllImpl (acc ++ [show x])
 
 printAll :: (PrintType t) => t
-printAll = printAll' []
+printAll = printAllImpl []
+~~~
+
+考虑更复杂的情形：`ArgType`与`RetType`之前存在依赖关系，即构造一个Variadic Function，接受多个同一类型（或同一个TypeClass的实例类型）的参数，返回
+类型依赖于参数的类型。例如，接受多个同一类型的值，返回一个包含这些值得List。显然，这种情形要比上面的返回某一特定类型的情形要复杂得多。借助
+GHC的扩展`FunctionalDependencies`可以实现这一需求：
+
+~~~haskell
+{-# LANGUAGE FunctionalDependencies #-}
+
+class BuildList a r | r -> a where
+    buildImpl :: [a] -> a -> r
+instance BuildList a [a] where
+    buildImpl l x = reverse $ x:l
+instance BuildList a r => BuildList a (a -> r) where
+    buildImpl l x = buildImpl (x:l)
 ~~~
 
 其他语言
@@ -82,7 +98,8 @@ printAll = printAll' []
 
 #### c
 
-C 语言中，`printf` 函数也是典型的边长参数函数，实现原理是在参数压栈是，先将参数从右至左压入栈，然后，将各个参数的位置指针压栈，然后，将参数个数压栈。对调用者来说，通过参数个数
+C 语言中，`printf` 函数也是典型的边长参数函数，实现原理是在参数压栈是，先将参数从右至左压入栈，然后，将各个参数的位置指针压栈，然后，将参数个数
+压栈。对调用者来说，通过参数个数
 和每个参数的位置指针，边可以按照特性的类型解析各个参数。`stdarg.h`中定义了`va_start/va_arg/va_end`这一系列函数用于解析变长参数。
 
 #### c++

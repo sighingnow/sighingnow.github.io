@@ -13,6 +13,8 @@ Functor, Applicative 和 Monad 的数学定义：
 + An applicative functor is a strong lax monoidal functor.
 + A monad is an endofunctor (a functor mapping a category to itself), together with two natural transformations.
 
+<!--more-->
+
 定义
 ----
 

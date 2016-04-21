@@ -9,6 +9,8 @@ layout: post
 
 > Concept is a term that describes a named set of requirements for a type.
 
+<!--more-->
+
 Motivation of Concept
 -----------------------
 

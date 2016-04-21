@@ -16,6 +16,8 @@ Coq中`generalize`和`generalize dependent`的用法说明如下：
 > This generalizes term but also all hypotheses that depend on term. It clears the generalized
 > hypotheses.
 
+<!--more-->
+
 使用`generalize`策略可以将上下文的假设引入到目标中，如果目标中不存在这个假设，则构造一个箭头类型，表示蕴含关系。
 当目标中包含了这个假设元素，通过全称量词`forall`构造一个依赖积。而`generalize dependent`会将上下文中所有的
 依赖这个假设元素的项都引入到目标中。
