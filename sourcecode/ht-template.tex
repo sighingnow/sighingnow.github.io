@@ -1,7 +1,8 @@
-\documentclass[$if(fontsize)$$fontsize$,$endif$$if(lang)$$lang$,$endif$$if(papersize)$$papersize$,$endif$$for(classoption)$$classoption$$sep$,$endfor$]{report}%%{$documentclass$}
+\documentclass[$if(fontsize)$$fontsize$,$endif$$if(lang)$$lang$,$endif$$if(papersize)$$papersize$,$endif$$for(classoption)$$classoption$$sep$,$endfor$]{article}%%{$documentclass$}
 
-\usepackage{geometry}       % 設定邊界
+\usepackage{geometry}       % 设定边界
 \geometry{
+    verbose,
     top=1in,
     inner=1in,
     outer=1in,
@@ -22,7 +23,7 @@ $endif$
 
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
-\usepackage{fixltx2e} % provides \textsubscript
+\usepackage{fixltx2e}                 % provides \textsubscript
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
@@ -39,25 +40,18 @@ $endif$
   \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
   \newcommand{\euro}{€}
 
-% \usepackage[fntef]{ctexcap}
-% \CTEXsetup[number={\chinese{section}},format={\Large\bfseries}]{section}
-% \CTEXsetup[number={\chinese{subsection}},format={\Large\bfseries}]{subsection}
-
 % SUPPORT for Chinese
-\usepackage[boldfont,slantfont,CJKsetspaces,CJKchecksingle]{xeCJK}
+\usepackage[boldfont,slantfont,CJKchecksingle]{xeCJK}
 \usepackage{fontspec,xltxtra,xunicode}
 \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
-\setmainfont{Consolas} %% {Consolas} {Monaco} {Courier New}
+% \setmainfont{Times New Roman} %% {Consolas} {Monaco} {Courier New}
 \punctstyle{quanjiao}
-\setCJKmainfont{Microsoft JhengHei}
+\setCJKmainfont{Microsoft YaHei}
 \setmonofont{Monaco}
-\setCJKmonofont{Microsoft JhengHei}
-\XeTeXlinebreaklocale "zh"  % 針對中文自動換行
-\XeTeXlinebreakskip = 0pt plus 1pt % 字與字之間加入0pt至1pt的間距，確保左右對整齊
-\linespread{1.1}\selectfont     % 行距
-
-\newfontfamily{\zhfont}{Microsoft JhengHei}
-\DeclareTextFontCommand{\textzh}{\zhfont}
+\setCJKmonofont{Microsoft YaHei}
+\XeTeXlinebreaklocale "zh"         % 针对中文自动换行
+\XeTeXlinebreakskip = 0pt plus 1pt % 子与子之间加入0pt至1pt的间距，确保左右对齐
+\linespread{1.1}\selectfont        % 行距
 
 \setmathfont{XITS Math}
 \setmathfont[version=bold,FakeBold=3.5]{XITS Math}
@@ -69,10 +63,10 @@ $endif$
   {\endadjustwidth}
 \makeatother
 
-\setlength{\parskip}{6pt}   % 段落之间的距离
+\usepackage{indentfirst}
+\setlength{\parskip}{5pt}   % 段落之间的距离
 \setlength{\parindent}{2em}
-% \setlength{\parindent}{0pt}
-% \setlength{\parskip}{6pt plus 2pt minus 1pt}
+\renewenvironment{quote} {\begin{quotation}} {\end{quotation}}
 
 %% CHINESE NUMBERING
 
@@ -98,10 +92,12 @@ $endif$
   \else
     \csname the#1\endcsname\quad
   \fi}
+
 % define \prefix@section
 % \newcommand\prefix@section{\zhdigits{section}、\quad }
-\renewcommand{\thesection}{\zhdigits{section}、}
-\renewcommand{\thesubsection}{\arabic{subsection}}
+% \renewcommand{\thesection}{\zhdigits{section}、}
+\renewcommand{\thesection}{\arabic{section}. }
+% \renewcommand{\thesubsection}{\arabic{section}}
 \makeatother
 
 % for multiple authors.
@@ -149,10 +145,10 @@ $endif$
 $if(highlighting-macros)$
 $highlighting-macros$
 $endif$
+
 % $if(verbatim-in-note)$
 % \usepackage{fancyvrb}
 % $endif$
-
 \usepackage{fancyvrb}
 
 %% self defined \provideenvironment
@@ -172,7 +168,6 @@ $endif$
 \provideenvironment{Shaded}{}{}
 \renewenvironment{Shaded} {\begin{framed}\normalsize} {\end{framed}}
 \DefineVerbatimEnvironment{verbatim}{Verbatim}{frame=single,framerule=\FrameRule,framesep=\FrameSep,samepage=true,fontsize=\normalsize}
-
 
 $if(tables)$
 \usepackage{longtable,booktabs}
@@ -234,18 +229,16 @@ $if(lang)$
 \fi
 $endif$
 
-\vspace{0.5em}
+% \vspace{0.5em}
 
 $if(title)$
-\title{\huge $title$$if(subtitle)$\\\vspace{0.5em}{\large $subtitle$}$endif$\vspace{3cm}}
+% \title{\huge $title$$if(subtitle)$\\\vspace{0.5em}{\large $subtitle$}$endif$\vspace{3cm}}
+\title{\huge $title$$if(subtitle)$ {\large $subtitle$}$endif$}
 $endif$
-
-% $if(author)$
-% \author{$for(author)$$author$$sep$ \and $endfor$}
-% $endif$
 
 $if(author)$
 \author{$for(author)$$author$$sep$ \and $endfor$}
+% \author{@sighingnow \href{mailto:sighingnow@gmail.com}{sighingnow@gmail.com}}
 $endif$
 
 $if(date)$
@@ -260,15 +253,16 @@ $endfor$
 
 \begin{document}
 $if(title)$
-{\let\newpage\relax\maketitle}
-% \maketitle
+% {\let\newpage\relax\maketitle}
+\maketitle
 $endif$
 
-\renewcommand{\contentsname}{目\qquad 录}
-\newpage
+% \renewcommand{\contentsname}{目\qquad 录}
+% \newpage
+% \tableofcontents
+% \newpage
 \tableofcontents
 \thispagestyle{empty}
-\newpage
 
 $if(abstract)$
 \begin{abstract}
@@ -278,9 +272,7 @@ $endif$
 
 $for(include-before)$
 $include-before$
-
 $endfor$
-
 
 $if(toc)$
 {
@@ -308,15 +300,18 @@ $else$
 $endif$
 $endif$
 \bibliography{$biblio-files$}
+$endif$
+$endif$
 
-$endif$
-$endif$
 $if(biblatex)$
 \printbibliography$if(biblio-title)$[title=$biblio-title$]$endif$
-
 $endif$
+
 $for(include-after)$
 $include-after$
-
 $endfor$
+
 \end{document}
+
+
+
