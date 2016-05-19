@@ -1,6 +1,6 @@
 ---
 title: Sleep Sort
-author: He Tao
+author: sighingnow
 date: 2015-02-08
 tag: Algorithm
 category: Algorithm

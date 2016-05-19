@@ -1,6 +1,6 @@
 ---
 title: C语言控制台程序光标位置与文字颜色
-author: He Tao
+author: sighingnow
 date: 2015-02-01
 tag: C/C++
 category: 编程语言

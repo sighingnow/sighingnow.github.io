@@ -1,6 +1,6 @@
 ---
 title: 自然数的除法与取模
-author: He Tao
+author: sighingnow
 date: 2015-11-06
 tags: [Coq, 自然数, Logic]
 category: Coq

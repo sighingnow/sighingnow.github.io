@@ -1,6 +1,6 @@
 ---
 title: Haskell 数据类型和类型类(Typeclasses)
-author: He Tao
+author: sighingnow
 date: 2015-02-11
 tags: [Haskell]
 category: 编程语言

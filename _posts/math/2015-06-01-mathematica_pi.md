@@ -1,6 +1,6 @@
 ---
 title: 几种求解PI的概率算法的探究和对比
-author: He Tao
+author: sighingnow
 date: 2015-06-01
 tag: Mathematica
 category: Math

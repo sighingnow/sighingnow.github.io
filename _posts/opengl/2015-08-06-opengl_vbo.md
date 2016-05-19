@@ -1,6 +1,6 @@
 ---
 title: OpenGL顶点缓冲对象(VBO)
-author: He Tao
+author: sighingnow
 date: 2015-08-06
 tag: OpenGL
 category: Graphics

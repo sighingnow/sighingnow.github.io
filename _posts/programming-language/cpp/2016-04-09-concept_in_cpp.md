@@ -1,6 +1,6 @@
 ---
 title: Concept in C++
-author: He Tao
+author: sighingnow
 date: 2016-04-09
 tags: C/C++
 categories: 编程语言

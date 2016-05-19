@@ -1,6 +1,6 @@
 ---
 title: Monad 与 Continuation
-author: He Tao
+author: sighingnow
 date: 2016-04-17
 tag: [Haskell]
 category: 编程语言

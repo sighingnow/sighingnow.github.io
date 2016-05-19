@@ -1,6 +1,6 @@
 ---
 title: 斐波那契数列
-author: He Tao
+author: sighingnow
 date: 2015-05-24
 tag: Algorithm
 category: Algorithm

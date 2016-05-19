@@ -1,6 +1,6 @@
 ---
 title: Church Encoding
-author: He Tao
+author: sighingnow
 date: 2015-10-25
 tag: [Scheme]
 category: 编程语言

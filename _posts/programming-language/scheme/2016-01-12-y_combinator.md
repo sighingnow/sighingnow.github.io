@@ -1,6 +1,6 @@
 ---
 title: Y combinator
-author: He Tao
+author: sighingnow
 date: 2016-01-12
 tags: [Scheme]
 categories: 编程语言

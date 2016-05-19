@@ -1,6 +1,6 @@
 ---
 title: N皇后问题
-author: He Tao
+author: sighingnow
 date: 2015-06-06
 tag: Algorithm
 category: Algorithm

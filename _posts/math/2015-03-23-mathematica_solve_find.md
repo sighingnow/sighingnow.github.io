@@ -1,6 +1,6 @@
 ---
 title: Mathematica 求根与求最值
-author: He Tao
+author: sighingnow
 date: 2015-03-23
 tag: Mathematica
 category: Math

@@ -1,6 +1,6 @@
 ---
 title: C语言中的函数指针
-author: He Tao
+author: sighingnow
 date: 2015-02-02
 tag: C/C++
 category: 编程语言

@@ -1,6 +1,6 @@
 ---
 title: 组合博弈与SG函数
-author: He Tao
+author: sighingnow
 date: 2015-05-19
 tag: Algorithm
 category: Algorithm

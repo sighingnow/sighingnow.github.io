@@ -1,6 +1,6 @@
 ---
 title: A Formal Proof for Square Root of 2 is Irrational
-author: He Tao
+author: sighingnow
 date: 2016-03-18
 tags: [Proof, Logic]
 category: Coq

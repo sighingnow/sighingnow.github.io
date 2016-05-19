@@ -7,10 +7,10 @@ Training and test dataset: handwriting.zip
 
 Created on Feb 8, 2015
 
-@author: DHDave (buaahetao@gmai.com)
+@author: sighingnow
 '''
 
-__author__ = 'DHDave'
+__author__ = 'sighingnow'
 
 from os import listdir
 from os.path import sep as SYS_SEPARATOR

@@ -1,6 +1,6 @@
 ---
 title: Lazy Evaluation 的原理与实现
-author: He Tao
+author: sighingnow
 date: 2015-08-03
 tag: [Haskell]
 category: 编程语言

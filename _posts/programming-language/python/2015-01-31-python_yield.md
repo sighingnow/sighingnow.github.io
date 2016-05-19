@@ -1,6 +1,6 @@
 ---
 title: Python yield 关键字
-author: He Tao
+author: sighingnow
 date: 2015-01-31
 tag: Python
 category: 编程语言

@@ -1,6 +1,6 @@
 ---
 title: 使用generalize的技巧
-author: He Tao
+author: sighingnow
 date: 2016-03-16
 tags: [Proof, Logic]
 category: Coq

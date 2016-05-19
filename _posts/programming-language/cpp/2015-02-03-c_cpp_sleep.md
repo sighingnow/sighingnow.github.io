@@ -1,6 +1,6 @@
 ---
 title: C和C++中的sleep函数
-author: He Tao
+author: sighingnow
 date: 2015-02-03
 tag: C/C++
 category: 编程语言

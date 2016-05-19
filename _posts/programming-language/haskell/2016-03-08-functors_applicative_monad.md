@@ -1,6 +1,6 @@
 ---
 title: Functor, Applicative and Monad
-author: He Tao
+author: sighingnow
 date: 2016-03-08
 tag: [Haskell]
 category: 编程语言

@@ -1,5 +1,5 @@
 # Detect operating system in Makefile.
-# Author: He Tao
+# author: sighingnow
 # Date: 2015-05-30
 
 OSFLAG 				:=

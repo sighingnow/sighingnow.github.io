@@ -1,6 +1,6 @@
 ---
 title: 巧用异或(XOR)运算
-author: He Tao
+author: sighingnow
 date: 2015-02-09
 tag: Algorithm
 category: Algorithm

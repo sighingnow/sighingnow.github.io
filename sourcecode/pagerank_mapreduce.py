@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # -*- coding = utf-8 -*-
 
-__author__ = 'He Tao, hetao@buaa.edu.cn'
+__author__ = 'sighingnow'
 
 class Node:
     def __init__(self, id, pk):

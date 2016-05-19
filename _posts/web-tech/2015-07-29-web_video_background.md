@@ -1,6 +1,6 @@
 ---
 title: 将视频作为网页背景
-author: He Tao
+author: sighingnow
 date: 2015-07-29
 tags: [Web-Front-End]
 category: Web-Tech

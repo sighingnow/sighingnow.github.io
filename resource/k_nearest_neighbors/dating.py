@@ -7,10 +7,10 @@ Training and test dataset: dating.txt
 
 Created on Feb 8, 2015
 
-@author: DHDave (buaahetao@gmai.com)
+@author: sighingnow
 '''
 
-__author__ = 'DHDave'
+__author__ = 'sighingnow'
 
 from numpy import array as nmarray
 from matplotlib import pyplot as plt

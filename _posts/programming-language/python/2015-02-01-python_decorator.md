@@ -1,6 +1,6 @@
 ---
 title: Python Decorator
-author: He Tao
+author: sighingnow
 date: 2015-02-01
 tag: Python
 category: 编程语言

@@ -1,6 +1,6 @@
 ---
 title: X86汇编学习笔记
-author: He Tao
+author: sighingnow
 date: 2015-09-02
 tags: C/C++
 categories: 编程语言

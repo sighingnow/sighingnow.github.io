@@ -1,6 +1,6 @@
 ---
 title: Javascript 闭包
-author: He Tao
+author: sighingnow
 date: 2015-07-04
 tag: Javascript
 category: 编程语言

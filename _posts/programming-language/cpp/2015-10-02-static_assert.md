@@ -1,6 +1,6 @@
 ---
 title: static_assert
-author: He Tao
+author: sighingnow
 date: 2015-10-02
 tags: C/C++
 categories: 编程语言

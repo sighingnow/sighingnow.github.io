@@ -1,6 +1,6 @@
 ---
 title: Boyer-Moore 算法
-author: He Tao
+author: sighingnow
 date: 2015-02-14
 tag: Algorithm
 category: Algorithm

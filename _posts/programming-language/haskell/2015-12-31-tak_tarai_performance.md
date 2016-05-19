@@ -1,6 +1,6 @@
 ---
 title: Tak函数和Tarai函数的性能
-author: He Tao
+author: sighingnow
 date: 2015-12-31
 tag: [Haskell]
 category: 编程语言

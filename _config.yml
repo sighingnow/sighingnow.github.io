@@ -27,9 +27,9 @@ permalink:        none
 excerpt_separator: "<!--more-->"
 
 # Setup
-title:            'Sighingnow'
-tagline:          "Sighingnow's blog"
-description:      "Sighingnow's homepage using Jekyll Metro"
+title:            'sighingnow'
+tagline:          "sighingnow's blog"
+description:      "sighingnow's homepage using Jekyll Metro"
 url:              'http://sighingnow.github.io'
 baseurl:          ''
 
@@ -51,7 +51,7 @@ navigation:
 #   url: /categories/
 
 # Author Details
-author:         'Sighingnow'
+author:         'sighingnow'
 
 #Social Media links
 linkedin:       'https://www.linkedin.com/pub/%E6%B6%9B-%E4%BD%95/bb/868/732'

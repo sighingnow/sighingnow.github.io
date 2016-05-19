@@ -1,6 +1,6 @@
 ---
 title: 投影与相机空间
-author: He Tao
+author: sighingnow
 date: 2015-08-14
 tag: OpenGL
 category: Graphics

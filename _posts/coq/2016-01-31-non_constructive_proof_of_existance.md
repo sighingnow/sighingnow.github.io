@@ -1,6 +1,6 @@
 ---
 title: Non-constructive proof of existance
-author: He Tao
+author: sighingnow
 date: 2016-01-31
 tags: [Proof, Logic]
 category: Coq

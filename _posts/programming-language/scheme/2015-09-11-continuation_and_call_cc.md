@@ -1,6 +1,6 @@
 ---
 title: Continuation 和 call/cc
-author: He Tao
+author: sighingnow
 date: 2015-09-11
 tag: [Scheme]
 category: 编程语言

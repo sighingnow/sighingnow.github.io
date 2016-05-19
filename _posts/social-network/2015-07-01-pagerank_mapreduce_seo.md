@@ -1,6 +1,6 @@
 ---
 title: PageRank的MapReduce化以及SEO分析
-author: He Tao
+author: sighingnow
 date: 2015-07-01
 tags: [PageRank, Algorithm]
 category: 社会网络

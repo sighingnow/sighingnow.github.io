@@ -1,6 +1,6 @@
 ---
 title: Mathematica 笔记本(notebook)
-author: He Tao
+author: sighingnow
 date: 2015-02-05
 tag: Mathematica
 category: Math

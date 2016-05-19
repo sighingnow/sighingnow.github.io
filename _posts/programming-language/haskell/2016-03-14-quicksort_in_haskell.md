@@ -1,6 +1,6 @@
 ---
 title: Quicksort in Haskell
-author: He Tao
+author: sighingnow
 date: 2016-03-14
 tag: [Haskell]
 category: 编程语言

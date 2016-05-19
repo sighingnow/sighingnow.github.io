@@ -1,6 +1,6 @@
 ---
 title: 树的最长路径
-author: He Tao
+author: sighingnow
 date: 2015-02-01
 tag: Algorithm
 category: Algorithm

@@ -1,6 +1,6 @@
 ---
 title: 使用 VS2015 编译 Cython 程序
-author: He Tao
+author: sighingnow
 date: 2015-10-04
 tag: Python
 category: 编程语言

@@ -1,6 +1,6 @@
 ---
 title: 《Purely Functional Data Structures》笔记
-author: He Tao
+author: sighingnow
 date: 2015-10-04
 tag: [Haskell]
 category: 编程语言

@@ -1,6 +1,6 @@
 ---
 title: Linux 文件解压及压缩命令
-author: He Tao
+author: sighingnow
 date: 2015-02-17
 tag: Linux
 category: Linux/Unix

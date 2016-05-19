@@ -4,7 +4,7 @@
 using namespace std;
 
 /**
- * Author: DHDave (buaahetao@gmai.com)
+ * author: sighingnow
  */
 
 struct Node {

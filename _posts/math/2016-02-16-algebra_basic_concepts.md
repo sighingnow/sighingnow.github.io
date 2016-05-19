@@ -1,6 +1,6 @@
 ---
 title: 代数基本概念
-author: He Tao
+author: sighingnow
 date: 2016-01-15
 tag: [Algebra]
 category: Math

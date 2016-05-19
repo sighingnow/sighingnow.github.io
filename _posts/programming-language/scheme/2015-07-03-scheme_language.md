@@ -1,6 +1,6 @@
 ---
 title: Scheme 编程语言
-author: He Tao
+author: sighingnow
 date: 2015-07-03
 tag: [Scheme]
 category: 编程语言

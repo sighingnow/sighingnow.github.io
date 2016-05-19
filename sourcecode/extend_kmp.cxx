@@ -5,7 +5,7 @@
 using namespace std;
 
 /**
- * Author: DHDave (buaahetao@gmai.com)
+ * author: sighingnow
  */
 
 void extendKmp(char T[], char S[], int next[], int extend[]) {

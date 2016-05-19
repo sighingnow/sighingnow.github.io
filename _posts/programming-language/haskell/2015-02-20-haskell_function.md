@@ -1,6 +1,6 @@
 ---
 title: Haskell 函数
-author: He Tao
+author: sighingnow
 date: 2015-02-20
 tags: [Haskell]
 category: 编程语言

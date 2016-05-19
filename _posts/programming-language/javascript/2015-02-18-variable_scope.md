@@ -1,6 +1,6 @@
 ---
 title: Javascript 变量作用域
-author: He Tao
+author: sighingnow
 date: 2015-02-18
 tag: Javascript
 category: 编程语言

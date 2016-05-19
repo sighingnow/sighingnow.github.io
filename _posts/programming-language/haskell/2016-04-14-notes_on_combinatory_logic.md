@@ -1,6 +1,6 @@
 ---
 title: Notes on Combinatory Logic
-author: He Tao
+author: sighingnow
 date: 2016-04-14
 tag: [Haskell]
 category: 编程语言

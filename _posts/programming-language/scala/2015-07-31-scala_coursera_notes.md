@@ -1,6 +1,6 @@
 ---
 title: Scala 公开课笔记
-author: He Tao
+author: sighingnow
 date: 2015-07-31
 tag: [Scala]
 category: 编程语言
