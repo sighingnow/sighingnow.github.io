@@ -1,7 +1,7 @@
 ---
 title: Notes on Combinatory Logic
 author: He Tao
-date: 2016-04-16
+date: 2016-04-14
 tag: [Haskell]
 category: 编程语言
 layout: post
@@ -66,7 +66,7 @@ A typed combinatory logic corresponds to a Hilbert system (the third Lukasiewicz
 proof theory. The $K$ and $S$ combinators correspond to the axioms
 
 + $AK: A \to (B \to A)$
-+ $AS: (A \to (B \to C)) -> ((A \to B) \to (A \to C))
++ $AS: (A \to (B \to C)) -> ((A \to B) \to (A \to C))$
 
 and function application correspond to the modus ponens rule
 

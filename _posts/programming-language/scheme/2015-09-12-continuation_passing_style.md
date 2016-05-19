@@ -20,7 +20,7 @@ direct style 那样明确指出下一条语句的编码风格。符合 CPS 的�
 <!--more-->
 
 正常函数的返回都隐含一个continuation，就是利用这个函数的返回值来 做的后续事情，而cps的本质就是将这个隐式的
-continuation显式的当做参 数传递进去，并在函数中完成应有的continuation并将最终结果返回。这跟尾递归似乎很像，
+continuation显式的当做参数传递进去，并在函数中完成应有的continuation并将最终结果返回。这跟尾递归似乎很像，
 在改造递归为尾递归的时候，就将当前状态通过accumulator汇集到函数内部的操作，当达到结束条件时返回汇集结果，而
 不必再返回来收集递归过程中的返回值。cps似乎就是同样的道理，每次将continuation传递到内部进行操作的组合，当达
 到底部的时候直接将汇集的continuation的计算结果返回，而不必返回来再去计算每一步的continuation。
@@ -29,6 +29,10 @@ The key to CPS:
 
 + every function takes an extra argument, its continuation
 + every argument in a function call must be either a variable or a lambda expression
+
+> This means that each function consumes a function that represents the rest of the computation relative to
+> this function call. To return a value, the function calls this "continuation function" with a return value;
+> to abort the computation it returns a value.
 
 以阶乘函数为例：
 
@@ -51,7 +55,8 @@ The key to CPS:
                                         (*& n f k))))))))) ;; apply continuation `k` to the result.
 ~~~
 
-参数 k 表示对于 `factorial&` 函数的结果的行为，即Continuation。从这个例子中，我们不难看到，所谓CPS，其实传入一个函数，返回这个函数对被调用者的结果(可以是多个)处理后的值。我们可以以如下形式来调用 `factorial&`函数：
+参数 k 表示对于 `factorial&` 函数的结果的行为，即Continuation。从这个例子中，我们不难看到，所谓CPS，其实传入
+一个函数，返回这个函数对被调用者的结果(可以是多个)处理后的值。我们可以以如下形式来调用 `factorial&`函数：
 
     (factorial& 10 (lambda (x) x))
 
@@ -93,7 +98,8 @@ CPS形式的map
 call/cc 和 CPS
 -------------
 
-理论上，所有使用了call/cc的函数，都可以使用CPS来重写，但是有些时候难度很大，而且有时候要修改Scheme所提供的基础函数（primitives）。
+理论上，所有使用了call/cc的函数，都可以使用CPS来重写，但是有些时候难度很大，而且有时候要修改Scheme所提供的基础函
+数（primitives）。
 
 例如，Scheme实现的阶乘函数：
 
@@ -137,7 +143,8 @@ CPS变换
 CPS程序与普通程序相比有如下明显的不同：
 
 1. CPS函数都有一个额外的参数 k ，表示控制流。函数需要返回，必须显式的调用 k .
-2. 在函数的末尾调用了另外一个函数，这种调用称为尾调用，tail call。相应的在尾部递归调用，称之为尾递归，tail recursion。CPS所有函数都是尾调用(在不支持尾递归的语言中，可能出现栈溢出)。
+2. 在函数的末尾调用了另外一个函数，这种调用称为尾调用，tail call。相应的在尾部递归调用，称之为尾递归，tail
+recursion。CPS所有函数都是尾调用(在不支持尾递归的语言中，可能出现栈溢出)。
 
 将普通函数变换为CPS程序，主要有以下几种类型：
 
@@ -251,13 +258,17 @@ function cps_goo(x, k) {
 }
 ~~~
 
-翻译成CPS的表达式，有一种inside-out的效果，也就是说，表达式最内部的部分需要最先被计算出来。区别于普通的最先被计算在最外层。CPS变换的一些策略：
+翻译成CPS的表达式，有一种inside-out的效果，也就是说，表达式最内部的部分需要最先被计算出来。区别于
+普通的最先被计算在最外层。CPS变换的一些策略：
 
 + 每一条语句都被包装在一个函数内。原函数内剩下的语句被包装在 continuation中
 + 最终每个函数内只做一件不能在被分割的事情（譬如+，-，*，/ 或者调用系统API等）
 + 每个函数实际上只关心传入自身的continuation参数
 
-CPS中，我们没有在调用return了，控制流必须显式通过continuation传递。`return` 语句只是一个语法糖而已。exception仅仅是一个特殊的continuation而已。`try/catch` 也可以被视作是语法糖。犹他大学的课件 [Continuation-Passing Style (CS 6520, Spring 2002, The University of Utah)](https://www.cs.utah.edu/~mflatt/past-courses/cs6520/public_html/s02/cps.pdf) 详细讲述了如何做CPS变换的一般原理，并将这一过程形式化描述。
+CPS中，我们没有在调用return了，控制流必须显式通过continuation传递。`return` 语句只是一个语法糖而已。
+Exception仅仅是一个特殊的continuation而已。`try/catch` 也可以被视作是语法糖。犹他大学的课件
+[Continuation-Passing Style (CS 6520, Spring 2002, The University of Utah)](https://www.cs.utah.edu/~mflatt/past-courses/cs6520/public_html/s02/cps.pdf)
+详细讲述了如何做CPS变换的一般原理，并将这一过程形式化描述。
 
 CPS and tail calls
 ------------------

@@ -1,4 +1,3 @@
-
 ---
 title: Quicksort in Haskell
 author: He Tao

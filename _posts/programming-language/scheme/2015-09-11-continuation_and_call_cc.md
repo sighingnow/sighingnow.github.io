@@ -43,14 +43,6 @@ First-class continuations 指的是一门编程语言能够完全控制程序的
 **此处，我们并没有调用一个用来 make sandwich 的函数并返回，而是调用了一个 make sandwich with current
 continuation 的函数，然后 create the sandwish，最后返回到之前离开时的continuation(fron of the refrigerator)。**
 
-Continuations 在denotational semantics, the Actor model, process calculi, 以及 lambda calculus 等
-计算模型中都有广泛的应用。这些模型依赖程序员在所谓的 CPS(continuation passing style, 后续传递风格) 编写
-mathematical functions。这意味着每个函数都调用表示先对于函数调用的剩下的计算的函数(This means that each
-function consumes a function that represents the rest of the computation relative to this function
-call)，当需要返回值时，就用这些"continuation function"的返回值，而当需要终止计算时，这些函数就 returns a value。
-
-CPS 赋予函数式编程语言程序员以任意方式来来操作程序的控制流的表达能力，但与此同时，需要付出手动维护 invariants of control 和 continuations 的代价。
-
 Scheme的call/cc
 ---------------
 
@@ -63,9 +55,11 @@ Scheme是第一个提供Continuation支持的产品级编程语言，Scheme提�
 > to hand over the continuation. Don't be confused by the fact the continuation object is
 > later invoked by calling it, that's entirely separate.
 
-call/cc 本质上其实是非本地返回(non-local return)，其他的例如 setjump/longjump, exception 等机制也属于 non-local return 的范畴。
-call/cc 机制主要用来实现一些复杂的流程控制结构。Scheme并没有提供像C语言那样的break语句，可以用call/cc来实现退出函数的功能。
-在过程的入口调用call/cc，在需要中途退出的地方参数调用continuation，就可以直接退出函数。
+call/cc 本质上其实是非本地返回(non-local return)，其他的例如 setjump/longjump, exception 等机制也属于 non-local
+return 的范畴。call/cc 机制主要用来实现一些复杂的流程控制结构。Scheme并没有提供像C语言那样的break语句，可以用
+call/cc来实现退出函数的功能。在过程的入口调用call/cc，将这个函数体都放在call/cc的参数里。在需要中途退出的地方
+参数调用continuation，就可以直接退出函数。**本质上是借助调用continuation将会把上下文设置为执行call/cc的位置，即
+调用call/cc之后的下一条语句。**
 
 > Note that Scheme does not syntactically distinguish continuation application from function application.
 
@@ -78,12 +72,12 @@ call/cc 机制主要用来实现一些复杂的流程控制结构。Scheme并没
   (call-with-current-continuation
     (lambda (ret) (for-each (lambda (e) (test e ret) (display e)) lst))))
 
-(search-zero test '(-3 -2 -1 0 1 2 3))
+(display (search-zero test '(-3 -2 -1 0 1 2 3)))
 ~~~
 
-执行的输出结果：
+执行的输出结果(R5RS)：
 
-    -3-2-1"find zero"
+    -3-2-1find zero
 
 我们使用 call/cc 来实现一个功能类似于 Haskell 的 product 的函数：
 
@@ -115,11 +109,9 @@ call/cc 机制主要用来实现一些复杂的流程控制结构。Scheme并没
   (let ((x 0))
     (call-with-current-continuation
       (lambda (cc) (set! the-continuation cc)))  ; set cc to the continuation.
-    (set! x (+ x 1))
-    x))
+    (set! x (+ x 1)) x))
 
 (func)
-
 (the-continuation)
 (the-continuation)
 (the-continuation)
@@ -176,7 +168,7 @@ call/cc 模拟多任务
 
 多任务控制流的一个关键就是，保存每个任务的上下文，让它切出去再返回的时候能接着执行，就像没有发生过切换一样。
 这个任务，continuation 完全胜任。生产者-消费者问题是检验多任务机制的经典问题，我们可以用 continuation
-模拟这个过程。
+模拟这个过程。利用call/cc来捕获上下文，利用调用continuation来在不同的上下文之间切换。
 
 ~~~scheme
 #lang racket
@@ -208,17 +200,20 @@ call/cc的实现
 
 > In any case, continuations can be used in any language with closures by manually writing in continuation passing style.
 
-在Scheme中，运行效率更高的continuation可以通过更低级的直接操作栈空间的方法来实现，但这仅仅是一种优化。在Scheme中，当我们使用了 CPS 后，call/cc可以被如下的等价表达式替代：
+在Scheme中，运行效率更高的continuation可以通过更低级的直接操作栈空间的方法来实现，但这仅仅是一种优化。在Scheme
+中，当我们使用了 CPS 后，call/cc可以被如下的等价表达式替代：
 
     (lambda (f k) (f (lambda (v k0) (k v)) k))
 
 在这个式子中，`k` 是需要保存的continuation，`(lambda (v k0) (k v))` 用来重新保存(restore) continuation。
 
-[Call-with-current-continuation for C programmers](http://community.schemewiki.org/?call-with-current-continuation-for-C-programmers) 一文介绍了C语言中的 setjump/longjump 机制与 continuation 的异同，并从更加 low-level 的方式阐述了大多数主流 Scheme 解释器的 call/cc 的实现细节。
-Continuation 操作程序控制流的原理与命令式语言中的`goto`有着本质的不同。[Parent pointer tree](https://en.wikipedia.org/wiki/Parent_pointer_tree) (也作Spaghetti stack) 就是编译器中实现call/cc，进行垃圾回收的一种方法。
-
-在并发领域，Coroutine就是基于Continuation实现的。Continuation可认为是对PCB的抽象，其实它就是函数当前的执行
-栈，并且是实实在在可以被保存的东西，因此，很容易通过CPS来实现协程、non-local-return 等。
+[Call-with-current-continuation for C programmers](http://community.schemewiki.org/?call-with-current-continuation-for-C-programmers)
+一文介绍了C语言中的 setjump/longjump 机制与 continuation 的异同，并从更加 low-level 的方式阐述了大多数主流
+Scheme 解释器的 call/cc 的实现细节。Continuation 操作程序控制流的原理与命令式语言中的`goto`有着本质的不同。
+[Parent pointer tree](https://en.wikipedia.org/wiki/Parent_pointer_tree) (也作Spaghetti stack) 就是编译器
+中实现call/cc，进行垃圾回收的一种方法。在并发领域，Coroutine就是基于Continuation实现的。Continuation可认为
+是对PCB的抽象，其实它就是函数当前的执行栈，并且是实实在在可以被保存的东西，因此，很容易通过CPS来实现协程、
+non-local-return 等。
 
 参考
 ----
