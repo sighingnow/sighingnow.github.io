@@ -1,317 +1,344 @@
-\documentclass[$if(fontsize)$$fontsize$,$endif$$if(lang)$$lang$,$endif$$if(papersize)$$papersize$,$endif$$for(classoption)$$classoption$$sep$,$endfor$]{article}%%{$documentclass$}
-
-\usepackage{geometry}       % 设定边界
-\geometry{
-    verbose,
-    top=1in,
-    inner=1in,
-    outer=1in,
-    bottom=1in,
-    headheight=3ex,
-    headsep=2ex
-}
-
+\documentclass[$if(fontsize)$$fontsize$,$endif$$if(lang)$$babel-lang$,$endif$$if(papersize)$$papersize$paper,$endif$$for(classoption)$$classoption$$sep$,$endfor$]{report} % {$documentclass$}
 $if(fontfamily)$
-\usepackage{$fontfamily$}
+    \usepackage[$for(fontfamilyoptions)$$fontfamilyoptions$$sep$,$endfor$]{$fontfamily$}
 $else$
-\usepackage{lmodern}
+    \usepackage{lmodern}
 $endif$
 $if(linestretch)$
-\usepackage{setspace}
-\setstretch{$linestretch$}
+    \usepackage{setspace}
+    \setstretch{$linestretch$}
 $endif$
 
 \usepackage{amssymb,amsmath}
-\usepackage{ifxetex,ifluatex}
-\usepackage{fixltx2e}                 % provides \textsubscript
-\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
-  \usepackage[T1]{fontenc}
-  \usepackage[utf8]{inputenc}
+\usepackage{fixltx2e} % provides \textsubscript
+
+\usepackage{mathspec}
+\usepackage{fontspec}
+\defaultfontfeatures{Mapping=tex-text,Ligatures=TeX,Scale=MatchLowercase}
+
 $if(euro)$
-  \usepackage{eurosym}
+    \newcommand{\euro}{€}
 $endif$
-\else % if luatex or xelatex
-  \ifxetex
-    \usepackage{mathspec}
-    \usepackage{xltxtra,xunicode}
-  \else
-    \usepackage{fontspec}
-  \fi
-  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
-  \newcommand{\euro}{€}
+$if(geometry)$
+    \usepackage[$for(geometry)$$geometry$$sep$,$endfor$]{geometry}
+$else$
+    \usepackage[verbose,inner=1in,outer=1in,top=1in,bottom=1in,headheight=3ex,headsep=2ex]{geometry}   % 设定边界
+$endif$
+$if(mainfont)$
+    \setmainfont[$for(mainfontoptions)$$mainfontoptions$$sep$,$endfor$]{$mainfont$}
+$endif$
+$if(sansfont)$
+    \setsansfont[$for(sansfontoptions)$$sansfontoptions$$sep$,$endfor$]{$sansfont$}
+$endif$
+$if(mathfont)$
+    \setmathfont(Digits,Latin,Greek)[$for(mathfontoptions)$$mathfontoptions$$sep$,$endfor$]{$mathfont$}
+$endif$
 
 % SUPPORT for Chinese
 \usepackage[boldfont,slantfont,CJKchecksingle]{xeCJK}
+\usepackage{CJKnumb}
 \usepackage{fontspec,xltxtra,xunicode}
-\defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
-% \setmainfont{Times New Roman} %% {Consolas} {Monaco} {Courier New}
 \punctstyle{quanjiao}
-\setCJKmainfont{Microsoft YaHei}
-\setmonofont{Monaco}
-\setCJKmonofont{Microsoft YaHei}
+
 \XeTeXlinebreaklocale "zh"         % 针对中文自动换行
 \XeTeXlinebreakskip = 0pt plus 1pt % 子与子之间加入0pt至1pt的间距，确保左右对齐
 \linespread{1.1}\selectfont        % 行距
 
-\setmathfont{XITS Math}
-\setmathfont[version=bold,FakeBold=3.5]{XITS Math}
+$if(CJKmainfont)$
+    \setCJKmainfont[$for(CJKoptions)$$CJKoptions$$sep$,$endfor$]{$CJKmainfont$}
+    \setCJKmonofont[$for(CJKoptions)$$CJKoptions$$sep$,$endfor$]{$CJKmainfont$}
+$else$
+    \setCJKmainfont{Microsoft YaHei}
+    \setCJKmonofont{Microsoft YaHei}
+$endif$
 
-% INDENT
-\parindent 2em
-\newenvironment{subs}
-  {\adjustwidth{2em}{1pt}}
-  {\endadjustwidth}
-\makeatother
-
-\usepackage{indentfirst}
-\setlength{\parskip}{5pt}   % 段落之间的距离
-\setlength{\parindent}{2em}
-\renewenvironment{quote} {\begin{quotation}} {\end{quotation}}
+$if(monofont)$
+    \setmonofont[Mapping=tex-ansi$if(monofontoptions)$,$for(monofontoptions)$$monofontoptions$$sep$,$endfor$$endif$]{$monofont$}
+$else$
+    \setmonofont{Monaco} %% {Consolas} {Courier New}
+$endif$
 
 %% CHINESE NUMBERING
-
-\makeatletter
-\def\zhdigits#1{\expandafter\@zhdigits\csname c@#1\endcsname}
-\def\@zhdigits#1{\expandafter\textzh\expandafter{\expandafter\@slowzhdigits\number#1@}}
-\def\zhnumber#1{\textzh{\@slowzhdigits#1@}}
-\def\@slowzhdigits#1{%
-  \ifx @#1% terminate
-  \else
-    \if0#1〇\else\if1#1一\else\if2#1二\else\if3#1三\else\if4#1四%
-    \else\if5#1五\else\if6#1六\else\if7#1七\else\if8#1八\else\if9#1九%
-    \fi\fi\fi\fi\fi\fi\fi\fi\fi\fi
-    \expandafter\@slowzhdigits
-  \fi}
-\makeatother
-
-\makeatletter
-% we use \prefix@<level> only if it is defined
-\renewcommand{\@seccntformat}[1]{%
-  \ifcsname prefix@#1\endcsname
-    \csname prefix@#1\endcsname
-  \else
-    \csname the#1\endcsname\quad
-  \fi}
 
 % define \prefix@section
 % \newcommand\prefix@section{\zhdigits{section}、\quad }
 % \renewcommand{\thesection}{\zhdigits{section}、}
 \renewcommand{\thesection}{\arabic{section}. }
-% \renewcommand{\thesubsection}{\arabic{section}}
-\makeatother
+% \renewcommand{\thesection}{\CJKnumber{\arabic{section}}、}
+\renewcommand{\thesubsection}{\arabic{section}.\arabic{subsection}}
 
-% for multiple authors.
-\usepackage{authblk}
-
-$if(mainfont)$
-    \setmainfont{$mainfont$}
-$endif$
-$if(sansfont)$
-    \setsansfont{$sansfont$}
-$endif$
-$if(monofont)$
-    \setmonofont[Mapping=tex-ansi]{$monofont$}
-$endif$
-$if(mathfont)$
-    \setmathfont(Digits,Latin,Greek){$mathfont$}
-$endif$
-\fi
 % use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 % use microtype if available
 \IfFileExists{microtype.sty}{%
-\usepackage{microtype}
-\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+    \usepackage{microtype}
+    \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
 }{}
-$if(geometry)$
-\usepackage[$for(geometry)$$geometry$$sep$,$endfor$]{geometry}
-$endif$
-$if(natbib)$
-\usepackage{natbib}
-\bibliographystyle{$if(biblio-style)$$biblio-style$$else$plainnat$endif$}
-$endif$
-$if(biblatex)$
-\usepackage{biblatex}
-$if(biblio-files)$
-\bibliography{$biblio-files$}
-$endif$
-$endif$
-$if(listings)$
-\usepackage{listings}
-$endif$
-$if(lhs)$
-\lstnewenvironment{code}{\lstset{language=Haskell,basicstyle=\small\ttfamily}}{}
-$endif$
-$if(highlighting-macros)$
-$highlighting-macros$
-$endif$
 
-% $if(verbatim-in-note)$
-% \usepackage{fancyvrb}
-% $endif$
-\usepackage{fancyvrb}
-
-%% self defined \provideenvironment
-\makeatletter
-\def\provideenvironment{\@star@or@long\provide@environment}
-\def\provide@environment#1{%
-        \@ifundefined{#1}%
-                {\def\reserved@a{\newenvironment{#1}}}%
-                {\def\reserved@a{\renewenvironment{dummy@environ}}}%
-        \reserved@a
-}
-\def\dummy@environ{}
-\makeatother
-
-% for frame around code blocks.
-\usepackage{framed}
-\provideenvironment{Shaded}{}{}
-\renewenvironment{Shaded} {\begin{framed}\normalsize} {\end{framed}}
-\DefineVerbatimEnvironment{verbatim}{Verbatim}{frame=single,framerule=\FrameRule,framesep=\FrameSep,samepage=true,fontsize=\normalsize}
-
-$if(tables)$
-\usepackage{longtable,booktabs}
+\usepackage{hyperref}
+$if(colorlinks)$
+    \PassOptionsToPackage{usenames,dvipsnames}{color} % color is loaded by hyperref
 $endif$
-$if(graphics)$
-\usepackage{graphicx}
-\makeatletter
-\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
-\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
-\makeatother
-% Scale images if necessary, so that they will not overflow the page
-% margins by default, and it is still possible to overwrite the defaults
-% using explicit options in \includegraphics[width, height, ...]{}
-\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
-$endif$
-\ifxetex
-  \usepackage[setpagesize=false, % page size defined by xetex
-              unicode=false, % unicode breaks when used with xetex
-              xetex,linktoc=all,CJKbookmarks=true]{hyperref}
-\else
-  \usepackage[unicode=true,linktoc=all,CJKbookmarks=true]{hyperref}
-\fi
-\usepackage{titlesec}
-\hypersetup{breaklinks=true,
-            bookmarks=true,
-            pdfauthor={$author-meta$},
+\hypersetup{unicode=true,
+    $if(title-meta)$
             pdftitle={$title-meta$},
+    $endif$
+    $if(author-meta)$
+            pdfauthor={$author-meta$},
+    $endif$
+    $if(keywords)$
+            pdfkeywords={$for(keywords)$$keywords$$sep$; $endfor$},
+    $endif$
             colorlinks=true,
             linktoc=all,
+            bookmarks=true,
+            linkcolor=$if(linkcolor)$$linkcolor$$else$magenta$endif$,
             citecolor=$if(citecolor)$$citecolor$$else$blue$endif$,
             urlcolor=$if(urlcolor)$$urlcolor$$else$blue$endif$,
-            linkcolor=$if(linkcolor)$$linkcolor$$else$magenta$endif$,
-            pdfborder={0 0 0}}
+    % $if(colorlinks)$
+    %         linkcolor=$if(linkcolor)$$linkcolor$$else$Maroon$endif$,
+    %         citecolor=$if(citecolor)$$citecolor$$else$Blue$endif$,
+    %         urlcolor=$if(urlcolor)$$urlcolor$$else$Blue$endif$,
+    % $else$
+    %         pdfborder={0 0 0},
+    % $endif$
+    %         breaklinks=true
+}
+
 \urlstyle{same}  % don't use monospace font for urls
-$if(links-as-notes)$
-% Make links footnotes instead of hotlinks:
-\renewcommand{\href}[2]{#2\footnote{\url{#1}}}
-$endif$
-$if(strikeout)$
-\usepackage[normalem]{ulem}
-% avoid problems with \sout in headers with hyperref:
-\pdfstringdefDisableCommands{\renewcommand{\sout}{}}
-$endif$
-\setlength{\emergencystretch}{3em}  % prevent overfull lines
-$if(numbersections)$
-\setcounter{secnumdepth}{5}
-$else$
-\setcounter{secnumdepth}{0}
-$endif$
-$if(verbatim-in-note)$
-\VerbatimFootnotes % allows verbatim text in footnotes
-$endif$
 $if(lang)$
-\ifxetex
-  \usepackage{polyglossia}
-  \setmainlanguage{$mainlang$}
-\else
-  \usepackage[$lang$]{babel}
-\fi
+    \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+        \usepackage[shorthands=off,$for(babel-otherlangs)$$babel-otherlangs$,$endfor$main=$babel-lang$]{babel}
+        $if(babel-newcommands)$
+            $babel-newcommands$
+        $endif$
+    \else
+        \usepackage{polyglossia}
+        \setmainlanguage[$polyglossia-lang.options$]{$polyglossia-lang.name$}
+        $for(polyglossia-otherlangs)$
+            \setotherlanguage[$polyglossia-otherlangs.options$]{$polyglossia-otherlangs.name$}
+        $endfor$
+    \fi
 $endif$
 
-% \vspace{0.5em}
-
-$if(title)$
-% \title{\huge $title$$if(subtitle)$\\\vspace{0.5em}{\large $subtitle$}$endif$\vspace{3cm}}
-\title{\huge $title$$if(subtitle)$ {\large $subtitle$}$endif$}
+$if(natbib)$
+    \usepackage{natbib}
+    \bibliographystyle{$if(biblio-style)$$biblio-style$$else$plainnat$endif$}
 $endif$
 
-$if(author)$
-\author{$for(author)$$author$$sep$ \and $endfor$}
-% \author{@sighingnow \href{mailto:sighingnow@gmail.com}{sighingnow@gmail.com}}
+$if(biblatex)$
+    \usepackage$if(biblio-style)$[style=$biblio-style$]$endif${biblatex}
+    $if(biblatexoptions)$
+        \ExecuteBibliographyOptions{$for(biblatexoptions)$$biblatexoptions$$sep$,$endfor$}
+    $endif$
+    $for(bibliography)$
+        \addbibresource{$bibliography$}
+    $endfor$
 $endif$
 
-$if(date)$
-\date{$date$}
+\usepackage[
+    cache=true,
+    kpsewhich=true,
+]{minted}
+\setminted{style=default}
+\setminted{fontsize=\small}
+\setminted{frame=leftline}
+% \setminted{xleftmargin=2em}
+\setminted{breakautoindent=true}
+\setminted{breaklines=true}
+
+$if(lhs)$
+    \lstnewenvironment{code}{\lstset{language=Haskell,basicstyle=\small\ttfamily}}{}
+$endif$
+
+$if(highlighting-macros)$
+    $highlighting-macros$
+$endif$
+
+$if(verbatim-in-note)$
+    \usepackage{fancyvrb}
+    \VerbatimFootnotes % allows verbatim text in footnotes
+$endif$
+
+$if(tables)$
+    \usepackage{longtable,booktabs}
+$endif$
+
+$if(graphics)$
+    \usepackage{graphicx,grffile}
+    \makeatletter
+        \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+        \def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+    \makeatother
+
+    % Scale images if necessary, so that they will not overflow the page
+    % margins by default, and it is still possible to overwrite the defaults
+    % using explicit options in \includegraphics[width, height, ...]{}
+    \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+$endif$
+
+$if(links-as-notes)$
+    % Make links footnotes instead of hotlinks:
+    \renewcommand{\href}[2]{#2\footnote{\url{#1}}}
+$endif$
+
+$if(strikeout)$
+    \usepackage[normalem]{ulem}
+    % avoid problems with \sout in headers with hyperref:
+    \pdfstringdefDisableCommands{\renewcommand{\sout}{}}
+$endif$
+
+$if(indent)$
 $else$
-\date{\today}
+    % INDENT
+    \newenvironment{subs}
+        {\adjustwidth{2em}{1pt}}
+    {\endadjustwidth}
+    \makeatother
+
+    \usepackage{indentfirst}
+    \setlength{\parskip}{4pt}   % 段落之间的距离
+    \setlength{\parindent}{2em}
+    \renewenvironment{quote} {\begin{quotation}} {\end{quotation}}
+$endif$
+
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+    \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+$if(numbersections)$
+    \setcounter{secnumdepth}{5}
+$else$
+    \setcounter{secnumdepth}{0}
+$endif$
+
+$if(subparagraph)$
+$else$
+    % Redefines (sub)paragraphs to behave more like sections
+    \ifx\paragraph\undefined\else
+        \let\oldparagraph\paragraph
+        \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+    \fi
+    \ifx\subparagraph\undefined\else
+        \let\oldsubparagraph\subparagraph
+        \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+    \fi
+$endif$
+
+$if(dir)$
+    \ifxetex
+        % load bidi as late as possible as it modifies e.g. graphicx
+        $if(latex-dir-rtl)$
+            \usepackage[RTLdocument]{bidi}
+        $else$
+            \usepackage{bidi}
+        $endif$
+    \fi
+    \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+        \TeXXeTstate=1
+        \newcommand{\RL}[1]{\beginR #1\endR}
+        \newcommand{\LR}[1]{\beginL #1\endL}
+        \newenvironment{RTL}{\beginR}{\endR}
+        \newenvironment{LTR}{\beginL}{\endL}
+    \fi
 $endif$
 
 $for(header-includes)$
-$header-includes$
+    $header-includes$
 $endfor$
 
-\begin{document}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{}
+\chead{}
+\rhead{}
+
 $if(title)$
-% {\let\newpage\relax\maketitle}
-\maketitle
+    \title{\huge $title$ $if(thanks)$\thanks{$thanks$}$endif$}
+    % \title{\huge $title$$if(subtitle)$\\\vspace{0.5em}{\large $subtitle$}$endif$\vspace{3cm}}
+    % \title{\huge $title$$if(subtitle)$ {\large $subtitle$}$endif$}
 $endif$
 
-% \renewcommand{\contentsname}{目\qquad 录}
-% \newpage
-% \tableofcontents
-% \newpage
-\tableofcontents
-\thispagestyle{empty}
+$if(subtitle)$
+    \providecommand{\subtitle}[1]{}
+    \subtitle{$subtitle$}
+$endif$
+
+$if(author)$
+    \author{$for(author)$$author$$sep$ \and $endfor$}
+$else$
+    \author{sighingnow \\ \href{mailto:sighingnow@yandex.com}{sighingnow@yandex.com}}
+$endif$
+
+$if(institute)$
+    \institute{$for(institute)$$institute$$sep$ \and $endfor$}
+$endif$
+
+\date{$if(date)$ $date$ $else$ \today $endif$}
+
+\begin{document}
+
+$if(title)$
+    % {\let\newpage\relax\maketitle}
+    \maketitle
+$endif$
 
 $if(abstract)$
-\begin{abstract}
-$abstract$
-\end{abstract}
+    \begin{abstract}
+    $abstract$
+    \end{abstract}
 $endif$
 
 $for(include-before)$
-$include-before$
+    $include-before$
 $endfor$
 
 $if(toc)$
 {
-\hypersetup{colorlinks=true,linktoc=all,linkcolor=black}
-\setcounter{tocdepth}{$toc-depth$}
-\tableofcontents
+    $if(colorlinks)$
+        \hypersetup{linkcolor=$if(toccolor)$$toccolor$$else$black$endif$}
+    $else$
+        \hypersetup{colorlinks=true,linktoc=all,linkcolor=black}
+    $endif$
+    \setcounter{tocdepth}{$toc-depth$}
+    \tableofcontents
 }
+$else$
+    % \renewcommand{\contentsname}{目\qquad 录}
+    \tableofcontents
+    % \clearpage
 $endif$
+
 $if(lot)$
-\listoftables
+    \listoftables
 $endif$
+
 $if(lof)$
-\listoffigures
+    \listoffigures
 $endif$
 
 $body$
 
 $if(natbib)$
-$if(biblio-files)$
-$if(biblio-title)$
-$if(book-class)$
-\renewcommand\bibname{$biblio-title$}
-$else$
-\renewcommand\refname{$biblio-title$}
-$endif$
-$endif$
-\bibliography{$biblio-files$}
-$endif$
+    $if(bibliography)$
+        $if(biblio-title)$
+            $if(book-class)$
+                \renewcommand\bibname{$biblio-title$}
+            $else$
+                \renewcommand\refname{$biblio-title$}
+            $endif$
+        $endif$
+        \bibliography{$for(bibliography)$$bibliography$$sep$,$endfor$}
+    $endif$
 $endif$
 
 $if(biblatex)$
-\printbibliography$if(biblio-title)$[title=$biblio-title$]$endif$
+    \printbibliography$if(biblio-title)$[title=$biblio-title$]$endif$
 $endif$
 
 $for(include-after)$
-$include-after$
+    $include-after$
 $endfor$
 
 \end{document}
-
-
 
