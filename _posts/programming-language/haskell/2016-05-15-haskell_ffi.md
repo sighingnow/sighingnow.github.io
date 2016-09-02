@@ -104,7 +104,7 @@ int main(int argc, char **argv) {
 生成的可执行文件不依赖额外的动态链接库：
 
     ghc -c ffi-example-hs.hs
-    ghc --make -no-hs-main ffi-example-c.c ffi-example-hs -o ffi-example.exe
+    ghc --make -no-hs-main ffi-example-c.c ffi-example-hs.o -o ffi-example.exe
 
 #### 使用动态链接库
 
@@ -154,13 +154,35 @@ ghc -c ffi-example-hs.hs
 ghc -c ffi-example-loader.c
 ghc -shared -o ffi-example.dll ffi-example-loader.o ffi-example-hs.o
 ghc -no-hs-main ffi-example-c.c ffi-example.dll.a -o ffi-example.exe
-## or gcc ffi-example-c -lffi-example
-## or gcc ffi-example-c ffi-example.dll.a
+## or gcc ffi-example-c.o -lffi-example
+## or gcc ffi-example-c.o ffi-example.dll.a
 ## when use gcc, the target file will be more small, but can't include "***stub.h",
 ## haskell functions must be declared manually.
 ~~~
 
 通过将Haskell模块打包成动态链接库，还可以用于被Python、Java程序调用。
+
+#### 使用静态链接库
+
+~~~shell
+ghc -c ffi-example-hs.hs
+ghc -c ffi-example-loader.c
+ar rc libffi-example.a ffi-example-hs.o ff-example-loader.o
+ghc -no-hs-main ffi-example-c.o -lffi-example
+~~~
+
+#### 多次调用
+
+GHC user's guide 13.1.1.8中提到
+
+> `hs_init()` not allowed after `hs_exit()`
+>
+> The FFI spec requires the implementation to support re-initialising itself after being shut down with hs_exit(),
+> but GHC does not currently support that.
+
+#### C++ FFI
+
+通过以C语言的方式封装C++库的函数，可以在Haskell代码中调用C++编写的动态链接库。
 
 复杂数据结构
 -----------

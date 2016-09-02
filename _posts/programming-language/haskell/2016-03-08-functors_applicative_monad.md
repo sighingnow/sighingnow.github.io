@@ -207,7 +207,7 @@ instance Applicative [] where
     (<*>) fs xs = [f x | f <- fs, x <- xs]
 instance Monad [] where
     return = [x]
-    (>>=) xs f = [y | x <- [xs], y <- f x]
+    (>>=) xs f = [y | x <- [xs], y <- f x] -- (>>=) = concatMap
 ~~~
 
 ### Function
