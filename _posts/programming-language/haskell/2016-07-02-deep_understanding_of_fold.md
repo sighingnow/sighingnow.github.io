@@ -47,8 +47,8 @@ foldr' :: (a -> b -> b) -> b -> t a -> b
 `foldl` means _left-associative_ fold operation, folding up a list form the left to right and `foldr` are
 _right-associative_ fold operation. `foldl'` and `foldr'` are strict version of `foldl` and `foldr`.
 We can see that `foldl` and `foldl'` are both tail recursion and `foldr` and `foldr'` are not.
-Because Haskell is a programming language with non-strict evalution strategy, the lazy version of `foldl`
-and `foldr` will accumulate too many unevaluted **chunks** on heap when the list to fold over is too long.
+Because Haskell is a programming language with non-strict evaluation strategy, the lazy version of `foldl`
+and `foldr` will accumulate too many unevaluated **chunks** on heap when the list to fold over is too long.
 
 There's also a picture from Wikipedia that can illustrate the core feature of `foldl` and `foldr` very well:
 
@@ -70,7 +70,7 @@ All experiments are done using GHC 8.0.1 with `-O2` optimization on 64bit Window
 ### CPU Usage
 
 I use the [criterion](http://hackage.haskell.org/package/criterion) which is a well-known framework for
-executing and analysing benchmark in Haskell to perform CPU time usage benchmark.
+executing and analyzing benchmark in Haskell to perform CPU time usage benchmark.
 
 ~~~
 Case       CPU time
@@ -109,6 +109,6 @@ be the best choice.
 + `foldr` is the only fold function that can process infinite lists, when the binary function has the property
 of short-circuit evaluation (like logical _and_ `&&` and logical _or_ `||`), the computation will terminate.
 Be careful that `foldr'` can't be used to process infinite list.
-+ Under almost all conditions the `foldl` combinator has the worse performance both in time usage and mmeory
++ Under almost all conditions the `foldl` combinator has the worse performance both in time usage and memory
 allocations and shouldn't be used in production-level code.
 
