@@ -1,4 +1,3 @@
-
 ---
 title: Heterogeneous containers in Haskell
 author: sighingnow
