@@ -7,10 +7,11 @@ category: Math
 layout: post
 ---
 
-$W_1$和$W_2$的和定义为
-$$W_1 + W_2 = \{\alpha_1 + \alpha_2 | \alpha_1 \in W_1, \alpha_2 \in W_2\}$$
-
 <!--more-->
+
+$W_1$和$W_2$的和定义为
+
+$$W_1 + W_2 = \{\alpha_1 + \alpha_2 | \alpha_1 \in W_1, \alpha_2 \in W_2\}$$
 
 定义
 ----
@@ -18,7 +19,9 @@ $$W_1 + W_2 = \{\alpha_1 + \alpha_2 | \alpha_1 \in W_1, \alpha_2 \in W_2\}$$
 内直和（或直和，internal direct sum）：设$W = W_1 + \dots + W_s$，$W_i$ 是线性空间V的子空间（$i = 1, \dots, s$），
 $W$称为是$W_1, \dots, W_s$的内直和（或直和），记为$W=W_1 \oplus \dots \oplus W_s = \oplus_{i=1}^s W_i$，
 如果每个$\alpha \in W$表为$W_1,\dots，W_s$中元素和的方法使唯一的，即由
+
 $$\alpha = \alpha_1 + \dots + \alpha_s = \beta_1 + \dots + \beta_s (\alpha_i, \beta_i \in W_i, i = 1, \dots, s)$$
+
 必有$\alpha_i = \beta_i (i = 1,\dots,s)$。
 
 考虑无限个空间的内直和，若$V = \sum_{i=1}^{\infty}V_i = \sum_{i=1}^{\infty}\alpha_i, \alpha_i \in V_i)$，
@@ -32,7 +35,9 @@ $$V_i \bigcap (\sum_{j \neq i}^{} V_j) = 0$$
 $$dim(V) = \sum_{i=1}^{\infty} dim(V_i)$$
 
 外直和：设$V_1$和$V_2$是域$F$上的两个线性空间，令
+
 $$V = \{(\alpha, \beta)|\alpha \in V_1, \beta \in V_2\}$$
+
 且定义$\forall \alpha_i \in V_1, \beta_i \in V_2, \lambda \in F$
 
 $$(\alpha_1, \beta_1) + (\alpha_2, \beta_2) = (\alpha_1 + \alpha_2, \beta_1 + \beta_2)$$
