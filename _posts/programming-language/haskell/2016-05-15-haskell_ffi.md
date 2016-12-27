@@ -68,6 +68,11 @@ foreign import ccall "f_add" f_add :: Float -> Float -> Float
 链接库，使用`getProcAddress`得到函数地址，使用[Foreign.Ptr](http://hackage.haskell.org/package/base/docs/Foreign-Ptr.html)中
 的函数`castPtrToFunPtr`将指针转换成对应类型的函数指针。
 
+Haskell调用C++函数
+------------------
+
+通过以C语言的方式封装C++库的函数，可以在Haskell代码中调用C++编写的动态链接库，[示例](https://gist.github.com/sighingnow/ee989ef541f4d6ec323d79da2ba8a181)。
+
 C代码中调用Haskell函数
 ---------------------
 
@@ -179,10 +184,6 @@ GHC user's guide 13.1.1.8中提到
 >
 > The FFI spec requires the implementation to support re-initialising itself after being shut down with hs_exit(),
 > but GHC does not currently support that.
-
-#### C++ FFI
-
-通过以C语言的方式封装C++库的函数，可以在Haskell代码中调用C++编写的动态链接库。
 
 复杂数据结构
 -----------
