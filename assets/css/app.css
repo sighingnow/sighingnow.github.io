@@ -46,6 +46,9 @@
 	color: #2672EC;
 }
 
+article > p {
+    text-indent: 2em;
+}
 
 .tile {
 	width: 100%;
