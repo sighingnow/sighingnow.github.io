@@ -116,8 +116,8 @@ SICP Exercise 2.6 的题目要求：
 
 ~~~scheme
 (define mult
-  (lambda (n)
-    (lambda (m)
+  (lambda (m)
+    (lambda (n)
       (lambda (f)
         (m (n f))))))
 ~~~
