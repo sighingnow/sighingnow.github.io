@@ -95,3 +95,5 @@ Monomorphism Restriction。可以使用 GHC 的扩展 `MonomorphismRestriction` 
 [^2:] [The monomorphism restriction](https://www.haskell.org/onlinereport/haskell2010/haskellch4.html#x10-930004.5.5)
 [^3]: [Haskell: Demonstrating Monomorphism Restriction](https://gist.github.com/CMCDragonkai/5cce00f732fcac0ec026)
 
+
+https://kseo.github.io/posts/2017-01-04-type-defaulting-in-haskell.html

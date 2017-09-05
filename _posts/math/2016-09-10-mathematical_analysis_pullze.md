@@ -76,8 +76,9 @@ $$\begin{aligned} D^2 F(x)
     &= 2\epsilon
 \end{aligned}$$
 
-若$\epsilon > 0$，$F(x)$在区间$[a,b]$上的最大值必在端点处取得，否则如果$\exists x_0 \in (a,b)$使得$F(x_0) = max\{F(x)\}$
-那么$D^2 F(x) < 0$，矛盾。因此，$\forall x \in [a,b]$，有$F(x) \le F(a) = 0$，使$\epsilon \to 0$，取极限，得到
+若$\epsilon > 0$，$F(x)$在区间$[a,b]$上的最大值必在端点处取得，否则如果$\exists x_0 \in (a,b)$使得
+$F(x_0) = max\{F(x)\}$ 那么$D^2 F(x) < 0$，矛盾。因此，$\forall x \in [a,b]$，有$F(x) \le F(a) = 0$，
+使$\epsilon \to 0$，取极限，得到
 
 $$f(x) \le f(a) + \frac{f(b)-f(a)}{b-a}(x-a)$$
 

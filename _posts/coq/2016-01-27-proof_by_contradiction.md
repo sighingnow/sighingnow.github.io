@@ -68,7 +68,7 @@ prove something that is evidently false.
 Proof by Contradiction looks very similar to the $\neg$ introduction rule. Indeed, in ordinary mathematical contexts,
 it's usually better to move negation inside instead of applying $\neg$ introduction.
 
-Proof by Contradiction sometimes looks se inviting. However, many times it must be considered poisoned. **Proof by Contradiction
+Proof by Contradiction sometimes looks so inviting. However, many times it must be considered poisoned. **Proof by Contradiction
 should be considered as the last way out.**
 
 

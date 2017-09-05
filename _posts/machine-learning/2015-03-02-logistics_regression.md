@@ -19,7 +19,9 @@ Logistic回归与多重线性回归类似，区别就在于它们的因变量不
 预测函数
 --------
 
-常用的Logistic function是Sigmoid函数: $$s(x) &= \frac{1}{1+e^{-x}}$$
+常用的Logistic function是Sigmoid函数:
+
+$$s(x) = \frac{1}{1+e^{-x}}$$
 
 ![Sigmoid函数及导函数图像]({{site.url}}/resource/logistic_regression/sigmoid.png)
 

@@ -54,6 +54,10 @@ There's also a picture from Wikipedia that can illustrate the core feature of `f
 
 ![Fold transformation]({{site.url}}/resource/deep_understanding_of_fold/fold_transformation.png)
 
+Another significant difference is that `foldr` runs forwards while `foldl` runs backwards. The function
+`foldl (flip (:)) []` can reverse a list while `foldr (:) []` returns a list unchanged. This is why
+`foldr` can fold over infinite lists while `foldl` can't.
+
 Benchmark
 ---------
 
@@ -98,6 +102,15 @@ foldr'  127,999,920  247  OK
 
 `foldl'` use the least memory.
 
+Why `foldl` is in the first place ?
+----------------------------------
+
+Why `foldl`, rather than `foldl'`, be placed in the first place, although `foldl` performs
+so poor ? A possible reason is, when Haskell 1.0 was published there's no `seq` function
+in language standard, there was `foldl` no choice but to define `foldl` in a such way. The
+`seq` was introduced in Haskell 1.3. `foldl` was not changed and mainstream Haskell compiler
+added the `foldl'` function.
+
 Best Practice
 -------------
 
@@ -110,5 +123,6 @@ be the best choice.
 of short-circuit evaluation (like logical _and_ `&&` and logical _or_ `||`), the computation will terminate.
 Be careful that `foldr'` can't be used to process infinite list.
 + Under almost all conditions the `foldl` combinator has the worse performance both in time usage and memory
-allocations and shouldn't be used in production-level code.
+allocations and shouldn't be used in production-level code, as the Haskell Wiki says: `foldl` is rarely the
+right choice.
 
