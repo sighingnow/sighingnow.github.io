@@ -19,6 +19,8 @@ layout: default
     {{ content }}
   </div>
 
+  {%- include mathjax.html -%}
+
   {%- if site.disqushandler -%}
     {%- include disqus_comments.html -%}
   {%- endif -%}
