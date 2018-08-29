@@ -1,4 +1,14 @@
 # Configurations
+title: When your dreams come alive
+longtitle: When your dreams come alive you're unstoppable
+author: HE Tao
+email: sighingnow@gmail.com
+description: >
+  HE Tao's homepage, for blogs, codes and other interesting things.
+
+# url:              'http://sighingnow.github.io'
+url:              'http://localhost:4000'
+baseurl:          ''
 
 # markdown render engine.
 markdown:         kramdown
@@ -26,29 +36,14 @@ permalink:        none
 
 excerpt_separator: "<!--more-->"
 
-# Setup
-title:            'sighingnow'
-tagline:          "sighingnow's blog"
-description:      "sighingnow's homepage using Jekyll Metro"
-url:              'http://sighingnow.github.io'
-baseurl:          ''
-
 # Navigation
 navigation:
-- text: About
-  url: /about/
-- text: Resume
-  url: /resume/
 - text: Blog
   url: /blog/
-- text: Archive
-  url : /archive/
-- text: Tags
-  url: /tags/
-# - text: Projects
-#   url: /projects/
-# - text: Categories
-#   url: /categories/
+- text: Topic
+  url: /topic/
+- text: Résumé
+  url: /resume/
 
 # Author Details
 author:         'sighingnow'
@@ -84,7 +79,7 @@ footer-links:
 disqushandler: 'sighingnow'
 
 # Blog Configurations
-paginate: 10 # Posts per page on the blog index
+paginate: 5 # Posts per page on the blog index
 paginate_path: '/blog/page:num'
 destination: ./_site
 incremental: true
@@ -93,4 +88,7 @@ regenerate: false
 # Custom vars
 version: 1.0
 
-gems: [jekyll-paginate]
+plugins:
+  - jekyll-feed
+  - jekyll-paginate
+  - jekyll-seo-tag

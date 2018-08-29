@@ -1,16 +1,35 @@
-<footer class="row">
-      <div class="col-ms-12 text-center">{% include clustr_maps.html %}</div>
-      <div class="col-ms-12 text-center">
-            <hr/>
-            {% if site.footersvg == 'true' %}
-                  <div>{% include svg-icons.html %}</div>
-            {% endif %}
-            &copy; {{ site.time | date: '%Y' }} - {{site.author}}. All rights reserved.<br/>
-            Built using
-            {% if page.theme And page.theme != "" And page.theme != nil %}
-            <a class="{{page.theme}}-link" href="http://jekyllrb.com/">Jekyll</a>
-            {% else %}
-            <a href="http://jekyllrb.com/">Jekyll</a>
-            {% endif %} and Theme proudly powered by <a href="https://github.com/olakara/JekyllMetro">JekyllMetro.</a>
+<footer class="site-footer h-card">
+  <data class="u-url" href="{{ "/" | relative_url }}"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">{{ site.longtitle | escape }}</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">
+            {%- if site.author -%}
+              {{ site.author | escape }}
+            {%- else -%}
+              {{ site.title | escape }}
+            {%- endif -%}
+            </li>
+            {%- if site.email -%}
+            <li><a class="u-email" href="mailto:{{ site.email }}">{{ site.email }}</a></li>
+            {%- endif -%}
+        </ul>
       </div>
+
+      <div class="footer-col footer-col-2">
+        {%- include social.html -%}
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p>{{- site.description | escape -}}</p>
+      </div>
+    </div>
+
+  </div>
+
 </footer>
