@@ -21,7 +21,7 @@ layout: default
 
   {%- include mathjax.html -%}
 
-  {%- if site.disqushandler -%}
+  {%- if jekyll.environment != 'dev' and site.disqushandler -%}
     {%- include disqus_comments.html -%}
   {%- endif -%}
 
