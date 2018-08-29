@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css?family=Architects+Daughter');
+@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro');
+
 /**
  * Reset some basic elements
  */
@@ -97,7 +100,17 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: $base-font-weight;
 }
 
+article {
+  .post-content {
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
+    }
+  }
+}
 
+.footer-heading {
+  font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
+}
 
 /**
  * Links
@@ -156,6 +169,7 @@ code {
 
 code {
   padding: 1px 5px;
+  font-family: 'Source Code Pro', Consolas, Monaco, monospace;
 }
 
 pre {
