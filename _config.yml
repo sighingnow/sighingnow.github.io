@@ -43,8 +43,8 @@ excerpt_separator: "<!--more-->"
 navigation:
 - text: Blog
   url: /blog/
-- text: Topic
-  url: /topic/
+- text: Archive
+  url: /archive/
 - text: Résumé
   url: /resume/
 - text: Github
