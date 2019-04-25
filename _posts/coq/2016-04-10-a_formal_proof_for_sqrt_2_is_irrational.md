@@ -8,7 +8,8 @@ layout: post
 ---
 
 It was one of the most surprising discovers of the Pythagorean, a famous Greek mathematicians, that there are irrational
-numbers. The square root of $2$ sometimes has the name _Pythagora's Constant_.
+numbers. The square root of $2$ sometimes has the name _Pythagora's Constant_:
+
 $$\sqrt{2} = 1.4142135...$$
 
 <!--more-->

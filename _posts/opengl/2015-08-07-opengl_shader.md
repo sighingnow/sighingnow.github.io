@@ -218,5 +218,5 @@ static void IdleCB()
 }
 ~~~
 
-源代码：[OpenGL_Shader.cpp]({{site.url}}/sourcecode/04_shader.cpp), [OpenGL_Uniform_Variable.cpp]({{site.url}}/sourcecode/05_uniform_variables.cpp)
+源代码：[OpenGL_Shader.cpp]({{site.url}}/resource/opengl-shader/04_shader.cpp), [OpenGL_Uniform_Variable.cpp]({{site.url}}/resource/opengl-shader/05_uniform_variables.cpp)
 

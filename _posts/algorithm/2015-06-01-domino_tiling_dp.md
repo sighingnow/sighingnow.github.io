@@ -20,7 +20,9 @@ layout: post
 
 ![放置示意图]({{site.url}}/resource/domino_tiling_dp/pic_1.png)
 
-显然，不难得到这样的结论：$$f(n) = f(n-1) + f(n-2)$$
+显然，不难得到这样的结论：
+
+$$f(n) = f(n-1) + f(n-2)$$
 
 这便是Fibonacci数列的递推公式。
 

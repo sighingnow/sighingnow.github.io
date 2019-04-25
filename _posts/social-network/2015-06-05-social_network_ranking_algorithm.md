@@ -24,9 +24,11 @@ layout: post
 
 知乎采取的是基于用户投票的[威尔逊算法](http://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval)。算法描述如下：
 
-$$n = u+v$$
-$$p = u/n$$
-$$Score = (p+\frac{z_{\alpha}^{2}}{2n}-\frac{z_{\alpha}}{2n}\sqrt{4n(1-p)p+z_{\alpha}^{2}})/(1+\frac{z_{\alpha}^{2}}{n})$$
+$$\begin{aligned}
+    n     &= u+v \\
+    p     &= u/n \\
+    Score &= (p+\frac{z_{\alpha}^{2}}{2n}-\frac{z_{\alpha}}{2n}\sqrt{4n(1-p)p+z_{\alpha}^{2}})/(1+\frac{z_{\alpha}^{2}}{n})
+\end{aligned}$$
 
 其中，$u$ 为加权赞同票数，$v$ 为加权反对票数，$z_{\alpha}$为参数。
 

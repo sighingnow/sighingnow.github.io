@@ -62,7 +62,9 @@ L(x) =& 1 + x * L(x) \\
 
 Let's look back at the binary tree type,  `data BinTree a = Leaf | Branch a (BinTree a) (BinTree a)`, the corresponding formula to this algebraic data type
 is $B(x) = 1 + x \ast B(x) \ast B(x)$. Solve the equation and we will get $B(x) = \frac{1 - \sqrt{1-4 \ast x}}{2 \ast x}$ <!-- TODO what does the other solution mean ? -->
-Do _Taylor expansion_, the result is: $$B = 1 + x + 2x^2 + 5x^3 + 14x^4 + \dots$$
+Do _Taylor expansion_, the result is:
+
+$$B = 1 + x + 2x^2 + 5x^3 + 14x^4 + \dots$$
 
 It's not easy to guess what it means at first glance. The result tell us that a binary tree can be empty, in only one different pattern, or contain
 one value, also in only one pattern, or contain two elements in two different ways, or contains three elements in five different ways, and etc. These

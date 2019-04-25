@@ -68,6 +68,7 @@ Sprague-Grundy函数
 首先定义mex(minimal excludant)运算，这是施加于一个集合的运算，表示最小的不属于这个集合的非负整数。
 
 对于一个给定的有向无环图，定义关于图的每个顶点的Sprague-Garundy函数 $g$ 如下：
+
 $$g(x)=mex\{ g(y) \mid \textit{ y is x's successor.} \}$$
 
 例如：取石子问题，有 $1$ 堆 $n$ 个的石子，每次只能取 $\{1，3,4\}$ 个石子，先取完石子者胜利，那么各个数的 $SG$ 值为多少？

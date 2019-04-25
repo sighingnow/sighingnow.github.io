@@ -80,8 +80,11 @@ PR(p_2) \\
 PR(p_N)
 \end{bmatrix}$$
 
-PageRank 公式可以转换为求解 $$\lim_{n \to \infty}{A^n X}$$ 的值。 其中矩阵为 $$A=q \times P + (1 - q) * e e^t / N$$
-$P$ 为概率转移矩阵，为 $n$ 维的全 $1$ 行列式。
+PageRank 公式可以转换为求解 $$\lim_{n \to \infty}{A^n X}$$ 的值。 其中矩阵为
+
+$$A=q \times P + (1 - q) * e e^t / N$$
+
+其中 $P$ 为概率转移矩阵，为 $n$ 维的全 $1$ 行列式。
 
 幂法计算过程如下：
 
@@ -133,7 +136,11 @@ calcEigenMatrix<-function(G){
 六、MapReduce化分析及实现
 ----------------------
 
-可以直接根据PageRank算法的简单公式： $$Rv = alpha * Sigma(Rn/Nn)+ (1-apha)/N$$ 来实现并行化，大概思路为：
+可以直接根据PageRank算法的简单公式：
+
+$$Rv = alpha * Sigma(Rn/Nn)+ (1-apha)/N$$
+
+来实现并行化，大概思路为：
 
 + Mapper 的输入格式为：（节点，PageRank 值）->（该节点的外部链接节点列表）
 + Mapper 的输出格式为：（节点） -> （该节点的反向链接节点，反向节点的 PankRank 值/反向节点的外链个数）

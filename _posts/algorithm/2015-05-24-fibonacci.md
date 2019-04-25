@@ -27,7 +27,9 @@ f(x-1) + f(x-2) & x > 2
 
 对于给定的整数 $n$ 和 $m$，我们希望求出：$$f(1) + f(2) + \dots + f(n)$$ 的值。但这个值可能非常大，所以我们把它对 $f(m)$ 取模。
 
-公式如下: $$(\sum_{i=1}^n{f(i)}) \textit{ mod } f(m)$$
+公式如下:
+
+$$(\sum_{i=1}^n{f(i)}) \textit{ mod } f(m)$$
 
 但这个数字依然很大，所以需要再对 $p$ 取模。
 
@@ -58,34 +60,47 @@ $$f(n)={\frac{1}{\sqrt{5}}}((\frac{1+\sqrt(5)}{2})^n-(\frac{1+\sqrt(5)}{2})^n)$$
 $$A=\begin{bmatrix} 1 & 1 \\ 1 & 0 \end{bmatrix}, f(n)=A^{n-1}[0][0]$$
 
 Fibonacci数列有很多很有用的性质，首先根据Fibonacci数列的递推关系，有：
+
 $$f(n+1) = f(n) + f(n-1)$$
+
 那么，由此得到：
+
 $$f(n) = f(n+1)-f(n-1)$$
+
 从这个等式可以推出：
+
 $$\begin{aligned}
 \sum_{i=1}^n {f(i)} &= f(1)+f(2)+f(3)+\dots+f(n) \\
                     &= f(1)+f(3)-f(1)+f(4)-f(2)+\dots+f(n+1)-f(n-1) \\
                     &= f(n)+f(n+1)-f(2) \\
                     &= f(n+2)-1
 \end{aligned}$$
+
 这个性质非常重要，通过这个性质，可以将Fibonacci数列前 $N$ 项的求和转化为求解某一项的值。
 
 与上式同理，不难得到：
 
-$$\sum_{i=1}^n {f(2*i-1)} = f(1)+f(3)+f(5)+\dots+f(2*n-1) = f(2*n)-1$$
-$$\sum_{i=1}^n {f(2*i)} = f(2)+f(4)+f(5)+\dots+f(2*n) = f(2*n+1) - 1$$
+$$\begin{aligned}
+    \sum_{i=1}^n {f(2*i-1)} &= f(1)+f(3)+f(5)+\dots+f(2*n-1) \\
+                            &= f(2*n)-1 \\
+    \sum_{i=1}^n {f(2*i)}   &= f(2)+f(4)+f(5)+\dots+f(2*n) \\
+                            &= f(2*n+1) - 1
+\end{aligned}$$
 
 此外，Fibonacci数列还有以下这些有用的性质：
 
 $$\sum_{i=1}^n {f(i)^2} = f(n)*f(n+1)$$
+
 $$\sum_{i=1}^n {f(i)*(-1)^i} = (-1)^n * (f(n+1)-f(n))+1$$
 
 常用的还有下列结论：
 
-$$f(n+m) = f(n+1)*f(m) + f(n)*f(m-1)$$
-$$f(2*n+1) = f(n+1)^2 + f(n)^2$$
-$$f(2*n) = 2f(n)f(n+1) - f(n)^2$$
-$$f(n)^2 = (-1)^{n+1} + f(n-1)*f(n+1)$$
+$$\begin{aligned}
+    f(n+m)   &= f(n+1)*f(m) + f(n)*f(m-1) \\
+    f(2*n+1) &= f(n+1)^2 + f(n)^2 \\
+    f(2*n)   &= 2f(n)f(n+1) - f(n)^2 \\
+    f(n)^2   &= (-1)^{n+1} + f(n-1)*f(n+1)
+\end{aligned}$$
 
 由上式稍作变换，便有 $$f(m-1)^2 \textit{ mod } f(m) = (-1)^m$$
 
@@ -177,7 +192,7 @@ long long multiply(long long a, long long b) {
 }
 ~~~
 
-题目Accept代码：[PREV_29.cpp](/sourcecode/PREV_29.cpp)
+题目Accept代码：[PREV_29.cpp]({{site.url}}/resource//PREV_29.cpp)
 
 Fibonacci另一种快速算法
 --------------------

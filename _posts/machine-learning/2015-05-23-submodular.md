@@ -8,16 +8,23 @@ layout: post
 ---
 
 $A$ 是 $B$ 的子集，则对于函数 $f()$，如果：
+
 $$f(A+e)-f(A)>=f(B+e)-f(B)$$
+
 成立，则说 $f()$ 函数是子模的。
 
 子模性描述的是一种增益递减的现象。例如：
 
-$$u={1,2,3,4,5,6,7,8}$$
-$$A={1,2,3}$$
-$$B={1,2,3,5,6}$$
-$f(A)=|A|$ 表示集合 $A$ 的个数，那么：
+$$\begin{aligned}
+    u &= {1,2,3,4,5,6,7,8} \\
+    A &= {1,2,3} \\
+    B &= {1,2,3,5,6}
+\end{aligned}$$
+
+$f(A)=\|A\|$ 表示集合 $A$ 的个数，那么：
+
 $$f(A+e)-f(A)>=f(B+e)-f(B)$$
+
 例如 $e={3,4,5}$。
 
 <!--more-->
@@ -62,7 +69,7 @@ Maximum CUT: 找出一个点的子集S，使得 S 和 V-S 之间的边最多。
 
 选取尽量少的特征使得对未知量的预测(prediction)依然准确。
 
-f(A) = I(Y;XA) = H(Y) − H(Y|XA) = H(XA) − H(XA|Y)
+f(A) = I(Y;XA) = H(Y) − H(Y\|XA) = H(XA) − H(XA\|Y)
 
 选取特征向量的一个k-子集使得对未知量的预测尽可能准确。
 
@@ -70,6 +77,7 @@ f(A) = I(Y;XA) = H(Y) − H(Y|XA) = H(XA) − H(XA|Y)
 
 $m \times n$ matrices $C = c_{ij}$ are called Monge matrices if they satisfy
 the Monge property, namely(也就是说):
+
 $$c_{ij}+ c_{rs} < c_{is} + c_{rj}$$
 
 for all $1 \le i < r \le m$ and $ 1 \le j < s \le n$.
@@ -128,9 +136,8 @@ One such property is submodularity.
 
 1. $f(A) + f(B) \ge f(A \bigcup B) + f(A \bigcap B)$
 2. $f(A \bigcup \{v\}) − f(A) \ge f(B \bigcup {v}) − f(B)$
-This means that the incremental “value”, “gain”, or “cost” of $v$
-decreases (diminishes) as the context in which $v$ is considered grows from
-$A$ to $B$.
-3. $f(A) + f(B) \ge f(A\bigcup B)$
-This means that the “whole” is less than the sum of the parts.
 
+   This means that the incremental “value”, “gain”, or “cost” of $v$ decreases
+   (diminishes) as the context in which $v$ is considered grows from $A$ to $B$.
+3. $f(A) + f(B) \ge f(A\bigcup B)$
+   This means that the “whole” is less than the sum of the parts.

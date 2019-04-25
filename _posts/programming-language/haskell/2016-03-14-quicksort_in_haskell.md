@@ -179,5 +179,5 @@ A thorough benchmark is need to analysis the perfermance of our ST-powered quick
 to the sort algorithm in Haskell's library `Data.List.sort`. The function `qsort` should be made polymorphic for reusable
 reason and this function can be used more wilely. More optimization should be added for better perfermance, such as when
 the size of sub-arrays is small enough, sort them with bubble sort algorithm or swap sort algorithm, and a more optimal
-strategy to select the pivot can also do good to avoiding encountering worse time complexity ($O(n^2)$) of the quicksort algorithm.
+strategy to select the pivot can also do good to avoiding encountering worse time complexity $O(n^2)$ of the quicksort algorithm.
 

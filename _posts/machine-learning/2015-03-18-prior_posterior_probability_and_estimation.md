@@ -16,26 +16,41 @@ layout: post
 事件已经发生的条件下，求该事件发生原因是由某个因素引起的可能性的大小，是考虑一个事件之后的条件概率。
 
 先验概率可以通过已知的关于事件本身的先验知识得到，蒙特卡洛方法也可以用于计算先验概率。后验概率可以基于
-贝叶斯定理，通过先验概率乘以似然度，再归一化得到。具体来说，贝叶斯公式：$$P(h|D) = \frac{P(D|h)P(h)}{P(D)}$$
-其中$P(h)$为$h$的先验概率，$P(h|D)$为$h$的后验概率。
+贝叶斯定理，通过先验概率乘以似然度，再归一化得到。具体来说，贝叶斯公式：
+
+$$P(h|D) = \frac{P(D\|h)P(h)}{P(D)}$$
+
+其中$P(h)$为$h$的先验概率，$P(h\|D)$为$h$的后验概率。
 
 最大似然估计与最大后验估计
 -----------------------
 
 似然函数(likelihood function)是关于参数的函数，表示在参数给定的条件下，随机变量的值的条件概率。对于随机变量$X$，
-给定模型中$X$的概率分布函数为$f$，$\theta$为参数，则参数的似然函数为：$$\mathcal{L}(\theta|x) = P(x|\theta)$$
+给定模型中$X$的概率分布函数为$f$，$\theta$为参数，则参数的似然函数为：
+
+$$\mathcal{L}(\theta\|x) = P(x\|\theta)$$
+
 假设$x_1, x_2, \dots, x_n$为该模型独立同分布的采样，那么
-$$f(x_1, x_2, \dots, x_n | \theta) = f(x_1|\theta) \times f(x_2|\theta) \times \dots \times f(x_n | \theta)$$
+
+$$f(x_1, x_2, \dots, x_n \| \theta) = f(x_1\|\theta) \times f(x_2\|\theta) \times \dots \times f(x_n \| \theta)$$
+
 因此，似然函数以及对数似然函数为
-$$\begin{aligned}\mathcal{L}(\theta|x_1, x_2, \dots, x_n) &= \prod_{i=1}^{n} f(x_i|\theta) \\
-                 \ln{\mathcal{L}(\theta|x_1, x_2, \dots, x_n)} &= \sum_{i=1}^{n}\ln{f(x_i|\theta)} \end{aligned}$$
-并且取 $$\mathcal{l} = \frac{1}{n}\ln{\mathcal{L}}$$
+
+$$\begin{aligned}\mathcal{L}(\theta\|x_1, x_2, \dots, x_n) &= \prod_{i=1}^{n} f(x_i\|\theta) \\
+                 \ln{\mathcal{L}(\theta\|x_1, x_2, \dots, x_n)} &= \sum_{i=1}^{n}\ln{f(x_i\|\theta)}
+\end{aligned}$$
+
+并且取
+
+$$\mathcal{l} = \frac{1}{n}\ln{\mathcal{L}}$$
 
 
 ### 最大似然估计
 
 最大似然估计是指求当似然函数取得最大时参数$\theta$的值，
-$$\theta_{MLE} = \mathop{\arg\,\max}\limits_{\theta \in \Theta} f(x|\theta) = \mathop{\arg\,\max}\limits_{\theta \in \Theta} \mathcal{L}(\theta|x)$$
+
+$$\theta_{MLE} = \mathop{\arg\,\max}\limits_{\theta \in \Theta} f(x\|\theta) = \mathop{\arg\,\max}\limits_{\theta \in \Theta} \mathcal{L}(\theta|x)$$
+
 想要求解参数$\theta$的值，只需要对$\mathcal{L}$取导数，令导数等于$0$，得到似然方程，求解似然方程即可。
 
 可见，似然函数的值表达式是某个模型能够产生某个给定观察序列的概率，最大似然即能产生该给定观察序列的最大概率。
@@ -45,11 +60,17 @@ $$\theta_{MLE} = \mathop{\arg\,\max}\limits_{\theta \in \Theta} f(x|\theta) = \m
 
 ### 最大后验估计
 
-最大后验估计引入了参数的先验分布$g$，求解对于已有的观测序列，能使得后验概率最大的参数的值。根据贝叶斯公式，后验概率$$f(\theta|x) = \frac{f(x|\theta)f(\theta)}{\sum_{\theta_i \in \Theta}{f(x|\theta_i)f(\theta_i)}} = \frac{f(x|\theta)f(\theta)}{f(x)}$$
+最大后验估计引入了参数的先验分布$g$，求解对于已有的观测序列，能使得后验概率最大的参数的值。根据贝叶斯公式，后验概率
+
+$$f(\theta|x) = \frac{f(x|\theta)f(\theta)}{\sum_{\theta_i \in \Theta}{f(x|\theta_i)f(\theta_i)}} = \frac{f(x|\theta)f(\theta)}{f(x)}$$
+
 同时$f(x)$的具体值与参数$\theta$无关，不影响求解参数$\theta$的最大估计，最大后验估计可以表示为
+
 $$\theta_{MAP} = \mathop{\arg\,\max}\limits_{\theta \in \Theta} f(\theta|x) = \mathop{\arg\,\max}\limits_{\theta \in \Theta} f(x|\theta)f(\theta)$$
 
-而由贝叶斯定理，后验概率可以表示为 $$f(x|\theta)g(\theta) = \frac{1}{2}$$
+而由贝叶斯定理，后验概率可以表示为
+
+$$f(x|\theta)g(\theta) = \frac{1}{2}$$
 
 ### 对比
 

@@ -28,8 +28,13 @@ Functor, Applicative 和 Monad 的数学定义：
 
 并且满足条件：
 
-+ Identity morphism: $\forall X \in C, F(id_x) = id_{F(X)}$
-+ Composition of morphisms: $\forall f: X \to Y, g : Y \to Z \in C, F(g \circ f) = F(g) \circ F (f) $
++ Identity morphism:
+
+    $$\forall X \in C, F(id_x) = id_{F(X)}$$
+
++ Composition of morphisms:
+
+    $$\forall f: X \to Y, g : Y \to Z \in C, F(g \circ f) = F(g) \circ F (f) $$
 
 对应到 Haskell，Functor 的定义如下：
 
@@ -98,8 +103,13 @@ Monad是一个自函子范畴上的幺半群，具体来讲，一个Monad包括�
 
 满足：
 
-+ Associativity: $\mu (\mu (T \times T) \times T) = \mu (T \times \mu (T \times T))$
-+ Identity: $\mu (\eta (T)) = \mu (T (\eta))$
++ Associativity:
+
+    $$\mu (\mu (T \times T) \times T) = \mu (T \times \mu (T \times T))$$
+
++ Identity:
+
+    $$\mu (\eta (T)) = \mu (T (\eta))$$
 
 借助GHC的`RankNTypes`和`TypeOperators`扩展来进行类型操作，定义Hask范畴上的自函子范畴的Natural transformation 以及 Identity Functor 和
 Compose Functor：
