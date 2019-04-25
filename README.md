@@ -1,6 +1,6 @@
-# Sighingnow
+# sighingnow
 
-Is't my homepage site: [http://sighingnow.github.io](http://sighingnow.github.io).
+Is't my homepage site: [https://sighingnow.github.io](https://sighingnow.github.io).
 
 ## License
 
