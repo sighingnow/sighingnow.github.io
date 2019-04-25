@@ -1,5 +1,7 @@
-@import url('https://fonts.googleapis.com/css?family=Architects+Daughter');
-@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro');
+// @import url('https://fonts.googleapis.com/css?family=Architects+Daughter');
+@import url('https://fonts.proxy.ustclug.org/css?family=Architects+Daughter');
+// @import url('https://fonts.googleapis.com/css?family=Source+Code+Pro');
+@import url('https://fonts.proxy.ustclug.org/css?family=Source+Code+Pro');
 
 /**
  * Reset some basic elements
@@ -103,13 +105,19 @@ h1, h2, h3, h4, h5, h6 {
 article {
   .post-content {
     h1, h2, h3, h4, h5, h6 {
-      font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
+      font-family: $title-font-family;
     }
   }
 }
 
+.home {
+  h1, h2, h3, h4, h5, h6 {
+    font-family: $title-font-family;
+  }
+}
+
 .footer-heading {
-  font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
+  font-family: $title-font-family;
 }
 
 /**
@@ -232,8 +240,9 @@ pre {
 }
 
 .social-media-list {
+  display: inline-flex;
   li + li {
-    padding-top: 5px;
+    padding-top: 0px;
   }
 }
 
