@@ -42,17 +42,21 @@ $$\int_a^b f(x)\,dx = \int_a^{\frac{a+b}{2}} f(x)\,dx + \int_{\frac{a+b}{2}}^b f
 
 因为$\int_{\frac{a+b}{2}}^{b} f(x)\,dx = \int_{a}^{\frac{a+b}{2}} f(a+b-x)\,dx$，因此
 
-$$\int_a^b f(x)\,dx = \int_a^{\frac{a+b}{2}}[f(x)+f(a+b-x)]\,dx
-                    \ge 2\int_{a}^{\frac{a+b}{2}} f(\frac{a+b}{2})\,dx
-                    = (b-a)f(\frac{a+b}{2})$$
+$$\begin{aligned} \int_a^b f(x)\,dx
+    &= \int_a^{\frac{a+b}{2}}[f(x)+f(a+b-x)]\,dx \\
+    &\ge 2\int_{a}^{\frac{a+b}{2}} f(\frac{a+b}{2})\,dx \\
+    &= (b-a)f(\frac{a+b}{2})
+\end{aligned}$$
 
 即有$f(\frac{a+b}{2}) \le \frac{1}{b-a}\int_a^b f(x)\,dx$。
 
 令$x = b-(b-a)t, (0 \le t \le 1)$，有
 
-$$\int_a^b f(x)\,dx = (b-a)\int_0^1 f[ta + (1-t)b]\,dt
-                    \le (b-a)\int_0^1 [tf(a) + (1-t)f(b)]\,dt
-                    = (b-a)\frac{f(a)+f(b)}{2}$$
+$$\begin{aligned} \int_a^b f(x)\,dx
+    &= (b-a)\int_0^1 f[ta + (1-t)b]\,dt \\
+    &\le (b-a)\int_0^1 [tf(a) + (1-t)f(b)]\,dt \\
+    &= (b-a)\frac{f(a)+f(b)}{2}
+\end{aligned}$$
 
 即有$\frac{1}{b-a}\int_a^b f(x)\,dx \le \frac{f(a)+f(b)}{2}$。
 

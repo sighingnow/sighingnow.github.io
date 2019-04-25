@@ -11,6 +11,8 @@ Excluded middle is an important theorem in classical logic. However in intuition
 middle theory doesn't satisfy the constructive principle. The excluded middle law is provable in Coq and
 often confused with some other theorems in Coq.
 
+<!--more-->
+
 
 Proof by Contradiction
 ----------------------

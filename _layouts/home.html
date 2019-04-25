@@ -4,9 +4,7 @@ layout: default
 
 <div class="home">
 
-  {%- if jekyll.environment != 'dev' and site.disqushandler -%}
-    {%- include disqus_comments.html -%}
-  {%- endif -%}
+  {{ content }}
 
   {%- if jekyll.environment != 'dev' -%}
     {%- include clustr_maps.html -%}

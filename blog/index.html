@@ -2,7 +2,6 @@
 layout: default
 title: Blog
 description: blogs by @sighingnow
-bloghome: true
 ---
 
 <div class="home">
@@ -29,13 +28,16 @@ bloghome: true
             {{ post.title | escape }}
           </a>
         </h3>
-        <!-- {%- if site.excerpt_separator -%}
+        {%- if site.excerpt_separator -%}
           {{ post.excerpt }}
-        {%- endif -%} -->
+        {%- endif -%}
       </li>
     {%- endfor -%}
   </ul>
 
+  {%- include mathjax.html -%}
+
+  <hr />
   <p class="rss-subscribe">Subscribe <a href="{{ "/feed.xml" | relative_url }}">via RSS</a></p>
 
   <div class="row">

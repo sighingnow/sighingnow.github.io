@@ -1,21 +1,29 @@
 # Configurations
-title: When your dreams come alive
-longtitle: When your dreams come alive you're unstoppable
-author: HE Tao
-email: sighingnow@gmail.com
+title:            HE Tao
+longtitle:        Hello my love
+author:           HE Tao
+email:            sighingnow@gmail.com
 description: >
   HE Tao's homepage, for blogs, codes and other interesting things.
 
-# url:              'http://sighingnow.github.io'
-url:              'http://localhost:4000'
+version:          1.0
+
+url:              'https://sighingnow.github.io'
+# url:              'http://localhost:4000'
 baseurl:          ''
+rss:              RSS
 
 # markdown render engine.
 markdown:         kramdown
 kramdown:
-  smart_quotes: lsquo,rsquo,ldquo,rdquo
-  math_engine: mathjax
-  toc_levels: 1..6
+  auto_ids:               true
+  input:                  GFM
+  math_engine:            mathjax
+  smart_quotes:           lsquo,rsquo,ldquo,rdquo
+  toc_levels:             1..6
+  syntax_highlighter:     rouge
+  syntax_highlighter_opts:
+    guess_lang:           true
 
 # pandoc:
 #   format: html5
@@ -24,12 +32,7 @@ kramdown:
 #     - smart
 #     - mathjax
 
-# redcarpet:
-#   extensions: ["no_intra_emphasis", "fenced_code_blocks", "autolink", "tables", "strikethrough", "superscript", "with_toc_data"]
-
-markdown_ext:  markdown,mkdown,mkdn,mkd,md
-
-highlighter: rouge
+markdown_ext:     markdown,mkdown,mkdn,mkd,md
 
 # Permalinks
 permalink:        none
@@ -45,50 +48,40 @@ navigation:
 - text: Résumé
   url: /resume/
 
-# Author Details
-author:         'sighingnow'
+exclude:
+  - _drafts
+  - demos
+  - sourcecode
+  - resource
 
 #Social Media links
-linkedin:       'https://www.linkedin.com/pub/%E6%B6%9B-%E4%BD%95/bb/868/732'
-twitter:        'https://twitter.com/sighingnow'
-github:         'https://github.com/sighingnow'
-gplus:          'https://plus.google.com/102570111351055130345/'
-
-# Google Analytics
-gahandler: 'UA-124803592-1' # 'UA-52149651-1'
+social:
+  github:         sighingnow
+  facebook:       sighingnow
+  linkedin:       涛-何-732868bb
+  pinterest:      sighingnow
+  twitter:        sighingnow
+  stackoverflow:  users/5080177/he-tao
 
 #if footer-links-visible is 'true' the svg-icons will be shown top on the copy right.
 #else the svg icons will not exist
-footersvg: 'true'
+footersvg:        'true'
 
-footer-links:
-  dribbble:
-  email: sighingnow@gmail.com
-  facebook: sighingnow
-  flickr:
-  github: sighingnow
-  instagram:
-  linkedin: pub/%E6%B6%9B-%E4%BD%95/bb/868/732
-  pinterest: sighingnow
-  rss: /feed.xml # just type anything here for a working RSS icon, make sure you set the "url" above!
-  google: 102570111351055130345
-  twitter: sighingnow
-  stackoverflow: users/5080177/he-tao #users/4388898/peter-zhu # your stackoverflow profile, e.g. "users/50476/bart-kiers"
+# Google Analytics
+gahandler:        'UA-124803592-1' # 'UA-52149651-1'
 
 # Disqus
-disqushandler: 'sighingnow'
+disqushandler:    'sighingnow'
 
 # Blog Configurations
-paginate: 5 # Posts per page on the blog index
-paginate_path: '/blog/page:num'
-destination: ./_site
-incremental: true
-regenerate: false
-
-# Custom vars
-version: 1.0
+paginate:         10 # Posts per page on the blog index
+paginate_path:    '/blog/page:num'
+destination:      ./_site
+incremental:      true
+regenerate:       false
 
 plugins:
   - jekyll-feed
   - jekyll-paginate
   - jekyll-seo-tag
+  - jemoji
