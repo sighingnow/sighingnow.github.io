@@ -84,7 +84,7 @@ Now we can translate the imperative pseudo code of quicksort algorithm from Wiki
 to create a function to represent the `for` control-flow in impreative language:
 
 ~~~haskell
-foreach :: (Monad a, Foldable t) => t a -> b -> (b -> a -> m b) -> m b
+foreach :: (Monad m, Foldable t) => t a -> b -> (b -> a -> m b) -> m b
 foreach xs v f = foldM f v xs
 ~~~
 
