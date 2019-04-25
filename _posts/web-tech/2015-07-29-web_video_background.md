@@ -163,7 +163,7 @@ pauseButton.addEventListener("click",function() {
 video.addEventListener('touchstart',function(e){e.preventDefault();video.play();})
 ~~~
 
-在线演示：[将视频作为网页背景(演示)]({{site.url}}/demos/web_video_background/web_video_background.html)。
+在线演示：[将视频作为网页背景(演示)]({{site.url}}/resource/web_video_background/web_video_background.html){:target="_blank"}。
 
 参考
 ----
