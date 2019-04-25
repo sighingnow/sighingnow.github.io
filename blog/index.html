@@ -41,22 +41,18 @@ description: blogs by @sighingnow
   <p class="rss-subscribe">Subscribe <a href="{{ "/feed.xml" | relative_url }}">via RSS</a></p>
 
   <div class="row">
-    <div class="col-sm-6 col-xs-6 text-left">
-        {% if paginator.next_page %}
-          <a class="btn btn-orange" href="{{paginator.next_page_path}}">← Older</a>
+    <div class="col-sm-6 col-xs-6 navigation text-left">
+        {% if paginator.previous_page %}
+          <a class="btn btn-orange" href="{{paginator.previous_page_path}}">← Newer</a>
         {% else %}
-          <span class="btn btn-orange disabled">← Older</span>
+          <span class="btn btn-orange disabled" hidden>← Newer</span>
         {% endif %}
     </div>
-    <div class="col-sm-6 col-xs-6 text-right">
-        {% if paginator.previous_page %}
-          {% if paginator.page == 2 %}
-          <a class="btn btn-orange" href="/blog/">Newer →</a>
-          {% else %}
-          <a class="btn btn-orange" href="{{paginator.previous_page_path}}">Newer →</a>
-          {% endif %}
+    <div class="col-sm-6 col-xs-6 navigation text-right">
+        {% if paginator.next_page %}
+          <a class="btn btn-orange" href="{{paginator.next_page_path}}">Older →</a>
         {% else %}
-          <span class="btn btn-orange disabled">Newer →</span>
+          <span class="btn btn-orange disabled" hidden>Older →</span>
         {% endif %}
     </div>
   </div>

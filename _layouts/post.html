@@ -19,6 +19,24 @@ layout: default
     {{ content }}
   </div>
 
+  <hr >
+  <div class="row">
+    <div class="col-sm-6 col-xs-6 navigation text-left">
+        {% if page.next %}
+          <a class="btn btn-orange" href="{{page.next.url}}">← Newer</a>
+        {% else %}
+          <span class="btn btn-orange disabled" hidden>← Newer</span>
+        {% endif %}
+    </div>
+    <div class="col-sm-6 col-xs-6 navigation text-right">
+        {% if page.previous %}
+          <a class="btn btn-orange" href="{{page.previous.url}}">Older →</a>
+        {% else %}
+          <span class="btn btn-orange disabled" hidden>Older →</span>
+        {% endif %}
+    </div>
+  </div>
+
   {%- include mathjax.html -%}
 
   {%- if jekyll.environment != 'dev' and site.disqushandler -%}

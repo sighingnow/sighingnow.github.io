@@ -254,3 +254,20 @@
     }
   }
 }
+
+
+
+/**
+ * Posts
+ */
+div.navigation {
+  display: inline-block;
+}
+
+div.navigation.text-left {
+  float: left;
+}
+
+div.navigation.text-right {
+  float: right;
+}
