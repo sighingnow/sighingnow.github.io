@@ -47,6 +47,9 @@ navigation:
   url: /topic/
 - text: Résumé
   url: /resume/
+- text: Github
+  url: https://github.com/sighingnow
+  external: true
 
 exclude:
   - _drafts
@@ -62,10 +65,6 @@ social:
   pinterest:      sighingnow
   twitter:        sighingnow
   stackoverflow:  users/5080177/he-tao
-
-#if footer-links-visible is 'true' the svg-icons will be shown top on the copy right.
-#else the svg icons will not exist
-footersvg:        'true'
 
 # Google Analytics
 gahandler:        'UA-124803592-1' # 'UA-52149651-1'

@@ -17,7 +17,9 @@
         {%- for link in site.navigation -%}
           {% capture pageurl %}{{link.url}}{{"index.html"}}{% endcapture %}
           {% if page.url == pageurl %}
-            <a class="page-link nav-item nav-selected" href="{{ link.url }}">{{ link.text }}</a>
+            <a class="page-link nav-item nav-selected" href="{{ link.url }}">{{ link.text | escape }}</a>
+          {% elsif link.external %}
+            <a class="page-link nav-item" href="{{ link.url }}" target="_blank">{{ link.text | escape }}</a>
           {% else %}
             <a class="page-link nav-item" href="{{ link.url }}">{{ link.text | escape }}</a>
           {% endif %}
