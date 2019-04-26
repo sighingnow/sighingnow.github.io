@@ -14,10 +14,19 @@
             {%- else -%}
               {{ site.title | escape }}
             {%- endif -%}
+          </li>
+          {%- if site.email -%}
+            <li>
+              <a class="u-email" href="mailto:{{ site.email }}">{{ site.email }}</a>
             </li>
-            {%- if site.email -%}
-            <li><a class="u-email" href="mailto:{{ site.email }}">{{ site.email }}</a></li>
-            {%- endif -%}
+          {%- endif -%}
+          <br />
+          {%- if jekyll.environment != 'dev' and site.gahandler -%}
+            {%- include google-analytics.html -%}
+          {%- endif -%}
+          {%- if jekyll.environment != 'dev' and site.cnzzhandler -%}
+            {%- include cnzz.html -%}
+          {%- endif -%}
         </ul>
       </div>
 

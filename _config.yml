@@ -64,7 +64,10 @@ social:
   stackoverflow:  users/5080177/he-tao
 
 # Google Analytics
-gahandler:        'UA-124803592-1' # 'UA-52149651-1'
+gahandler:        'UA-124803592-1'
+
+# CNZZ
+cnzzhandler:      '1277366039'
 
 # Disqus
 disqushandler:    'sighingnow'
