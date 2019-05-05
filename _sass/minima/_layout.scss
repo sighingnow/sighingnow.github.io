@@ -196,6 +196,10 @@
 .post-meta {
   font-size: $small-font-size;
   color: $grey-color;
+
+  span.tag-sep {
+    margin: 0 7px 0 7px;
+  }
 }
 
 .post-link {
@@ -250,7 +254,7 @@
 }
 
 /**
- * Posts
+ * Posts navigation
  */
 div.navigation {
   display: inline-block;

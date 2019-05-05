@@ -12,7 +12,21 @@ layout: default
       </time>
       {%- if page.author -%}
         • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">{{ page.author }}</span></span>
-      {%- endif -%}</p>
+      {%- endif -%}
+      {%- if page.tags -%}
+        <span class="tag-sep">|</span>
+        {%- for tag in page.tags -%}
+          <span itemprop="tag" itemscope>
+            <span class="p-tag h-card" itemprop="tag">
+              {{ tag }}
+              {%- unless tag == page.tags.last -%}
+                ,
+              {%- endunless -%}
+            </span>
+          </span>
+        {%- endfor -%}
+      {%- endif -%}
+    </p>
   </header>
 
   <div class="post-content e-content" itemprop="articleBody">
