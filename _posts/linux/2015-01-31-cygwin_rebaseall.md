@@ -3,7 +3,7 @@ title: Cygwin rebaseall
 author: sighingnow
 date: 2015-01-31
 tag: Cygwin
-category: Linux/Unix
+category: Linux
 layout: post
 ---
 
