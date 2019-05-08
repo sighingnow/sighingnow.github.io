@@ -2,8 +2,8 @@
 title: Non-constructive proof of existance
 author: sighingnow
 date: 2016-01-31
-tags: [Proof, Logic]
-category: Coq
+tags: [Coq, Proof, Logic]
+category: 编程语言
 layout: post
 ---
 

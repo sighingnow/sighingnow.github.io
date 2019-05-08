@@ -2,8 +2,8 @@
 title: Proof by Contradiction
 author: sighingnow
 date: 2016-01-27
-tags: [Proof, Logic]
-category: Coq
+tags: [Coq, Proof, Logic]
+category: 编程语言
 layout: post
 ---
 

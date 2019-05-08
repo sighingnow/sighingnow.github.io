@@ -2,8 +2,8 @@
 title: Excluded Middle in Coq 
 author: sighingnow
 date: 2017-08-28
-tags: [Proof, Logic]
-category: Coq
+tags: [Coq, Proof, Logic]
+category: 编程语言
 layout: post
 ---
 
