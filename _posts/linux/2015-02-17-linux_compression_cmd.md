@@ -52,6 +52,10 @@ Main operation mode:
         解压：tar zxvf FileName.tar.gz
         压缩：tar zcvf FileName.tar.gz DirName
 
+   如果需要排除满足特定pattern的文件：
+
+        压缩：tar zcvf FileName.tar.gz --exclude=".git" --exclude="*.log" DirName
+
 5. .bz2 格式
 
         解压：bzip2 -d FileName.bz2
