@@ -56,6 +56,8 @@ cannot go wrong.”。
 通过便宜检查的程序，都不会出现上输错误（go wrong）。C/C++不是type safe的，Java/C#是type safe的，对于数组越界访问，C/C++
 语言中是未定义行为，Java/C#中会抛出一个特定类型的异常，同样，Python/Ruby也具有Type safety。
 
+References
+----------
 
 [^1]: https://www.zhihu.com/question/19918532/answer/21647195
 [^2]: http://www.cs.cornell.edu/courses/cs1130/2012sp/1130selfpaced/module1/module1part4/strongtyping.html

@@ -80,6 +80,8 @@ BOOL APIENTRY DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 }
 ~~~
 
+References
+----------
 
 [^1]: https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/ffi-chap.html#using-the-ffi-with-ghc
 [^2]: http://www.faqs.org/docs/Linux-HOWTO/Program-Library-HOWTO.html#INIT-AND-CLEANUP

@@ -163,9 +163,9 @@ The mother of all monads[^3] 一文详细地描述了如何使用Continuation Mo
 范围内的语法是足够实现Continuation的，因此，也就具备了Monad的表达能力。
 
 
+References
+----------
 
 [^1]: [Going Further](http://scheme.com/tspl4/further.html#./further:h3), TSPL chapter 3.
-
 [^2]: [Asynchronous API in C++ and the Continuation Monad](https://www.fpcomplete.com/blog/2012/06/asynchronous-api-in-c-and-the-continuation-monad), Bartosz Milewski.
-
 [^3]: [The Mother of all Monads](http://blog.sigfpe.com/2008/12/mother-of-all-monads.html), Dan Diponi.

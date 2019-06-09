@@ -242,6 +242,8 @@ C/C++宏与图灵完备
 对于一个图灵完备的编程语言，其能够表达的程序一定是不可判定是否停机的。也正是同样的原因，一些Total的Functional Programming
 Languages，比如Coq，同样不能满足图灵完备。
 
+References
+----------
 
 [^1]: [C++ Templates are Turing Complete](http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.14.3670), Todd L. Veldhuizen.
 [^2]: [Brainfuck interpreter written in the C preprocessor](https://news.ycombinator.com/item?id=4795542).

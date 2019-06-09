@@ -189,6 +189,10 @@ $$\phi_M(S) \le 4 \sqrt{\phi_M^{*}}$$
 
 其中，$\phi_M(S)$是实际求得的最优解，$\phi_M^{*}$是理论最优解。
 
+
+References
+----------
+
 [^1]: Spectral Networks and Locally Connected Networks on Graphs[iclr2014]
 [^2]: Convolutional Neural Networks on Graphs with Fast Localized Spectral Filtering[nips2016]
 [^3]: Wavelets on Graphs via Spectral Graph Theory

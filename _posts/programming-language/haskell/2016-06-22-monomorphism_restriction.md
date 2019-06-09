@@ -90,6 +90,8 @@ GHC Extension
 Monomorphism Restriction。可以使用 GHC 的扩展 `MonomorphismRestriction` 和 `NoMonomorphismRestriction`
 来手动控制是否启用 Monomorphism Restriction。
 
+References
+----------
 
 [^1]: [http://stackoverflow.com/a/7662890/5080177](http://stackoverflow.com/a/7662890/5080177)
 [^2]: [The monomorphism restriction](https://www.haskell.org/onlinereport/haskell2010/haskellch4.html#x10-930004.5.5)
