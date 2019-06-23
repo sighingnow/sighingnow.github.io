@@ -20,7 +20,7 @@ I'm proudly a participant of **[GSoC 2019][5]** this summer in the Haskell commu
 supervised by [Ömer Sinan Ağacan][6], aimed at making the profiling tool
 **[ThreadScope][7]** suitable for processing large eventlogs.
 
-I write **[blogs](./tags/gsoc)** about the project regularly.
+I write **[blogs](./topic/gsoc)** about the project regularly.
 
 ./Writings
 ----------
