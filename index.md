@@ -10,9 +10,17 @@ Beihang University at 2017.
 ----------------------------------
 
 I'm a Haskell enthusiast. I have submitted some patches to GHC and hadrian.
-
 I also contributed to many open source projects, such as pandas, mxnet,
 pytorch, hindent.
+
+./GSoC
+------
+
+I'm proudly a participant of **[GSoC 2019][5]** this summer in the Haskell community
+supervised by [Ömer Sinan Ağacan][6], aimed at making the profiling tool
+**[ThreadScope][7]** suitable for processing large eventlogs.
+
+I write **[blogs](./tags/gsoc)** about the project regularly.
 
 ./Writings
 ----------
@@ -46,3 +54,6 @@ way of coding.
 [2]: https://gist.github.com/sighingnow/505d3d5c82237741b4a18147b2f84811
 [3]: https://gist.github.com/sighingnow/96946f539342085a0759474d5389af7a
 [4]: https://gist.github.com/sighingnow
+[5]: https://summerofcode.withgoogle.com
+[6]: https://osa1.net/
+[7]: https://wiki.haskell.org/ThreadScope

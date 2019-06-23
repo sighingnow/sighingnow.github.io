@@ -45,6 +45,8 @@ navigation:
   url: /blog/
 - text: Archive
   url: /archive/
+- text: GSoC
+  url: /tags/gsoc
 - text: Résumé
   url: /resume/
 - text: Github
