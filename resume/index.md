@@ -7,7 +7,11 @@ title: Résumé
 
 ...
 
-### Working Experience
+### Education
+
++ ...
+
+### Experience
 
 + ...
 
