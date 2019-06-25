@@ -29,13 +29,13 @@ main = do
     mainGUI
 ```
 
-The `initGUI` must be call *once* before any other Gtk2Hs functions. `widgetsShowAll window`
+The `initGUI` must be called *once* before any other Gtk2Hs functions. `widgetsShowAll window`
 completes the internal steps and allocations, and show `window`, as well as its children.
-`mainGUI` is the infinite event loop, and event loop will block until the window get destroyed,
+`mainGUI` is the infinite event loop, and event loop will block until the window get destroyed
 since there's a callback `mainQuit` for `onDelete` event of the `window`.
 
 The Gtk main event loop can be put into another separate OS thread. In such scenarios, something
-like `MVar` may involved to synchronize the Gtk thread and the main thread of program.
+like `MVar` may be involved to synchronize the Gtk thread and the main thread of the program.
 
 Signal
 ------
@@ -57,12 +57,12 @@ Packing Boxes
 -------------
 
 The horizontal box or vertical box can be created by `hBoxNew` or `vBoxNew`. A `Bool` parameter
-indicates whether give all children equal space allotments. `boxPackStart` place objects into the
+indicates whether gives all children equal space allotments. `boxPackStart` place objects into the
 container start from the top, or left, to the bottom, or right and `boxPackEnd` works along the
 reverse direction. A parameter with type `Packing` is required to determine how the child scales.
 
 + `PackNatural` means the child is as big as it requests.
-+ `PackRepel` will be padded on both side with additional space.
-+ `PackGrow` increases the size of widget so that it covers the available space.
++ `PackRepel` will be padded on both sides with additional space.
++ `PackGrow` increases the size of widgets so that it covers the available space.
 
 
