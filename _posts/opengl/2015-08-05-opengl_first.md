@@ -1,6 +1,6 @@
 ---
 title: 第一个OpenGL程序
-author: sighingnow
+author: Tao He
 date: 2015-08-05
 tag: OpenGL
 category: Graphics

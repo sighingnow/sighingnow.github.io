@@ -1,6 +1,6 @@
 ---
 title: C/C++中的格式化IO
-author: sighingnow
+author: Tao He
 date: 2015-04-12
 tag: C/C++
 category: 编程语言

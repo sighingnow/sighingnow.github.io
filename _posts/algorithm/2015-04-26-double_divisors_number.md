@@ -1,6 +1,6 @@
 ---
 title: 约数个数加倍
-author: sighingnow
+author: Tao He
 date: 2015-04-26
 tag: Algorithm
 category: Algorithm

@@ -1,6 +1,6 @@
 ---
 title: 用Lex和Yacc实现解释器
-author: sighingnow
+author: Tao He
 date: 2015-07-15
 tags: [Compiler]
 category: 编译原理

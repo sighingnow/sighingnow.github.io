@@ -1,6 +1,6 @@
 ---
 title: RMQ与LCA之间的转换
-author: sighingnow
+author: Tao He
 date: 2015-02-12
 tag: Algorithm
 category: Algorithm

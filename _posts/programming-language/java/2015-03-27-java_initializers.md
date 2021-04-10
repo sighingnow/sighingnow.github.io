@@ -1,6 +1,6 @@
 ---
 title: Java对象初始化机制
-author: sighingnow
+author: Tao He
 date: 2015-03-23
 tag: [Java]
 category: 编程语言

@@ -1,6 +1,6 @@
 ---
 title: 树状数组
-author: sighingnow
+author: Tao He
 date: 2015-02-24
 tag: Algorithm
 category: Algorithm

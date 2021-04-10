@@ -1,6 +1,6 @@
 ---
 title: C++编译期类型信息的利用
-author: sighingnow
+author: Tao He
 date: 2016-09-03
 tags: C/C++
 categories: 编程语言

@@ -7,10 +7,10 @@ Training and test dataset: handwriting.zip
 
 Created on Feb 8, 2015
 
-@author: sighingnow
+@author: Tao He
 '''
 
-__author__ = 'sighingnow'
+__author__ = 'Tao He'
 
 from os import listdir
 from os.path import sep as SYS_SEPARATOR

@@ -1,6 +1,6 @@
 ---
 title: Java JNI 初探
-author: sighingnow
+author: Tao He
 date: 2015-02-10
 tag: [JNI, JVM, Java]
 category: Runtime
@@ -21,7 +21,7 @@ Java语言的写法：
 package com.sighingnow.maker;
 
 /**
- * @author sighingnow
+ * @author Tao He
  * 
  */
 public class Maker {
@@ -92,7 +92,7 @@ JNIEXPORT jint JNICALL Java_com_sighingnow_maker_Maker_DisplayMakerInfo
 using namespace std;
 
 /**
- * author: sighingnow
+ * author: Tao He
  */
 
 JNIEXPORT jint JNICALL Java_com_sighingnow_maker_Maker_DisplayMakerInfo

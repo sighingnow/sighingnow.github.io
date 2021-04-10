@@ -1,6 +1,6 @@
 ---
 title: Scheme 中的 Pairs 和 Lists
-author: sighingnow
+author: Tao He
 date: 2015-07-03
 tag: [Scheme]
 category: 编程语言

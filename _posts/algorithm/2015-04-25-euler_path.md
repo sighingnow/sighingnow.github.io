@@ -1,6 +1,6 @@
 ---
 title: 欧拉路径
-author: sighingnow
+author: Tao He
 date: 2015-04-25
 tag: Algorithm
 category: Algorithm

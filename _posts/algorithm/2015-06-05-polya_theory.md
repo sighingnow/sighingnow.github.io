@@ -1,6 +1,6 @@
 ---
 title: Polya定理及应用
-author: sighingnow
+author: Tao He
 date: 2015-06-05
 tag: Algorithm
 category: Algorithm

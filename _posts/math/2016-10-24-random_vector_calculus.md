@@ -1,6 +1,6 @@
 ---
 title: 随机向量和概率统计
-author: sighingnow
+author: Tao He
 date: 2016-10-24
 tag: [Mathematical Analysis]
 category: Math

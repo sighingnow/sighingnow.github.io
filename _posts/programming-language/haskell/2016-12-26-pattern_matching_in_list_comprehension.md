@@ -1,6 +1,6 @@
 ---
 title: Pattern Matching in List Comprehension
-author: sighingnow
+author: Tao He
 date: 2016-12-26
 tag: [Haskell]
 category: 编程语言

@@ -1,6 +1,6 @@
 ---
 title: Heterogeneous containers in Haskell
-author: sighingnow
+author: Tao He
 date: 2016-06-10
 tag: [Haskell]
 category: 编程语言

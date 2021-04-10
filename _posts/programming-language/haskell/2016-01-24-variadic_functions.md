@@ -1,6 +1,6 @@
 ---
 title: Variadic Functions
-author: sighingnow
+author: Tao He
 date: 2016-01-24
 tag: [Haskell]
 category: 编程语言

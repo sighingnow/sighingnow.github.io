@@ -1,6 +1,6 @@
 ---
 title: Haskell GHCi使用
-author: sighingnow
+author: Tao He
 date: 2015-02-02
 tags: [Haskell]
 category: 编程语言

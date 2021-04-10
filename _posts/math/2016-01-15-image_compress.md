@@ -1,6 +1,6 @@
 ---
 title: 使用FFT和DCT进行图片压缩
-author: sighingnow
+author: Tao He
 date: 2016-01-15
 tag: [Signal Processing]
 category: Math

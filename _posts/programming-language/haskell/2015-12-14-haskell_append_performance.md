@@ -1,6 +1,6 @@
 ---
 title: Haskell List Append Performance
-author: sighingnow
+author: Tao He
 date: 2015-12-14
 tag: [Haskell]
 category: 编程语言

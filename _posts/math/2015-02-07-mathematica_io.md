@@ -1,6 +1,6 @@
 ---
 title: Mathematica 输入与输出
-author: sighingnow
+author: Tao He
 date: 2015-02-07
 tag: Mathematica
 category: Math

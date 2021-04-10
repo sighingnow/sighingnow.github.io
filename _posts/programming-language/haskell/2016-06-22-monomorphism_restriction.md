@@ -1,6 +1,6 @@
 ---
 title: Monomorphism Restriction
-author: sighingnow
+author: Tao He
 date: 2016-06-22
 tag: [Haskell]
 category: 编程语言

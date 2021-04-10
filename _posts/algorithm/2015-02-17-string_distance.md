@@ -1,6 +1,6 @@
 ---
 title: 字符串的编辑距离
-author: sighingnow
+author: Tao He
 date: 2015-02-17
 tag: Algorithm
 category: Algorithm

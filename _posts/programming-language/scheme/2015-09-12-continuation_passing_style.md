@@ -1,6 +1,6 @@
 ---
 title: Continuation Passing Style
-author: sighingnow
+author: Tao He
 date: 2015-09-12
 tag: [Scheme]
 category: 编程语言

@@ -1,6 +1,6 @@
 ---
 title: Mathematica中的列表(List)
-author: sighingnow
+author: Tao He
 date: 2015-02-12
 tag: Mathematica
 category: Math

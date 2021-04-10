@@ -1,6 +1,6 @@
 ---
 title: 一致性哈希算法
-author: sighingnow
+author: Tao He
 date: 2015-05-18
 tag: 分布式系统
 category: 分布式系统

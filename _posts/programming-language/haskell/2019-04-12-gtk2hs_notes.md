@@ -2,7 +2,7 @@
 title: Notes on Gtk2Hs
 author: Tao He
 date: 2019-04-12
-tag: [Haskell, GUI, GSOC]
+tag: [Haskell, GUI, GSoC]
 category: 编程语言
 layout: post
 ---

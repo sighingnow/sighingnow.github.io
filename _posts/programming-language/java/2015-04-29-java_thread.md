@@ -1,6 +1,6 @@
 ---
 title: Java 多线程
-author: sighingnow
+author: Tao He
 date: 2015-04-29
 tag: [Java, 并发模型]
 category: 编程语言

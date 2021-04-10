@@ -1,6 +1,6 @@
 ---
 title: 子模性(Submodular)
-author: sighingnow
+author: Tao He
 date: 2015-05-23
 tag: 机器学习
 category: 机器学习

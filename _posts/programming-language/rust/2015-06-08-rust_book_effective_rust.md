@@ -1,6 +1,6 @@
 ---
 title: Rust-Book Effective Rust
-author: sighingnow
+author: Tao He
 date: 2015-06-05
 tags: Rust
 category: 编程语言

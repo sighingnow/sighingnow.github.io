@@ -1,6 +1,6 @@
 ---
 title: Combinator "seq"
-author: sighingnow
+author: Tao He
 date: 2015-12-29
 tag: [Haskell]
 category: 编程语言

@@ -1,6 +1,6 @@
 ---
 title: The Yin-Yang puzzle
-author: sighingnow
+author: Tao He
 date: 2015-11-12
 tag: [Scheme]
 category: 编程语言

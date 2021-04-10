@@ -1,6 +1,6 @@
 ---
 title: Kinds of (Micro)Kernel
-author: sighingnow
+author: Tao He
 date: 2016-06-16
 tags: [Linux, Kernel]
 category: Linux

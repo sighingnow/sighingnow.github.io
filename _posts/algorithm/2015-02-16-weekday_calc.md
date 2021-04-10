@@ -1,6 +1,6 @@
 ---
 title: 星期的计算
-author: sighingnow
+author: Tao He
 date: 2015-02-16
 tag: Algorithm
 category: Algorithm

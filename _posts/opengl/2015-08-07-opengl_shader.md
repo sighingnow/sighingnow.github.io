@@ -1,6 +1,6 @@
 ---
 title: OpenGL Shader
-author: sighingnow
+author: Tao He
 date: 2015-08-07
 tag: OpenGL
 category: Graphics

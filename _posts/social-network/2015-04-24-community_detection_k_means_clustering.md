@@ -1,6 +1,6 @@
 ---
 title: 社区发现与K-means聚类
-author: sighingnow
+author: Tao He
 date: 2015-04-24
 tag: [聚类, 社会网络]
 category: 社会网络

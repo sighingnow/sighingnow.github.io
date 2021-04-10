@@ -1,6 +1,6 @@
 ---
 title: Haskell 高阶函数
-author: sighingnow
+author: Tao He
 date: 2015-02-28
 tags: [Haskell]
 category: 编程语言

@@ -1,6 +1,6 @@
 ---
 title: 正则表达式检测质数
-author: sighingnow
+author: Tao He
 date: 2015-07-10
 tags: [Regular]
 category: 编译原理

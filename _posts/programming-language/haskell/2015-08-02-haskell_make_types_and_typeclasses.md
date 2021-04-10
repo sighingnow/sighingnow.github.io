@@ -1,6 +1,6 @@
 ---
 title: Haskell 构造Types和Typeclasses
-author: sighingnow
+author: Tao He
 date: 2015-08-02
 tag: [Haskell]
 category: 编程语言

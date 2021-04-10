@@ -1,6 +1,6 @@
 ---
 title: Java 8 Lambda 代码片段
-author: sighingnow
+author: Tao He
 date: 2015-05-28
 category: 编程语言
 tags: Java

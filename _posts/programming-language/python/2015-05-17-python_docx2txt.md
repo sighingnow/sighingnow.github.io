@@ -1,6 +1,6 @@
 ---
 title: Python实现docx2txt
-author: sighingnow
+author: Tao He
 date: 2015-05-17
 tag: Python
 category: 编程语言

@@ -1,6 +1,6 @@
 ---
 title: DLL的初始化和退出处理
-author: sighingnow
+author: Tao He
 date: 2016-10-08
 tags: C/C++
 categories: 编程语言

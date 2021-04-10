@@ -1,6 +1,6 @@
 ---
 title: Scala 入门笔记
-author: sighingnow
+author: Tao He
 date: 2015-03-26
 tag: [Scala]
 category: 编程语言

@@ -1,6 +1,6 @@
 ---
 title: 线程和锁
-author: sighingnow
+author: Tao He
 date: 2015-08-23
 tag: [并发模型]
 category: 并发模型

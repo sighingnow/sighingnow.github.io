@@ -1,6 +1,6 @@
 ---
 title: 社交网站站内排名与社区演化
-author: sighingnow
+author: Tao He
 date: 2015-05-13
 tag: [排名, 社会网络]
 category: 社会网络

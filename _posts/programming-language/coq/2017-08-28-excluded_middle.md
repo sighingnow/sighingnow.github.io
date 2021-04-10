@@ -1,6 +1,6 @@
 ---
 title: Excluded Middle in Coq 
-author: sighingnow
+author: Tao He
 date: 2017-08-28
 tags: [Coq, Proof, Logic]
 category: 编程语言

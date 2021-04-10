@@ -1,6 +1,6 @@
 ---
 title: Pell's Equation
-author: sighingnow
+author: Tao He
 date: 2016-05-23
 tag: Algorithm
 category: Algorithm

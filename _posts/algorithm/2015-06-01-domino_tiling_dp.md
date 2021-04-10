@@ -1,7 +1,7 @@
 ---
 title: 一类棋盘覆盖问题的动态规划求解
 date: 2015-06-01
-author: sighingnow
+author: Tao He
 tags: Algorithm
 categories: Algorithm
 layout: post

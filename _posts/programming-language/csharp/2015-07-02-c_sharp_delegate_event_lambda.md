@@ -1,6 +1,6 @@
 ---
 title: C# 委托、事件与Lambda表达式
-author: sighingnow
+author: Tao He
 date: 2015-07-02
 tags: [CSharp]
 category: 编程语言

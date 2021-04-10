@@ -1,6 +1,6 @@
 ---
 title: Python 的默认参数
-author: sighingnow
+author: Tao He
 date: 2015-02-10
 tag: Python
 category: 编程语言

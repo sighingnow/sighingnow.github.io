@@ -1,6 +1,6 @@
 ---
 title: 计算几何算法
-author: sighingnow
+author: Tao He
 date: 2015-02-13
 tag: Algorithm
 category: Algorithm

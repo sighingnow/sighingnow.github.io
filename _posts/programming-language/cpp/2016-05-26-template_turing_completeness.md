@@ -1,6 +1,6 @@
 ---
 title: C++模板的图灵完备
-author: sighingnow
+author: Tao He
 date: 2016-05-26
 tags: C/C++
 categories: 编程语言

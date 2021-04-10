@@ -1,6 +1,6 @@
 ---
 title: C++ 实现 Currying 和 Partial application
-author: sighingnow
+author: Tao He
 date: 2016-01-07
 tags: C/C++
 categories: 编程语言

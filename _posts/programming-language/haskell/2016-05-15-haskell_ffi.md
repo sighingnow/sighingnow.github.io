@@ -1,6 +1,6 @@
 ---
 title: Haskell中FFI的使用
-author: sighingnow
+author: Tao He
 date: 2016-05-15
 tag: [Haskell]
 category: 编程语言

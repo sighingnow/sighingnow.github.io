@@ -1,6 +1,6 @@
 ---
 title: Arithmetic on Types
-author: sighingnow
+author: Tao He
 date: 2016-04-16
 tag: [Haskell]
 category: 编程语言

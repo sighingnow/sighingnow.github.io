@@ -1,6 +1,6 @@
 ---
 title: Cygwin rebaseall
-author: sighingnow
+author: Tao He
 date: 2015-01-31
 tag: Cygwin
 category: Linux
