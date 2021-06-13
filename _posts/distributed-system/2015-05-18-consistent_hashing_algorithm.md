@@ -2,8 +2,8 @@
 title: 一致性哈希算法
 author: Tao He
 date: 2015-05-18
-tag: 分布式系统
-category: 分布式系统
+tag: Distributed System
+category: Distributed System
 layout: post
 ---
 

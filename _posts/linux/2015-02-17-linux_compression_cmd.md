@@ -10,7 +10,7 @@ layout: post
 Linux下，通常需要用tar命令进行解压和压缩操作，针对不同的压缩文件格式，tar命令的参数也不相同。
 
 tar 命令的常用参数含义:
-------------------------
+----------------------
 
 ~~~
 Main operation mode:
@@ -26,6 +26,8 @@ Main operation mode:
  -x, --extract, --get       extract files from an archive
 ~~~
 
+<!--more-->
+
 常见压缩文件格式解压参数
 ------------------------
 
@@ -35,8 +37,6 @@ Main operation mode:
         压缩: tar Zcvf FileName.tar.Z
 
 2. .zip 格式
-
-<!--more-->
 
         压缩: unzip FileName.zip
         解压: zip 
