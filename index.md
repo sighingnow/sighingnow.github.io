@@ -11,8 +11,8 @@ Beihang University at 2017.
 ----------------------------------
 
 I'm a Haskell enthusiast. I have submitted some patches to GHC and hadrian. I have
-also contributed to many open source projects, such as [ghc][11], [apache-arrow][12],
-[pandas][13], [mxnet][14], [pytorch][15] and [etcd-cpp-apiv3][16].
+also contributed to many open source projects, such as [ghc][16], [apache-arrow][17],
+[pandas][18], [mxnet][19], [pytorch][20], [etcd-cpp-apiv3][9], and [more][22] ...
 
 I'm working on cloud-native engineering and thinking about how to make the computational
 systems efficient, observable and robust.
@@ -72,12 +72,13 @@ way of coding.
 ./Gists
 -------
 
-+ [./.vimrc][1] I use VIM to write fancy programs.
-+ [./cpp-tricks.md][2] Modern C++ is so amazing!
-+ [./hemispheres.mma][3] Drawing is as easy as 1,2,3 with Mathematica.
++ [./containers-from-scratch.rs][21]: Rust version of "Containers From Scratch" by Liz Rice, [https://www.youtube.com/watch?v=8fi7uSYlOdc][23]
++ [./$.hs][15]: A type-level `$` operator for Haskell.
 + [./list_live_objects.py][13] A utility to inspect all live objects (of specified type) in current Python execution context.
 + [./tensorboard_logging.py][14]: A logger that write scalars, images as well as histograms to tensorboard outside the context of tensorflow ops.
-+ [./$.hs][15]: A type-level `$` operator for Haskell.
++ [./hemispheres.mma][3] Drawing is as easy as 1,2,3 with Mathematica.
++ [./cpp-tricks.md][2] Modern C++ is so amazing!
++ [./.vimrc][1] I use VIM to write fancy programs.
 + [./&hellip;&hellip;][4]
 
 ./Pageviews
@@ -98,9 +99,11 @@ way of coding.
 [13]: https://gist.github.com/sighingnow/dbe8b05483a786855e4d498019419cc4
 [14]: https://gist.github.com/sighingnow/d0fb727c77f0d1e68143dd8157a30b0b
 [15]: https://gist.github.com/sighingnow/9996851945408e8a960f81bf262260a1
-[11]: https://gitlab.haskell.org/ghc
-[12]: https://github.com/apache/arrow
-[13]: https://github.com/pandas-dev/pandas
-[14]: https://github.com/apache/incubator-mxnet
-[15]: https://github.com/pytorch/pytorch
-[16]: https://github.com/etcd-cpp-apiv3/etcd-cpp-apiv3
+[16]: https://gitlab.haskell.org/ghc
+[17]: https://github.com/apache/arrow
+[18]: https://github.com/pandas-dev/pandas
+[19]: https://github.com/apache/incubator-mxnet
+[20]: https://github.com/pytorch/pytorch
+[21]: https://gist.github.com/sighingnow/4988a0100bc5030d301926f79254133a
+[22]: https://github.com/sighingnow
+[23]: https://www.youtube.com/watch?v=8fi7uSYlOdc
