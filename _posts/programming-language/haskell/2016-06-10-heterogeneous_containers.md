@@ -3,7 +3,7 @@ title: Heterogeneous containers in Haskell
 author: Tao He
 date: 2016-06-10
 tag: [Haskell]
-category: 编程语言
+category: Programming Languages
 layout: post
 ---
 

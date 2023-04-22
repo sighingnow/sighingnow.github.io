@@ -2,8 +2,8 @@
 title: 随机向量和概率统计
 author: Tao He
 date: 2016-10-24
-tag: [Mathematical Analysis]
-category: Math
+tag: [Analysis]
+category: Mathematics
 layout: post
 ---
 

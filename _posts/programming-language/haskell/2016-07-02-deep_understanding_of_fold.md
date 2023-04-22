@@ -3,7 +3,7 @@ title: Deep Understanding of Fold in Haskell
 author: Tao He
 date: 2016-07-02
 tag: [Haskell]
-category: 编程语言
+category: Programming Languages
 layout: post
 ---
 

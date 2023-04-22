@@ -3,7 +3,7 @@ title: Haskell 构造Types和Typeclasses
 author: Tao He
 date: 2015-08-02
 tag: [Haskell]
-category: 编程语言
+category: Programming Languages
 layout: post
 ---
 

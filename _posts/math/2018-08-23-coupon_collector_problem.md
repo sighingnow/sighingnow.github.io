@@ -3,7 +3,7 @@ title: Coupon Collector's Problem
 author: Tao He
 date: 2018-08-23
 tag: [Probability Theory]
-category: Math
+category: Mathematics
 layout: post
 ---
 

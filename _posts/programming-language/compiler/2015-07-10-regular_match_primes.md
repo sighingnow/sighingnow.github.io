@@ -2,8 +2,8 @@
 title: 正则表达式检测质数
 author: Tao He
 date: 2015-07-10
-tags: [Regular]
-category: 编译原理
+tags: [Regular Expression]
+category: Programming Languages
 layout: post
 ---
 

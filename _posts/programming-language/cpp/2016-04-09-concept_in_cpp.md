@@ -3,7 +3,7 @@ title: Concept in C++
 author: Tao He
 date: 2016-04-09
 tags: C/C++
-categories: 编程语言
+category: Programming Languages
 layout: post
 ---
 

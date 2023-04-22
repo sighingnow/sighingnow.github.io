@@ -2,8 +2,8 @@
 title: Logistic回归
 author: Tao He
 date: 2015-03-02
-tag: [机器学习]
-category: 机器学习
+tag: [Regression]
+category: Machine Learning
 layout: post
 ---
 

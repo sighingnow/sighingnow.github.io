@@ -3,7 +3,7 @@ title: Javascript 闭包
 author: Tao He
 date: 2015-07-04
 tag: Javascript
-category: 编程语言
+category: Programming Languages
 layout: post
 ---
 

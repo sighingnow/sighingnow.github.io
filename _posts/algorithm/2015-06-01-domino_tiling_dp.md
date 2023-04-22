@@ -3,7 +3,7 @@ title: 一类棋盘覆盖问题的动态规划求解
 date: 2015-06-01
 author: Tao He
 tags: Algorithm
-categories: Algorithm
+category: Algorithm
 layout: post
 ---
 

@@ -3,7 +3,7 @@ title: Java JNI 初探
 author: Tao He
 date: 2015-02-10
 tag: [JNI, JVM, Java]
-category: Runtime
+category: Programming Languages
 layout: post
 ---
 

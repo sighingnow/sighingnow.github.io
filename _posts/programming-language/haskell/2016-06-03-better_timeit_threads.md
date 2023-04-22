@@ -3,7 +3,7 @@ title: A Better Approach for Timing Multi-thread Computations
 author: Tao He
 date: 2016-06-03
 tag: [Haskell]
-category: 编程语言
+category: Programming Languages
 layout: post
 ---
 

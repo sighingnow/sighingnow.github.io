@@ -3,7 +3,7 @@ title: C和C++中的sleep函数
 author: Tao He
 date: 2015-02-03
 tag: C/C++
-category: 编程语言
+category: Programming Languages
 layout: post
 ---
 

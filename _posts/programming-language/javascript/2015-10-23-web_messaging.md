@@ -2,8 +2,8 @@
 title: Web Messaging 以及 jschannel.js 用于页面间跨域通信
 author: Tao He
 date: 2015-10-23
-tags: [Web-Front-End]
-category: Web-Tech
+tags: [JavaScript, HTML]
+category: Programming Languages
 layout: post
 ---
 

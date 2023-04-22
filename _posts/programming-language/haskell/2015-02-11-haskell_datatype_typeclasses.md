@@ -3,7 +3,7 @@ title: Haskell 数据类型和类型类(Typeclasses)
 author: Tao He
 date: 2015-02-11
 tags: [Haskell]
-category: 编程语言
+category: Programming Languages
 layout: post
 ---
 

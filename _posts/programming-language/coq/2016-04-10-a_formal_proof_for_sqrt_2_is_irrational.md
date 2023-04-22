@@ -3,7 +3,7 @@ title: A Formal Proof for Square Root of 2 is Irrational
 author: Tao He
 date: 2016-03-18
 tags: [Coq, Proof, Logic]
-category: 编程语言
+category: Programming Languages
 layout: post
 ---
 

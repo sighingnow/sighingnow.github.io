@@ -2,8 +2,8 @@
 title: Scheme 中的 Pairs 和 Lists
 author: Tao He
 date: 2015-07-03
-tag: [Scheme]
-category: 编程语言
+tag: [Lisp]
+category: Programming Languages
 layout: post
 ---
 

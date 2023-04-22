@@ -3,7 +3,7 @@ title: Proof by Contradiction
 author: Tao He
 date: 2016-01-27
 tags: [Coq, Proof, Logic]
-category: 编程语言
+category: Programming Languages
 layout: post
 ---
 

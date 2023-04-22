@@ -2,8 +2,8 @@
 title: DLL的初始化和退出处理
 author: Tao He
 date: 2016-10-08
-tags: C/C++
-categories: 编程语言
+tags: Linker
+category: Programming Languages
 layout: post
 ---
 

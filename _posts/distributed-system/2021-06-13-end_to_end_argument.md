@@ -43,14 +43,14 @@ Then what would happen if the hardware corrupt silently?
 
 Silent Data Corruptions (SDCs) is a know problem where data in main memory, on disk,
 or other storage is corrupted, without being immediately detected, e.g., the memory bit
-flips happen all the time[^3]. Either you detect them, or you get silent data corruptions.
+flips happen all the time[^1][^3]. Either you detect them, or you get silent data corruptions.
 Techniques like Error Correction Code (ECC) is widely used to reduce the error rate in
 SRAM. And, such protections are being brought to desktop chips from high-end servers[^2].
 
-Two recent papers from Google, [Cores that don’t count][4], and facebook, [Silent Data
-Corruptions at Scale[3], both discuss the another source of SDCs, the Corruption Execution
-Erros (CEEs), is a systemic issue, and state that the computer, especially the cores that
-execute instructions, is NOT a fail-stop.
+Two recent papers from Google, [Cores that don’t count][4], and facebook,
+[Silent Data Corruptions at Scale][3], both discuss the another source of SDCs, the Corruption
+Execution Erros (CEEs), is a systemic issue, and state that the computer, especially
+the cores that execute instructions, is NOT a fail-stop.
 
 Those kind of errors, CEEs, can result in data loss, and the corruptions could propagate
 across the stack and manifest of application-level problems, as described in the picture
@@ -91,8 +91,6 @@ robust fault-tolerant software architectures.
 When the lower layer of computation is not a fail-stop, the end-to-end argument applies
 to software design and implementation upon those hardwares, due to the lack of "trust".
 
-History of eBPF
----------------
 
 [^1]: https://en.wikipedia.org/wiki/Pentium_FDIV_bug
 [^2]: https://news.ycombinator.com/item?id=10028965

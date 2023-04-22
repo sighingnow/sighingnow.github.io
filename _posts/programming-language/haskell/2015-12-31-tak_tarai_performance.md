@@ -3,7 +3,7 @@ title: Tak函数和Tarai函数的性能
 author: Tao He
 date: 2015-12-31
 tag: [Haskell]
-category: 编程语言
+category: Programming Languages
 layout: post
 ---
 

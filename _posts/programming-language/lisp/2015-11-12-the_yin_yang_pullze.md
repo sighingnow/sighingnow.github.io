@@ -2,8 +2,8 @@
 title: The Yin-Yang puzzle
 author: Tao He
 date: 2015-11-12
-tag: [Scheme]
-category: 编程语言
+tag: [Lisp]
+category: Programming Languages
 layout: post
 ---
 

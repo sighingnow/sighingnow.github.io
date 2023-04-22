@@ -3,7 +3,7 @@ title: Use vector in ThreadScope to Reduce the Memory Usage
 author: Tao He
 date: 2019-04-01
 tag: [Haskell, GSoC, Profiling]
-category: 编程语言
+category: Programming Languages
 layout: post
 ---
 

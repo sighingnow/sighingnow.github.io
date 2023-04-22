@@ -2,7 +2,7 @@
 title: Java 8 Lambda 代码片段
 author: Tao He
 date: 2015-05-28
-category: 编程语言
+category: Programming Languages
 tags: Java
 layout: post
 ---

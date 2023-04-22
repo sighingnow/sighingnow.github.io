@@ -2,8 +2,8 @@
 title: 矩母函数和特征函数
 author: Tao He
 date: 2016-10-17
-tag: [Mathematical Analysis]
-category: Math
+tag: [Analysis]
+category: Mathematics
 layout: post
 ---
 

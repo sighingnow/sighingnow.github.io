@@ -2,8 +2,8 @@
 title: 先验和后验概率以及估计
 author: Tao He
 date: 2015-03-18
-tag: [机器学习]
-category: 机器学习
+tag: [Theory]
+category: Machine Learning
 layout: post
 ---
 

@@ -3,7 +3,7 @@ title: 数学分析题目集锦
 author: Tao He
 date: 2016-09-10
 tag: [Mathematical Analysis]
-category: Math
+category: Mathematics
 layout: post
 ---
 

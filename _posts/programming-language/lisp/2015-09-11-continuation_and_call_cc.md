@@ -2,8 +2,8 @@
 title: Continuation 和 call/cc
 author: Tao He
 date: 2015-09-11
-tag: [Scheme]
-category: 编程语言
+tag: [Lisp]
+category: Programming Languages
 layout: post
 ---
 

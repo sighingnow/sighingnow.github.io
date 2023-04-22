@@ -3,7 +3,7 @@ title: Quicksort in Haskell
 author: Tao He
 date: 2016-03-14
 tag: [Haskell]
-category: 编程语言
+category: Programming Languages
 layout: post
 ---
 

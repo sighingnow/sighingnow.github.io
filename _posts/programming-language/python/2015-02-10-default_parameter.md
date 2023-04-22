@@ -3,7 +3,7 @@ title: Python 的默认参数
 author: Tao He
 date: 2015-02-10
 tag: Python
-category: 编程语言
+category: Programming Languages
 layout: post
 ---
 

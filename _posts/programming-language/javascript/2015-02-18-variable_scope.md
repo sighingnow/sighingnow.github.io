@@ -3,7 +3,7 @@ title: Javascript 变量作用域
 author: Tao He
 date: 2015-02-18
 tag: Javascript
-category: 编程语言
+category: Programming Languages
 layout: post
 ---
 

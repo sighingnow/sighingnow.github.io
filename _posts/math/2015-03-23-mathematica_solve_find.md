@@ -3,7 +3,7 @@ title: Mathematica 求根与求最值
 author: Tao He
 date: 2015-03-23
 tag: Mathematica
-category: Math
+category: Mathematics
 layout: post
 ---
 

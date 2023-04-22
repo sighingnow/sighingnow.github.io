@@ -3,7 +3,7 @@ title: 代数基本概念
 author: Tao He
 date: 2016-01-15
 tag: [Algebra]
-category: Math
+category: Mathematics
 layout: post
 ---
 

@@ -3,7 +3,7 @@ title: 直和
 author: Tao He
 date: 2016-09-04
 tag: [Algebra]
-category: Math
+category: Mathematics
 layout: post
 ---
 

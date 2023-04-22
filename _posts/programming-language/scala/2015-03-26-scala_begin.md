@@ -3,14 +3,12 @@ title: Scala 入门笔记
 author: Tao He
 date: 2015-03-26
 tag: [Scala]
-category: 编程语言
+category: Programming Languages
 layout: post
 ---
 
-Scala初学笔记。
-
 Hello World in Scala
----------------------
+--------------------
 
 学习Scala的语法，还是从Hello World开始吧：
 

@@ -3,7 +3,7 @@ title: Non-constructive proof of existance
 author: Tao He
 date: 2016-01-31
 tags: [Coq, Proof, Logic]
-category: 编程语言
+category: Programming Languages
 layout: post
 ---
 

@@ -3,7 +3,7 @@ title: Combinator "seq"
 author: Tao He
 date: 2015-12-29
 tag: [Haskell]
-category: 编程语言
+category: Programming Languages
 layout: post
 ---
 

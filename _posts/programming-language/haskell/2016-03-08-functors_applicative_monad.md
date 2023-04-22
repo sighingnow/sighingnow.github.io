@@ -3,7 +3,7 @@ title: Functor, Applicative and Monad
 author: Tao He
 date: 2016-03-08
 tag: [Haskell]
-category: 编程语言
+category: Programming Languages
 layout: post
 ---
 

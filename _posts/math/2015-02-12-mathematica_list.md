@@ -3,7 +3,7 @@ title: Mathematica中的列表(List)
 author: Tao He
 date: 2015-02-12
 tag: Mathematica
-category: Math
+category: Mathematics
 layout: post
 ---
 

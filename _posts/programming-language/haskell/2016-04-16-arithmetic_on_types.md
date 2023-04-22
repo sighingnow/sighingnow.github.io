@@ -3,7 +3,7 @@ title: Arithmetic on Types
 author: Tao He
 date: 2016-04-16
 tag: [Haskell]
-category: 编程语言
+category: Programming Languages
 layout: post
 ---
 

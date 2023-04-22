@@ -3,7 +3,7 @@ title: Python编译成Pyc和Pyo文件
 author: Tao He
 date: 2015-02-03
 tag: Python
-category: 编程语言
+category: Programming Languages
 layout: post
 ---
 

@@ -3,7 +3,7 @@ title: Python yield 关键字
 author: Tao He
 date: 2015-01-31
 tag: Python
-category: 编程语言
+category: Programming Languages
 layout: post
 ---
 

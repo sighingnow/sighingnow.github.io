@@ -2,8 +2,8 @@
 title: X86汇编学习笔记
 author: Tao He
 date: 2015-09-02
-tags: C/C++
-categories: 编程语言
+tags: Assembly
+category: Programming Languages
 layout: post
 ---
 

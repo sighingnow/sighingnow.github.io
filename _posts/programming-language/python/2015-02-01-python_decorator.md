@@ -3,7 +3,7 @@ title: Python Decorator
 author: Tao He
 date: 2015-02-01
 tag: Python
-category: 编程语言
+category: Programming Languages
 layout: post
 ---
 

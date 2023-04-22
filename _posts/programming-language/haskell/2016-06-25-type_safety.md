@@ -3,7 +3,7 @@ title: 类型安全
 author: Tao He
 date: 2016-06-25
 tag: [Haskell]
-category: 编程语言
+category: Programming Languages
 layout: post
 ---
 

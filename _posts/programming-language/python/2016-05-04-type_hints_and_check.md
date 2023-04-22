@@ -3,7 +3,7 @@ title: Python的类型标注与检查
 author: Tao He
 date: 2016-05-04
 tag: Python
-category: 编程语言
+category: Programming Languages
 layout: post
 ---
 

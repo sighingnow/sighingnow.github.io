@@ -3,13 +3,15 @@ title: Scala 公开课笔记
 author: Tao He
 date: 2015-07-31
 tag: [Scala]
-category: 编程语言
+category: Programming Languages
 layout: post
 ---
 
 Coursera上的瑞士洛桑理工大学Scala函数式编程原理(Functional Programming Principles in Scala)课程笔记。
 
 课程链接：[Functional Programming Principles in Scala](https://class.coursera.org/progfun-005)
+
+<!--more-->
 
 Getting Started
 ---------------
@@ -29,8 +31,6 @@ Scala开发环境配置相关的几点经验：
 
         -Dsbt.ivy.home=d:/Java/sbt/
         -Dsbt.boot.directory=d:/Java/sbt/boot/
-
-<!--more-->
 
 Week 1: Functions & Evaluations
 -------------------------------

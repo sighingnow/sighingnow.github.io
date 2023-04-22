@@ -3,7 +3,7 @@ title: Monomorphism Restriction
 author: Tao He
 date: 2016-06-22
 tag: [Haskell]
-category: 编程语言
+category: Programming Languages
 layout: post
 ---
 

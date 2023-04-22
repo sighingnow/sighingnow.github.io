@@ -3,7 +3,7 @@ title: GSoC 2019 Round 1st Evaluation
 author: Tao He
 date: 2019-06-22
 tag: [Haskell, GUI, GSoC]
-category: 编程语言
+category: Programming Languages
 layout: post
 ---
 

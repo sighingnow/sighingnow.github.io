@@ -3,7 +3,7 @@ title: Rust-Book Getting Started
 author: Tao He
 date: 2015-06-05
 tags: Rust
-category: 编程语言
+category: Programming Languages
 layout: post
 ---
 

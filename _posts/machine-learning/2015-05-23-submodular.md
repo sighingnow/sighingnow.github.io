@@ -2,8 +2,8 @@
 title: 子模性(Submodular)
 author: Tao He
 date: 2015-05-23
-tag: 机器学习
-category: 机器学习
+tag: [Theory, Submodular]
+category: Machine Learning
 layout: post
 ---
 

@@ -2,8 +2,8 @@
 title: CNN Meets Graphs
 author: Tao He
 date: 2017-05-16
-tags: [GCN, Graph Theory, 机器学习]
-category: 机器学习
+tags: [GCN, Graph Theory]
+category: Machine Learning
 layout: post
 ---
 

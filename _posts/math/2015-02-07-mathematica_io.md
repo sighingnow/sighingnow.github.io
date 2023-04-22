@@ -3,7 +3,7 @@ title: Mathematica 输入与输出
 author: Tao He
 date: 2015-02-07
 tag: Mathematica
-category: Math
+category: Mathematics
 layout: post
 ---
 

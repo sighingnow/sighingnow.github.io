@@ -3,7 +3,7 @@ title: C++编译期类型信息的利用
 author: Tao He
 date: 2016-09-03
 tags: C/C++
-categories: 编程语言
+category: Programming Languages
 layout: post
 ---
 

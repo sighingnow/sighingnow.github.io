@@ -3,7 +3,7 @@ title: Mathematica 编程
 author: Tao He
 date: 2015-02-12
 tag: Mathematica
-category: Math
+category: Mathematics
 layout: post
 ---
 

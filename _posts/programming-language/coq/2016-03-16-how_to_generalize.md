@@ -3,7 +3,7 @@ title: 使用generalize的技巧
 author: Tao He
 date: 2016-03-16
 tags: [Coq, Proof, Logic]
-category: 编程语言
+category: Programming Languages
 layout: post
 ---
 

@@ -2,7 +2,7 @@
 title: Cygwin rebaseall
 author: Tao He
 date: 2015-01-31
-tag: Cygwin
+tag: [Cygwin, Command Lines]
 category: Linux
 layout: post
 ---

@@ -3,7 +3,7 @@ title: Lazy Evaluation 的原理与实现
 author: Tao He
 date: 2015-08-03
 tag: [Haskell]
-category: 编程语言
+category: Programming Languages
 layout: post
 ---
 

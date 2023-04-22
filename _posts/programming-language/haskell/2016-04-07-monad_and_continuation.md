@@ -3,7 +3,7 @@ title: Monad 与 Continuation
 author: Tao He
 date: 2016-04-17
 tag: [Haskell]
-category: 编程语言
+category: Programming Languages
 layout: post
 ---
 

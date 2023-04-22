@@ -3,7 +3,7 @@ title: Notes on Combinatory Logic
 author: Tao He
 date: 2016-04-14
 tag: [Haskell]
-category: 编程语言
+category: Programming Languages
 layout: post
 ---
 

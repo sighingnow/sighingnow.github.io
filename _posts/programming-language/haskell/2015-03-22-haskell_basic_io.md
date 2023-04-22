@@ -3,7 +3,7 @@ title: Haskell 基本输入与输出(Basic IO)
 author: Tao He
 date: 2015-03-22
 tag: [Haskell]
-category: 编程语言
+category: Programming Languages
 layout: post
 ---
 
