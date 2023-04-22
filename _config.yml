@@ -45,8 +45,6 @@ navigation:
   url: /blog/
 - text: Archive
   url: /archive/
-- text: Résumé
-  url: /resume/
 - text: Github
   url: https://github.com/sighingnow
   external: true
