@@ -2,10 +2,9 @@
 layout: home
 ---
 
-I'm Tao He. I'm a graduate student in Beihang University, majoring in
-Computer Science and Engineering. I received my bachelor degree from
-Beihang University at 2017.
-
+I'm Tao He. I'm a soft engineer in Alibaba Group, DAMO Academy. Before join Alibaba,
+I received my master and bechelor degree from Beihang University at 2020 and 2017, respectively,
+majoring in Computer Science and Engineering.
 
 ./Computer Science and Engineering
 ----------------------------------
@@ -72,6 +71,8 @@ way of coding.
 ./Gists
 -------
 
++ [./pipeline-model-parallel-visualization.ipynb][25]: Visualize various pipeline model parallelism scheduling scheme in Megatron-LM.
++ [./CRTP-(de)incomplete-(de)ambiguous.cpp][24]: How could we address the incomplete type and ambiguous dependent name problem for CRTP in C++.
 + [./containers-from-scratch.rs][21]: Rust version of "Containers From Scratch" by Liz Rice, [https://www.youtube.com/watch?v=8fi7uSYlOdc][23]
 + [./$.hs][15]: A type-level `$` operator for Haskell.
 + [./list_live_objects.py][13] A utility to inspect all live objects (of specified type) in current Python execution context.
@@ -107,3 +108,5 @@ way of coding.
 [21]: https://gist.github.com/sighingnow/4988a0100bc5030d301926f79254133a
 [22]: https://github.com/sighingnow
 [23]: https://www.youtube.com/watch?v=8fi7uSYlOdc
+[24]: https://gist.github.com/sighingnow/6f3a9be7d95a3ef330372e1a62d16a32
+[25]: https://gist.github.com/sighingnow/ce6aef69aaa379517ac4b68bc2873a9c
