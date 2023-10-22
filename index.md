@@ -2,9 +2,17 @@
 layout: home
 ---
 
+./README
+--------
+
 I'm Tao He. I'm a soft engineer in Alibaba Group, DAMO Academy. Before join Alibaba,
 I received my master and bechelor degree from Beihang University at 2020 and 2017, respectively,
 majoring in Computer Science and Engineering.
+
+Why blog?
+---------
+
+[You should blog even if you have no readers](http://nathanmarz.com/blog/you-should-blog-even-if-you-have-no-readers.html).
 
 ./Computer Science and Engineering
 ----------------------------------
@@ -15,6 +23,20 @@ also contributed to many open source projects, such as [ghc][16], [apache-arrow]
 
 I'm working on cloud-native engineering and thinking about how to make the computational
 systems efficient, observable and robust.
+
+./Interesting Gists
+-------------------
+
++ [./pipeline-model-parallel-visualization.ipynb][25]: Visualize various pipeline model parallelism scheduling scheme in Megatron-LM.
++ [./CRTP-(de)incomplete-(de)ambiguous.cpp][24]: How could we address the incomplete type and ambiguous dependent name problem for CRTP in C++.
++ [./containers-from-scratch.rs][21]: Rust version of "Containers From Scratch" by Liz Rice, [https://www.youtube.com/watch?v=8fi7uSYlOdc][23]
++ [./$.hs][15]: A type-level `$` operator for Haskell.
++ [./list_live_objects.py][13] A utility to inspect all live objects (of specified type) in current Python execution context.
++ [./tensorboard_logging.py][14]: A logger that write scalars, images as well as histograms to tensorboard outside the context of tensorflow ops.
++ [./hemispheres.mma][3] Drawing is as easy as 1,2,3 with Mathematica.
++ [./cpp-tricks.md][2] Modern C++ is so amazing!
++ [./.vimrc][1] I use VIM to write fancy programs.
++ [./&hellip;&hellip;][4]
 
 ./Projects
 ----------
@@ -67,20 +89,6 @@ way of coding.
   {%- endfor -%}
   <li class="alink"><a href="./blog/" class="red-link">&hellip;&hellip;</a></li>
 </ul>
-
-./Gists
--------
-
-+ [./pipeline-model-parallel-visualization.ipynb][25]: Visualize various pipeline model parallelism scheduling scheme in Megatron-LM.
-+ [./CRTP-(de)incomplete-(de)ambiguous.cpp][24]: How could we address the incomplete type and ambiguous dependent name problem for CRTP in C++.
-+ [./containers-from-scratch.rs][21]: Rust version of "Containers From Scratch" by Liz Rice, [https://www.youtube.com/watch?v=8fi7uSYlOdc][23]
-+ [./$.hs][15]: A type-level `$` operator for Haskell.
-+ [./list_live_objects.py][13] A utility to inspect all live objects (of specified type) in current Python execution context.
-+ [./tensorboard_logging.py][14]: A logger that write scalars, images as well as histograms to tensorboard outside the context of tensorflow ops.
-+ [./hemispheres.mma][3] Drawing is as easy as 1,2,3 with Mathematica.
-+ [./cpp-tricks.md][2] Modern C++ is so amazing!
-+ [./.vimrc][1] I use VIM to write fancy programs.
-+ [./&hellip;&hellip;][4]
 
 ./Pageviews
 -----------

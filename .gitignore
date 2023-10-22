@@ -8,3 +8,5 @@ _site/
 *.class
 *.pyc
 
+# exclude the :Zone.Identifier files from WSL.
+*.Identifier

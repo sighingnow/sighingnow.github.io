@@ -208,6 +208,15 @@ from eBPF programs so for complex tasks beyond simple tracing, eBPF is not a
 replacement for kernel module for extending the kernel's capability safely and
 efficiently.
 
+Thinking about the future
+-------------------------
+
+Algothough there are still many limitations when programming eBPF programs in Linux,
+eBPF must be the trending of exposing Linux Kernel to programmers who want to observe,
+hook, and even hack into the kernel space. At the KubeCon China, when talking with
+people from the Cilium project, we both agree that more and more kernel functionalities
+will be made available in eBPF in the future.
+
 [1]: https://github.com/torvalds/linux/commit/fa697140f9a20119a9ec8fd7460cc4314fbdaff3
 [2]: https://github.com/iovisor/bcc/issues/1802
 [3]: https://github.com/torvalds/linux/blob/master/include/uapi/linux/bpf.h
